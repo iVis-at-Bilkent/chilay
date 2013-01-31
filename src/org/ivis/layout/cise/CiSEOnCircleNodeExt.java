@@ -42,7 +42,7 @@ public class CiSEOnCircleNodeExt
 
 	/*
 	 * Holds relative position of this node with respect to its owner circle
-	 * It is 0 if not assigned. Its unit is radian.
+	 * It is less than 0 (=-1) only if not assigned. Its unit is radian.
 	 */
 	private double angle = -1;
 
@@ -133,6 +133,33 @@ public class CiSEOnCircleNodeExt
 	}
 
 	/**
+	 * This method returns the char code of this node based on the node index.
+	 * First node of the cluster is 'a', second one is 'b", and so on. We only
+	 * guarentee a unique char code up to 52 nodes in a cluster.
+	 */
+	public char getCharCode()
+	{
+		assert this.orderIndex >= 0;
+
+		char charCode;
+
+		if (this.orderIndex < 26)
+		{
+			charCode = (char)('a' + this.orderIndex);
+		}
+		else if (this.orderIndex < 52)
+		{
+			charCode = (char)('A' + this.orderIndex - 26);
+		}
+		else
+		{
+			charCode = '?';
+		}
+
+		return charCode;
+	}
+
+	/**
 	 * This method returns the next node according to current ordering of the
 	 * owner circle.
 	 */
@@ -193,19 +220,9 @@ public class CiSEOnCircleNodeExt
 		return canSwapWithNext;
 	}
 
-	public void setCanSwapWithNext(boolean canSwapWithNext)
-	{
-		this.canSwapWithNext = canSwapWithNext;
-	}
-
 	public boolean canSwapWithPrev()
 	{
 		return canSwapWithPrevious;
-	}
-
-	public void setCanSwapWithPrev(boolean canSwapWithPrevious)
-	{
-		this.canSwapWithPrevious = canSwapWithPrevious;
 	}
 
 	public double getDisplacementForSwap()
@@ -220,35 +237,15 @@ public class CiSEOnCircleNodeExt
 
 	public void addDisplacementForSwap(double displacementIncrForSwap)
 	{
-		this.displacementForSwap += displacementIncrForSwap;
+		this.displacementForSwap = displacementIncrForSwap;
+// This is what we intended (but above seems to work better):
+//		this.displacementForSwap = (this.displacementForSwap +
+//			displacementIncrForSwap) / 2.0;
 	}
 
 // -----------------------------------------------------------------------------
 // Section: Remaining methods
 // -----------------------------------------------------------------------------
-	/**
-	 * This method moves this node as a result of the computations at the end of
-	 * this iteration. On-circle nodes move by rotating around their owner
-	 * circles.
-	 */
-	public void move()
-	{
-		assert this.ciseNode.displacementX == 0 &&
-			this.ciseNode.displacementY == 0;
-
-		CiSECircle ownerCircle = (CiSECircle) this.ciseNode.getOwner();
-		CiSELayout layout = (CiSELayout)ownerCircle.getGraphManager().getLayout();
-		this.ciseNode.rotationAmount =
-			this.ciseNode.getLimitedDisplacement(this.ciseNode.rotationAmount);
-		double teta = this.ciseNode.rotationAmount / ownerCircle.getRadius();
-
-		this.setAngle(this.angle + teta);
-		this.updatePosition();
-		layout.totalDisplacement += Math.abs(this.ciseNode.rotationAmount);
-
-		this.ciseNode.rotationAmount = 0.0;
-	}
-
 	/**
 	 * This method updates the absolute position of this node with respect to
 	 * its angle and the position of node that owns the owner circle.
@@ -320,16 +317,20 @@ public class CiSEOnCircleNodeExt
 		return count;
 	}
 
+	/*
+	 * This method updates the conditions for swapping of this node with its
+	 * previous and next neighbors on the associated circle.
+	 */
 	public void updateSwappingConditions()
 	{
-		int currentCrossingNumber = calculateTotalCrossing();
+		int currentCrossingNumber = this.calculateTotalCrossing();
 		int currentNodeIndex = this.orderIndex;
 
 		CiSEOnCircleNodeExt nextNodeExt = this.getNextNode().getOnCircleNodeExt();
 		this.orderIndex = nextNodeExt.getIndex();
 		nextNodeExt.setIndex(currentNodeIndex);
 
-		int tempCrossingNumber = calculateTotalCrossing();
+		int tempCrossingNumber = this.calculateTotalCrossing();
 
 		if (tempCrossingNumber > currentCrossingNumber)
 		{
@@ -348,7 +349,7 @@ public class CiSEOnCircleNodeExt
 		this.orderIndex = prevNodeExt.getIndex();
 		prevNodeExt.setIndex(currentNodeIndex);
 
-		tempCrossingNumber = calculateTotalCrossing();
+		tempCrossingNumber = this.calculateTotalCrossing();
 
 		if (tempCrossingNumber > currentCrossingNumber)
 		{
@@ -364,6 +365,9 @@ public class CiSEOnCircleNodeExt
 		this.setIndex(currentNodeIndex);
 	}
 
+	/**
+	 * This method swaps this node with the specified neighbor (prev or next).
+	 */
 	public void swapWith(CiSEOnCircleNodeExt neighborExt)
 	{
 		assert this.getNextNode().getOnCircleNodeExt() == neighborExt ||

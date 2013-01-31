@@ -14,7 +14,6 @@ public class CoSEConstants extends FDLayoutConstants
 // -----------------------------------------------------------------------------
 // Section: CoSE layout user options
 // -----------------------------------------------------------------------------
-	public static final boolean DEFAULT_USE_SMART_IDEAL_EDGE_LENGTH_CALCULATION = true;
 	public static final boolean DEFAULT_USE_MULTI_LEVEL_SCALING = false;
 	
 // -----------------------------------------------------------------------------

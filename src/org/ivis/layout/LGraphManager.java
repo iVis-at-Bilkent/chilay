@@ -663,6 +663,23 @@ public class LGraphManager
 		}
 	}
 	
+	
+	public boolean includesInvalidEdge()
+	{
+		LEdge edge;
+		
+		for (Object obj : this.edges)
+		{
+			edge = (LEdge) obj;
+			
+			if (isOneAncestorOfOther(edge.source, edge.target))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 // -----------------------------------------------------------------------------
 // Section: Testing methods
 // -----------------------------------------------------------------------------

@@ -1396,8 +1396,14 @@ public class SgymLayout extends Layout
 	
 	public boolean layout()
 	{
+		// Check if the graph contains any compound structures; should be flat.
+		if (this.graphManager.getGraphs().size() > 1)
+		{
+			return false;
+		}
+		
 		boolean createBendsAsNeeded = LayoutOptionsPack.getInstance().
-			getGeneral().isCreateBendsAsNeeded();
+			getGeneral().createBendsAsNeeded;
 
 		this.perform(this.graphManager.getRoot(), createBendsAsNeeded);
 		
@@ -1414,9 +1420,9 @@ public class SgymLayout extends Layout
 		LayoutOptionsPack.Sgym layoutOptionsPack =
 			LayoutOptionsPack.getInstance().getSgym();
 
-		this.horizontalSpacing = layoutOptionsPack.getHorizontalSpacing();
-		this.verticalSpacing = layoutOptionsPack.getVerticalSpacing();
-		this.vertical = layoutOptionsPack.isVertical();
+		this.horizontalSpacing = layoutOptionsPack.horizontalSpacing;
+		this.verticalSpacing = layoutOptionsPack.verticalSpacing;
+		this.vertical = layoutOptionsPack.vertical;
 	}
 
 	/**

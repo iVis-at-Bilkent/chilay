@@ -13,7 +13,7 @@ import org.ivis.layout.LNode;
  * GraphMLWriter class is used for saving the topology of 
  * the given graph manager on the hard-disk
  * 
- * @author Alper Karaçelik
+ * @author Alper Karacelik
  *
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */

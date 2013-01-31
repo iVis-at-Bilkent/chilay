@@ -51,5 +51,10 @@ public interface Clustered {
 	 * This method returns the bottom of this node.
 	 */
 	public abstract double getBottom();
-
+	
+	/**
+	 * This method returns the parent of clustered object.
+	 * If it is a root object, then null should be returned.
+	 */
+	public abstract Clustered getParent();
 }

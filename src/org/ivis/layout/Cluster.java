@@ -202,17 +202,15 @@ public class Cluster implements Comparable
 	 */
 	public void delete()
 	{	
-		// delete this cluster from nodes' cluster list
-		Iterator<Clustered> itr = this.nodes.iterator();
+		// get copy of nodes in order to prevent pointer problems
+		ArrayList<Clustered> copy = new ArrayList<Clustered>();
+		copy.addAll(this.nodes);
 		
-		while (itr.hasNext())
+		for (Clustered node : copy)
 		{
-			Clustered node = itr.next();
-			
-			// remove this cluster from each node that belongs to this cluster
 			node.removeCluster(this);
 		}
-		
+
 		// delete this cluster form cluster managers cluster list
 		this.clusterManager.getClusters().remove(this);
 	}
@@ -248,11 +246,30 @@ public class Cluster implements Comparable
 		while (nodeItr.hasNext())
 		{
 			node = nodeItr.next();
+			
+			double left = node.getLeft();
+			double right = node.getRight();
+			double top = node.getTop();
+			double bottom = node.getBottom();
+			
+			Clustered parent = node.getParent();
+			
+			//calculate absolute position
+			while ( parent != null )
+			{
+				left += parent.getLeft();
+				right += parent.getLeft();
+				
+				top += parent.getTop();
+				bottom += parent.getTop();
+				
+				parent = parent.getParent();
+			}
 
-			this.polygon.add(new PointD(node.getLeft(), node.getTop()));
-			this.polygon.add(new PointD(node.getRight(), node.getTop()));
-			this.polygon.add(new PointD(node.getRight(), node.getBottom()));
-			this.polygon.add(new PointD(node.getLeft(), node.getBottom()));
+			this.polygon.add(new PointD(left, top));
+			this.polygon.add(new PointD(right, top));
+			this.polygon.add(new PointD(right, bottom));
+			this.polygon.add(new PointD(left, bottom));
 		}
 	}
 	/**

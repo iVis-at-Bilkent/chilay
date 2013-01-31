@@ -652,7 +652,6 @@ public class SpringLayout extends Layout
 		
 		this.doLayout();
 		
-		//TODO check if layout is successful 
 		return true;
 	}
 
@@ -671,9 +670,9 @@ public class SpringLayout extends Layout
 			SpringConstants.DEFAULT_ANTICOLLISION_SPRING_STRENGTH;
 
 		nodeDistanceRestLengthConstant =
-			layoutOptionsPack.getNodeDistanceRestLength();
+			layoutOptionsPack.nodeDistanceRestLength;
 		disconnectedNodeDistanceSpringRestLength =
-			layoutOptionsPack.getDisconnectedNodeDistanceSpringRestLength();
+			layoutOptionsPack.disconnectedNodeDistanceSpringRestLength;
 
 		if (layoutQuality == LayoutConstants.DEFAULT_QUALITY)
 		{

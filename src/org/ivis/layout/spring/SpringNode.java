@@ -51,8 +51,7 @@ public class SpringNode extends LNode
 
 	public SpringNode(SpringNode node)
 	{
-		// TODO may call another constructor ?
-		super(node.graphManager, node.vGraphObject);
+		this(node.graphManager, node.vGraphObject);
 		/* LNode information isn't copied. JUST PARTIAL DATA. */
 		this.copyFrom(node);
 	}

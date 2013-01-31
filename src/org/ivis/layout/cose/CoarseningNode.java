@@ -6,7 +6,7 @@ import org.ivis.layout.LNode;
 /**
  * This class holds coarsening process specific node data and implementations
  *
- * @author Alper Karaçelik
+ * @author Alper Karacelik
  *
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
@@ -125,7 +125,7 @@ public class CoarseningNode extends LNode
 		{
 			CoarseningNode v = (CoarseningNode) obj;
 			
-			if ((!v.isMatched()) && (v.getWeight() < minWeight))
+			if ((!v.isMatched()) && (v != this) && (v.getWeight() < minWeight))
 			{
 				minWeighted = v;
 				minWeight = v.getWeight();

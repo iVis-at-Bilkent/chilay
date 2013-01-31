@@ -20,8 +20,9 @@ import org.ivis.util.*;
  * - Steps 3-5: the cluster graph is laid out with a modified spring embedder,
  *   where the nodes corresponding to clusters are also allowed to rotate,
  *   indirectly affecting the layout of the nodes inside the clusters. In Step
- *   4, we also allow swapping of neighboring node pairs in a cluster to improve
- *   inter-cluster edge crossings without increasing intra-cluster crossings.
+ *   3, we allow flipping of clusters, whereas in Step 4, we allow swapping of
+ *   neighboring node pairs in a cluster to improve inter-cluster edge crossings
+ *   without increasing intra-cluster crossings.
  *
  * @author Esat Belviranli
  * @author Alptug Dilek
@@ -37,28 +38,23 @@ public class CiSELayout extends FDLayout
 	/**
 	 * Separation of the nodes on each circle customizable by the user
 	 */
-	private int nodeSeperation = CiSEConstants.DEFAULT_NODE_SEPARATION;
+	public int nodeSeperation = CiSEConstants.DEFAULT_NODE_SEPARATION;
 
 	/**
 	 * Ideal edge length coefficient for inter-cluster edges
 	 */
-	private double idealInterClusterEdgeLengthCoefficient =
+	public double idealInterClusterEdgeLengthCoefficient =
 		CiSEConstants.DEFAULT_IDEAL_INTER_CLUSTER_EDGE_LENGTH_COEFF;
 
 	/**
 	 * Decides whether pull on-circle nodes inside of the circle.
 	 */
-	private boolean allowNodesInsideCircle;
+	public boolean allowNodesInsideCircle;
 
 	/**
 	 * Max percentage of the nodes in a circle that can move inside the circle
 	 */
-	private double maxRatioOfNodesInsideCircle;
-
-	/**
-	 * Maximum distance at which a node may repulse another node
-	 */
-	protected double repulsionRange;
+	public double maxRatioOfNodesInsideCircle;
 
 	/**
 	 * Current step of the layout process
@@ -205,7 +201,7 @@ public class CiSELayout extends FDLayout
 			if (nodeList.size() < 2)
 			{
 				singleNodeClusterList.add(clusterID);
-				((LNode) nodeList.getFirst()).setClusterID(null);
+				((LNode) nodeList.getFirst()).resetClusters();
 			}
 		}
 
@@ -294,6 +290,9 @@ public class CiSELayout extends FDLayout
 			this.graphManager.getRoot().add(clusterNode);
 			circle = (CiSECircle) this.newGraph(null);
 			this.graphManager.add(circle, clusterNode);
+
+			// Set bigger margins so clusters are spaced out nicely
+			circle.setMargin(circle.getMargin() + 15);
 
 			// Move each node of the cluster into this circle
 			for (Object obj : nodeList)
@@ -445,25 +444,25 @@ public class CiSELayout extends FDLayout
 			LayoutOptionsPack.CiSE layoutOptionsPack =
 				LayoutOptionsPack.getInstance().getCiSE();
 
-			this.nodeSeperation = layoutOptionsPack.getNodeSeparation();
+			this.nodeSeperation = layoutOptionsPack.nodeSeparation;
 
-			this.idealEdgeLength = layoutOptionsPack.getDesiredEdgeLength();
+			this.idealEdgeLength = layoutOptionsPack.desiredEdgeLength;
 
 			this.idealInterClusterEdgeLengthCoefficient =
-				transform(layoutOptionsPack.getInterClusterEdgeLengthFactor(),
+				transform(layoutOptionsPack.interClusterEdgeLengthFactor,
 					CiSEConstants.DEFAULT_IDEAL_INTER_CLUSTER_EDGE_LENGTH_COEFF);
 			
 			this.allowNodesInsideCircle =
-				layoutOptionsPack.isAllowNodesInsideCircle();
+				layoutOptionsPack.allowNodesInsideCircle;
 
 			this.maxRatioOfNodesInsideCircle =
-				layoutOptionsPack.getMaxRatioOfNodesInsideCircle();
+				layoutOptionsPack.maxRatioOfNodesInsideCircle;
 		}
 
-		this.springConstant = FDLayoutConstants.DEFAULT_SPRING_STRENGTH;
+		this.springConstant = CiSEConstants.DEFAULT_SPRING_STRENGTH;
 		this.repulsionConstant = FDLayoutConstants.DEFAULT_REPULSION_STRENGTH;
 		this.gravityConstant = FDLayoutConstants.DEFAULT_GRAVITY_STRENGTH;
-		this.repulsionRange = this.idealEdgeLength * 5;
+		this.incremental = true;
 	}
 
 // -----------------------------------------------------------------------------
@@ -518,28 +517,30 @@ public class CiSELayout extends FDLayout
 	 */
 	public boolean layout()
 	{
+		LGraph root = this.graphManager.getRoot();
+
 		if (!this.convertToClusteredGraph())
 		{
 			return false;
 		}
 
-		this.calculateNodesToApplyGravitationTo();
-
-		this.graphManager.getRoot().calcEstimatedSize();
+		root.updateConnected();
+		root.calcEstimatedSize();
 
 		this.doStep1();
 		this.doStep2();
+
+		root.setEstimatedSize(root.getBiggerDimension());
+		this.prepareCirclesForReversal();
+		this.calcIdealEdgeLengths(false);
+
+		this.doStep5(); //stabilize before reversals take place
 		this.doStep3();
-
-		//TODO: needs to be re-thought!
-//		this.checkAndReverseIfReverseIsBetter();
-
+		this.doStep5(); //stabilize before swaps take place
 		this.doStep4();
 
-		if (this.allowNodesInsideCircle)
-		{
-			this.findAndMoveInnerNodes();
-		}
+		this.findAndMoveInnerNodes();
+		this.calcIdealEdgeLengths(true);
 
 		this.doStep5();
 
@@ -680,6 +681,9 @@ public class CiSELayout extends FDLayout
 		// Create a CoSE layout object
 		CoSELayout coseLayout = new CoSELayout();
 		coseLayout.isSubLayout = true;
+		coseLayout.useMultiLevelScaling = false;
+		coseLayout.useFRGridVariant = true;
+		coseLayout.springConstant *= 1.5;
 		LGraph coseRoot = coseLayout.getGraphManager().addRoot();
 
 		// Traverse through all nodes and create new CoSENode's.
@@ -780,6 +784,10 @@ public class CiSELayout extends FDLayout
 
 		// Call CoSE layout
 		coseLayout.runLayout();
+
+//		coseLayout.transform();
+//		GraphMLWriter graphMLWriter = new GraphMLWriter("E:\\cluster.graphml");
+//		graphMLWriter.saveGraph(coseLayout.getGraphManager());
 
 		// Reflect changes back to cise nodes
 
@@ -974,14 +982,101 @@ public class CiSELayout extends FDLayout
 	}
 
 	/**
+	 * This method calculates the ideal edge length of each edge. Here we relax
+	 * edge lengths in the polishing step and keep the edge lengths of the edges
+	 * incident with inner-nodes very short to avoid overlaps.
+	 */
+	protected void calcIdealEdgeLengths(boolean isPolishingStep)
+	{
+		Object[] lEdges = this.getAllEdges();
+		CiSEEdge edge;
+
+		for (int i = 0; i < lEdges.length; i++)
+		{
+			edge = (CiSEEdge) lEdges[i];
+
+			// Loosen in the polishing step to avoid overlaps
+			if (isPolishingStep)
+			{
+				edge.idealLength = 1.5 * this.idealEdgeLength *
+					this.idealInterClusterEdgeLengthCoefficient;
+//				edge.idealLength = this.idealEdgeLength *
+//					this.calcIdealEdgeLengthFactor(edge) *
+//						this.idealInterClusterEdgeLengthCoefficient;
+			}
+			else
+			{
+				edge.idealLength = this.idealEdgeLength *
+					this.idealInterClusterEdgeLengthCoefficient;
+			}
+		}
+
+		Object[] lNodes = this.getInCircleNodes();
+		CiSENode node;
+
+		for (int i = 0; i < lNodes.length; i++)
+		{
+			node = (CiSENode) lNodes[i];
+
+			for (Object obj : node.getEdges())
+			{
+				edge = (CiSEEdge) obj;
+				edge.idealLength = CiSEConstants.DEFAULT_INNER_EDGE_LENGTH;
+			}
+		}
+	}
+
+	double calcIdealEdgeLengthFactor(CiSEEdge edge)
+	{
+		if (edge.isIntraCluster)
+		{
+			return 1.5;
+		}
+
+		LGraph rootGraph = this.getGraphManager().getRoot();
+		CiSECircle srcCluster = (CiSECircle)edge.getSource().getOwner();
+		CiSECircle trgCluster = (CiSECircle)edge.getTarget().getOwner();
+		int srcSize;
+		int trgSize;
+
+		if (srcCluster == rootGraph)
+		{
+			srcSize = 1;
+		}
+		else
+		{
+			srcSize = srcCluster.getNodes().size();
+		}
+
+		if (trgCluster == rootGraph)
+		{
+			trgSize = 1;
+		}
+		else
+		{
+			trgSize = trgCluster.getNodes().size();
+		}
+
+		int totalSize = srcSize + trgSize;
+
+		if (totalSize <= 8)
+		{
+			return 1.5;
+		}
+		
+		return 0.12 * totalSize;
+	}
+
+	/**
 	 * This method runs a modified spring embedder as described by the CiSE
 	 * layout algorithm where the on-circle nodes are fixed (pinned down to
-	 * the location on their owner circle).
+	 * the location on their owner circle). Circles, however, are allowed to be
+	 * flipped (i.e. nodes are re-ordered in the reverse direction) if reversal
+	 * yields a better aligned neighborhood (w.r.t. its inter-graph edges).
 	 */
 	public void doStep3()
 	{
-		System.out.println("Phase 3 started...");
-		this.totalIterations = 0;
+//		System.out.println("Phase 3 started...");
 		this.step = CiSELayout.STEP_3;
 		this.phase = CiSELayout.PHASE_OTHER;
 		this.initSpringEmbedder();
@@ -991,11 +1086,12 @@ public class CiSELayout extends FDLayout
 	/**
 	 * This method runs a modified spring embedder as described by the CiSE
 	 * layout algorithm where the neighboring on-circle nodes are allowed to
-	 * move by swapping without increasing crossing number.
+	 * move by swapping without increasing crossing number but circles are not
+	 * allowed to be flipped.
 	 */
 	public void doStep4()
 	{
-		System.out.println("Phase 4 started...");
+//		System.out.println("Phase 4 started...");
 		this.step = CiSELayout.STEP_4;
 		this.phase = CiSELayout.PHASE_OTHER;
 		this.initSpringEmbedder();
@@ -1005,12 +1101,12 @@ public class CiSELayout extends FDLayout
 	/**
 	 * This method runs a modified spring embedder as described by the CiSE
 	 * layout algorithm where the on-circle nodes are fixed (pinned down to
-	 * the location on their owner circle).
+	 * the location on their owner circle) and circles are not allowed to be
+	 * flipped.
 	 */
 	public void doStep5()
 	{
-		System.out.println("Phase 5 started...");
-		this.totalIterations = 0;
+//		System.out.println("Phase 5 started...");
 		this.step = CiSELayout.STEP_5;
 		this.phase = CiSELayout.PHASE_OTHER;
 		this.initSpringEmbedder();
@@ -1056,8 +1152,21 @@ public class CiSELayout extends FDLayout
 
 			this.totalDisplacement = 0;
 
-			if (this.step == CiSELayout.STEP_4)
+			if (this.step == CiSELayout.STEP_3)
 			{
+				if (iterations % CiSEConstants.REVERSE_PERIOD == 0)
+				{
+					this.checkAndReverseIfReverseIsBetter();
+				}
+			}
+			else if (this.step == CiSELayout.STEP_4)
+			{
+				// clear history every now and then
+				if (iterations % CiSEConstants.SWAP_HISTORY_CLEARANCE_PERIOD == 0)
+				{
+					this.swappedPairsInLastIteration.clear();
+				}
+
 				// no of iterations in this swap period
 				int iterationInPeriod = iterations % CiSEConstants.SWAP_PERIOD;
 
@@ -1098,30 +1207,26 @@ public class CiSELayout extends FDLayout
 	{
 		Object[] lEdges = this.getAllEdges();
 		CiSEEdge edge;
-		double idealLength;
+		CiSENode source;
+		CiSENode target;
 
 		for (int i = 0; i < lEdges.length; i++)
 		{
 			edge = (CiSEEdge) lEdges[i];
+			source = (CiSENode) edge.getSource();
+			target = (CiSENode) edge.getTarget();
 
-			// Ignore intra-cluster edges (all steps 3 thru 5)
-			if (edge.isIntraCluster)
+			// Ignore intra-cluster edges (all steps 3 thru 5) except for those
+			// incident w/ any inner-nodes
+			
+			if (edge.isIntraCluster &&
+				source.getOnCircleNodeExt() != null &&
+				target.getOnCircleNodeExt() != null)
 			{
 				continue;
 			}
 
-			// Modify for inter-cluster edges but only in the last phase
-			if (this.step == CiSELayout.STEP_5)
-			{
-				idealLength = this.idealEdgeLength *
-					this.idealInterClusterEdgeLengthCoefficient;
-			}
-			else
-			{
-				idealLength = this.idealEdgeLength;
-			}
-
-			this.calcSpringForce(edge, idealLength);
+			this.calcSpringForce(edge, edge.idealLength);
 		}
 	}
 
@@ -1154,27 +1259,24 @@ public class CiSELayout extends FDLayout
 		// to keep them inside circle.
 		CiSENode[] inCircleNodes = this.getInCircleNodes();
 
-		for (CiSENode inCircleNode : inCircleNodes) 
+		for (CiSENode inCircleNode : inCircleNodes)
 		{
 			CiSECircle ownerCircle = (CiSECircle) inCircleNode.getOwner();
-			
+
+			//TODO: inner nodes repulse on-circle nodes as well, not desired!
 			// Calculate repulsion forces with all nodes inside the owner circle
 			// of this inner node.
-			for (Object childNode : ownerCircle.getNodes()) 
+
+			for (Object childNode : ownerCircle.getNodes())
 			{
 				CiSENode childCiSENode = (CiSENode) childNode;
-				
+
 				if (childCiSENode != inCircleNode)
 				{
-					// TODO: Rep forces for in-circle nodes currently causes 
-					// in-circle nodes in small circles to move out the circle 
-					// boundaries. Fix this.
-					
 					this.calcRepulsionForce(inCircleNode, childCiSENode);
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1184,13 +1286,18 @@ public class CiSELayout extends FDLayout
 	public void calcGravitationalForces()
 	{
 		CiSENode node;
-		Object[] lNodes = this.getNonOnCircleNodes();
+		Object[] lNodes;
 
-		for (int i = 0; i < lNodes.length; i++)
+		if (!this.getGraphManager().getRoot().isConnected())
 		{
-			node = (CiSENode) lNodes[i];
+			lNodes = this.getNonOnCircleNodes();
 
-			this.calcGravitationalForce(node);
+			for (int i = 0; i < lNodes.length; i++)
+			{
+				node = (CiSENode) lNodes[i];
+
+				this.calcGravitationalForce(node);
+			}
 		}
 		
 		// Calculate gravitational forces to keep in-circle nodes in the center
@@ -1221,8 +1328,8 @@ public class CiSELayout extends FDLayout
 		{
 			CiSENode node = (CiSENode)allNodes[i];
 
-//			System.out.printf("%s\t:s=(%5.1f,%5.1f) r=(%5.1f,%5.1f) g=(%5.1f,%5.1f)\n",
-//				new Object [] {node.getText(),
+//			System.out.printf("\t:s=(%5.1f,%5.1f) r=(%5.1f,%5.1f) g=(%5.1f,%5.1f)\n",
+//				new Object [] {
 //				node.springForceX, node.springForceY,
 //				node.repulsionForceX, node.repulsionForceY,
 //				node.gravitationForceX, node.gravitationForceY});
@@ -1278,69 +1385,79 @@ public class CiSELayout extends FDLayout
 	 */
 	public void moveNodes()
 	{
-		CiSENode[] nonOnCircleNodes = this.getNonOnCircleNodes();
-
-		// Simply move all non-on-circle nodes.
-		for (int i = 0; i < nonOnCircleNodes.length; i++)
+		if (this.phase != PHASE_PERFORM_SWAP)
 		{
-			assert nonOnCircleNodes[i].getOnCircleNodeExt() == null;
+			CiSENode[] nonOnCircleNodes = this.getNonOnCircleNodes();
 
-			nonOnCircleNodes[i].move();
+			// Simply move all non-on-circle nodes.
 
-			// Also make required rotations for circles
-			if (nonOnCircleNodes[i].getChild() != null)
+			for (int i = 0; i < nonOnCircleNodes.length; i++)
 			{
-				((CiSECircle)nonOnCircleNodes[i].getChild()).rotate();
+				assert nonOnCircleNodes[i].getOnCircleNodeExt() == null;
+
+				nonOnCircleNodes[i].move();
+
+				// Also make required rotations for circles
+				if (nonOnCircleNodes[i].getChild() != null)
+				{
+					((CiSECircle)nonOnCircleNodes[i].getChild()).rotate();
+				}
+			}
+
+			// Also move all in-circle nodes. Note that in-circle nodes will be
+			// empty if this option is not set, hence no negative effect on
+			// performance
+
+			CiSENode[] inCircleNodes = this.getInCircleNodes();
+			CiSENode inCircleNode;
+
+			for (int i = 0; i < inCircleNodes.length; i++)
+			{
+				inCircleNode = inCircleNodes[i];
+				assert inCircleNode.getOnCircleNodeExt() == null;
+				// TODO: workaround to force inner nodes to stay inside
+				inCircleNode.displacementX /= 20.0;
+				inCircleNode.displacementY /= 20.0;
+				inCircleNode.move();
 			}
 		}
-		
-		// Also move all in-circle nodes. Note that incircleNodes will be empty
-		// if this option is not set, hence no negative effect on performance
-		CiSENode[] inCircleNodes = this.getInCircleNodes();
-		CiSENode inCircleNode;
-		for (int i = 0; i < inCircleNodes.length; i++)
-		{
-			inCircleNode = inCircleNodes[i];
-			assert inCircleNode.getOnCircleNodeExt() == null;
-			// TODO: workaround to increase chances of inner nodes staying in
-			inCircleNode.displacementX /= 20.0;
-			inCircleNode.displacementY /= 20.0;
-			inCircleNode.move();
-		}
-
+		else
 		// If in perform-swap phase of step 4, we have to look for swappings
 		// that do not increase edge crossings and is likely to decrease total
 		// energy.
-		if (this.phase == PHASE_PERFORM_SWAP)
 		{
 			assert this.step == CiSELayout.STEP_4;
 
 			CiSENode[] ciseOnCircleNodes = this.getOnCircleNodes();
 			int size = ciseOnCircleNodes.length;
 
-			// This set is for holding the pairs that could cause oscilating
-			// if we swap the without looking new inter-cluster edge
-			// crossings. Both two nodes are out-nodes in the pairs.
+			// Both nodes of a pair are out-nodes, not necessarilly safe due to
+			// inter-cluster edge crossings
 			TreeSet<CiSEOnCircleNodePair> nonSafePairs =
 				new TreeSet<CiSEOnCircleNodePair>();
 
-			// This set holds the pairs where one of the on circle nodes is
-			// in-node. There is no problem in swapping those.
+			// Pairs where one of the on circle nodes is an in-node; no problem
+			// swapping these
 			ArrayList<CiSEOnCircleNodePair> safePairs =
 				new ArrayList<CiSEOnCircleNodePair>();
 
-			// This set will hold swapped nodes in this round.
+			// Nodes swapped in this round
 			Set<CiSENode> swappedNodes = new HashSet<CiSENode>();
+
+			// Pairs swapped or prevented from being swapped in this round
+			Set<CiSEOnCircleNodePair> swappedPairs =
+				new HashSet<CiSEOnCircleNodePair>();
+
 			CiSENode firstNode;
 			CiSENode secondNode;
 			CiSEOnCircleNodeExt firstNodeExt;
 			CiSEOnCircleNodeExt secondNodeExt;
 			double firstNodeDisp;
 			double secondNodeDisp;
-			double displacement;
-			boolean willSwap;
-				
-			// Check each node with its next node for swapping.
+			double discrepancy;
+			boolean inSameDirection;
+
+			// Check each node with its next node for swapping
 			for (int i = 0; i < size; i++)
 			{
 				firstNode = ciseOnCircleNodes[i];
@@ -1348,158 +1465,168 @@ public class CiSELayout extends FDLayout
 				firstNodeExt = firstNode.getOnCircleNodeExt();
 				secondNodeExt = secondNode.getOnCircleNodeExt();
 
+				// Ignore if the swap is to introduce new intra-edge crossings
+
+				if (!firstNodeExt.canSwapWithNext() ||
+					!secondNodeExt.canSwapWithPrev())
+				{
+					continue;
+				}
+
 				firstNodeDisp = firstNodeExt.getDisplacementForSwap();
 				secondNodeDisp = secondNodeExt.getDisplacementForSwap();
+				discrepancy = firstNodeDisp - secondNodeDisp;
 
-				displacement = firstNodeDisp - secondNodeDisp;
+				// Pulling in reverse directions, no swap
 
-				// We need to check to things about displacement:
-				// 1- It should be greater than zero. This implies that,
-				//    firstNode and secondNode are trying to move towards each
-				//    other because firstNode comes before secondNode in the
-				//    circular order.
-				// 2- It shuold be greater than the swap buffer. This is to
-				//    prevent redundant swaps.
-				willSwap = displacement >= CiSEConstants.MIN_DISPLACEMENT_FOR_SWAP;
-
-				// We will not perform swap if the displacements are towards
-				// same direction.
-
-				if (willSwap)
+				if (discrepancy < 0.0)
 				{
-					willSwap &= !((firstNodeDisp > 0 && secondNodeDisp > 0) ||
-						(firstNodeDisp < 0 && secondNodeDisp < 0));
+					continue;
 				}
 
-				// Continue if swapping these two will not introduce new
-				// intra-edge crossings.
-				if (willSwap)
+				// Might swap, create safe or nonsafe node pairs
+
+				inSameDirection = (firstNodeDisp > 0 && secondNodeDisp > 0) ||
+					(firstNodeDisp < 0 && secondNodeDisp < 0);
+				CiSEOnCircleNodePair pair =
+					new CiSEOnCircleNodePair(firstNode,
+						secondNode,
+						discrepancy,
+						inSameDirection);
+
+				// When both are out-nodes, nonsafe; otherwise, safe
+
+				if (firstNodeDisp == 0.0 || secondNodeDisp == 0.0)
 				{
-					willSwap &= firstNodeExt.canSwapWithNext() &&
-						secondNodeExt.canSwapWithPrev();
+					safePairs.add(pair);
 				}
-
-				// If everything went well, there is a possible swap, go for it
-				if (willSwap)
-				{
-					CiSEOnCircleNodePair pair =
-						new CiSEOnCircleNodePair(firstNode,
-								secondNode,
-								displacement,
-								this.totalIterations);
-					
-					// If both two nodes are out-nodes then this swap is unsafe.
-					if (!((firstNodeExt.getDisplacementForSwap() == 0 )&&
-							!(secondNodeExt.getDisplacementForSwap() == 0)))
-					{
-						nonSafePairs.add(pair);
-					}
-					else
-					{
-						safePairs.add(pair);
-					}
-				}
-			}
-
-			// This set will hold the pairs that are swapped or prevented from
-			// being swapped in this iteration.
-			Set<CiSEOnCircleNodePair> newlySwapped =
-				new HashSet<CiSEOnCircleNodePair>();
-
-			CiSEOnCircleNodePair nonSafePair = null;
-
-			boolean lookForSwap = true;
-
-			// Look for a nonsafe pair until we swap one.
-			while (lookForSwap && nonSafePairs.size() > 0)
-			{
-				// Pick the non safe pair that has the maximum displacement.
-				nonSafePair = nonSafePairs.last();
-
-				// Look for inter-cluster edge crossings before swapping.
-				int int1 = nonSafePair.getFirstNode().getOnCircleNodeExt().
-					getInterClusterIntersections(
-							nonSafePair.getSecondNode().getOnCircleNodeExt());
-
-				// Try a swap.
-				nonSafePair.swap();
-
-				// Then re-compute crossings.
-				int int2 = nonSafePair.getFirstNode().getOnCircleNodeExt().
-					getInterClusterIntersections(
-							nonSafePair.getSecondNode().getOnCircleNodeExt());
-
-				// Compare the two crossing count.
-				if (int2 > int1)
-				// We cannot perform swap, rollBack it.
-				{
-					nonSafePair.swap();
-
-					// Swap wasn't performed, remove this pair from the set
-					nonSafePairs.remove(nonSafePair);
-				}
-				// If this pair is swapped in previous swap phase, don't allow
-				// this swap and revert it. Also save it for the future as if
-				// it is actually swapped in order to prevent future oscilations
-				else if (this.swappedPairsInLastIteration.contains(nonSafePair))
-				{
-					nonSafePair.swap();
-					newlySwapped.add(nonSafePair);
-
-					// Swap wasn't performed, remove this pair from the set
-					nonSafePairs.remove(nonSafePair);
-				}
-				// Swapping didn't introduced new inter-cluster edge
-				// crossings, everything is ok. We don't need to rollback.
 				else
 				{
-					System.out.println("Nonsafe "+nonSafePair);
-					swappedNodes.add(nonSafePair.getFirstNode());
-					swappedNodes.add(nonSafePair.getSecondNode());
-
-					newlySwapped.add(nonSafePair);
-
-					// Swap performed, don't look for a nonsafe pair anymore.
-					lookForSwap = false;
+					nonSafePairs.add(pair);
 				}
 			}
 
+			CiSEOnCircleNodePair nonSafePair;
+			boolean lookForSwap = true;
+			boolean rollback;
+
+			// Look for a nonsafe pair until we swap one
+			while (lookForSwap && nonSafePairs.size() > 0)
+			{
+				// Pick the non safe pair that has the maximum discrepancy.
+				nonSafePair = nonSafePairs.last();
+				firstNode = nonSafePair.getFirstNode();
+				secondNode = nonSafePair.getSecondNode();
+				firstNodeExt = firstNode.getOnCircleNodeExt();
+				secondNodeExt = secondNode.getOnCircleNodeExt();
+
+				// If this pair is swapped in previous swap phase, don't allow
+				// this swap. Also save it for the future as if it is actually
+				// swapped in order to prevent future oscilations
+
+				if (this.isSwappedPreviously(nonSafePair))
+				{
+					nonSafePairs.remove(nonSafePair);
+					swappedPairs.add(nonSafePair);
+					continue;
+				}
+
+				// Check for inter-cluster edge crossings before swapping.
+				int int1 =
+					firstNodeExt.getInterClusterIntersections(secondNodeExt);
+
+				// Try a swap
+				nonSafePair.swap();
+				rollback = false;
+
+				// Then re-compute crossings
+				int int2 =
+					firstNodeExt.getInterClusterIntersections(secondNodeExt);
+
+				// Possible cases regarding discrepancy:
+				// first  second  action
+				// +      +       both clockwise: might swap if disp > 0
+				// +      -       disp > 0: might swap
+				// -      -       both counter-clockwise: might swap if disp > 0
+				// -      +       disp <= 0: no swap
+
+				assert (nonSafePair.getDiscrepancy() >= 0.0);
+
+				// Under following conditions roll swap back:
+				// - swap increases inter-cluster edge crossings
+				// - inter-cluster edge number is the same but pulling in the
+				// same direction or discrepancy is below pre-determined
+				// threshold (not enough for swap)
+
+				rollback = int2 > int1;
+
+				if (!rollback && int2 == int1)
+				{
+					rollback =
+						nonSafePair.inSameDirection() ||
+						nonSafePair.getDiscrepancy() <
+							CiSEConstants.MIN_DISPLACEMENT_FOR_SWAP;
+				}
+
+				if (rollback)
+				{
+					nonSafePair.swap();
+					nonSafePairs.remove(nonSafePair);
+					continue;
+				}
+
+//				System.out.println("! Nonsafe " + nonSafePair);
+				swappedNodes.add(nonSafePair.getFirstNode());
+				swappedNodes.add(nonSafePair.getSecondNode());
+				swappedPairs.add(nonSafePair);
+
+				// Swap performed, do not look for another nonsafe pair
+				lookForSwap = false;
+			}
+
+			// Now process all safe pairs
 			Iterator<CiSEOnCircleNodePair> iter = safePairs.iterator();
 
-			// Process  all safe pairs (swappings).
 			while (iter.hasNext())
 			{
-				CiSEOnCircleNodePair pair = iter.next();
+				CiSEOnCircleNodePair safePair = iter.next();
 
-				// Even a safe swapping might be unsafe if one of its pair
-				// nodes previously swapped by another node.
-				if (!swappedNodes.contains(pair.getFirstNode()) &&
-						!swappedNodes.contains(pair.getSecondNode()))
+				// Check if discrepancy is above the threshold (enough to swap)
+				if (safePair.inSameDirection() ||
+					safePair.getDiscrepancy() <
+						CiSEConstants.MIN_DISPLACEMENT_FOR_SWAP)
 				{
-					// If this pair is swapped in previous swap phase, don't
-					// allow this swap.
-					if (!this.swappedPairsInLastIteration.contains(pair))
-					{
-						pair.swap();
-						System.out.println("Safe "+pair);
-						swappedNodes.add(pair.getFirstNode());
-						swappedNodes.add(pair.getSecondNode());
-					}
-
-					// Save the swap for the future iterations to prevent future
-					// oscilations.
-					newlySwapped.add(pair);
+					continue;
 				}
+
+				// Check if they were already involved in a swap in this phase
+				if (swappedNodes.contains(safePair.getFirstNode()) ||
+					swappedNodes.contains(safePair.getSecondNode()))
+				{
+					continue;
+				}
+
+				// Should be swapped if not previously swapped; so
+				// Check if they were previously swapped
+				if (!this.isSwappedPreviously(safePair))
+				{
+						safePair.swap();
+//						System.out.println("! Safe "+safePair);
+						swappedNodes.add(safePair.getFirstNode());
+						swappedNodes.add(safePair.getSecondNode());
+				}
+
+				// Mark swapped (even if not) to prevent future oscillations
+				swappedPairs.add(safePair);
 			}
 
-			// Reset the swapped pairs set and fill with the ones that are
-			// actually swapped or preventted from being swapped.
+			// Update swap history
 			this.swappedPairsInLastIteration.clear();
-			this.swappedPairsInLastIteration.addAll(newlySwapped);
+			this.swappedPairsInLastIteration.addAll(swappedPairs);
 
+			// Reset all discrepancy values of on circle nodes.
 			CiSENode node;
 
-			// Reset all displacement values of on circle nodes.
 			for (int i = 0; i < size; i++)
 			{
 				node = ciseOnCircleNodes[i];
@@ -1507,6 +1634,32 @@ public class CiSELayout extends FDLayout
 				assert ciseOnCircleNodes[i].rotationAmount == 0.0;
 			}
 		}
+	}
+
+	/*
+	 * This method returns whether or not the input node pair was previously
+	 * swapped.
+	 */
+	private boolean isSwappedPreviously(CiSEOnCircleNodePair pair)
+	{
+		Iterator<CiSEOnCircleNodePair> iter =
+			this.swappedPairsInLastIteration.iterator();
+		CiSEOnCircleNodePair swappedPair;
+
+		while (iter.hasNext())
+		{
+			swappedPair = iter.next();
+
+			if ((swappedPair.getFirstNode() == pair.getFirstNode() &&
+				swappedPair.getSecondNode() == pair.getSecondNode()) ||
+				(swappedPair.getSecondNode() == pair.getFirstNode() &&
+				swappedPair.getFirstNode() == pair.getSecondNode()))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -1534,18 +1687,14 @@ public class CiSELayout extends FDLayout
 		}
 	}
 
-	/*
-	 * This method checks to see whether reversing the order of nodes on each
-	 * cluster helps with the inter-graph edge crossing number of that cluster.
+	/**
+	 * This method prepares circles for possible reversal by computing the order
+	 * matrix of each circle. It also determines any circles that should never
+	 * be reversed (e.g. when it has no more than 1 inter-cluster edge).
 	 */
-	private void checkAndReverseIfReverseIsBetter()
+	private void prepareCirclesForReversal()
 	{
 		CiSEGraphManager gm = (CiSEGraphManager)this.getGraphManager();
-
-		// For each cluster (in no particular order) check to see whether
-		// reversing the order of the nodes on the cluster improves on
-		// inter-graph edge crossing number of that cluster.
-
 		Iterator<CiSENode> nodeIterator = gm.getRoot().getNodes().iterator();
 		CiSENode node;
 		CiSECircle circle;
@@ -1557,9 +1706,54 @@ public class CiSELayout extends FDLayout
 
 			if (circle != null)
 			{
-				circle.checkAndReverseIfReverseIsBetter();
+				if (circle.getInterClusterEdges().size() < 2)
+				{
+					circle.setMayNotBeReversed();
+				}
+
+				circle.computeOrderMatrix();
 			}
 		}
+	}
+
+	/*
+	 * This method tries to improve the edge crossing number by reversing a
+	 * cluster (i.e., the order of the nodes in the cluster such as C,B,A
+	 * instead of A,B,C). No more than one reversal is performed with each
+	 * execution. The decision is based on the global sequence alignment
+	 * heuristic (typically used in biological sequence alignment). A cluster
+	 * that was previsouly reversed is not a candidate for reversal to avoid
+	 * oscillations. It returns true if a reversal has been performed.
+	 */
+	private boolean checkAndReverseIfReverseIsBetter()
+	{
+		CiSEGraphManager gm = (CiSEGraphManager)this.getGraphManager();
+
+		// For each cluster (in no particular order) check to see whether
+		// reversing the order of the nodes on the cluster could improve on
+		// inter-graph edge crossing number of that cluster.
+
+		Iterator<CiSENode> nodeIterator = gm.getRoot().getNodes().iterator();
+		CiSENode node;
+		CiSECircle circle;
+
+		while (nodeIterator.hasNext())
+		{
+			node = nodeIterator.next();
+			circle = (CiSECircle) node.getChild();
+
+			if (circle != null &&
+				circle.mayBeReversed() &&
+				circle.getNodes().size() <= 52)
+			{
+				if (circle.checkAndReverseIfReverseIsBetter())
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -1570,6 +1764,11 @@ public class CiSELayout extends FDLayout
 	 */
 	private void findAndMoveInnerNodes()
 	{
+		if (!this.allowNodesInsideCircle)
+		{
+			return;
+		}
+
 		for (Object ciseCircleObject : this.getGraphManager().getGraphs()) 
 		{
 			CiSECircle ciseCircle = (CiSECircle) ciseCircleObject;
@@ -1763,9 +1962,10 @@ public class CiSELayout extends FDLayout
 		// According to the order found, find the start and end nodes of the
 		// segment by testing each (order adjacent) neighbor pair. 
 
-		CiSENode segmentStartNode = null;
-		CiSENode segmentEndNode = null;
 		List<CiSENode> orderedNodes = ((CiSECircle)node.getOwner()).getOnCircleNodes();
+		CiSENode shortestSegmentStartNode = null;
+		CiSENode shortestSegmentEndNode = null;
+		int shortestSegmentLength = orderedNodes.size();
 		int segmentLength = orderedNodes.size();
 		int neighSize = orderedNeigbors.size();
 		int i, j;
@@ -1785,11 +1985,11 @@ public class CiSELayout extends FDLayout
 					tempSegmentStartNode.getOnCircleNodeExt().getIndex() +
 					segmentLength) % segmentLength + 1;
 			
-			if (tempSegmentLength < segmentLength)
+			if (tempSegmentLength < shortestSegmentLength)
 			{
-				segmentStartNode = tempSegmentStartNode;
-				segmentEndNode = tempSegmentEndNode;
-				segmentLength = tempSegmentLength;
+				shortestSegmentStartNode = tempSegmentStartNode;
+				shortestSegmentEndNode = tempSegmentEndNode;
+				shortestSegmentLength = tempSegmentLength;
 			}
 		}
 		
@@ -1797,7 +1997,7 @@ public class CiSELayout extends FDLayout
 		// ordered nodes and create an ordered list of nodes in the segment
 
 		boolean segmentEndReached = false;
-		CiSENode currentNode = segmentStartNode;
+		CiSENode currentNode = shortestSegmentStartNode;
 
 		while (!segmentEndReached)
 		{
@@ -1806,7 +2006,7 @@ public class CiSELayout extends FDLayout
 				segment.add(currentNode);
 			}
 			
-			if (currentNode == segmentEndNode)
+			if (currentNode == shortestSegmentEndNode)
 			{
 				segmentEndReached = true;
 			}

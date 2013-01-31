@@ -82,11 +82,27 @@ public class LEdge extends LGraphObject
 	}
 
 	/**
+	 * This method sets the source node of this edge.
+	 */
+	public void setSource(LNode source)
+	{
+		this.source = source;
+	}
+
+	/**
 	 * This method returns the target node of this edge.
 	 */
 	public LNode getTarget()
 	{
 		return this.target;
+	}
+
+	/**
+	 * This method sets the target node of this edge.
+	 */
+	public void setTarget(LNode target)
+	{
+		this.target = target;
 	}
 
 	/**

@@ -31,373 +31,99 @@ public class LayoutOptionsPack implements Serializable
 
 	public class General
 	{
-		private int layoutQuality; // proof, default, draft
-		private boolean animationDuringLayout; // T-F
-		private boolean animationOnLayout; // T-F
-		private int animationPeriod; // 0-100
-		private boolean incremental; // T-F
-		private boolean createBendsAsNeeded; // T-F
-		private boolean uniformLeafNodeSizes; // T-F
+		public int layoutQuality; // proof, default, draft
+		public boolean animationDuringLayout; // T-F
+		public boolean animationOnLayout; // T-F
+		public int animationPeriod; // 0-100
+		public boolean incremental; // T-F
+		public boolean createBendsAsNeeded; // T-F
+		public boolean uniformLeafNodeSizes; // T-F
 
-		public int getLayoutQuality()
-		{
-			return layoutQuality;
-		}
-
-		public void setLayoutQuality(int quality)
-		{
-			this.layoutQuality = quality;
-		}
-
-		public boolean isAnimationDuringLayout()
-		{
-			return animationDuringLayout;
-		}
-
-		public void setAnimationDuringLayout(boolean animationDuringLayout)
-		{
-			this.animationDuringLayout = animationDuringLayout;
-		}
-
-		public boolean isAnimationOnLayout()
-		{
-			return animationOnLayout;
-		}
-
-		public void setAnimationOnLayout(boolean animationOnLayout)
-		{
-			this.animationOnLayout = animationOnLayout;
-		}
-
-		public int getAnimationPeriod()
-		{
-			return animationPeriod;
-		}
-
-		public void setAnimationPeriod(int animationPeriod)
-		{
-			this.animationPeriod = animationPeriod;
-		}
-
-		public boolean isIncremental()
-		{
-			return incremental;
-		}
-
-		public void setIncremental(boolean incremental)
-		{
-			this.incremental = incremental;
-		}
-
-		public boolean isCreateBendsAsNeeded()
-		{
-			return createBendsAsNeeded;
-		}
-
-		public void setCreateBendsAsNeeded(boolean createBendsAsNeeded)
-		{
-			this.createBendsAsNeeded = createBendsAsNeeded;
-		}
-
-		public boolean isUniformLeafNodeSizes()
-		{
-			return uniformLeafNodeSizes;
-		}
-		
-		public void setUniformLeafNodeSizes(boolean uniformLeafNodeSizes)
-		{
-			this.uniformLeafNodeSizes = uniformLeafNodeSizes;
-		}
+		public int defaultLayoutQuality = LayoutConstants.DEFAULT_QUALITY;
+		public boolean defaultAnimationDuringLayout = LayoutConstants.DEFAULT_ANIMATION_DURING_LAYOUT;
+		public boolean defaultAnimationOnLayout = LayoutConstants.DEFAULT_ANIMATION_ON_LAYOUT;
+		public int defaultAnimationPeriod = 50;
+		public boolean defaultIncremental = LayoutConstants.DEFAULT_INCREMENTAL;
+		public boolean defaultCreateBendsAsNeeded = LayoutConstants.DEFAULT_CREATE_BENDS_AS_NEEDED;
+		public boolean defaultUniformLeafNodeSizes = LayoutConstants.DEFAULT_UNIFORM_LEAF_NODE_SIZES;
 	}
 
 	public class CoSE
 	{
-		private int idealEdgeLength; // any positive int
-		private int springStrength; // 0-100
-		private int repulsionStrength; // 0-100
-		private boolean smartRepulsionRangeCalc; // T-F
-		private int gravityStrength; // 0-100
-		private int compoundGravityStrength; // 0-100
-		private int gravityRange; // 0-100
-		private int compoundGravityRange; // 0-100
-		private boolean smartEdgeLengthCalc; // T-F
-		private boolean multiLevelScaling; // T-F
-		
-		public int getIdealEdgeLength()
-		{
-			return idealEdgeLength;
-		}
+		public int idealEdgeLength; // any positive int
+		public int springStrength; // 0-100
+		public int repulsionStrength; // 0-100
+		public boolean smartRepulsionRangeCalc; // T-F
+		public int gravityStrength; // 0-100
+		public int gravityRange; // 0-100
+		public int compoundGravityStrength; // 0-100
+		public int compoundGravityRange; // 0-100
+		public boolean smartEdgeLengthCalc; // T-F
+		public boolean multiLevelScaling; // T-F
 
-		public void setIdealEdgeLength(int idealEdgeLength)
-		{
-			this.idealEdgeLength = idealEdgeLength;
-		}
-
-		public int getSpringStrength()
-		{
-			return springStrength;
-		}
-
-		public void setSpringStrength(int springStrength)
-		{
-			this.springStrength = springStrength;
-		}
-
-		public int getRepulsionStrength()
-		{
-			return repulsionStrength;
-		}
-
-		public void setRepulsionStrength(int repulsionStrength)
-		{
-			this.repulsionStrength = repulsionStrength;
-		}
-
-		public int getGravityStrength()
-		{
-			return gravityStrength;
-		}
-
-		public void setGravityStrength(int gravityStrength)
-		{
-			this.gravityStrength = gravityStrength;
-		}
-
-		public int getCompoundGravityStrength()
-		{
-			return compoundGravityStrength;
-		}
-
-		public void setCompoundGravityStrength(int compoundGravityStrength)
-		{
-			this.compoundGravityStrength = compoundGravityStrength;
-		}
-		
-		public int getGravityRange()
-		{
-			return gravityRange;
-		}
-
-		public void setGravityRange(int gravityRange)
-		{
-			this.gravityRange = gravityRange;
-		}
-
-		public int getCompoundGravityRange()
-		{
-			return compoundGravityRange;
-		}
-
-		public void setCompoundGravityRange(int compoundGravityRange)
-		{
-			this.compoundGravityRange = compoundGravityRange;
-		}
-
-		public boolean isSmartEdgeLengthCalc()
-		{
-			return smartEdgeLengthCalc;
-		}
-
-		public void setSmartEdgeLengthCalc(boolean smartEdgeLengthCalc)
-		{
-			this.smartEdgeLengthCalc = smartEdgeLengthCalc;
-		}
-
-		public boolean isMultiLevelScaling()
-		{
-			return multiLevelScaling;
-		}
-
-		public void setMultiLevelScaling(boolean multiLevelScaling)
-		{
-			this.multiLevelScaling = multiLevelScaling;
-		}
-
-		public void setSmartRepulsionRangeCalc(boolean smartRepulsionRangeCalc)
-		{
-			this.smartRepulsionRangeCalc = smartRepulsionRangeCalc;
-		}
-
-		public boolean isSmartRepulsionRangeCalc()
-		{
-			return smartRepulsionRangeCalc;
-		}
+		public int defaultIdealEdgeLength = CoSEConstants.DEFAULT_EDGE_LENGTH;
+		public int defaultSpringStrength = 50;
+		public int defaultRepulsionStrength = 50;
+		public boolean defaultSmartRepulsionRangeCalc = CoSEConstants.DEFAULT_USE_SMART_REPULSION_RANGE_CALCULATION;
+		public int defaultGravityStrength = 50;
+		public int defaultGravityRange = 50;
+		public int defaultCompoundGravityStrength = 50;
+		public int defaultCompoundGravityRange = 50;
+		public boolean defaultSmartEdgeLengthCalc = CoSEConstants.DEFAULT_USE_SMART_IDEAL_EDGE_LENGTH_CALCULATION;
+		public boolean defaultMultiLevelScaling = CoSEConstants.DEFAULT_USE_MULTI_LEVEL_SCALING;
 	}
 
 	public class Cluster
 	{
-		private int idealEdgeLength; // any positive int
-		private int clusterSeperation; // 0-100
-		private int clusterGravityStrength; // 0-100
+		public int idealEdgeLength; // any positive int
+		public int clusterSeperation; // 0-100
+		public int clusterGravityStrength; // 0-100
 
-		public int getClusterSeperation()
-		{
-			return clusterSeperation;
-		}
-
-		public void setClusterSeperation(int clusterSeperation)
-		{
-			this.clusterSeperation = clusterSeperation;
-		}
-
-		public int getIdealEdgeLength()
-		{
-			return idealEdgeLength;
-		}
-
-		public void setIdealEdgeLength(int idealEdgeLength)
-		{
-			this.idealEdgeLength = idealEdgeLength;
-		}
-
-		public int getClusterGravityStrength()
-		{
-			return clusterGravityStrength;
-		}
-
-		public void setClusterGravityStrength(int clusterGravityStrength)
-		{
-			this.clusterGravityStrength = clusterGravityStrength;
-		}
+		public int defaultIdealEdgeLength = CoSEConstants.DEFAULT_EDGE_LENGTH;
+		public int defaultClusterSeperation = 50;
+		public int defaultClusterGravityStrength = 50;
 	}
 
 	public class CiSE
 	{
-		int nodeSeparation;
-		int desiredEdgeLength;
-		int interClusterEdgeLengthFactor;
-		boolean allowNodesInsideCircle;
-		double maxRatioOfNodesInsideCircle;
+		public int nodeSeparation; // any positive int
+		public int desiredEdgeLength; // any positive int
+		public int interClusterEdgeLengthFactor; // 0-100
+		public boolean allowNodesInsideCircle; // T-F
+		public double maxRatioOfNodesInsideCircle; // 0.0-1.0
 
-		public int getNodeSeparation()
-		{
-			return nodeSeparation;
-		}
-
-		public void setNodeSeparation(int nodeSeparation)
-		{
-			this.nodeSeparation = nodeSeparation;
-		}
-
-		public int getDesiredEdgeLength()
-		{
-			return desiredEdgeLength;
-		}
-
-		public void setDesiredEdgeLength(int desiredEdgeLength)
-		{
-			this.desiredEdgeLength = desiredEdgeLength;
-		}
-
-		public int getInterClusterEdgeLengthFactor()
-		{
-			return interClusterEdgeLengthFactor;
-		}
-
-		public void setInterClusterEdgeLengthFactor(int icelf)
-		{
-			this.interClusterEdgeLengthFactor = icelf;
-		}
-		
-		public boolean isAllowNodesInsideCircle()
-		{
-			return allowNodesInsideCircle;
-		}
-
-		public void setAllowNodesInsideCircle(boolean allowNodesInsideCircle)
-		{
-			this.allowNodesInsideCircle = allowNodesInsideCircle;
-		}
-
-		public double getMaxRatioOfNodesInsideCircle()
-		{
-			return maxRatioOfNodesInsideCircle;
-		}
-
-		public void setMaxRatioOfNodesInsideCircle(double ratio)
-		{
-			this.maxRatioOfNodesInsideCircle = ratio;
-		}
+		public int defaultNodeSeparation = CiSEConstants.DEFAULT_NODE_SEPARATION;
+		public int defaultDesiredEdgeLength = CiSEConstants.DEFAULT_EDGE_LENGTH;
+		public int defaultInterClusterEdgeLengthFactor = 50;
+		public boolean defaultAllowNodesInsideCircle = CiSEConstants.DEFAULT_ALLOW_NODES_INSIDE_CIRCLE;
+		public double defaultMaxRatioOfNodesInsideCircle = CiSEConstants.DEFAULT_MAX_RATIO_OF_NODES_INSIDE_CIRCLE;
 	}
 
 	public class AVSDF
 	{
-		int nodeSeparation;
+		public int nodeSeparation; // any positive int
 
-		public int getNodeSeparation()
-		{
-			return nodeSeparation;
-		}
-
-		public void setNodeSeparation(int nodeSeparation)
-		{
-			this.nodeSeparation = nodeSeparation;
-		}
+		public int defaultNodeSeparation = AVSDFConstants.DEFAULT_NODE_SEPARATION;
 	}
 
 	public class Spring
 	{
-		int nodeDistanceRestLength;
-		int disconnectedNodeDistanceSpringRestLength;
+		public int nodeDistanceRestLength; // any positive int
+		public int disconnectedNodeDistanceSpringRestLength; // any positive int
 
-		public int getNodeDistanceRestLength()
-		{
-			return nodeDistanceRestLength;
-		}
-
-		public void setNodeDistanceRestLength(int nodeDistanceRestLength)
-		{
-			this.nodeDistanceRestLength = nodeDistanceRestLength;
-		}
-
-		public int getDisconnectedNodeDistanceSpringRestLength()
-		{
-			return disconnectedNodeDistanceSpringRestLength;
-		}
-
-		public void setDisconnectedNodeDistanceSpringRestLength(
-			int disconnectedNodeDistanceSpringRestLength)
-		{
-			this.disconnectedNodeDistanceSpringRestLength
-				= disconnectedNodeDistanceSpringRestLength;
-		}
+		public int defaultNodeDistanceRestLength = (int)SpringConstants.DEFAULT_NODE_DISTANCE_REST_LENGTH_CONSTANT;
+		public int defaultDisconnectedNodeDistanceSpringRestLength = (int)SpringConstants.DEFAULT_DISCONNECTED_NODE_DISTANCE_SPRING_REST_LENGTH;
 	}
 
 	public class Sgym
 	{
-		int horizontalSpacing;
-		int verticalSpacing;
-		boolean vertical;
+		public int horizontalSpacing; // any positive int
+		public int verticalSpacing; // any positive int
+		public boolean vertical; // T-F
 
-		public int getHorizontalSpacing()
-		{
-			return horizontalSpacing;
-		}
-
-		public void setHorizontalSpacing(int horizontalSpacing)
-		{
-			this.horizontalSpacing = horizontalSpacing;
-		}
-
-		public int getVerticalSpacing()
-		{
-			return verticalSpacing;
-		}
-
-		public void setVerticalSpacing(int verticalSpacing)
-		{
-			this.verticalSpacing = verticalSpacing;
-		}
-
-		public boolean isVertical()
-		{
-			return vertical;
-		}
-
-		public void setVertical(boolean vertical)
-		{
-			this.vertical = vertical;
-		}
+		public int defaultHorizontalSpacing = SgymConstants.DEFAULT_HORIZONTAL_SPACING;
+		public int defaultVerticalSpacing = SgymConstants.DEFAULT_VERTICAL_SPACING;
+		public boolean defaultVertical = SgymConstants.DEFAULT_VERTICAL;
 	}
 
 	private LayoutOptionsPack()
@@ -415,53 +141,43 @@ public class LayoutOptionsPack implements Serializable
 
 	public void setDefaultLayoutProperties()
 	{
-		general.setAnimationPeriod(50);
-		general.setAnimationDuringLayout(
-			LayoutConstants.DEFAULT_ANIMATION_DURING_LAYOUT);
-		general.setAnimationOnLayout(
-			LayoutConstants.DEFAULT_ANIMATION_ON_LAYOUT);
-		general.setLayoutQuality(LayoutConstants.DEFAULT_QUALITY);
-		general.setIncremental(LayoutConstants.DEFAULT_INCREMENTAL);
-		general.setCreateBendsAsNeeded(
-			LayoutConstants.DEFAULT_CREATE_BENDS_AS_NEEDED);
-		general.setUniformLeafNodeSizes(
-			LayoutConstants.DEFAULT_UNIFORM_LEAF_NODE_SIZES);
+		this.general.layoutQuality = this.general.defaultLayoutQuality ;
+		this.general.animationDuringLayout = this.general.defaultAnimationDuringLayout ;
+		this.general.animationOnLayout = this.general.defaultAnimationOnLayout ;
+		this.general.animationPeriod = this.general.defaultAnimationPeriod;
+		this.general.incremental = this.general.defaultIncremental ;
+		this.general.createBendsAsNeeded = this.general.defaultCreateBendsAsNeeded ;
+		this.general.uniformLeafNodeSizes = this.general.defaultUniformLeafNodeSizes ;
 
-		coSE.setIdealEdgeLength(CoSEConstants.DEFAULT_EDGE_LENGTH);
-		coSE.setSmartEdgeLengthCalc(
-			CoSEConstants.DEFAULT_USE_SMART_IDEAL_EDGE_LENGTH_CALCULATION);
-		coSE.setMultiLevelScaling(CoSEConstants.DEFAULT_USE_MULTI_LEVEL_SCALING);
-		coSE.setSmartRepulsionRangeCalc(
-			FDLayoutConstants.DEFAULT_USE_SMART_REPULSION_RANGE_CALCULATION);
-		coSE.setSpringStrength(50);
-		coSE.setRepulsionStrength(50);
-		coSE.setGravityStrength(50);
-		coSE.setCompoundGravityStrength(50);
-		coSE.setGravityRange(50);
-		coSE.setCompoundGravityRange(50);
+		this.coSE.idealEdgeLength = this.coSE.defaultIdealEdgeLength;
+		this.coSE.springStrength = this.coSE.defaultSpringStrength ;
+		this.coSE.repulsionStrength = this.coSE.defaultRepulsionStrength ;
+		this.coSE.smartRepulsionRangeCalc = this.coSE.defaultSmartRepulsionRangeCalc ;
+		this.coSE.gravityStrength = this.coSE.defaultGravityStrength ;
+		this.coSE.gravityRange = this.coSE.defaultGravityRange ;
+		this.coSE.compoundGravityStrength = this.coSE.defaultCompoundGravityStrength ;
+		this.coSE.compoundGravityRange = this.coSE.defaultCompoundGravityRange ;
+		this.coSE.smartEdgeLengthCalc = this.coSE.defaultSmartEdgeLengthCalc ;
+		this.coSE.multiLevelScaling = this.coSE.defaultMultiLevelScaling ;
 
-		ciSE.setNodeSeparation(CiSEConstants.DEFAULT_NODE_SEPARATION);
-		ciSE.setDesiredEdgeLength(CiSEConstants.DEFAULT_EDGE_LENGTH);
-		ciSE.setInterClusterEdgeLengthFactor(50);
-		ciSE.setAllowNodesInsideCircle(
-			CiSEConstants.DEFAULT_ALLOW_NODES_INSIDE_CIRCLE);
-		ciSE.setMaxRatioOfNodesInsideCircle(
-			CiSEConstants.DEFAULT_MAX_RATIO_OF_NODES_INSIDE_CIRCLE);
+		this.cluster.idealEdgeLength = this.cluster.defaultIdealEdgeLength;
+		this.cluster.clusterSeperation = this.cluster.defaultClusterSeperation;
+		this.cluster.clusterGravityStrength = this.cluster.defaultClusterGravityStrength;
 
-		avsdf.setNodeSeparation(AVSDFConstants.DEFAULT_NODE_SEPARATION);
+		this.ciSE.nodeSeparation = this.ciSE.defaultNodeSeparation;
+		this.ciSE.desiredEdgeLength = this.ciSE.defaultDesiredEdgeLength;
+		this.ciSE.interClusterEdgeLengthFactor = this.ciSE.defaultInterClusterEdgeLengthFactor;
+		this.ciSE.allowNodesInsideCircle = this.ciSE.defaultAllowNodesInsideCircle;
+		this.ciSE.maxRatioOfNodesInsideCircle = this.ciSE.defaultMaxRatioOfNodesInsideCircle;
 
-		cluster.setIdealEdgeLength(CoSEConstants.DEFAULT_EDGE_LENGTH);
-		cluster.setClusterSeperation(50);
-		cluster.setClusterGravityStrength(50);
+		this.avsdf.nodeSeparation = this.avsdf.defaultNodeSeparation;
 
-		spring.setDisconnectedNodeDistanceSpringRestLength((int)
-			SpringConstants.DEFAULT_DISCONNECTED_NODE_DISTANCE_SPRING_REST_LENGTH);
-		spring.setNodeDistanceRestLength((int)
-			SpringConstants.DEFAULT_NODE_DISTANCE_REST_LENGTH_CONSTANT);
+		this.spring.nodeDistanceRestLength = this.spring.defaultNodeDistanceRestLength;
+		this.spring.disconnectedNodeDistanceSpringRestLength = this.spring.defaultDisconnectedNodeDistanceSpringRestLength;
 
-		sgym.setHorizontalSpacing(SgymConstants.DEFAULT_HORIZONTAL_SPACING);
-		sgym.setVerticalSpacing(SgymConstants.DEFAULT_VERTICAL_SPACING);
-		sgym.setVertical(SgymConstants.DEFAULT_VERTICAL);
+		this.sgym.horizontalSpacing = this.sgym.defaultHorizontalSpacing;
+		this.sgym.verticalSpacing = this.sgym.defaultVerticalSpacing;
+		this.sgym.vertical = this.sgym.defaultVertical;
 	}
 
 	public static LayoutOptionsPack getInstance()

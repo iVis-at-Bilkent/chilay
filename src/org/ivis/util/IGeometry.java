@@ -19,20 +19,171 @@ abstract public class IGeometry
 // -----------------------------------------------------------------------------
 
 	/**
-	 * This method calculates the intersection in x and y directions of the two
-	 * input rectangles, assuming they do instersect, and returns the result in
-	 * the input array.
+	 * This method calculates *half* the amount in x and y directions of the two
+	 * input rectangles needed to separate them keeping their respective
+	 * positioning, and returns the result in the input array. An input
+	 * separation buffer added to the amount in both directions. We assume that
+	 * the two rectangles do intersect.
 	 */
-	public static void calcSmallerIntersection(RectangleD rectA,
+	public static void calcSeparationAmount(RectangleD rectA,
 		RectangleD rectB,
-		double[] overlapAmount)
+		double[] overlapAmount,
+		double separationBuffer)
 	{
+		assert rectA.intersects(rectB);
+
+		double[] directions = new double[2];
+
+		IGeometry.decideDirectionsForOverlappingNodes(rectA, rectB, directions);
+		
 		overlapAmount[0] = Math.min(rectA.getRight(), rectB.getRight()) -
 			Math.max(rectA.x, rectB.x);
 		overlapAmount[1] = Math.min(rectA.getBottom(), rectB.getBottom()) -
 			Math.max(rectA.y, rectB.y);
+		
+		// update the overlapping amounts for the following cases:
+		
+		if ( (rectA.getX() <= rectB.getX()) && (rectA.getRight() >= rectB.getRight()) )
+		/* Case x.1:
+		 *
+		 * rectA
+		 * 	|                       |
+		 * 	|        _________      |
+		 * 	|        |       |      |
+		 * 	|________|_______|______|
+		 * 			 |       |
+		 *           |       |
+		 *        rectB
+		 */
+		{
+			overlapAmount[0] += Math.min((rectB.getX() - rectA.getX()),
+				(rectA.getRight() - rectB.getRight()));
+		}
+		else if( (rectB.getX() <= rectA.getX()) && (rectB.getRight() >= rectA.getRight()))
+		/* Case x.2:
+		 *
+		 * rectB
+		 * 	|                       |
+		 * 	|        _________      |
+		 * 	|        |       |      |
+		 * 	|________|_______|______|
+		 * 			 |       |
+		 *           |       |
+		 *        rectA
+		 */
+		{
+			overlapAmount[0] += Math.min((rectA.getX() - rectB.getX()),
+				(rectB.getRight() - rectA.getRight()));
+		}
+		
+		if ( (rectA.getY() <= rectB.getY()) && (rectA.getBottom() >= rectB.getBottom()) )
+		/* Case y.1:
+		 *          ________ rectA
+		 *         |
+		 *         |
+		 *   ______|____  rectB
+		 *         |    |
+		 *         |    |
+		 *   ______|____|
+		 *         |
+		 *         |
+		 *         |________
+		 *
+		 */
+		{
+			overlapAmount[1] += Math.min((rectB.getY() - rectA.getY()),
+				(rectA.getBottom() - rectB.getBottom()));
+		}
+		else if ((rectB.getY() <= rectA.getY()) && (rectB.getBottom() >= rectA.getBottom()) )
+		/* Case y.2:
+		 *          ________ rectB
+		 *         |
+		 *         |
+		 *   ______|____  rectA
+		 *         |    |
+		 *         |    |
+		 *   ______|____|
+		 *         |
+		 *         |
+		 *         |________
+		 *
+		 */
+		{
+			overlapAmount[1] += Math.min((rectA.getY() - rectB.getY()),
+				(rectB.getBottom() - rectA.getBottom()));
+		}
+		
+		// find slope of the line passes two centers
+        double slope =
+			Math.abs((double)(rectB.getCenterY() - rectA.getCenterY()) /
+        		(rectB.getCenterX() - rectA.getCenterX()));
+        
+        // if centers are overlapped
+        if ((rectB.getCenterY() == rectA.getCenterY()) &&
+			(rectB.getCenterX() == rectA.getCenterX()) )
+        {
+        	// assume the slope is 1 (45 degree)
+        	slope = 1.0;
+        }
+        
+		// change y
+        double moveByY = slope * overlapAmount[0];
+        // change x
+        double moveByX =  overlapAmount[1] / slope;
+        
+        // now we have two pairs:
+        // 1) overlapAmount[0], moveByY
+        // 2) moveByX, overlapAmount[1]
+     
+        // use pair no:1
+        if (overlapAmount[0] < moveByX)
+        {
+        	moveByX = overlapAmount[0];
+        }
+        // use pair no:2
+        else
+        {
+        	moveByY = overlapAmount[1];
+        }
+
+		// return half the amount so that if each rectangle is moved by these
+		// amounts in opposite directions, overlap will be resolved
+		
+        overlapAmount[0] = -1 * directions[0] * ((moveByX / 2) + separationBuffer);
+        overlapAmount[1] = -1 * directions[1] * ((moveByY / 2) + separationBuffer);
 	}
 
+	/**
+     * This method decides the separation direction of overlapping nodes
+     * 
+     * if directions[0] = -1, then rectA goes left
+     * if directions[0] = 1,  then rectA goes right
+     * if directions[1] = -1, then rectA goes up
+     * if directions[1] = 1,  then rectA goes down
+     */
+    private static void decideDirectionsForOverlappingNodes(RectangleD rectA,
+		RectangleD rectB,
+		double[] directions)
+    {
+    	if (rectA.getCenterX() < rectB.getCenterX())
+    	{
+    		directions[0] = -1;
+    	}
+    	else
+    	{
+    		directions[0] = 1;
+    	}
+    	
+    	if (rectA.getCenterY() < rectB.getCenterY())
+    	{
+    		directions[1] = -1;
+    	}
+    	else
+    	{
+    		directions[1] = 1;
+    	}
+    }
+    
 	/**
 	 * This method calculates the intersection (clipping) points of the two
 	 * input rectangles with line segment defined by the centers of these two
@@ -434,6 +585,8 @@ abstract public class IGeometry
 		return result;
 	}
 
+	// TODO may not produce correct test results, since parameter order of
+	// RectangleD constructor is changed
 	private static void testClippingPoints()
 	{
 		RectangleD rectA = new RectangleD(5, 6, 2, 4);

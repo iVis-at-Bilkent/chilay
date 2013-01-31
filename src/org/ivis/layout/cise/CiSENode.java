@@ -96,7 +96,7 @@ public class CiSENode extends FDLayoutNode
 			CiSENode neighbor = neighborIterator.next();
 
 			if (neighbor.getOnCircleNodeExt() == null ||
-				!neighbor.clusterID.equals(this.clusterID))
+				!neighbor.getClusterID().equals(this.getClusterID()))
 			{
 				neighborIterator.remove();
 			}

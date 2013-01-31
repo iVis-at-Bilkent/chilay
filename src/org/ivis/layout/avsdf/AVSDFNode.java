@@ -80,11 +80,6 @@ public class AVSDFNode extends LNode
 	 */
 	public void setIndex(int circleIndex)
 	{
-		//TODO: This assertion cannot be put here, since it is broken during
-		// execution of the algorithm. Make a check() method perhaps that
-		// returns some boolean value instead!
-		//assert this.getCircle().getOrder()[circleIndex] == this;
-
 		this.circleIndex = circleIndex;
 		isCrossingNumberValid = false;
 	}

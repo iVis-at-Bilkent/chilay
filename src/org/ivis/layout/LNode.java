@@ -49,12 +49,6 @@ public class LNode extends LGraphObject implements Clustered
 	 * Geometry of this node
 	 */
 	protected RectangleD rect;
-
-	/*
-	 * Cluster ID of this node (this is here since it might be needed by layout
-	 * styles other than CiSE layout)
-	 */
-	protected String clusterID;
 	
 	/*
 	 * List of clusters, this node belongs to.
@@ -95,7 +89,7 @@ public class LNode extends LGraphObject implements Clustered
 		super(vNode);
 		this.initialize();
 		this.graphManager = gm;
-		rect = new RectangleD(loc.x, loc.y, size.height, size.width);
+		rect = new RectangleD(loc.x, loc.y, size.width, size.height);
 	}
 
 	/*
@@ -113,7 +107,6 @@ public class LNode extends LGraphObject implements Clustered
 	{
 		this.edges = new LinkedList();
 		this.clusters = new LinkedList<Cluster>();
-		this.clusterID = null;
 	}
 
 // -----------------------------------------------------------------------------
@@ -142,7 +135,7 @@ public class LNode extends LGraphObject implements Clustered
 	 */
 	public void setChild(LGraph child)
 	{
-		assert (child.getGraphManager() == this.graphManager) :
+		assert (child == null || child.getGraphManager() == this.graphManager) :
 			"Child has different graph mgr!";
 
 		this.child = child;
@@ -329,18 +322,18 @@ public class LNode extends LGraphObject implements Clustered
 	
 	/**
 	 * This method returns the cluster ID of this node.
+	 * Use with caution, because it returns the cluster id of the first cluster.
+	 * If a node has multiple clusters, remaining cluster information
+	 * may be accessed by getClusters() method.
 	 */
 	public String getClusterID()
 	{
-		return this.clusterID;
-	}
-
-	/**
-	 * This method sets the cluster ID of this node.
-	 */
-	public void setClusterID(String id)
-	{
-		this.clusterID = id;
+		if (this.clusters.isEmpty())
+		{
+			return null;
+		}
+		
+		return (new Integer(this.clusters.get(0).clusterID)).toString();
 	}
 	
 	/**
@@ -764,6 +757,16 @@ public class LNode extends LGraphObject implements Clustered
 			cluster.getNodes().remove(this);
 		}
 		this.clusters.clear();
+	}
+	
+	public Clustered getParent()
+	{
+		if(this.owner == null)
+		{
+			return null;
+		}
+		
+		return this.owner.getParent();
 	}
 	
 	/**

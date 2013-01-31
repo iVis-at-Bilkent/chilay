@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import org.ivis.layout.*;
 import org.ivis.layout.fd.FDLayoutNode;
 import org.ivis.util.IMath;
-//import org.gvt.model.NodeModel;
 
 /**
  * This class implements CoSE specific data and functionality for nodes.
@@ -74,36 +73,12 @@ public class CoSENode extends FDLayoutNode
 
 		if (Math.abs(this.displacementX) > layout.maxNodeDisplacement)
 		{
-//			//TODO: this dependency for debug purposes only!!!
-//			NodeModel vNode = (NodeModel)this.vGraphObject;
-//
-//			System.out.printf("\tabove max %s: %5.1f",
-//				new Object [] {vNode.getText(), this.displacementX});
-//			System.out.printf("\t%s@[%5.1f,%5.1f] s=(%5.1f,%5.1f) r=(%5.1f,%5.1f) g=(%5.1f,%5.1f)\n",
-//				new Object [] {vNode.getText(),
-//				this.getLeft(), this.getTop(),
-//				this.springForceX, this.springForceY,
-//				this.repulsionForceX, this.repulsionForceY,
-//				this.gravitationForceX, this.gravitationForceY});
-
 			this.displacementX = layout.maxNodeDisplacement *
 				IMath.sign(this.displacementX);
 		}
 
 		if (Math.abs(this.displacementY) > layout.maxNodeDisplacement)
 		{
-//			//TODO: this dependency for debug purposes only!!!
-//			NodeModel vNode = (NodeModel)this.vGraphObject;
-//
-//			System.out.printf("\tabove max %s: %5.1f",
-//				new Object [] {vNode.getText(), this.displacementY});
-//			System.out.printf("\t%s@[%5.1f,%5.1f] s=(%5.1f,%5.1f) r=(%5.1f,%5.1f) g=(%5.1f,%5.1f)\n",
-//				new Object [] {vNode.getText(),
-//				this.getLeft(), this.getTop(),
-//				this.springForceX, this.springForceY,
-//				this.repulsionForceX, this.repulsionForceY,
-//				this.gravitationForceX, this.gravitationForceY});
-
 			this.displacementY = layout.maxNodeDisplacement *
 				IMath.sign(this.displacementY);
 		}
@@ -138,11 +113,8 @@ public class CoSENode extends FDLayoutNode
 				this.displacementY);
 		}
 
-//		//TODO: this dependency for debug purposes only!!!
-//		NodeModel vNode = (NodeModel)this.vGraphObject;
-//
 //		System.out.printf("\t%s@[%5.1f,%5.1f] s=(%5.1f,%5.1f) r=(%5.1f,%5.1f) g=(%5.1f,%5.1f)\n",
-//			new Object [] {vNode.getText(),
+//			new Object [] {this.label,
 //			this.getLeft(), this.getTop(),
 //			this.springForceX, this.springForceY,
 //			this.repulsionForceX, this.repulsionForceY,
@@ -173,17 +145,17 @@ public class CoSENode extends FDLayoutNode
 		{
 			CoSENode lNode = (CoSENode) nodeIter.next();
 
-			lNode.moveBy(dX, dY);
-			lNode.displacementX += dX;
-			lNode.displacementY += dY;
-
-			if (lNode.getChild() != null)
+			if (lNode.getChild() == null)
+			{
+				lNode.moveBy(dX, dY);
+				lNode.displacementX += dX;
+				lNode.displacementY += dY;
+			}
+			else
 			{
 				lNode.propogateDisplacementToChildren(dX, dY);
 			}
 		}
-
-		this.updateBounds();
 	}
 		
 // -----------------------------------------------------------------------------

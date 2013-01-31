@@ -34,21 +34,23 @@ public abstract class Layout
 // -----------------------------------------------------------------------------
 // Section: Instance variables
 // -----------------------------------------------------------------------------
+//	public boolean allowRotations = true;
+//
 	/**
 	 * Layout Quality: 0:proof, 1:default, 2:draft
 	 */
-	protected int layoutQuality = LayoutConstants.DEFAULT_QUALITY;
+	public int layoutQuality = LayoutConstants.DEFAULT_QUALITY;
 
 	/**
 	 * Whether layout should create bendpoints as needed or not
 	 */
-	protected boolean createBendsAsNeeded =
+	public boolean createBendsAsNeeded =
 		LayoutConstants.DEFAULT_CREATE_BENDS_AS_NEEDED;
 
 	/**
 	 * Whether layout should be incremental or not
 	 */
-	protected boolean incremental = LayoutConstants.DEFAULT_INCREMENTAL;
+	public boolean incremental = LayoutConstants.DEFAULT_INCREMENTAL;
 
 	/**
 	 * Whether we animate from before to after layout node positions
@@ -59,12 +61,12 @@ public abstract class Layout
 	/**
 	 * Whether we animate the layout process or not
 	 */
-	protected boolean animationDuringLayout = LayoutConstants.DEFAULT_ANIMATION_DURING_LAYOUT;
+	public boolean animationDuringLayout = LayoutConstants.DEFAULT_ANIMATION_DURING_LAYOUT;
 
 	/**
 	 * Number iterations that should be done between two successive animations
 	 */
-	protected int animationPeriod = LayoutConstants.DEFAULT_ANIMATION_PERIOD;
+	public int animationPeriod = LayoutConstants.DEFAULT_ANIMATION_PERIOD;
 
 	/**
 	 * Whether or not leaf nodes (non-compound nodes) are of uniform sizes. When
@@ -72,7 +74,7 @@ public abstract class Layout
 	 * calculated without the expensive clipping point calculations, resulting
 	 * in major speed-up.
 	 */
-	protected boolean uniformLeafNodeSizes =
+	public boolean uniformLeafNodeSizes =
 		LayoutConstants.DEFAULT_UNIFORM_LEAF_NODE_SIZES;
 
 	/*
@@ -223,7 +225,8 @@ public abstract class Layout
 		boolean isLayoutSuccessfull;
 		
 		if ((this.graphManager.getRoot() == null) 
-			|| this.graphManager.getRoot().getNodes().size() == 0)
+			|| this.graphManager.getRoot().getNodes().size() == 0
+			|| this.graphManager.includesInvalidEdge())
 		{
 			isLayoutSuccessfull = false;
 		}
@@ -409,27 +412,25 @@ public abstract class Layout
 			LayoutOptionsPack.General layoutOptionsPack =
 				LayoutOptionsPack.getInstance().getGeneral();
 
-			this.layoutQuality = layoutOptionsPack.getLayoutQuality();
+			this.layoutQuality = layoutOptionsPack.layoutQuality;
 
 			this.animationDuringLayout =
-				layoutOptionsPack.isAnimationDuringLayout();
+				layoutOptionsPack.animationDuringLayout;
 			this.animationPeriod =
-				(int) transform(layoutOptionsPack.getAnimationPeriod(),
+				(int) transform(layoutOptionsPack.animationPeriod,
 					LayoutConstants.DEFAULT_ANIMATION_PERIOD);
-			this.animationOnLayout = layoutOptionsPack.isAnimationOnLayout();
+			this.animationOnLayout = layoutOptionsPack.animationOnLayout;
 
-			this.incremental = layoutOptionsPack.isIncremental();
-			this.createBendsAsNeeded = layoutOptionsPack.isCreateBendsAsNeeded();
+			this.incremental = layoutOptionsPack.incremental;
+			this.createBendsAsNeeded = layoutOptionsPack.createBendsAsNeeded;
 			this.uniformLeafNodeSizes =
-				layoutOptionsPack.isUniformLeafNodeSizes();
+				layoutOptionsPack.uniformLeafNodeSizes;
 		}
 
 		if (this.animationDuringLayout)
 		{
 			animationOnLayout = false;
 		}
-
-		LGraph.setGraphMargin(LayoutConstants.GRAPH_MARGIN_SIZE);
 	}
 
 	/**

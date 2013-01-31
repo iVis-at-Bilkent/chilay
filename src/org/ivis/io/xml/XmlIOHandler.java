@@ -20,6 +20,8 @@ import org.ivis.io.xml.model.EdgeComplexType.BendPointList;
 import org.ivis.io.xml.model.EdgeComplexType.BendPointList.BendPoint;
 import org.ivis.io.xml.model.NodeComplexType.Bounds;
 import org.ivis.layout.*;
+import org.ivis.layout.cise.CiSELayout;
+import org.ivis.layout.cose.CoSELayout;
 import org.ivis.util.PointD;
 import org.ivis.util.RectangleD;
 
@@ -88,7 +90,7 @@ public class XmlIOHandler
 		Unmarshaller unmarshaller = this.jaxbContext.createUnmarshaller();
 
 		this.loadedModel = (View) unmarshaller.unmarshal(inputStream);
-
+		
 		for (NodeComplexType nodeType : this.loadedModel.getNode())
 		{
 			parseNode(nodeType, null);
@@ -155,7 +157,7 @@ public class XmlIOHandler
 		NodeComplexType parentXmlNode)
 		throws OperationNotSupportedException
 	{
-		LNode lNode = this.layout.newNode(xmlNode);
+		LNode lNode = this.layout.newNode(null);
 		this.xmlObjectToLayoutObject.put(xmlNode, lNode);
 		this.setIdIndex(xmlNode);
 
@@ -179,10 +181,13 @@ public class XmlIOHandler
 		lNode.setWidth(bounds.getWidth());
 		lNode.setHeight(bounds.getHeight());
 
-		// Copy cluster ID
-		if (!xmlNode.getClusterID().equals("0"))
+		// Copy cluster IDs
+		if (xmlNode.getClusterIDs() != null)
 		{
-			lNode.setClusterID(xmlNode.getClusterID());
+			for (String id : xmlNode.getClusterIDs().getClusterID())
+			{
+				lNode.addCluster(Integer.parseInt(id));
+			}
 		}
 
 		// If it has children, go and recursively parse them.
@@ -190,7 +195,7 @@ public class XmlIOHandler
 		{
 			LGraph childGraph = this.gm.add(this.layout.newGraph(null), lNode);
 
-			for(NodeComplexType childNode : xmlNode.getChildren().getNode())
+			for (NodeComplexType childNode : xmlNode.getChildren().getNode())
 			{
 				parseNode(childNode, xmlNode);
 			}
@@ -204,7 +209,7 @@ public class XmlIOHandler
 	private void parseEdge(EdgeComplexType xmlEdge) 
 		throws OperationNotSupportedException
 	{
-		LEdge lEdge = this.layout.newEdge(xmlEdge); 
+		LEdge lEdge = this.layout.newEdge(null); 
 		
 		// Find source and target nodes
 		String sourceXmlNodeId = xmlEdge.getSourceNode().getId();
@@ -346,18 +351,16 @@ public class XmlIOHandler
 	
 	public static void main(String[] args) throws Exception
 	{
-		/*
-		Layout layout = new CoSELayout();
+		Layout layout = new CiSELayout();
 		XmlIOHandler handler = new XmlIOHandler(layout);
-		
-		handler.fromXML(new FileInputStream("src/org/ivis/io/xml/layout.xml"));
-		
-		layout.runLayout();
-		
-		handler.toXML(new FileOutputStream("src/org/ivis/io/xml/layout_done.xml"));
-		*/
 
-		XmlIOHandler.generateClasses();
+		handler.fromXML(new FileInputStream("src/org/ivis/io/xml/layout.xml"));
+
+		layout.runLayout();
+
+		handler.toXML(new FileOutputStream("src/org/ivis/io/xml/layout_done.xml"));
+
+//		XmlIOHandler.generateClasses();
 	}
 	
 	/**
@@ -369,7 +372,7 @@ public class XmlIOHandler
 	{
 		String s = null;
 	
-		String execName = "C:\\Program Files\\Java\\jdk1.6.0_07\\bin\\xjc.exe";
+		String execName = "C:\\Program Files\\Java\\jdk1.6.0_24\\bin\\xjc.exe";
 	
 		System.out.println(execName);
 		Process p = Runtime.getRuntime().exec(execName +

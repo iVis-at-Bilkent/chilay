@@ -72,7 +72,7 @@ public class AVSDFLayout extends Layout
 			LayoutOptionsPack.AVSDF layoutOptionsPack =
 				LayoutOptionsPack.getInstance().getAVSDF();
 
-			this.nodeSeparation = layoutOptionsPack.getNodeSeparation();
+			this.nodeSeparation = layoutOptionsPack.nodeSeparation;
 		}
 	}
 

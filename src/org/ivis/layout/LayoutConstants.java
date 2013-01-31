@@ -36,7 +36,7 @@ public class LayoutConstants
 	 * Margins of a graph to be applied on bouding rectangle of its contents. We
 	 * assume margins on all four sides to be uniform.
 	 */
-	public static int GRAPH_MARGIN_SIZE = 10;
+	public static int DEFAULT_GRAPH_MARGIN = 10;
 
 	/*
 	 * The height of the label of a compound. We assume the label of a compound

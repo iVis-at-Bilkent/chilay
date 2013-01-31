@@ -59,6 +59,11 @@ public class LGraph extends LGraphObject
 	protected int estimatedSize = Integer.MIN_VALUE;
 
 	/*
+	 * Margins of this graph to be applied on bouding rectangle of its contents
+	 */
+	private int margin = LayoutConstants.DEFAULT_GRAPH_MARGIN;
+
+	/*
 	 * Whether the graph is connected or not, taking indirect edges (e.g. an
 	 * edge connecting a child node of a node of this graph to another node of
 	 * this graph) into account.
@@ -170,11 +175,38 @@ public class LGraph extends LGraphObject
 	}
 
 	/**
+	 * This method returns the bigger of the two dimensions of this graph.
+	 */
+	public int getBiggerDimension()
+	{
+		assert (this.right - this.left >= 0) && (this.bottom - this.top >= 0);
+		return Math.max(this.right - this.left, this.bottom - this.top);
+	}
+
+	/**
 	 * This method returns whether this graph is connected or not.
 	 */
 	public boolean isConnected()
 	{
 		return this.isConnected;
+	}
+
+	/**
+	 * This method returns the margins of this graph to be applied on the
+	 * bounding rectangle of its contents.
+	 */
+	public int getMargin()
+	{
+		return this.margin;
+	}
+
+	/**
+	 * This method sets the margins of this graphs to be applied on the
+	 * bounding rectangle of its contents.
+	 */
+	public void setMargin(int margin)
+	{
+		this.margin = margin;
 	}
 
 // -----------------------------------------------------------------------------
@@ -343,8 +375,8 @@ public class LGraph extends LGraphObject
 			return null;
 		}
 
-		this.left = left - graphMargin;
-		this.top =  top - graphMargin;
+		this.left = left - this.margin;
+		this.top =  top - this.margin;
 
 		// Apply the margins and return the result
 		return new Point(this.left, this.top);
@@ -417,11 +449,11 @@ public class LGraph extends LGraphObject
 			this.bottom = (int)(this.parent.getBottom());
 		}
 
-		this.left = boundingRect.x - graphMargin;
-		this.right = boundingRect.x + boundingRect.width + graphMargin;
-		this.top =  boundingRect.y - graphMargin;
+		this.left = boundingRect.x - this.margin;
+		this.right = boundingRect.x + boundingRect.width + this.margin;
+		this.top =  boundingRect.y - this.margin;
 		// Label text dimensions are to be added for the bottom of the compound!
-		this.bottom = boundingRect.y + boundingRect.height + graphMargin;
+		this.bottom = boundingRect.y + boundingRect.height + this.margin;
 	}
 
 	/**
@@ -500,6 +532,16 @@ public class LGraph extends LGraphObject
 	{
 		assert this.estimatedSize != Integer.MIN_VALUE;
 		return this.estimatedSize;
+	}
+
+	/**
+	 * This method sets the estimated size of this graph. We use this method to
+	 * directly set this size in certain exceptional cases rather than
+	 * calculating it from scratch (see calcEstimatedSize method).
+	 */
+	public void setEstimatedSize(int size)
+	{
+		this.estimatedSize = size;
 	}
 
 	/*
@@ -639,33 +681,4 @@ public class LGraph extends LGraphObject
 		}
 		System.out.println();
 	}
-
-// -----------------------------------------------------------------------------
-// Section: Class methods
-// -----------------------------------------------------------------------------
-	/**
-	 * This method returns the margins of l-level graphs to be applied on the
-	 * bounding rectangle of its contents.
-	 */
-	public static int getGraphMargin()
-	{
-		return LGraph.graphMargin;
-	}
-
-	/**
-	 * This method sets the margins of l-level graphs to be applied on the
-	 * bounding rectangle of its contents.
-	 */
-	public static void setGraphMargin(int margin)
-	{
-		LGraph.graphMargin = margin;
-	}
-
-// -----------------------------------------------------------------------------
-// Section: Class variables
-// -----------------------------------------------------------------------------
-	/*
-	 * Margins of this graph to be applied on bouding rectangle of its contents
-	 */
-	protected static int graphMargin = LayoutConstants.GRAPH_MARGIN_SIZE;
 }

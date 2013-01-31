@@ -1,10 +1,13 @@
 package org.ivis.layout.cise;
 
 import java.util.*;
+import java.io.CharArrayReader;
+import java.io.IOException;
 
 import org.ivis.layout.*;
 import org.ivis.util.IGeometry;
 import org.ivis.util.PointD;
+import org.ivis.util.alignment.*;
 
 /**
  * This class implements data and functionality required for CiSE layout per
@@ -22,11 +25,18 @@ public class CiSECircle extends LGraph
 // Section: Instance variables
 // -----------------------------------------------------------------------------
 	/**
-	 * Holds the intracluster edges of this circle, initially it is null. It
+	 * Holds the intra-cluster edges of this circle, initially it is null. It
 	 * will be calculated and stored when getIntraClusterEdges method is first
 	 * called.
 	 */
 	private List<CiSEEdge> intraClusterEdges = null;
+
+	/**
+	 * Holds the inter-cluster edges of this circle, initially it is null. It
+	 * will be calculated and stored when getInterClusterEdges method is first
+	 * called.
+	 */
+	private List<CiSEEdge> interClusterEdges = null;
 
 	/**
 	 * Holds the nodes which don't have neighbors outside this circle
@@ -54,6 +64,26 @@ public class CiSECircle extends LGraph
 	 */
 	private double radius;
 
+	/**
+	 * Holds the pairwise ordering of on-circle nodes computed in earlier stages
+	 * of layout. Value at i,j means the following assuming u and v are
+	 * on-circle nodes with orderIndex i and j, respectively. Value at i,j is
+	 * true (false) if u and v are closer when we go from u to v in clockwise
+	 * (counter-clockwise) direction. Here we base distance on the angles of the
+	 * two nodes as opposed to their order indices (this might make a difference
+	 * due to non-uniform node sizes).  
+	 */
+	private boolean[][] orderMatrix = null;
+
+	/**
+	 * Whether or not this circle may be reserved for the purpose of improving
+	 * inter-cluster edge crossing number as we do not want to redundantly
+	 * reverse clusters and end up in oscillating situtations. Clusters with
+	 * special circumstances (e.g. less than two inter-cluster edge) are set as
+	 * may not be reversed as well.
+	 */
+	private boolean mayBeReversed;
+
 // -----------------------------------------------------------------------------
 // Section: Constructors and initializations
 // -----------------------------------------------------------------------------
@@ -68,6 +98,7 @@ public class CiSECircle extends LGraph
 		this.outNodes = new HashSet<CiSENode>();
 		this.onCircleNodes = new ArrayList<CiSENode>();
 		this.inCircleNodes = new ArrayList<CiSENode>();
+		this.mayBeReversed = true;
 	}
 
 // -----------------------------------------------------------------------------
@@ -78,7 +109,7 @@ public class CiSECircle extends LGraph
 	 */
 	public CiSENode getChildAt(int index)
 	{
-		return (CiSENode)this.getOnCircleNodes().get(index);
+		return this.getOnCircleNodes().get(index);
 	}
 
 	/**
@@ -124,11 +155,19 @@ public class CiSECircle extends LGraph
 				onCircleNode = this.getChildAt(i);
 				onCircleNodeExt = onCircleNode.getOnCircleNodeExt();
 
-				onCircleNodeExt.setAngle(onCircleNodeExt.getAngle() + teta);
+//				if (layout.allowRotations)
+//				{
+					onCircleNodeExt.setAngle(onCircleNodeExt.getAngle() + teta);
+//				}
+
 				onCircleNodeExt.updatePosition();
 			}
 
-			layout.totalDisplacement += parentNode.rotationAmount;
+//			if (layout.allowRotations)
+//			{
+				layout.totalDisplacement += parentNode.rotationAmount;
+//			}
+			
 			parentNode.rotationAmount = 0.0;
 		}
 	}
@@ -174,11 +213,140 @@ public class CiSECircle extends LGraph
 	}
 
 	/**
-	 * This metho sets the radius of this circle.
+	 * This method sets the radius of this circle.
 	 */
 	public void setRadius(double radius)
 	{
 		this.radius = radius;
+	}
+
+	/**
+	 * This method returns the pairwise order of the input nodes as computed and
+	 * held in orderMatrix.
+	 */
+	public boolean getOrder(CiSENode nodeA, CiSENode nodeB)
+	{
+		assert this.orderMatrix != null;
+		assert nodeA != null && nodeB != null &&
+			nodeA.getOnCircleNodeExt() != null && nodeA.getOnCircleNodeExt() != null;
+//		assert nodeA != nodeB;
+
+		return this.orderMatrix[nodeA.getOnCircleNodeExt().getIndex()][nodeB.getOnCircleNodeExt().getIndex()];
+	}
+
+	/*
+	 * This method computes the order matrix of this circle. This should be
+	 * called only once at early stages of layout and is used to hold the order
+	 * of on-circle nodes as specified.
+	 */
+	public void computeOrderMatrix()
+	{
+		assert this.orderMatrix == null;
+
+		int N = this.onCircleNodes.size();
+		this.orderMatrix = new boolean[N][N];
+
+		Iterator nodeIterA = this.onCircleNodes.iterator();
+		Iterator nodeIterB;
+		CiSENode nodeA;
+		CiSENode nodeB;
+		double angleDiff;
+
+		for (int i = 0; i < N; i++)
+		{
+			nodeA = (CiSENode) nodeIterA.next();
+			nodeIterB = this.onCircleNodes.iterator();
+
+			for (int j = 0; j < N; j++)
+			{
+				nodeB = (CiSENode) nodeIterB.next();
+
+				if (j > i)
+				{
+					angleDiff = nodeB.getOnCircleNodeExt().getAngle() -
+						nodeA.getOnCircleNodeExt().getAngle();
+
+					if (angleDiff < 0)
+					{
+						angleDiff += IGeometry.TWO_PI;
+					}
+
+					if (angleDiff <= Math.PI)
+					{
+						this.orderMatrix[i][j] = true;
+						this.orderMatrix[j][i] = false;
+					}
+					else
+					{
+						this.orderMatrix[i][j] = false;
+						this.orderMatrix[j][i] = true;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * This method returns whether or not this circle has been reversed.
+	 */
+	public boolean mayBeReversed()
+	{
+		return this.mayBeReversed;
+	}
+
+	/**
+	 * This method sets this circle as must not be reversed.
+	 */
+	public void setMayNotBeReversed()
+	{
+		assert this.mayBeReversed;
+		this.mayBeReversed = false;
+	}
+
+	/**
+	 * This method gets the end node of the input inter-cluster edge in this
+	 * cluster.
+	 */
+	public CiSENode getThisEnd(CiSEEdge edge)
+	{
+		assert !edge.isIntraCluster;
+
+		CiSENode sourceNode = (CiSENode)edge.getSource();
+		CiSENode targetNode = (CiSENode)edge.getTarget();
+
+		if (sourceNode.getOwner() == this)
+		{
+			return sourceNode;
+		}
+		else
+		{
+			assert targetNode.getOwner() == this;
+
+			return targetNode;
+		}
+	}
+
+	/**
+	 * This method gets the end node of the input inter-cluster edge not in this
+	 * cluster.
+	 */
+	public CiSENode getOtherEnd(CiSEEdge edge)
+	{
+		assert !edge.isIntraCluster;
+
+		CiSENode sourceNode = (CiSENode)edge.getSource();
+		CiSENode targetNode = (CiSENode)edge.getTarget();
+
+		if (sourceNode.getOwner() == this)
+		{
+			return targetNode;
+		}
+		else
+		{
+			assert targetNode.getOwner() == this;
+
+			return sourceNode;
+		}
 	}
 
 	/**
@@ -211,7 +379,7 @@ public class CiSECircle extends LGraph
 			}
 		}
 
-		double dimension = 2.0 * this.radius + maxOnCircleNodeDimension;
+		double dimension = 2.0 * (this.radius + this.getMargin()) + maxOnCircleNodeDimension;
 		LNode parentNode = this.getParent();
 		parentNode.setHeight(dimension);
 		parentNode.setWidth(dimension);
@@ -409,119 +577,208 @@ public class CiSECircle extends LGraph
 		return this.intraClusterEdges;
 	}
 
-	/*
-	 * This method calculates the total number of inter-cluster edge crossings
-	 * of this cluster (i.e. sum of the inter-graph edge crossing number of the
-	 * out nodes of this cluster) when the ordering as is and as it is reversed.
-	 * We reverse the order of the nodes if we get a lower crossing number in
-	 * the reverse ordering. It returns true if reverse order was adapted.
+	/**
+	 * This method returns the inter-cluster edges whose one end is in this
+	 * cluster.
 	 */
-	public boolean checkAndReverseIfReverseIsBetter()
+	public List<CiSEEdge> getInterClusterEdges()
 	{
-		// First find all the inter-graph edges coming out of this cluster
-
-		HashSet<CiSEEdge> interClusterEdges = new HashSet<CiSEEdge>();
-		Iterator<CiSENode> nodeIterator = this.outNodes.iterator();
-		CiSENode node;
-		CiSEOnCircleNodeExt nodeExt;
-
-		while (nodeIterator.hasNext())
+		if (this.interClusterEdges == null)
 		{
-			node = nodeIterator.next();
-			nodeExt = node.getOnCircleNodeExt();
-			interClusterEdges.addAll(nodeExt.getInterClusterEdges());
+			this.interClusterEdges = new ArrayList<CiSEEdge>();
+			Iterator<CiSENode> nodeIterator = this.outNodes.iterator();
+			CiSENode node;
+
+			while (nodeIterator.hasNext())
+			{
+				node = nodeIterator.next();
+				this.interClusterEdges.addAll(node.getOnCircleNodeExt().getInterClusterEdges());
+			}
 		}
 
-		// Update edge lengths of these inter-graph edges
-		this.updateLengths(interClusterEdges);
-
-		// Calculate crossing number before reversing
-		int crossingNumberBefore = this.calcCrossingNumber(interClusterEdges);
-
-		// Now reverse the order
-		this.reverseNodes();
-
-		// Re-update edge lengths of inter-graph edges
-		this.updateLengths(interClusterEdges);
-
-		// Re-calculate crossing number after reversing
-		int crossingNumberAfter = this.calcCrossingNumber(interClusterEdges);
-
-		// Check if reversing helped; otherwise revert back to original ordering
-
-		if (crossingNumberBefore < crossingNumberAfter)
-		{
-			this.reverseNodes();
-			return false;
-		}
-		else
-		{
-			System.out.println(this.getNodes().size() + " node cluster reversed!");
-			return true;
-		}
+		return this.interClusterEdges;
 	}
 
 	/*
-	 * This method calculates crossing number of the edges in the input list by
-	 * checking whether or not they intersect pairwise.
+	 * This method checks to see for each cluster (in no particular order)
+	 * whether or not reversing the order of the cluster would reduce
+	 * inter-cluster edge crossings. The decision is based on global sequence
+	 * alignment of the order of the nodes in the cluster vs. the order of their
+	 * neighbors in other clusters. A cluster that was reversed earlier is not
+	 * reversed again to avoid oscillations. It returns true if reverse order
+	 * is adapted.
 	 */
-	private int calcCrossingNumber(Set edgeSet)
+	public boolean checkAndReverseIfReverseIsBetter()
 	{
-		// First convert the set to a list since sets do not guarentee order
-		List edgeList = new ArrayList(edgeSet);
+		assert this.mayBeReversed;
 
-		int count = 0;
-		Iterator<CiSEEdge> iter1 = edgeList.iterator();
-		CiSEEdge edge1, edge2;
-		PointD point1, point2, point3, point4;
-		int i = 0;
-		int j;
+		// First form the list of inter cluster edges of this cluster
 
-		while (iter1.hasNext())
+		ArrayList<CiSEEdge> interClusterEdges = (ArrayList)this.getInterClusterEdges();
+		CiSEInterClusterEdgeInfo[] interClusterEdgeInfos = new CiSEInterClusterEdgeInfo[interClusterEdges.size()];
+
+		// Now form the info array that contains not only the inter-cluster
+		// edges but also other information such as the angle they make w.r.t.
+		// the cluster center and neighboring node center.
+		// In the meantime, calculate how many inter-cluster edge each on-circle
+		// node is incident with. This information will be used to duplicate
+		// char codes of those nodes with 2 or more inter-graph edge.
+
+		double angle;
+		PointD clusterCenter = this.getParent().getCenter();
+		CiSEEdge interClusterEdge;
+		CiSENode endInThisCluster;
+		CiSENode endInOtherCluster;
+		PointD centerOfEndInOtherCluster;
+		int nodeCount = this.onCircleNodes.size();
+		int[] interClusterEdgeDegree = new int[nodeCount];
+		int noOfOnCircleNodesToBeRepeated = 0;
+
+		for (int i = 0; i < interClusterEdges.size(); i++)
 		{
-			edge1 = iter1.next();
-			i++;
+			interClusterEdge = interClusterEdges.get(i);
+			endInOtherCluster = this.getOtherEnd(interClusterEdge);
+			centerOfEndInOtherCluster = endInOtherCluster.getCenter();
+			angle = IGeometry.angleOfVector(clusterCenter.x, clusterCenter.y,
+				centerOfEndInOtherCluster.x, centerOfEndInOtherCluster.y);
+			interClusterEdgeInfos[i] =
+				new CiSEInterClusterEdgeInfo(interClusterEdge, angle);
 
-			Iterator<CiSEEdge> iter2 = edgeList.iterator();
-			j = 0;
+			endInThisCluster = this.getThisEnd(interClusterEdge);
+			interClusterEdgeDegree[endInThisCluster.getOnCircleNodeExt().getIndex()]++;
 
-			while (iter2.hasNext())
+			if (interClusterEdgeDegree[endInThisCluster.getOnCircleNodeExt().getIndex()] > 1)
 			{
-				edge2 = iter2.next();
-				j++;
+				noOfOnCircleNodesToBeRepeated++;
+			}
+		}
 
-				if (i < j)
-				// Make sure we do not redundantly check intersections
+		// On circle nodes will be ordered by their indices in this array
+		Object[] onCircleNodes = this.onCircleNodes.toArray();
+
+		// Form arrays for current and reversed order of nodes of this cluster
+		// Take any repetitions into account (if node with char code 'b' is
+		// incident with 3 inter-cluster edges, then repeat 'b' 2 times)
+
+		int nodeCountWithRepetitions = nodeCount + noOfOnCircleNodesToBeRepeated;
+		char[] clusterNodes = new char[2 * nodeCountWithRepetitions];
+		char[] reversedClusterNodes = new char[2 * nodeCountWithRepetitions];
+		CiSENode node;
+		int index = -1;
+
+		for (int i = 0; i < nodeCount; i++)
+		{
+			node = (CiSENode) onCircleNodes[i];
+
+			// on circle nodes with no inter-cluster edges are also considered
+			if (interClusterEdgeDegree[i] == 0)
+			{
+				interClusterEdgeDegree[i] = 1;
+			}
+
+			for (int j = 0; j < interClusterEdgeDegree[i]; j++)
+			{
+				index++;
+				clusterNodes[index] =
+					clusterNodes[nodeCountWithRepetitions + index] =
+					reversedClusterNodes[nodeCountWithRepetitions - 1 - index] =
+					reversedClusterNodes[2 * nodeCountWithRepetitions - 1 - index] =
+						node.getOnCircleNodeExt().getCharCode();
+			}
+		}
+
+
+		// Now sort the inter-cluster edges w.r.t. their angles
+
+		CiSEInterClusterEdgeSort edgeSorter =
+			new CiSEInterClusterEdgeSort(this, interClusterEdgeInfos);
+		edgeSorter.quicksort();
+
+		// Form an array for order of neighboring nodes of this cluster
+		
+		char[] neighborNodes = new char[interClusterEdgeInfos.length];
+
+		for (int i = 0; i < interClusterEdgeInfos.length; i++)
+		{
+			interClusterEdge = interClusterEdgeInfos[i].getEdge();
+			endInThisCluster = this.getThisEnd(interClusterEdge);
+			neighborNodes[i] = endInThisCluster.getOnCircleNodeExt().getCharCode();
+		}
+
+		// Now calculate a score for the alignment of the current order of the
+		// nodes of this cluster w.r.t. to their neighbors order
+
+		int alignmentScoreCurrent =
+			this.computeAlignmentScore(new CharArrayReader(clusterNodes),
+				new CharArrayReader(neighborNodes));
+
+		// Then calculate a score for the alignment of the reversed order of the
+		// nodes of this cluster w.r.t. to their neighbors order
+
+		if (alignmentScoreCurrent != -1)
+		{
+			int alignmentScoreReversed =
+				this.computeAlignmentScore(new CharArrayReader(reversedClusterNodes),
+					new CharArrayReader(neighborNodes));
+
+			// Check if reversed order is *substantially* better aligned with
+			// the order of the neighbors of this cluster around the cluster; if
+			// so, reverse the order
+
+			if (alignmentScoreReversed != -1)
+			{
+				if (alignmentScoreReversed > alignmentScoreCurrent)
 				{
-					point1 = edge1.getSource().getCenter();
-					point2 = edge1.getTarget().getCenter();
-					point3 = edge2.getSource().getCenter();
-					point4 = edge2.getTarget().getCenter();
-
-					if (IGeometry.doIntersect(point1, point2, point3, point4))
-					{
-						count++;
-					}
+					this.reverseNodes();
+					this.setMayNotBeReversed();
+//					System.out.println("! Reversal: " + this.getNodes().size() + " node cluster");
+					return true;
 				}
 			}
 		}
 
-		return count;
+//		System.out.println("=====================");
+		return false;
 	}
 
-	/*
-	 * This method updates the lengths of edges in the input edge list.
+	/**
+	 * This method computes an alignment for the two input char arrays and
+	 * returns the alignment amount. If alignment is unsuccessful for some
+	 * reason, it returns -1.
 	 */
-	private void updateLengths(Set edges)
+	public static int computeAlignmentScore(CharArrayReader charArrayReader1,
+		CharArrayReader charArrayReader2)
 	{
-		Iterator<CiSEEdge> edgeIterator = edges.iterator();
-		CiSEEdge edge;
+		int alignmentScore;
+		PairwiseAlignmentAlgorithm aligner =
+			new NeedlemanWunsch();
+		aligner.setScoringScheme(new BasicScoringScheme(20, -1, -2));
 
-		while (edgeIterator.hasNext())
+		try
 		{
-			edge = edgeIterator.next();
-			edge.updateLength();
+			aligner.loadSequences(charArrayReader1, charArrayReader2);
 		}
+		catch (IOException e)
+		{
+			System.err.println("Caught IOException: " + e.getMessage());
+		}
+		catch (InvalidSequenceException e)
+		{
+			System.err.println("Caught InvalidSequenceException: " + e.getMessage());
+		}
+
+		try
+		{
+			aligner.getPairwiseAlignment();
+			alignmentScore = aligner.getScore();
+//			System.out.println(aligner.getPairwiseAlignment().toString());
+		}
+		catch (IncompatibleScoringSchemeException e)
+		{
+			alignmentScore = -1;
+		}
+
+		return alignmentScore;
 	}
 
 	/*
@@ -545,6 +802,121 @@ public class CiSECircle extends LGraph
 
 		this.reCalculateNodeAnglesAndPositions();
 	}
+
+//	/*
+//	 * This method calculates the total number of inter-cluster edge crossings
+//	 * of this cluster (i.e. sum of the inter-graph edge crossing number of the
+//	 * out nodes of this cluster) when the ordering as is and as it is reversed.
+//	 * We reverse the order of the nodes if we get a lower crossing number in
+//	 * the reverse ordering. It returns true if reverse order was adapted.
+//	 */
+//	public boolean checkAndReverseIfReverseIsBetter()
+//	{
+//		// First find all the inter-graph edges coming out of this cluster
+//
+//		HashSet<CiSEEdge> interClusterEdges = new HashSet<CiSEEdge>();
+//		Iterator<CiSENode> nodeIterator = this.outNodes.iterator();
+//		CiSENode node;
+//		CiSEOnCircleNodeExt nodeExt;
+//
+//		while (nodeIterator.hasNext())
+//		{
+//			node = nodeIterator.next();
+//			nodeExt = node.getOnCircleNodeExt();
+//			interClusterEdges.addAll(nodeExt.getInterClusterEdges());
+//		}
+//
+//		// Update edge lengths of these inter-graph edges
+//		this.updateLengths(interClusterEdges);
+//
+//		// Calculate crossing number before reversing
+//		int crossingNumberBefore = this.calcCrossingNumber(interClusterEdges);
+//
+//		// Now reverse the order
+//		this.reverseNodes();
+//
+//		// Re-update edge lengths of inter-graph edges
+//		this.updateLengths(interClusterEdges);
+//
+//		// Re-calculate crossing number after reversing
+//		int crossingNumberAfter = this.calcCrossingNumber(interClusterEdges);
+//
+//		// Check if reversing helped; otherwise revert back to original ordering
+//
+//		if (crossingNumberBefore < crossingNumberAfter)
+//		{
+//			this.reverseNodes();
+//			return false;
+//		}
+//		else
+//		{
+//			System.out.println(this.getNodes().size() + " node cluster reversed!");
+//			return true;
+//		}
+//	}
+//
+//	/*
+//	 * This method calculates crossing number of the edges in the input list by
+//	 * checking whether or not they intersect pairwise.
+//	 */
+//	private int calcCrossingNumber(Set edgeSet)
+//	{
+//		// First convert the set to a list since sets do not guarentee order
+//		List edgeList = new ArrayList(edgeSet);
+//
+//		int count = 0;
+//		Iterator<CiSEEdge> iter1 = edgeList.iterator();
+//		CiSEEdge edge1, edge2;
+//		PointD point1, point2, point3, point4;
+//		int i = 0;
+//		int j;
+//
+//		while (iter1.hasNext())
+//		{
+//			edge1 = iter1.next();
+//			i++;
+//
+//			Iterator<CiSEEdge> iter2 = edgeList.iterator();
+//			j = 0;
+//
+//			while (iter2.hasNext())
+//			{
+//				edge2 = iter2.next();
+//				j++;
+//
+//				if (i < j)
+//				// Make sure we do not redundantly check intersections
+//				{
+//					point1 = edge1.getSource().getCenter();
+//					point2 = edge1.getTarget().getCenter();
+//					point3 = edge2.getSource().getCenter();
+//					point4 = edge2.getTarget().getCenter();
+//
+//					if (IGeometry.doIntersect(point1, point2, point3, point4))
+//					{
+//						count++;
+//					}
+//				}
+//			}
+//		}
+//
+//		return count;
+//	}
+//
+//	/*
+//	 * This method updates the lengths of edges in the input edge list.
+//	 */
+//	private void updateLengths(Set edges)
+//	{
+//		Iterator<CiSEEdge> edgeIterator = edges.iterator();
+//		CiSEEdge edge;
+//
+//		while (edgeIterator.hasNext())
+//		{
+//			edge = edgeIterator.next();
+//			edge.updateLength();
+//		}
+//	}
 
 	/**
 	 * This method removes given on-circle node from the circle and calls 
@@ -608,9 +980,6 @@ public class CiSECircle extends LGraph
 		double perimeter = totalDiagonal + 
 			this.getOnCircleNodes().size() * nodeSeparation;
 		this.radius = perimeter / (2 * Math.PI);
-		this.getParent().setWidth(2 * this.radius);
-		this.getParent().setHeight(2 * this.radius);
-		
 		this.calculateParentNodeDimension();
 	}
 	
@@ -662,10 +1031,32 @@ public class CiSECircle extends LGraph
 	 */
 	public static void main(String[] args)
 	{
-		System.out.println(IGeometry.radian2degree(IGeometry.angleOfVector(0.0, 0.0, 5.0, 10.0)));
-		System.out.println(IGeometry.radian2degree(IGeometry.angleOfVector(0.0, 0.0, 5.0, -10.0)));
-		System.out.println(IGeometry.radian2degree(IGeometry.angleOfVector(0.0, 0.0, -5.0, 10.0)));
-		System.out.println(IGeometry.radian2degree(IGeometry.angleOfVector(0.0, 0.0, -5.0, -10.0)));
+//		char[] charArrayA = {'a','b','c','d','e','f','g','h','i'};
+//		char[] charArrayA = {'i','h','g','f','e','d','c','b','a'};
+//		char[] charArrayA = {'Y','A','B','C','D','E','G'};
+		char[] charArrayA = {'a','b','c','d','e','a','b','c','d','e'};
+//		char[] charArrayA = {'b','c','d','e','f','g','h','i'};
+//		char[] oldArrayA = charArrayA;
+//		char[] charArrayB = {'b','i'};
+//		char[] charArrayB = {'N','B','C','D','G','A','N','B','C','D','G','A'};
+//		char[] charArrayB = {'d','b','c','d','b','c'};
+		char[] charArrayB = {'c','b','d','c','b','d'};
+
+//		int lengthA = charArrayA.length;
+//		charArrayA = new char[2 * lengthA];
+//
+//		for (int i = 0; i < lengthA; i++)
+//		{
+//			charArrayA[i] = charArrayA[lengthA + i] = oldArrayA[i];
+//		}
+
+		computeAlignmentScore(new CharArrayReader(charArrayA),
+			new CharArrayReader(charArrayB));
+
+//		System.out.println(IGeometry.radian2degree(IGeometry.angleOfVector(0.0, 0.0, 5.0, 10.0)));
+//		System.out.println(IGeometry.radian2degree(IGeometry.angleOfVector(0.0, 0.0, 5.0, -10.0)));
+//		System.out.println(IGeometry.radian2degree(IGeometry.angleOfVector(0.0, 0.0, -5.0, 10.0)));
+//		System.out.println(IGeometry.radian2degree(IGeometry.angleOfVector(0.0, 0.0, -5.0, -10.0)));
 
 		/*TODO: needs to be re-written with the new interface! 
 		Layout layout = new CiSELayout();

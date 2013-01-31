@@ -12,18 +12,12 @@ import org.ivis.layout.*;
 import org.ivis.layout.fd.*;
 import org.ivis.util.*;
 
-/**TODO:
- * use of randomness to beat local minima
- * grid-variant
- * parallelization
- */
-
 /**
  * This class implements the overall layout process for the CoSE algorithm.
  * Details of this algorithm can be found in the following article:
  * 		U. Dogrusoz, E. Giral, A. Cetintas, A. Civril, and E. Demir,
  * 		"A Layout Algorithm For Undirected Compound Graphs",
- * 		Information Sciences, 179, pp. 980–994, 2009.
+ * 		Information Sciences, 179, pp. 980-994, 2009.
  *
  * @author Ugur Dogrusoz
  * @author Erhan Giral
@@ -38,18 +32,9 @@ public class CoSELayout extends FDLayout
 // Section: Instance variables
 // -----------------------------------------------------------------------------
 	/**
-	 * Whether or not smart calculation of ideal edge lengths should be
-	 * performed. When true, ideal edge length values take sizes of end nodes
-	 * into account as well as depths of end nodes (how many levels of compounds
-	 * does each edge need to go through from source to target, if any).
-	 */
-	protected boolean useSmartIdealEdgeLengthCalculation =
-		CoSEConstants.DEFAULT_USE_SMART_IDEAL_EDGE_LENGTH_CALCULATION;
-
-	/**
 	 * Whether or not multi-level scaling should be used to speed up layout
 	 */
-	protected boolean useMultiLevelScaling =
+	public boolean useMultiLevelScaling =
 		CoSEConstants.DEFAULT_USE_MULTI_LEVEL_SCALING;
 	
 	/**
@@ -125,36 +110,36 @@ public class CoSELayout extends FDLayout
 			LayoutOptionsPack.CoSE layoutOptionsPack =
 				LayoutOptionsPack.getInstance().getCoSE();
 
-			if (layoutOptionsPack.getIdealEdgeLength() < 10)
+			if (layoutOptionsPack.idealEdgeLength < 10)
 			{
 				this.idealEdgeLength = 10;
 			}
 			else
 			{
-				this.idealEdgeLength = layoutOptionsPack.getIdealEdgeLength();
+				this.idealEdgeLength = layoutOptionsPack.idealEdgeLength;
 			}
 
 			this.useSmartIdealEdgeLengthCalculation =
-				layoutOptionsPack.isSmartEdgeLengthCalc();
+				layoutOptionsPack.smartEdgeLengthCalc;
 			this.useMultiLevelScaling =
-				layoutOptionsPack.isMultiLevelScaling();
+				layoutOptionsPack.multiLevelScaling;
 			this.springConstant =
-				transform(layoutOptionsPack.getSpringStrength(),
+				transform(layoutOptionsPack.springStrength,
 					FDLayoutConstants.DEFAULT_SPRING_STRENGTH, 5.0, 5.0);
 			this.repulsionConstant =
-				transform(layoutOptionsPack.getRepulsionStrength(),
+				transform(layoutOptionsPack.repulsionStrength,
 					FDLayoutConstants.DEFAULT_REPULSION_STRENGTH, 5.0, 5.0);
 			this.gravityConstant =
-				transform(layoutOptionsPack.getGravityStrength(),
+				transform(layoutOptionsPack.gravityStrength,
 					FDLayoutConstants.DEFAULT_GRAVITY_STRENGTH);
 			this.compoundGravityConstant =
-				transform(layoutOptionsPack.getCompoundGravityStrength(),
+				transform(layoutOptionsPack.compoundGravityStrength,
 					FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_STRENGTH);
 			this.gravityRangeFactor =
-				transform(layoutOptionsPack.getGravityRange(),
+				transform(layoutOptionsPack.gravityRange,
 					FDLayoutConstants.DEFAULT_GRAVITY_RANGE_FACTOR);
 			this.compoundGravityRangeFactor =
-				transform(layoutOptionsPack.getCompoundGravityRange(),
+				transform(layoutOptionsPack.compoundGravityRange,
 					FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_RANGE_FACTOR);
 		}
 	}
@@ -169,7 +154,7 @@ public class CoSELayout extends FDLayout
 	public boolean layout()
 	{
 		boolean createBendsAsNeeded = LayoutOptionsPack.getInstance().
-		getGeneral().isCreateBendsAsNeeded();
+		getGeneral().createBendsAsNeeded;
 
 		if (createBendsAsNeeded)
 		{
@@ -197,9 +182,6 @@ public class CoSELayout extends FDLayout
 	{
 		CoSEGraphManager gm = (CoSEGraphManager)this.graphManager;
 
-		//TODO: Remove comments after testing
-		//GraphMLWriter graphMLWriter;
-		
 		// Start coarsening process
 		
 		// save graph managers M0 to Mk in an array list
@@ -212,21 +194,9 @@ public class CoSELayout extends FDLayout
 		{
 			this.graphManager = gm = this.MList.get(this.level);
 			
-			// TODO: remove after testing
-			//this.transform();
-			//graphMLWriter = new GraphMLWriter("D:\\workspace\\research_work\\chied2x\\graphs\\rome\\level_" + 
-			//	this.level + "_(before).graphml");
-			//graphMLWriter.saveGraph(this.graphManager);
-			
-			System.out.print("@" + this.level + "th level, with " + gm.getRoot().getNodes().size() + " nodes. ");
+//			System.out.print("@" + this.level + "th level, with " + gm.getRoot().getNodes().size() + " nodes. ");
 			this.classicLayout();
 
-			// TODO: remove after testing
-			//this.transform();
-			//graphMLWriter = new GraphMLWriter("D:\\workspace\\research_work\\chied2x\\graphs\\rome\\level_" + 
-			//	this.level + "_(after).graphml");
-			//graphMLWriter.saveGraph(this.graphManager);
-			
 			// after finishing layout of first (coarsest) level,
 			this.incremental = true;
 			
@@ -326,6 +296,8 @@ public class CoSELayout extends FDLayout
 			this.animate();
 		}
 		while (this.totalIterations < this.maxIterations);
+		
+		this.graphManager.updateBounds();
 	}
 
 	/**
@@ -436,57 +408,6 @@ public class CoSELayout extends FDLayout
 		}
 	}
 	
-	/**
-	 * This method calculates the ideal edge length of each edge based on the
-	 * depth and dimension of the ancestor nodes in the lowest common ancestor
-	 * graph of the edge's end nodes. We assume depth and dimension of each node
-	 * has already been calculated.
-	 */
-	protected void calcIdealEdgeLengths()
-	{
-		CoSEEdge edge;
-		int lcaDepth;
-		LNode source;
-		LNode target;
-		int sizeOfSourceInLca;
-		int sizeOfTargetInLca;
-
-		for (Object obj : this.graphManager.getAllEdges())
-		{
-			edge = (CoSEEdge) obj;
-
-			edge.idealLength = this.idealEdgeLength;
-
-			if (edge.isInterGraph())
-			{
-				source = edge.getSource();
-				target = edge.getTarget();
-
-				sizeOfSourceInLca = edge.getSourceInLca().getEstimatedSize();
-				sizeOfTargetInLca = edge.getTargetInLca().getEstimatedSize();
-
-				if (this.useSmartIdealEdgeLengthCalculation)
-				{
-					edge.idealLength +=	sizeOfSourceInLca + sizeOfTargetInLca -
-						2 * LayoutConstants.SIMPLE_NODE_SIZE;
-				}
-
-				lcaDepth = edge.getLca().getInclusionTreeDepth();
-
-				edge.idealLength += FDLayoutConstants.DEFAULT_EDGE_LENGTH *
-					FDLayoutConstants.PER_LEVEL_IDEAL_EDGE_LENGTH_FACTOR *
-						(source.getInclusionTreeDepth() +
-							target.getInclusionTreeDepth() - 2 * lcaDepth);
-			}
-
-//			NodeModel vSourceNode = (NodeModel)(edge.getSource().vGraphObject);
-//			NodeModel vTargetNode = (NodeModel)(edge.getTarget().vGraphObject);
-//
-//			System.out.printf("\t%s-%s: %5.1f\n",
-//				new Object [] {vSourceNode.getText(), vTargetNode.getText(), edge.idealLength});
-		}
-	}
-
 	/**
 	 * This method performs initial positioning of given forest radially. The
 	 * final drawing should be centered at the gravitational center.
@@ -740,59 +661,58 @@ public class CoSELayout extends FDLayout
 // Section: Temporary methods (especially for testing)
 // -----------------------------------------------------------------------------
 
-	//TODO: Remove the method after testing
-	/**
-	 * This method checks if there is a node with null vGraphObject
-	 */
-	private boolean checkVGraphObjects()
-	{
-		if (this.graphManager.getAllEdges() == null)
-		{
-			System.out.println("Edge list is null!");
-		}
-		if (this.graphManager.getAllNodes() == null)
-		{
-			System.out.println("Node list is null!");
-		}
-		if (this.graphManager.getGraphs() == null)
-		{
-			System.out.println("Graph list is null!");
-		}
-		for (Object obj: this.graphManager.getAllEdges())
-		{
-			CoSEEdge e = (CoSEEdge) obj;
-			//NodeModel nm = (NodeModel) v.vGraphObject;
-			
-			if (e.vGraphObject == null)
-			{
-				System.out.println("Edge(Source): " + e.getSource().getRect() + " has null vGraphObject!");
-				return false;
-			}
-		}
-		
-		for (Object obj: this.graphManager.getAllNodes())
-		{
-			CoSENode v = (CoSENode) obj;
-			//NodeModel nm = (NodeModel) v.vGraphObject;
-			
-			if (v.vGraphObject == null)
-			{
-				System.out.println("Node: " + v.getRect() + " has null vGraphObject!");
-				return false;
-			}
-		}
-		
-		for (Object obj: this.graphManager.getGraphs())
-		{
-			LGraph l = (LGraph) obj;
-			if (l.vGraphObject == null)
-			{
-				System.out.println("Graph with " + l.getNodes().size() + " nodes has null vGraphObject!");
-				return false;
-			}
-		}
-		return true;
-	}
+//	/**
+//	 * This method checks if there is a node with null vGraphObject
+//	 */
+//	private boolean checkVGraphObjects()
+//	{
+//		if (this.graphManager.getAllEdges() == null)
+//		{
+//			System.out.println("Edge list is null!");
+//		}
+//		if (this.graphManager.getAllNodes() == null)
+//		{
+//			System.out.println("Node list is null!");
+//		}
+//		if (this.graphManager.getGraphs() == null)
+//		{
+//			System.out.println("Graph list is null!");
+//		}
+//		for (Object obj: this.graphManager.getAllEdges())
+//		{
+//			CoSEEdge e = (CoSEEdge) obj;
+//			//NodeModel nm = (NodeModel) v.vGraphObject;
+//
+//			if (e.vGraphObject == null)
+//			{
+//				System.out.println("Edge(Source): " + e.getSource().getRect() + " has null vGraphObject!");
+//				return false;
+//			}
+//		}
+//
+//		for (Object obj: this.graphManager.getAllNodes())
+//		{
+//			CoSENode v = (CoSENode) obj;
+//			//NodeModel nm = (NodeModel) v.vGraphObject;
+//
+//			if (v.vGraphObject == null)
+//			{
+//				System.out.println("Node: " + v.getRect() + " has null vGraphObject!");
+//				return false;
+//			}
+//		}
+//
+//		for (Object obj: this.graphManager.getGraphs())
+//		{
+//			LGraph l = (LGraph) obj;
+//			if (l.vGraphObject == null)
+//			{
+//				System.out.println("Graph with " + l.getNodes().size() + " nodes has null vGraphObject!");
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 //	private void updateAnnealingProbability()
 //	{
 //		CoSELayout.annealingProbability = Math.pow(Math.E,

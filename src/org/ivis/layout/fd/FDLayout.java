@@ -20,34 +20,43 @@ public abstract class FDLayout extends Layout
 // Section: Instance variables
 // -----------------------------------------------------------------------------
 	/**
+	 * Whether or not smart calculation of ideal edge lengths should be
+	 * performed. When true, ideal edge length values take sizes of end nodes
+	 * into account as well as depths of end nodes (how many levels of compounds
+	 * does each edge need to go through from source to target, if any).
+	 */
+	public boolean useSmartIdealEdgeLengthCalculation =
+		FDLayoutConstants.DEFAULT_USE_SMART_IDEAL_EDGE_LENGTH_CALCULATION;
+
+	/**
 	 * Ideal length of an edge
 	 */
-	protected double idealEdgeLength = (double) FDLayoutConstants.DEFAULT_EDGE_LENGTH;
+	public double idealEdgeLength = (double) FDLayoutConstants.DEFAULT_EDGE_LENGTH;
 
 	/**
 	 * Constant for calculating spring forces
 	 */
-	protected double springConstant = FDLayoutConstants.DEFAULT_SPRING_STRENGTH;
+	public double springConstant = FDLayoutConstants.DEFAULT_SPRING_STRENGTH;
 
 	/**
 	 * Constant for calculating repulsion forces
 	 */
-	protected double repulsionConstant =
+	public double repulsionConstant =
 		FDLayoutConstants.DEFAULT_REPULSION_STRENGTH;
 
 	/**
 	 * Constants for calculating gravitation forces
 	 */
-	protected double gravityConstant = FDLayoutConstants.DEFAULT_GRAVITY_STRENGTH;
-	protected double compoundGravityConstant =
+	public double gravityConstant = FDLayoutConstants.DEFAULT_GRAVITY_STRENGTH;
+	public double compoundGravityConstant =
 		FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_STRENGTH;
 
 	/**
 	 * Factors to determine the ranges within which gravity is not to be applied
 	 */
-	protected double gravityRangeFactor =
+	public double gravityRangeFactor =
 		FDLayoutConstants.DEFAULT_GRAVITY_RANGE_FACTOR;
-	protected double compoundGravityRangeFactor =
+	public double compoundGravityRangeFactor =
 		FDLayoutConstants.DEFAULT_COMPOUND_GRAVITY_RANGE_FACTOR;
 
 	/**
@@ -59,7 +68,7 @@ public abstract class FDLayout extends Layout
 	/**
 	 * Whether or not FR grid variant should be used for repulsion force calculations.
 	 */
-	protected boolean useFRGridVariant = 
+	public boolean useFRGridVariant = 
 		FDLayoutConstants.DEFAULT_USE_SMART_REPULSION_RANGE_CALCULATION;
 	
 	/**
@@ -153,12 +162,66 @@ public abstract class FDLayout extends Layout
 		this.totalIterations = 0;
 		this.notAnimatedIterations = 0;
 		
-		this.useFRGridVariant = layoutOptionsPack.isSmartRepulsionRangeCalc();
+		this.useFRGridVariant = layoutOptionsPack.smartRepulsionRangeCalc;
 	}
 
 // -----------------------------------------------------------------------------
 // Section: Remaining methods
 // -----------------------------------------------------------------------------
+	/**
+	 * This method calculates the ideal edge length of each edge based on the
+	 * depth and dimension of the ancestor nodes in the lowest common ancestor
+	 * graph of the edge's end nodes. We assume depth and dimension of each node
+	 * has already been calculated.
+	 */
+	protected void calcIdealEdgeLengths()
+	{
+		FDLayoutEdge edge;
+		int lcaDepth;
+		LNode source;
+		LNode target;
+		int sizeOfSourceInLca;
+		int sizeOfTargetInLca;
+
+		for (Object obj : this.graphManager.getAllEdges())
+		{
+			edge = (FDLayoutEdge) obj;
+
+			edge.idealLength = this.idealEdgeLength;
+
+			if (edge.isInterGraph())
+			{
+				source = edge.getSource();
+				target = edge.getTarget();
+
+				sizeOfSourceInLca = edge.getSourceInLca().getEstimatedSize();
+				sizeOfTargetInLca = edge.getTargetInLca().getEstimatedSize();
+
+				if (this.useSmartIdealEdgeLengthCalculation)
+				{
+					edge.idealLength +=	sizeOfSourceInLca + sizeOfTargetInLca -
+						2 * LayoutConstants.SIMPLE_NODE_SIZE;
+				}
+
+				lcaDepth = edge.getLca().getInclusionTreeDepth();
+
+				edge.idealLength += FDLayoutConstants.DEFAULT_EDGE_LENGTH *
+					FDLayoutConstants.PER_LEVEL_IDEAL_EDGE_LENGTH_FACTOR *
+						(source.getInclusionTreeDepth() +
+							target.getInclusionTreeDepth() - 2 * lcaDepth);
+			}
+
+	//		NodeModel vSourceNode = (NodeModel)(edge.getSource().vGraphObject);
+	//		NodeModel vTargetNode = (NodeModel)(edge.getTarget().vGraphObject);
+	//
+	//		if (vSourceNode != null && vTargetNode != null)
+	//		{
+	//			System.out.printf("\t%s-%s: %5.1f\n",
+	//				new Object [] {vSourceNode.getText(), vTargetNode.getText(), edge.idealLength});
+	//		}
+		}
+	}
+
 	/**
 	 * This method is used to set parameters used by spring embedder.
 	 */
@@ -341,16 +404,6 @@ public abstract class FDLayout extends Layout
 		springForceX = springForce * (edge.getLengthX() / length);
 		springForceY = springForce * (edge.getLengthY() / length);
 
-		//TODO: remove this dependency!
-	//			NodeModel vSourceNode = (NodeModel)sourceNode.vGraphObject;
-	//			NodeModel vTargetNode = (NodeModel)targetNode.vGraphObject;
-	//
-	//			if (vSourceNode.getText().equals("1") || vTargetNode.getText().equals("1"))
-	//			{
-	//				System.out.printf("\t%s-%s\n",
-	//					new Object [] {vSourceNode.getText(), vTargetNode.getText()});
-	//			}
-
 		// Apply forces on the end nodes
 		sourceNode.springForceX += springForceX;
 		sourceNode.springForceY += springForceY;
@@ -374,52 +427,27 @@ public abstract class FDLayout extends Layout
 		double repulsionForce;
 		double repulsionForceX;
 		double repulsionForceY;
-
+		
 		if (rectA.intersects(rectB))
 		// two nodes overlap
 		{
-			// calculate overlap amount in x and y directions
-			IGeometry.calcSmallerIntersection(rectA, rectB, overlapAmount);
+			// calculate separation amount in x and y directions
+			IGeometry.calcSeparationAmount(rectA,
+				rectB,
+				overlapAmount,
+				FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
 
-			if (Math.abs(overlapAmount[0]) < Math.abs(overlapAmount[1]))
-			// should repell in x direction to avoid overlap
-			{
-				if (rectA.x < rectB.x)
-				{
-					repulsionForceX = (IMath.sign(overlapAmount[0]) *
-						FDLayoutConstants.DEFAULT_EDGE_LENGTH +
-						overlapAmount[0]) / 2;
-				}
-				else
-				{
-					repulsionForceX = -(IMath.sign(overlapAmount[0]) *
-						FDLayoutConstants.DEFAULT_EDGE_LENGTH +
-						overlapAmount[0]) / 2;
-				}
-
-				repulsionForceY = 0.0;
-			}
-			else
-			// should repell in y direction to avoid overlap
-			{
-				repulsionForceX = 0.0;
-
-				if (rectA.y < rectB.y)
-				{
-					repulsionForceY = (IMath.sign(overlapAmount[1]) *
-						FDLayoutConstants.DEFAULT_EDGE_LENGTH +
-						overlapAmount[1]) / 2;
-				}
-				else
-				{
-					repulsionForceY = -(IMath.sign(overlapAmount[1]) *
-						FDLayoutConstants.DEFAULT_EDGE_LENGTH +
-						overlapAmount[1]) / 2;
-				}
-			}
-
-//					System.out.printf("\toverlap=(%5.1f,%5.1f)\n",
-//						new Object [] {overlapAmount[0], overlapAmount[1]});
+			repulsionForceX = overlapAmount[0];
+			repulsionForceY = overlapAmount[1];
+			
+			assert ! (new RectangleD((rectA.x - repulsionForceX),
+				(rectA.y - repulsionForceY),
+				rectA.width,
+				rectA.height)).intersects(
+					new RectangleD((rectB.x + repulsionForceX),
+						(rectB.y + repulsionForceY),
+						rectB.width,
+						rectB.height));
 		}
 		else
 		// no overlap
@@ -442,7 +470,7 @@ public abstract class FDLayout extends Layout
 				distanceY = clipPoints[3] - clipPoints[1];
 			}
 
-			//TODO: No repulsion range. The grid variant should take care of this...
+			// No repulsion range. FR grid variant should take care of this.
 
 			if (Math.abs(distanceX) < FDLayoutConstants.MIN_REPULSION_DIST)
 			{
@@ -461,11 +489,11 @@ public abstract class FDLayout extends Layout
 
 			repulsionForce = this.repulsionConstant / distanceSquared;
 
-//					// does not seem to be needed
-//						if (Math.abs(repulsionForce) > CoSEConstants.MAX_REPULSION_FORCE)
-//						{
-//							repulsionForce = IMath.sign(repulsionForce) * CoSEConstants.MAX_REPULSION_FORCE;
-//						}
+//			// does not seem to be needed
+//			if (Math.abs(repulsionForce) > CoSEConstants.MAX_REPULSION_FORCE)
+//			{
+//				repulsionForce = IMath.sign(repulsionForce) * CoSEConstants.MAX_REPULSION_FORCE;
+//			}
 
 			// Project force onto x and y axes
 			repulsionForceX = repulsionForce * distanceX / distance;
@@ -496,8 +524,8 @@ public abstract class FDLayout extends Layout
 		int estimatedSize;
 		ownerGraph = node.getOwner();
 
-		ownerCenterX = (ownerGraph.getRight() + ownerGraph.getLeft()) / 2;
-		ownerCenterY = (ownerGraph.getTop() + ownerGraph.getBottom()) / 2;
+		ownerCenterX = ((double) ownerGraph.getRight() + ownerGraph.getLeft()) / 2;
+		ownerCenterY = ((double) ownerGraph.getTop() + ownerGraph.getBottom()) / 2;
 		distanceX = node.getCenterX() - ownerCenterX;
 		distanceY = node.getCenterY() - ownerCenterY;
 		absDistanceX = Math.abs(distanceX);

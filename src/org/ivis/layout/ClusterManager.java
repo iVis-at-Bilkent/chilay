@@ -1,6 +1,7 @@
 package org.ivis.layout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -64,6 +65,31 @@ public class ClusterManager
 	{
 		this.polygonUsed = polygonUsed;
 	}
+	
+	
+	/**
+	 * This method returns clusterIDs of all existing clusters as sorted array.
+	 */
+	public ArrayList<Integer> getClusterIDs()
+	{
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		
+		Iterator iterator = this.clusters.iterator();
+		
+		while (iterator.hasNext()) 
+		{
+			Cluster cluster = (Cluster) iterator.next();
+			if (cluster.getClusterID() > 0)
+			{
+				result.add(cluster.getClusterID());
+			}
+		}
+		
+		Collections.sort(result);
+		
+		return result;
+	}
+	
 	
 // -----------------------------------------------------------------------------
 // Section: Remaining Methods
@@ -160,6 +186,29 @@ public class ClusterManager
 		
 		// no such cluster
 		return null;
+	}
+	
+	/**
+	 * This method removes all clusters from graph. First it copies all cluster
+	 * IDs. After that calls delete() method of each cluster.
+	 */
+	public void clearClusters()
+	{
+		// first, copy of cluster ids is stored in order to prevent 
+		// pointer problems
+		ArrayList<Integer> clusterIDs = new ArrayList<Integer>();
+		
+		Iterator<Cluster> iter = this.clusters.iterator();
+		
+		while ( iter.hasNext() )
+		{
+			clusterIDs.add(iter.next().getClusterID());
+		}
+		
+		for (Integer id : clusterIDs)
+		{
+			getClusterByID(id).delete();
+		}
 	}
 // -----------------------------------------------------------------------------
 // Section: Class variables

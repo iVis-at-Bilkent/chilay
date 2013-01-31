@@ -38,7 +38,7 @@ public class RectangleD
 	/**
 	 * Constructor
 	 */	
-	public RectangleD(double x, double y, double height, double width)
+	public RectangleD(double x, double y, double width, double height)
 	{
 		this.x = x;
 		this.y = y;		

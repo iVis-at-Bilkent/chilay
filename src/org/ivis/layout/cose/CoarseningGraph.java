@@ -7,7 +7,7 @@ import org.ivis.layout.Layout;
 /**
  * This class holds coarsening process specific graph data and implementations
  *
- * @author: Alper Karaçelik
+ * @author: Alper Karacelik
  *
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */

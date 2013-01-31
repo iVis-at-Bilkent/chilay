@@ -18,10 +18,11 @@ public class FDLayoutConstants
 	public static final int DEFAULT_EDGE_LENGTH = 50;
 	public static final double DEFAULT_SPRING_STRENGTH = 0.45;
 	public static final double DEFAULT_REPULSION_STRENGTH = 4500.0;
-	public static final double DEFAULT_GRAVITY_STRENGTH = 0.015;
-	public static final double DEFAULT_COMPOUND_GRAVITY_STRENGTH = 5.0;
+	public static final double DEFAULT_GRAVITY_STRENGTH = 0.4;
+	public static final double DEFAULT_COMPOUND_GRAVITY_STRENGTH = 1.0;
 	public static final double DEFAULT_GRAVITY_RANGE_FACTOR = 2.0;
 	public static final double DEFAULT_COMPOUND_GRAVITY_RANGE_FACTOR = 1.5;
+	public static final boolean DEFAULT_USE_SMART_IDEAL_EDGE_LENGTH_CALCULATION = true;
 	public static final boolean DEFAULT_USE_SMART_REPULSION_RANGE_CALCULATION = true;
 	
 // -----------------------------------------------------------------------------

@@ -23,15 +23,16 @@ public class CiSEOnCircleNodePair implements Comparable<CiSEOnCircleNodePair>
 	private CiSENode secondNode;
 
 	/*
-	 * The value indicating the swapping potential of the two nodes above.
-	 * Higher value means that nodes are more inclined to swap.
+	 * The discrepancy of the displacement values of two nodes, indicating the
+	 * swapping potential of the two nodes. Higher value means that nodes are
+	 * more inclined to swap.
 	 */
-	private double displacement;
+	private double discrepancy;
 
 	/*
-	 * The iteration number where this swapping takes place.
+	 * Whether or not the two nodes are pulling in the same direction
 	 */
-	private int iterationNo;
+	private boolean inSameDirection;
 
 // -----------------------------------------------------------------------------
 // Section: Constructors and initializations
@@ -42,23 +43,28 @@ public class CiSEOnCircleNodePair implements Comparable<CiSEOnCircleNodePair>
 	public CiSEOnCircleNodePair(CiSENode first,
 		CiSENode second,
 		double displacement,
-		int iterationNo)
+		boolean inSameDirection)
 	{
 		assert first.getOnCircleNodeExt() != null &&
 			second.getOnCircleNodeExt() != null;
 
 		this.firstNode = first;
 		this.secondNode = second;
-		this.displacement = displacement;
-		this.iterationNo = iterationNo;
+		this.discrepancy = displacement;
+		this.inSameDirection = inSameDirection;
 	}
 
 // -----------------------------------------------------------------------------
 // Section: Accessors
 // -----------------------------------------------------------------------------
-	public double getDisplacement()
+	public double getDiscrepancy()
 	{
-		return this.displacement;
+		return this.discrepancy;
+	}
+
+	public boolean inSameDirection()
+	{
+		return this.inSameDirection;
 	}
 
 	public CiSENode getFirstNode()
@@ -71,17 +77,12 @@ public class CiSEOnCircleNodePair implements Comparable<CiSEOnCircleNodePair>
 		return this.secondNode;
 	}
 
-	public int getIterationNo()
-	{
-		return this.iterationNo;
-	}
-
 // -----------------------------------------------------------------------------
 // Section: Remaining methods
 // -----------------------------------------------------------------------------
 	public int compareTo(CiSEOnCircleNodePair other)
 	{
-		return (int)(this.getDisplacement() - other.getDisplacement());
+		return (int)(this.getDiscrepancy() - other.getDiscrepancy());
 	}
 
 	public void swap()
@@ -114,10 +115,9 @@ public class CiSEOnCircleNodePair implements Comparable<CiSEOnCircleNodePair>
 
 	public String toString()
 	{
-		String result = "Swap: " + this.getFirstNode().vGraphObject;
-		result += " - "+ this.getSecondNode().vGraphObject;
-		result +=", "+ this.iterationNo;
-		result +=", "+ this.getDisplacement();
+		String result = "Swap: " + this.getFirstNode().label;
+		result += "<->"+ this.getSecondNode().label;
+		result +=", "+ this.getDiscrepancy();
 
 		return result;
 	}

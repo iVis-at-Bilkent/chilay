@@ -12,7 +12,7 @@ import org.ivis.layout.Layout;
  * This class implements a graph-manager for CoSE layout specific data and
  * functionality.
  *
- * @author Alper Karaçelik
+ * @author Alper Karacelik
  *
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
@@ -208,9 +208,14 @@ public class CoSEGraphManager extends LGraphManager
 				(e.getSource().getChild() != null) || 
 				(e.getTarget().getChild() != null) )
 			{
-				newM.add(newM.getLayout().newEdge(null), 
-					((CoSENode)e.getSource()).getNext(), 
-					((CoSENode)e.getTarget()).getNext());
+				// check if e is not added before
+				if ( ! ((CoSENode)e.getSource()).getNext().getNeighborsList().
+					contains(((CoSENode)e.getTarget()).getNext()) )
+				{
+					newM.add(newM.getLayout().newEdge(null), 
+						((CoSENode)e.getSource()).getNext(), 
+						((CoSENode)e.getTarget()).getNext());
+				}
 			}
 
 			// otherwise, if e is not contracted during coarsening process

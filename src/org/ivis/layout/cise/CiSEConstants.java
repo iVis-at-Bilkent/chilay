@@ -14,23 +14,26 @@ public class CiSEConstants extends FDLayoutConstants
 // -----------------------------------------------------------------------------
 // Section: CiSE layout user options
 // -----------------------------------------------------------------------------
+	public static final double DEFAULT_SPRING_STRENGTH =
+		1.5 * FDLayoutConstants.DEFAULT_SPRING_STRENGTH;
+
 	/**
 	 * Amount of separation of nodes on the associated circle
 	 */
 	public static final int DEFAULT_NODE_SEPARATION =
-		FDLayoutConstants.DEFAULT_EDGE_LENGTH;
+		FDLayoutConstants.DEFAULT_EDGE_LENGTH / 4;
 
 	/**
 	 * Inter-cluster edge length factor (2.0 means inter-cluster edges should be
 	 * twice as long as intra-cluster edges)
 	 */
 	public static final double
-		DEFAULT_IDEAL_INTER_CLUSTER_EDGE_LENGTH_COEFF = 2.0;
+		DEFAULT_IDEAL_INTER_CLUSTER_EDGE_LENGTH_COEFF = 1.4;
 
 	/**
 	 * Whether to enable pulling nodes inside of the circles
 	 */
-	public static final boolean DEFAULT_ALLOW_NODES_INSIDE_CIRCLE = true;
+	public static final boolean DEFAULT_ALLOW_NODES_INSIDE_CIRCLE = false;
 
 	/**
 	 * Max percentage of the nodes in a circle that can be inside the circle
@@ -41,6 +44,12 @@ public class CiSEConstants extends FDLayoutConstants
 // Section: CiSE layout remaining contants
 // -----------------------------------------------------------------------------
 	/**
+	 * Ideal length of an edge incident with an inner-node
+	 */
+	public static final int DEFAULT_INNER_EDGE_LENGTH =
+		FDLayoutConstants.DEFAULT_EDGE_LENGTH / 3;
+
+	/**
 	 * Maximum rotation angle
 	 */
 	public static final double MAX_ROTATION_ANGLE = Math.PI / 36.0;
@@ -49,7 +58,7 @@ public class CiSEConstants extends FDLayoutConstants
 	/**
 	 * Number of iterations without swap or swap prepartion
 	 */
-	public static final int SWAP_IDLE_DURATION = 95;
+	public static final int SWAP_IDLE_DURATION = 45;
 
 	/**
 	 * Number of iterations required for collecting information about swapping
@@ -63,8 +72,17 @@ public class CiSEConstants extends FDLayoutConstants
 		SWAP_IDLE_DURATION + SWAP_PREPERATION_DURATION;
 
 	/**
+	 * Number of iterations during which history (of pairs swapped) kept
+	 */
+	public static final int SWAP_HISTORY_CLEARANCE_PERIOD = 6 * SWAP_PERIOD;
+
+	/**
 	 * Buffer for swapping
 	 */
-	public static final int MIN_DISPLACEMENT_FOR_SWAP =
-		FDLayoutConstants.DEFAULT_EDGE_LENGTH / 12;
+	public static final int MIN_DISPLACEMENT_FOR_SWAP = 6;
+
+	/**
+	 * Number of iterations that should be done in between two flips.
+	 */
+	public static final int REVERSE_PERIOD = 25;
 }
