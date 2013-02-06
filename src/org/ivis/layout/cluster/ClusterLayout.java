@@ -3,8 +3,10 @@ package org.ivis.layout.cluster;
 import java.util.ArrayList;
 
 import org.ivis.layout.Cluster;
+import org.ivis.layout.LEdge;
 import org.ivis.layout.cluster.ClusterConstants;
 import org.ivis.layout.cose.*;
+import org.ivis.layout.fd.FDLayoutConstants;
 import org.ivis.layout.fd.FDLayoutNode;
 
 /**
@@ -96,5 +98,43 @@ public class ClusterLayout extends CoSELayout
 		}
 		
 	}
-
+	
+	/**
+	 * Override. This method changes the spring constant if the edge is
+	 * inter-cluster. 
+	 */
+	protected void calcSpringForce(LEdge edge, double idealLength)
+	{
+		if(edge.isInterCluster())
+		{
+			this.springConstant = this.springConstant * ClusterConstants.
+					DEFAULT_INTER_CLUSTER_SPRING_CONSTANT_RATIO;
+			super.calcSpringForce(edge, idealLength);
+			this.springConstant = FDLayoutConstants.DEFAULT_SPRING_STRENGTH;
+		}		
+		else
+		{
+			super.calcSpringForce(edge, idealLength);			
+		}
+		
+		
+		
+	}
+	
+	/**
+	 * Override. This method checks whether the edges are inter-cluster or
+	 * intra-cluster before making the layout.  
+	 */
+	public boolean layout()
+	{
+		for(Object edge:this.graphManager.getAllEdges())
+		{
+			LEdge e = ((LEdge) edge);
+			e.checkIsInterCluster();
+			System.out.println("Edge Source:"+ e.getSource().label+" Edge Target:"+ e.getTarget().label+" InterCluster:"+e.isInterCluster());
+		}
+		super.layout();
+		return true;
+	}
+	
 }

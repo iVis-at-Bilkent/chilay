@@ -10,6 +10,7 @@ import org.ivis.util.*;
  * @author Erhan Giral
  * @author Ugur Dogrusoz
  * @author Cihan Kucukkececi
+ * @author Can Cagdas Cengiz
  *
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
@@ -28,6 +29,11 @@ public class LEdge extends LGraphObject
 	 * Whether this edge is an intergraph one
 	 */
 	protected boolean isInterGraph;
+	
+	/*
+	 * Whether this edge is an intercluster one
+	 */
+	protected boolean isInterCluster;
 
 	/*
 	 * The length of this edge ( l = sqrt(x^2 + y^2) )
@@ -113,6 +119,14 @@ public class LEdge extends LGraphObject
 		return this.isInterGraph;
 	}
 
+	/**
+	 * This method returns whether or not this edge is an inter-cluster edge.
+	 */
+	public boolean isInterCluster()
+	{
+		return this.isInterCluster;
+	}
+	
 	/**
 	 * This method returns the length of this edge. Note that this value might
 	 * be out-dated at times during a layout operation.
@@ -313,5 +327,24 @@ public class LEdge extends LGraphObject
 		System.out.print( (this.label == null ? "?" : this.label) + "[" +
 			(this.source.label == null ? "?" : this.source.label) + "-" +
 			(this.target.label == null ? "?" : this.target.label) + "] ");
+	}
+	
+	public void checkIsInterCluster()
+	{
+		if((this.source.clusters.size() > 0 ) && (this.target.clusters.size() > 0 )){
+		
+			int sourceCluster = this.source.clusters.get(0).clusterID;
+			int targetCluster = this.target.clusters.get(0).clusterID;
+			
+			if(sourceCluster == targetCluster)
+				this.isInterCluster = false;			
+			else
+				this.isInterCluster = true;
+		}
+		else
+		{
+			this.isInterCluster = true;
+		}
+			
 	}
 }

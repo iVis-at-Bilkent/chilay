@@ -26,8 +26,13 @@ public class ClusterConstants extends CoSEConstants
 	 * determines how much the clusters should be separated
 	 */
 	public static final int DEFAULT_CLUSTER_SEPARATION = 5;
-	
-	
+
+	/**
+	 *
+	 * Determines the ratio of the intra-cluster edge length to inter-cluster
+	 * edge length 
+	 */
+	public static final double DEFAULT_INTER_CLUSTER_SPRING_CONSTANT_RATIO = 0.9;
 	/**
 	 *
 	 * Determines how much the clusters should be separated
