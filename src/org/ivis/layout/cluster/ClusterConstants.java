@@ -29,10 +29,10 @@ public class ClusterConstants extends CoSEConstants
 
 	/**
 	 *
-	 * Determines the ratio of the intra-cluster edge length to inter-cluster
+	 * Determines the ratio of the inter-cluster edge length to intra-cluster
 	 * edge length 
 	 */
-	public static final double DEFAULT_INTER_CLUSTER_SPRING_CONSTANT_RATIO = 0.9;
+	public static final double DEFAULT_INTER_CLUSTER_EDGE_LENGTH_RATIO = 2.0;
 	/**
 	 *
 	 * Determines how much the clusters should be separated

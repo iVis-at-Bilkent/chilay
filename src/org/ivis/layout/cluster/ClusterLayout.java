@@ -2,11 +2,11 @@ package org.ivis.layout.cluster;
 
 import java.util.ArrayList;
 
-import org.ivis.layout.Cluster;
 import org.ivis.layout.LEdge;
+import org.ivis.layout.Cluster;
+import org.ivis.layout.cluster.ClusterEdge;
 import org.ivis.layout.cluster.ClusterConstants;
 import org.ivis.layout.cose.*;
-import org.ivis.layout.fd.FDLayoutConstants;
 import org.ivis.layout.fd.FDLayoutNode;
 
 /**
@@ -22,6 +22,13 @@ import org.ivis.layout.fd.FDLayoutNode;
 
 public class ClusterLayout extends CoSELayout
 {
+	/**
+	 * This method creates a new edge associated with the input view edge.
+	 */
+	public LEdge newEdge(Object vEdge)
+	{
+		return new ClusterEdge(null, null, vEdge);
+	}
 	
 	/**
 	 * Override. This method introduces one more repulsion force to separate 
@@ -38,6 +45,13 @@ public class ClusterLayout extends CoSELayout
 		Object[] lNodes = this.getAllNodes();
 		ArrayList<Cluster> clusters = this.graphManager.
 				getClusterManager().getClusters();
+		
+		System.out.println("Clusters: ");
+		
+		for(Cluster c:clusters)
+		{
+			System.out.println(c.getClusterID()); //test
+		}
 		
 		double [][] offsets = new double[clusters.size()+1][2];
 		ArrayList<Object []> overlaps;
@@ -103,22 +117,23 @@ public class ClusterLayout extends CoSELayout
 	 * Override. This method changes the spring constant if the edge is
 	 * inter-cluster. 
 	 */
-	protected void calcSpringForce(LEdge edge, double idealLength)
+	protected void calcIdealEdgeLengths()
 	{
-		if(edge.isInterCluster())
+		
+		ClusterEdge edge;
+		
+		for (Object obj : this.graphManager.getAllEdges())
 		{
-			this.springConstant = this.springConstant * ClusterConstants.
-					DEFAULT_INTER_CLUSTER_SPRING_CONSTANT_RATIO;
-			super.calcSpringForce(edge, idealLength);
-			this.springConstant = FDLayoutConstants.DEFAULT_SPRING_STRENGTH;
-		}		
-		else
-		{
-			super.calcSpringForce(edge, idealLength);			
+			edge = (ClusterEdge) obj;			
+			edge.idealLength = super.idealEdgeLength;
+			
+			if(edge.isInterCluster())
+			{
+				edge.idealLength = edge.idealLength * 
+						(ClusterConstants.DEFAULT_INTER_CLUSTER_EDGE_LENGTH_RATIO);
+			}
+
 		}
-		
-		
-		
 	}
 	
 	/**
@@ -127,13 +142,15 @@ public class ClusterLayout extends CoSELayout
 	 */
 	public boolean layout()
 	{
-		for(Object edge:this.graphManager.getAllEdges())
+		
+		for(Object edge : this.graphManager.getAllEdges())
 		{
-			LEdge e = ((LEdge) edge);
+			ClusterEdge e = ((ClusterEdge) edge);
 			e.checkIsInterCluster();
-			System.out.println("Edge Source:"+ e.getSource().label+" Edge Target:"+ e.getTarget().label+" InterCluster:"+e.isInterCluster());
 		}
+		
 		super.layout();
+		
 		return true;
 	}
 	
