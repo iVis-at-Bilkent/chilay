@@ -15,19 +15,29 @@ import org.ivis.layout.cose.CoSENode;
  */
 public class SbgnPDNode extends CoSENode
 {
-
+	/**
+	 * 
+	 */
+	public double relativityConstraintX;
+	
+	/**
+	 * 
+	 */
+	public double relativityConstraintY;
+	
 	/**
 	 * Constructor
 	 */
-	public SbgnPDNode(LGraphManager gm, Object vNode)
+	public SbgnPDNode(LGraphManager gm, Object vNode, String type)
 	{
 		super(gm, vNode);
+		this.type = type;
 	}
 
 	/**
 	 * Alternative constructor
 	 */
-	public SbgnPDNode(LGraphManager gm, Point loc, Dimension size, Object vNode)
+	public SbgnPDNode(LGraphManager gm, Point loc, Dimension size, Object vNode, int type)
 	{
 		super(gm, loc, size, vNode);
 	}

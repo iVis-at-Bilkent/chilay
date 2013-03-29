@@ -180,7 +180,8 @@ public class XmlIOHandler
 		lNode.setLocation(bounds.getX(), bounds.getY());
 		lNode.setWidth(bounds.getWidth());
 		lNode.setHeight(bounds.getHeight());
-
+		lNode.type = xmlNode.getType();
+		
 		// Copy cluster IDs
 		if (xmlNode.getClusterIDs() != null)
 		{
@@ -210,6 +211,8 @@ public class XmlIOHandler
 		throws OperationNotSupportedException
 	{
 		LEdge lEdge = this.layout.newEdge(null); 
+		
+		lEdge.type = xmlEdge.getType();
 		
 		// Find source and target nodes
 		String sourceXmlNodeId = xmlEdge.getSourceNode().getId();
