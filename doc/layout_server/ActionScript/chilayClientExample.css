@@ -1,0 +1,50 @@
+/*
+ * Authors: Ugur Dogrusoz
+ *
+ * Copyright: i-Vis Research Group, Bilkent University, 2009 - present 
+ */
+
+Application {
+	backgroundColor: #ffffff;
+	backgroundGradientColors: #1a6b7f, #ffffff;
+	backgroundGradientAlphas: 0.4, 0;
+	themeColor: #F8B584;
+	color: #1a6b7f;
+}
+
+Button {
+	width: 32;
+	height: 32;
+	cornerRadius: 8;
+	paddingLeft: 0;
+	paddingRight: 0;
+	paddingTop: 0;
+	paddingBottom: 0;
+}
+
+ToolTip {
+	fontWeight: bold;
+	backgroundColor: #F8B584;
+	color: #ffffff;
+}
+
+MenuBar {
+}
+
+Panel {
+	borderColor: #1a6b7f;
+	borderAlpha: 1;
+	borderThicknessLeft: 1;
+	borderThicknessRight: 1;
+	borderThicknessTop: 1;
+	borderThicknessBottom: 1;
+	roundedBottomCorners: false;
+	cornerRadius: 10;
+	backgroundAlpha: 1;
+	highlightAlphas: 0, 0;
+	headerColors: #FFFFFF, #F8D0B2;
+	footerColors: #F8D0B2, #FFFFFF;
+	backgroundColor: #FFFFFF;
+	shadowDistance: 1;
+	dropShadowColor: #330000;
+}
