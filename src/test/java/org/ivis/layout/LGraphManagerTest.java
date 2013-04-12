@@ -5,12 +5,14 @@ import junit.framework.TestSuite;
 import junit.framework.TestCase;
 import org.ivis.layout.LGraphManager;
 import org.ivis.layout.cose.CoSELayout;
+import org.junit.Ignore;
 
 /**
  * LGraphManager tester
  *
  * @author Ugur Dogrusoz
  */
+@Ignore
 public class LGraphManagerTest extends TestCase
 {
 	public void setUp() throws Exception

@@ -4,12 +4,14 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.framework.TestCase;
 import org.ivis.layout.cose.CoSELayout;
+import org.junit.Ignore;
 
 /**
  * CoSELayout tester
  *
  * @author Ugur Dogrusoz
  */
+@Ignore
 public class CoSELayoutTest extends TestCase
 {
 	public void setUp() throws Exception
