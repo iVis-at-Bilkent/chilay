@@ -14,7 +14,7 @@ import org.ivis.layout.cose.CoSENode;
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
 public class SbgnPDNode extends CoSENode
-{
+{	
 	/**
 	 * 
 	 */
@@ -40,5 +40,10 @@ public class SbgnPDNode extends CoSENode
 	public SbgnPDNode(LGraphManager gm, Point loc, Dimension size, Object vNode, int type)
 	{
 		super(gm, loc, size, vNode);
+	}
+	
+	public boolean isComplex()
+	{
+		return type.equalsIgnoreCase(SbgnPDConstants.COMPLEX);
 	}
 }

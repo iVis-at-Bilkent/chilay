@@ -1,8 +1,12 @@
 package org.ivis.io.xml;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -22,6 +26,7 @@ import org.ivis.io.xml.model.NodeComplexType.Bounds;
 import org.ivis.layout.*;
 import org.ivis.layout.cise.CiSELayout;
 import org.ivis.layout.cose.CoSELayout;
+import org.ivis.layout.sbgn.SbgnPDLayout;
 import org.ivis.util.PointD;
 import org.ivis.util.RectangleD;
 
@@ -60,7 +65,7 @@ public class XmlIOHandler
 	 * Constructor
 	 */
 	public XmlIOHandler(Layout layout) throws JAXBException
-	{
+	{		
 		this.xmlObjectToLayoutObject =
 			new HashMap<GraphObjectComplexType, LGraphObject>();
 		this.xmlIDToXMLObject = new HashMap<String, GraphObjectComplexType>();
@@ -180,8 +185,8 @@ public class XmlIOHandler
 		lNode.setLocation(bounds.getX(), bounds.getY());
 		lNode.setWidth(bounds.getWidth());
 		lNode.setHeight(bounds.getHeight());
-		lNode.type = xmlNode.getType();
-		
+		lNode.type = xmlNode.getTypeInfo().getValue();
+
 		// Copy cluster IDs
 		if (xmlNode.getClusterIDs() != null)
 		{
@@ -212,7 +217,7 @@ public class XmlIOHandler
 	{
 		LEdge lEdge = this.layout.newEdge(null); 
 		
-		lEdge.type = xmlEdge.getType();
+		//lEdge.type = xmlEdge.getType();
 		
 		// Find source and target nodes
 		String sourceXmlNodeId = xmlEdge.getSourceNode().getId();
@@ -269,6 +274,7 @@ public class XmlIOHandler
 		xmlNode.getBounds().setHeight((int) nodeBounds.height);
 		xmlNode.getBounds().setWidth((int) nodeBounds.width);
 		xmlNode.getBounds().setX((int) nodeBounds.x);
+		xmlNode.getBounds().setY((int) nodeBounds.y);
 		xmlNode.getBounds().setY((int) nodeBounds.y);
 	}
 	
@@ -354,14 +360,14 @@ public class XmlIOHandler
 	
 	public static void main(String[] args) throws Exception
 	{
-		Layout layout = new CiSELayout();
+		Layout layout = new SbgnPDLayout();
 		XmlIOHandler handler = new XmlIOHandler(layout);
 
-		handler.fromXML(new FileInputStream("src/org/ivis/io/xml/layout.xml"));
+		handler.fromXML(new FileInputStream("src/main/java/org/ivis/io/xml/layout.xml"));
 
 		layout.runLayout();
 
-		handler.toXML(new FileOutputStream("src/org/ivis/io/xml/layout_done.xml"));
+		handler.toXML(new FileOutputStream("src/main/java/org/ivis/io/xml/layout_done.xml"));
 
 //		XmlIOHandler.generateClasses();
 	}

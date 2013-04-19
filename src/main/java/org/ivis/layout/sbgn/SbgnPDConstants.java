@@ -19,7 +19,7 @@ public class SbgnPDConstants extends CoSEConstants
 	public static final String SIMPLE_CHEMICAL_MULTIMER = "5";
 	public static final String MACROMOLECULE_MULTIMER = "6";
 	public static final String NUCLEIC_ACID_FEATURE_MULTIMER = "7";
-	public static final String COMPLEX = "8";
+	public static final String COMPLEX = "complex";
 	public static final String COMPLEX_MULTIMER = "9";
 	public static final String SOURCE_AND_SINK = "10";
 	public static final String PERTURBATION = "11";
@@ -39,4 +39,7 @@ public class SbgnPDConstants extends CoSEConstants
 	public static final String NOT = "25";
 	public static final String STATE_VARIABLE = "26";
 	public static final String UNIT_OF_INFORMATION = "27";
+	
+	public static final int DEFAULT_HEIGHT = 20;
+	public static final int DEFAULT_INFO_BULB = 6;
 }
