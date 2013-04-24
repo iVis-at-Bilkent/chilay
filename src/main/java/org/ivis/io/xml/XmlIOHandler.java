@@ -275,7 +275,6 @@ public class XmlIOHandler
 		xmlNode.getBounds().setWidth((int) nodeBounds.width);
 		xmlNode.getBounds().setX((int) nodeBounds.x);
 		xmlNode.getBounds().setY((int) nodeBounds.y);
-		xmlNode.getBounds().setY((int) nodeBounds.y);
 	}
 	
 	/**

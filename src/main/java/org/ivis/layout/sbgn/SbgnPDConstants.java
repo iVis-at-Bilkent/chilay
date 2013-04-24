@@ -40,6 +40,6 @@ public class SbgnPDConstants extends CoSEConstants
 	public static final String STATE_VARIABLE = "26";
 	public static final String UNIT_OF_INFORMATION = "27";
 	
-	public static final int DEFAULT_HEIGHT = 20;
+	public static final int DEFAULT_HEIGHT = 100;
 	public static final int DEFAULT_INFO_BULB = 6;
 }

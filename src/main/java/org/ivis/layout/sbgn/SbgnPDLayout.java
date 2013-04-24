@@ -225,7 +225,7 @@ public class SbgnPDLayout extends CoSELayout
                     {
                             insertNodeToRow(node, 0);
                     }
-                    else if (canAddHorizontal(node.getWidth()))
+                    else if (canAddHorizontal(node.getWidth(), node.getHeight()))
                     {
                             insertNodeToRow(node, getShortestRowIndex());
                     }
@@ -246,7 +246,7 @@ public class SbgnPDLayout extends CoSELayout
                                     height += COMPLEX_MEM_VERTICAL_BUFFER;
                             }
                             rows.add(new LinkedList<SbgnPDNode>());
-                            height += SbgnPDConstants.DEFAULT_HEIGHT;
+                            height += node.getHeight();
                             rowWidth.add(COMPLEX_MIN_WIDTH);
 
                             assert rows.size() == rowWidth.size();
@@ -290,7 +290,7 @@ public class SbgnPDLayout extends CoSELayout
                     }
             }
 
-            private boolean canAddHorizontal(double extra)
+            private boolean canAddHorizontal(double extraWidth, double extraHeight)
             {
                     int sri = getShortestRowIndex();
 
@@ -298,14 +298,14 @@ public class SbgnPDLayout extends CoSELayout
 
                     double min = rowWidth.get(sri);
 
-                    if (width - min >= extra + COMPLEX_MEM_HORIZONTAL_BUFFER)
+                    if (width - min >= extraWidth + COMPLEX_MEM_HORIZONTAL_BUFFER)
                     {
                             return true;
                     }
 
                     return width < DESIRED_COMPLEX_MIN_WIDTH ||
-                            height + COMPLEX_MEM_VERTICAL_BUFFER + SbgnPDConstants.DEFAULT_HEIGHT >
-                                    min + extra + COMPLEX_MEM_HORIZONTAL_BUFFER;
+                            height + COMPLEX_MEM_VERTICAL_BUFFER + extraHeight >
+                                    min + extraWidth + COMPLEX_MEM_HORIZONTAL_BUFFER;
             }
 
             //******* removed the info part ********
@@ -320,7 +320,7 @@ public class SbgnPDLayout extends CoSELayout
                     for (LinkedList<SbgnPDNode> row : rows)
                     {
                             x = left;
-
+                            double maxHeight = 0;
                             for (SbgnPDNode node : row)
                             {
                                     double yy = node.getHeight() - 0.0001 > SbgnPDConstants.DEFAULT_HEIGHT ?
@@ -328,9 +328,13 @@ public class SbgnPDLayout extends CoSELayout
 
                                     node.setLocation(x, yy);
                                     x += node.getWidth() + COMPLEX_MEM_HORIZONTAL_BUFFER;
+                                    
+                                    // This check has been added to get rid of the use of default_height parameter
+                                    if(node.getHeight() > maxHeight)
+                                    	maxHeight = node.getHeight();
                             }
 
-                            y += SbgnPDConstants.DEFAULT_HEIGHT + COMPLEX_MEM_VERTICAL_BUFFER;
+                            y += maxHeight + COMPLEX_MEM_VERTICAL_BUFFER;
                     }
             }
     }
