@@ -92,7 +92,7 @@ public class SbgnPDLayout extends CoSELayout
                 if (!(o instanceof SbgnPDNode) || !((SbgnPDNode) o).isComplex()) continue;
                 SbgnPDNode comp = (SbgnPDNode) o;
 
-                if (comp.getChild().getNodes().isEmpty()) continue;
+                if (comp.getChild() == null) continue;
                 
                 LGraph childGr = comp.getChild();
                 childGraphMap.put(comp, childGr);
