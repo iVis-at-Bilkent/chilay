@@ -5,40 +5,32 @@ import org.ivis.layout.cose.CoSEConstants;
 /**
  * This class maintains the constants used by CoSE layout.
  * 
- * @author: Begum Genc
+ * @author: Begum Genc, Istemi Bahceci
  * 
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
 public class SbgnPDConstants extends CoSEConstants
 {
 	// Below are the SBGN specific types.
-	public static final String UNSPECIFIED_ENTITY = "1";
-	public static final String SIMPLE_CHEMICAL = "2";
-	public static final String MACROMOLECULE = "3";
-	public static final String NUCLEIC_ACID_FEATURE = "4";
-	public static final String SIMPLE_CHEMICAL_MULTIMER = "5";
-	public static final String MACROMOLECULE_MULTIMER = "6";
-	public static final String NUCLEIC_ACID_FEATURE_MULTIMER = "7";
-	public static final String COMPLEX = "complex";
-	public static final String COMPLEX_MULTIMER = "9";
-	public static final String SOURCE_AND_SINK = "10";
-	public static final String PERTURBATION = "11";
-	public static final String BIOLOGICAL_ACTIVITY = "12";
-	public static final String PERTURBING_AGENT = "13";
-	public static final String COMPARTMENT = "14";
-	public static final String SUBMAP = "15";
-	public static final String TAG = "16";
-	public static final String TERMINAL = "17";
-	public static final String PROCESS = "18";
-	public static final String OMITTED_PROCESS = "19";
-	public static final String UNCERTAIN_PROCESS = "20";
-	public static final String ASSOCIATION = "21";
-	public static final String DISSOCIATION = "22";
-	public static final String AND = "23";
-	public static final String OR = "24";
-	public static final String NOT = "25";
-	public static final String STATE_VARIABLE = "26";
-	public static final String UNIT_OF_INFORMATION = "27";
+	public static final String MACROMOLECULE = "macromolecule";
+	public static final  String UNIT_OF_INFORMATION = "unit of information";
+	public static final  String STATE_VARIABLE = "state variable";
+	public static final  String SOURCE_AND_SINK = "source and sink";
+	public static final  String ASSOCIATION = "association";
+	public static final  String DISSOCIATION = "dissociation";
+	public static final  String OMITTED_PROCESS = "omitted process";
+	public static final  String UNCERTAIN_PROCESS = "uncertain process";
+	public static final  String SIMPLE_CHEMICAL = "simple chemical";
+	public static final  String PROCESS = "process";
+	public static final  String COMPLEX = "complex";
+	public static final  String AND = "and";
+	public static final  String OR = "or";
+	public static final  String NOT = "not";
+	public static final  String PHENOTYPE = "phenotype";
+	public static final  String PERTURBING_AGENT = "perturbing agent";
+	public static final  String TAG = "tag";
+	public static final  String NUCLEIC_ACID_FEATURE = "nucleic acid feature";
+	public static final  String UNSPECIFIED_ENTITY = "unspecified entity";
 	
 	public static final int DEFAULT_HEIGHT = 100;
 	public static final int DEFAULT_INFO_BULB = 6;

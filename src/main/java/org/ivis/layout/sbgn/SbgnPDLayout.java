@@ -42,9 +42,9 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method creates a new node associated with the input view node.
 	 */
-	public LNode newNode(Object vNode)
+	public LNode newNode(Object vNode, String glyphType)
 	{
-		return new SbgnPDNode(this.graphManager, vNode, SbgnPDConstants.COMPLEX);
+		return new SbgnPDNode(this.graphManager, vNode, glyphType);
 	}
 
 	/**
