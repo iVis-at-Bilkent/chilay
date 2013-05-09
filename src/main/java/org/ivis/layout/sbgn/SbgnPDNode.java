@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 
 import org.ivis.layout.LGraphManager;
+import org.ivis.layout.LGraphObject;
+import org.ivis.layout.LNode;
 import org.ivis.layout.cose.CoSENode;
 
 /**
@@ -28,16 +30,15 @@ public class SbgnPDNode extends CoSENode
 	/**
 	 * Constructor
 	 */
-	public SbgnPDNode(LGraphManager gm, Object vNode, String type)
+	public SbgnPDNode(LGraphManager gm, LNode vNode)
 	{
 		super(gm, vNode);
-		this.type = type;
 	}
 
 	/**
 	 * Alternative constructor
 	 */
-	public SbgnPDNode(LGraphManager gm, Point loc, Dimension size, Object vNode, int type)
+	public SbgnPDNode(LGraphManager gm, Point loc, Dimension size, LNode vNode, String type)
 	{
 		super(gm, loc, size, vNode);
 	}

@@ -12,19 +12,15 @@
 		<bounds width="240.0" height="280.0" x="600.0" y="200.0"/>
 		<children>
 			<node id="ID_3" label="D">
-				<bounds width="40.0" height="40.0" x="650.0" y="390.0"/>
+				<bounds width="60.0" height="60.0" x="650.0" y="390.0"/>
 				<type value="asd"/>
 			</node>
 			<node id="ID_4" label="E">
-				<bounds width="40.0" height="40.0" x="750.0" y="250.0"/>
+				<bounds width="120.0" height="60.0" x="750.0" y="250.0"/>
 				<type value="asd"/>
 			</node>
 			<node id="ID_5" label="F">
-				<bounds width="40.0" height="40.0" x="750.0" y="250.0"/>
-				<type value="asd"/>
-			</node>
-			<node id="ID_6" label="G">
-				<bounds width="40.0" height="40.0" x="650.0" y="100.0"/>
+				<bounds width="120.0" height="60.0" x="750.0" y="250.0"/>
 				<type value="asd"/>
 			</node>
 			</children>

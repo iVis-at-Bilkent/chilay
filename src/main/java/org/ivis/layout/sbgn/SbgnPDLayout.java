@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.ivis.layout.LEdge;
 import org.ivis.layout.LGraph;
+import org.ivis.layout.LGraphObject;
 import org.ivis.layout.LNode;
 import org.ivis.layout.cose.CoSELayout;
 
@@ -35,16 +36,16 @@ public class SbgnPDLayout extends CoSELayout
 	public SbgnPDLayout()
 	{
         childGraphMap = new HashMap<SbgnPDNode, LGraph>();
-        memberPackMap = new HashMap<SbgnPDNode, MemberPack>();
-        
+        memberPackMap = new HashMap<SbgnPDNode, MemberPack>();   
 	}
 
 	/**
 	 * This method creates a new node associated with the input view node.
 	 */
-	public LNode newNode(Object vNode, String glyphType)
+	public LNode newNode(Object vNode)
 	{
-		return new SbgnPDNode(this.graphManager, vNode, glyphType);
+		LNode o = (LNode) vNode;
+		return new SbgnPDNode(this.graphManager, o);
 	}
 
 	/**
@@ -88,7 +89,6 @@ public class SbgnPDLayout extends CoSELayout
 	{
         for (Object o : getAllNodes())
         {
-       	
                 if (!(o instanceof SbgnPDNode) || !((SbgnPDNode) o).isComplex()) continue;
                 SbgnPDNode comp = (SbgnPDNode) o;
 
