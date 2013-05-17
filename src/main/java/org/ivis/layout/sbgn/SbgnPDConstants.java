@@ -11,7 +11,7 @@ import org.ivis.layout.cose.CoSEConstants;
  */
 public class SbgnPDConstants extends CoSEConstants
 {
-	// Below are the SBGN specific types.
+	// Below are the SBGN glyph specific types.
 	public static final String MACROMOLECULE = "macromolecule";
 	public static final  String UNIT_OF_INFORMATION = "unit of information";
 	public static final  String STATE_VARIABLE = "state variable";
@@ -31,7 +31,27 @@ public class SbgnPDConstants extends CoSEConstants
 	public static final  String TAG = "tag";
 	public static final  String NUCLEIC_ACID_FEATURE = "nucleic acid feature";
 	public static final  String UNSPECIFIED_ENTITY = "unspecified entity";
+
+    // Below are the SBGN Arc specific types.
+    public static final  String PRODUCTION = "production";
+    public static final  String CONSUMPTION = "consumption";
+    public static final  String INHIBITION = "inhibition";
+    public static final  String CATALYSIS = "catalysis";
+    public static final  String MODULATION = "modulation";
+    public static final  String STIMULATION = "stimulation";
+    public static final  String NECESSARY_STIMULATION = "necessary stimulation";
 	
 	public static final int DEFAULT_HEIGHT = 100;
 	public static final int DEFAULT_INFO_BULB = 6;
+	
+	public static final int COMPLEX_MEM_HORIZONTAL_BUFFER = 15;
+	public static final int COMPLEX_MEM_VERTICAL_BUFFER = 15;
+	public static final int COMPLEX_MEM_MARGIN = 10;
+	public static final double COMPLEX_MIN_WIDTH = COMPLEX_MEM_MARGIN * 2;
+
+
+    /**
+     * Relativity constraint factor
+     */
+    public static double RELATIVITY_CONSTRAINT_CONSTANT = 0.01;
 }

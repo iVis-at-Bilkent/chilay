@@ -1,4 +1,3 @@
-
 package org.ivis.io.xml.model;
 
 import java.util.ArrayList;
@@ -70,7 +69,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "edgeComplexType", propOrder = {
     "sourceNode",
     "targetNode",
-    "bendPointList"
+    "bendPointList",
+    "type"
 })
 public class EdgeComplexType
     extends GraphObjectComplexType
@@ -81,6 +81,7 @@ public class EdgeComplexType
     @XmlElement(required = true)
     protected EdgeComplexType.TargetNode targetNode;
     protected EdgeComplexType.BendPointList bendPointList;
+    protected EdgeComplexType.Type type;
 
     /**
      * Gets the value of the sourceNode property.
@@ -92,6 +93,11 @@ public class EdgeComplexType
      */
     public EdgeComplexType.SourceNode getSourceNode() {
         return sourceNode;
+    }
+    
+    public EdgeComplexType.Type getTypeInfo()
+    {
+    	return type;
     }
 
     /**
@@ -402,4 +408,36 @@ public class EdgeComplexType
 
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "")
+    public static class Type {
+
+        @XmlAttribute
+        protected String value;
+
+        /**
+         * Gets the value of the id property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the id property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+    }
 }

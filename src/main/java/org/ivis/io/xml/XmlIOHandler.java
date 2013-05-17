@@ -1,12 +1,8 @@
 package org.ivis.io.xml;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -19,13 +15,20 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.ivis.io.xml.model.*;
+import org.ivis.io.xml.model.EdgeComplexType;
 import org.ivis.io.xml.model.EdgeComplexType.BendPointList;
 import org.ivis.io.xml.model.EdgeComplexType.BendPointList.BendPoint;
+import org.ivis.io.xml.model.GraphObjectComplexType;
+import org.ivis.io.xml.model.NodeComplexType;
 import org.ivis.io.xml.model.NodeComplexType.Bounds;
-import org.ivis.layout.*;
-import org.ivis.layout.cise.CiSELayout;
-import org.ivis.layout.cose.CoSELayout;
+import org.ivis.io.xml.model.ObjectFactory;
+import org.ivis.io.xml.model.View;
+import org.ivis.layout.LEdge;
+import org.ivis.layout.LGraph;
+import org.ivis.layout.LGraphManager;
+import org.ivis.layout.LGraphObject;
+import org.ivis.layout.LNode;
+import org.ivis.layout.Layout;
 import org.ivis.layout.sbgn.SbgnPDLayout;
 import org.ivis.util.PointD;
 import org.ivis.util.RectangleD;
@@ -217,8 +220,8 @@ public class XmlIOHandler
 	{
 		LEdge lEdge = this.layout.newEdge(null); 
 		
-		//lEdge.type = xmlEdge.getType();
-		
+		lEdge.type = xmlEdge.getTypeInfo().getValue();
+
 		// Find source and target nodes
 		String sourceXmlNodeId = xmlEdge.getSourceNode().getId();
 		String targetXmlNodeId = xmlEdge.getTargetNode().getId();
@@ -365,10 +368,25 @@ public class XmlIOHandler
 		handler.fromXML(new FileInputStream("src/main/java/org/ivis/io/xml/layout.xml"));
 
 		layout.runLayout();
-
+		
 		handler.toXML(new FileOutputStream("src/main/java/org/ivis/io/xml/layout_done.xml"));
 
 //		XmlIOHandler.generateClasses();
+	}
+	
+	// DUPLICATE
+	public Layout test() throws Exception
+	{
+		Layout layout = new SbgnPDLayout();
+		XmlIOHandler handler = new XmlIOHandler(layout);
+
+		handler.fromXML(new FileInputStream("org/ivis/io/xml/layout.xml"));
+
+		layout.runLayout();
+		
+		handler.toXML(new FileOutputStream("org/ivis/io/xml/layout_done.xml"));
+
+		return layout;
 	}
 	
 	/**
@@ -380,12 +398,15 @@ public class XmlIOHandler
 	{
 		String s = null;
 	
-		String execName = "C:\\Program Files\\Java\\jdk1.6.0_24\\bin\\xjc.exe";
+		String execName = "C:\\Program Files\\Java\\jdk1.7.0_10\\bin\\xjc.exe";
 	
 		System.out.println(execName);
-		Process p = Runtime.getRuntime().exec(execName +
-			" -p org.ivis.io.xml.model "+
-			"src/org/ivis/io/xml/layout.xsd -d src");
+		String deneme = execName +
+				" -p org.ivis.io.xml.model "+
+				"src/main/java/org/ivis/io/xml/layout.xsd -d src";
+	
+		System.out.println(deneme);
+		Process p = Runtime.getRuntime().exec(deneme);
 	
 		BufferedReader stdInput =
 			new BufferedReader(new InputStreamReader(p.getInputStream()));

@@ -16,10 +16,9 @@ public class SbgnPDEdge extends CoSEEdge
 	/**
 	 * Constructor
 	 */
-	public SbgnPDEdge(CoSENode source, CoSENode target, Object vEdge, String type)
+	public SbgnPDEdge(CoSENode source, CoSENode target, Object vEdge)
 	{
 		super(source, target, vEdge);
-		this.type = type;
 	}
 
 }

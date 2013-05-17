@@ -24,105 +24,20 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _EdgeComplexTypeTargetNode_QNAME = new QName("", "targetNode");
+    private final static QName _EdgeComplexTypeSourceNode_QNAME = new QName("", "sourceNode");
+    private final static QName _EdgeComplexTypeType_QNAME = new QName("", "type");
+    private final static QName _EdgeComplexTypeBendPointList_QNAME = new QName("", "bendPointList");
+    private final static QName _Node_QNAME = new QName("", "node");
     private final static QName _NodeComplexTypeBounds_QNAME = new QName("", "bounds");
     private final static QName _NodeComplexTypeClusterIDs_QNAME = new QName("", "clusterIDs");
     private final static QName _NodeComplexTypeChildren_QNAME = new QName("", "children");
-    private final static QName _NodeComplexTypeType_QNAME = new QName("", "type");
-    private final static QName _Node_QNAME = new QName("", "node");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mypackage
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link EdgeComplexType.SourceNode }
-     * 
-     */
-    public EdgeComplexType.SourceNode createEdgeComplexTypeSourceNode() {
-        return new EdgeComplexType.SourceNode();
-    }
-
-    /**
-     * Create an instance of {@link EdgeComplexType.TargetNode }
-     * 
-     */
-    public EdgeComplexType.TargetNode createEdgeComplexTypeTargetNode() {
-        return new EdgeComplexType.TargetNode();
-    }
-
-    /**
-     * Create an instance of {@link View }
-     * 
-     */
-    public View createView() {
-        return new View();
-    }
-
-    /**
-     * Create an instance of {@link NodeComplexType.Children }
-     * 
-     */
-    public NodeComplexType.Children createNodeComplexTypeChildren() {
-        return new NodeComplexType.Children();
-    }
-
-    /**
-     * Create an instance of {@link EdgeComplexType.BendPointList.BendPoint }
-     * 
-     */
-    public EdgeComplexType.BendPointList.BendPoint createEdgeComplexTypeBendPointListBendPoint() {
-        return new EdgeComplexType.BendPointList.BendPoint();
-    }
-
-    /**
-     * Create an instance of {@link CustomData }
-     * 
-     */
-    public CustomData createCustomData() {
-        return new CustomData();
-    }
-
-    /**
-     * Create an instance of {@link NodeComplexType }
-     * 
-     */
-    public NodeComplexType createNodeComplexType() {
-        return new NodeComplexType();
-    }
-
-    /**
-     * Create an instance of {@link NodeComplexType.Type }
-     * 
-     */
-    public NodeComplexType.Type createNodeComplexTypeType() {
-        return new NodeComplexType.Type();
-    }
-
-    /**
-     * Create an instance of {@link NodeComplexType.Bounds }
-     * 
-     */
-    public NodeComplexType.Bounds createNodeComplexTypeBounds() {
-        return new NodeComplexType.Bounds();
-    }
-
-    /**
-     * Create an instance of {@link EdgeComplexType.BendPointList }
-     * 
-     */
-    public EdgeComplexType.BendPointList createEdgeComplexTypeBendPointList() {
-        return new EdgeComplexType.BendPointList();
-    }
-
-    /**
-     * Create an instance of {@link NodeComplexType.ClusterIDs }
-     * 
-     */
-    public NodeComplexType.ClusterIDs createNodeComplexTypeClusterIDs() {
-        return new NodeComplexType.ClusterIDs();
     }
 
     /**
@@ -134,11 +49,152 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link View }
+     * 
+     */
+    public View createView() {
+        return new View();
+    }
+
+    /**
+     * Create an instance of {@link EdgeComplexType.Type }
+     * 
+     */
+//    public EdgeComplexType.Type createEdgeComplexTypeType() {
+//        return new EdgeComplexType.Type();
+//    }
+
+    /**
+     * Create an instance of {@link CustomData }
+     * 
+     */
+    public CustomData createCustomData() {
+        return new CustomData();
+    }
+
+    /**
+     * Create an instance of {@link NodeComplexType.Children }
+     * 
+     */
+    public NodeComplexType.Children createNodeComplexTypeChildren() {
+        return new NodeComplexType.Children();
+    }
+
+    /**
+     * Create an instance of {@link EdgeComplexType.BendPointList }
+     * 
+     */
+    public EdgeComplexType.BendPointList createEdgeComplexTypeBendPointList() {
+        return new EdgeComplexType.BendPointList();
+    }
+
+    /**
      * Create an instance of {@link GraphObjectComplexType }
      * 
      */
     public GraphObjectComplexType createGraphObjectComplexType() {
         return new GraphObjectComplexType();
+    }
+
+    /**
+     * Create an instance of {@link NodeComplexType.ClusterIDs }
+     * 
+     */
+    public NodeComplexType.ClusterIDs createNodeComplexTypeClusterIDs() {
+        return new NodeComplexType.ClusterIDs();
+    }
+
+    /**
+     * Create an instance of {@link EdgeComplexType.TargetNode }
+     * 
+     */
+    public EdgeComplexType.TargetNode createEdgeComplexTypeTargetNode() {
+        return new EdgeComplexType.TargetNode();
+    }
+
+    /**
+     * Create an instance of {@link NodeComplexType }
+     * 
+     */
+    public NodeComplexType createNodeComplexType() {
+        return new NodeComplexType();
+    }
+
+    /**
+     * Create an instance of {@link NodeComplexType.Bounds }
+     * 
+     */
+    public NodeComplexType.Bounds createNodeComplexTypeBounds() {
+        return new NodeComplexType.Bounds();
+    }
+
+    /**
+     * Create an instance of {@link EdgeComplexType.SourceNode }
+     * 
+     */
+    public EdgeComplexType.SourceNode createEdgeComplexTypeSourceNode() {
+        return new EdgeComplexType.SourceNode();
+    }
+
+    /**
+     * Create an instance of {@link EdgeComplexType.BendPointList.BendPoint }
+     * 
+     */
+    public EdgeComplexType.BendPointList.BendPoint createEdgeComplexTypeBendPointListBendPoint() {
+        return new EdgeComplexType.BendPointList.BendPoint();
+    }
+
+    /**
+     * Create an instance of {@link NodeComplexType.Type }
+     * 
+     */
+    public NodeComplexType.Type createNodeComplexTypeType() {
+        return new NodeComplexType.Type();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EdgeComplexType.TargetNode }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "targetNode", scope = EdgeComplexType.class)
+    public JAXBElement<EdgeComplexType.TargetNode> createEdgeComplexTypeTargetNode(EdgeComplexType.TargetNode value) {
+        return new JAXBElement<EdgeComplexType.TargetNode>(_EdgeComplexTypeTargetNode_QNAME, EdgeComplexType.TargetNode.class, EdgeComplexType.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EdgeComplexType.SourceNode }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "sourceNode", scope = EdgeComplexType.class)
+    public JAXBElement<EdgeComplexType.SourceNode> createEdgeComplexTypeSourceNode(EdgeComplexType.SourceNode value) {
+        return new JAXBElement<EdgeComplexType.SourceNode>(_EdgeComplexTypeSourceNode_QNAME, EdgeComplexType.SourceNode.class, EdgeComplexType.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EdgeComplexType.Type }{@code >}}
+     * 
+     */
+//    @XmlElementDecl(namespace = "", name = "type", scope = EdgeComplexType.class)
+//    public JAXBElement<EdgeComplexType.Type> createEdgeComplexTypeType(EdgeComplexType.Type value) {
+//        return new JAXBElement<EdgeComplexType.Type>(_EdgeComplexTypeType_QNAME, EdgeComplexType.Type.class, EdgeComplexType.class, value);
+//    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EdgeComplexType.BendPointList }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "bendPointList", scope = EdgeComplexType.class)
+    public JAXBElement<EdgeComplexType.BendPointList> createEdgeComplexTypeBendPointList(EdgeComplexType.BendPointList value) {
+        return new JAXBElement<EdgeComplexType.BendPointList>(_EdgeComplexTypeBendPointList_QNAME, EdgeComplexType.BendPointList.class, EdgeComplexType.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link NodeComplexType }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "node")
+    public JAXBElement<NodeComplexType> createNode(NodeComplexType value) {
+        return new JAXBElement<NodeComplexType>(_Node_QNAME, NodeComplexType.class, null, value);
     }
 
     /**
@@ -174,16 +230,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "type", scope = NodeComplexType.class)
     public JAXBElement<NodeComplexType.Type> createNodeComplexTypeType(NodeComplexType.Type value) {
-        return new JAXBElement<NodeComplexType.Type>(_NodeComplexTypeType_QNAME, NodeComplexType.Type.class, NodeComplexType.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link NodeComplexType }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "", name = "node")
-    public JAXBElement<NodeComplexType> createNode(NodeComplexType value) {
-        return new JAXBElement<NodeComplexType>(_Node_QNAME, NodeComplexType.class, null, value);
+        return new JAXBElement<NodeComplexType.Type>(_EdgeComplexTypeType_QNAME, NodeComplexType.Type.class, NodeComplexType.class, value);
     }
 
 }

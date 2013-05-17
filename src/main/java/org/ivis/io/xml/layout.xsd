@@ -111,6 +111,13 @@
 							</xsd:attribute>
 						</xsd:complexType>
 					</xsd:element>
+					<xsd:element name="type" maxOccurs="1" minOccurs="0">
+						<xsd:complexType>
+							<xsd:attribute name="value" type="xsd:string"
+								use="optional">
+							</xsd:attribute>
+						</xsd:complexType>
+					</xsd:element>
 					<xsd:element name="bendPointList" maxOccurs="1" minOccurs="0">
 						<xsd:complexType>
 							<xsd:sequence>
