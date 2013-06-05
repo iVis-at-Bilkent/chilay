@@ -7,6 +7,7 @@ import org.ivis.layout.cose.CoSEConstants;
  * This class maintains the constants used by Cluster layout.
  *
  * @author: Ugur Dogrusoz
+ * @author: Can Cagdas Cengiz
  *
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
@@ -32,13 +33,18 @@ public class ClusterConstants extends CoSEConstants
 	 * Determines the ratio of the inter-cluster edge length to intra-cluster
 	 * edge length 
 	 */
-	public static final double DEFAULT_INTER_CLUSTER_EDGE_LENGTH_RATIO = 2.0;
+	
+	public static final double DEFAULT_INTER_ZONE_EDGE_LENGTH_FACTOR = 2.0;
 	/**
 	 *
 	 * Determines how much the clusters should be separated
 	 */
-	public static final double DEFAULT_CLUSTER_REPULSION = 0.57;	
-
+	//public static final double DEFAULT_CLUSTER_REPULSION = 0.57;	
+	public static final double DEFAULT_ZONE_REPULSION_FACTOR = 1.0;
+	
+	public static final double DEFAULT_ZONE_SPRING_FACTOR = 1.5;
+	
+	
 // -----------------------------------------------------------------------------
 // Section: Cluster layout remaining contants
 // -----------------------------------------------------------------------------

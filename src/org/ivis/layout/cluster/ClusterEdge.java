@@ -45,7 +45,7 @@ public class ClusterEdge extends CoSEEdge
 	}
 	
 	
-	public void checkIsInterCluster()
+	public void setIsInterCluster()
 	{
 		if((this.source.getClusters().size() > 0 ) && 
 				(this.target.getClusters().size() > 0 )){

@@ -118,6 +118,32 @@ public class Cluster implements Comparable
 		this.clusterID = clusterID;
 	}
 	
+	/**
+	 * Copy constructor.
+	 */
+	public Cluster(Cluster c)
+	{
+		this.nodes = new HashSet<Clustered>();
+		
+		for(Object o: c.nodes)
+		{
+			Clustered node = (Clustered) o;
+			this.nodes.add(node);
+		}
+		
+		this.polygon = new ArrayList<PointD>();
+		
+		for(Object o: c.polygon)
+		{
+			PointD pt = (PointD) o;
+			this.polygon.add(pt);
+		}
+		
+		
+		this.clusterName = c.clusterName;
+		this.clusterID = c.clusterID;
+		
+	}
 	
 // -----------------------------------------------------------------------------
 // Section: Accessors

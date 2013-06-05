@@ -2,6 +2,7 @@ package org.ivis.util;
 
 import java.awt.geom.Line2D;
 import java.awt.Point;
+import java.util.ArrayList;
 
 /**
  * This class maintains a list of static geometry related utility methods.
@@ -9,6 +10,7 @@ import java.awt.Point;
  * @author Ugur Dogrusoz
  * @author Esat Belviranli
  * @author Shatlyk Ashyralyev
+ * @author Can Cagdas Cengiz
  *
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
@@ -585,6 +587,244 @@ abstract public class IGeometry
 		return result;
 	}
 
+	/**
+	* Given a vector as a PointD object, returns the normalized form of
+	* the vector in [-1, 1] scale.  
+	*/
+	public static PointD normalizeVector(PointD v)
+	{
+		double denom = (v.x * v.x) + (v.y * v.y);
+		denom = Math.sqrt(denom);
+		double x = v.x / denom;
+		double y = v.y / denom;
+		return new PointD(x, y);		
+	}
+	
+	/**
+	* Returns the projection of a given vector on the x-y 
+	* Cartesian plane. 
+	*/
+	public static PointD getXYProjection(double magnitude, PointD direction)
+	{
+		double sin = direction.y/(Math.sqrt((direction.x*direction.x)+(direction.y*direction.y)));
+		double cos = direction.x/(Math.sqrt((direction.x*direction.x)+(direction.y*direction.y)));
+		double x = magnitude * cos;
+		double y = magnitude * sin;
+		return new PointD(x,y);
+	}
+	
+	/**
+	 * This method is a dot product operator
+	 */
+	public static double dot(PointD p1, PointD p2)
+	{
+	    return p1.x*p2.x + p1.y*p2.y;
+	}
+	
+	/**
+	* Gather up one-dimensional extents of the projection of the polygon
+	* onto this axis.
+	*/
+	public static double [] gatherPolygonProjectionExtents( ArrayList<PointD> p, PointD v) 
+	{
+	 
+		double [] out = new double [2];
+		
+	    // Initialize extents to a single point, the first vertex
+	    out[0] = IGeometry.dot(v, p.get(0));	// min
+	    out[1] = IGeometry.dot(v, p.get(0));	// max
+	    
+	    // Now scan all the rest, growing extents to include them
+	    for (int i = 1; i < p.size(); ++i)
+	    {
+	        double d = IGeometry.dot(v, p.get(i));
+	        
+	        if (d < out[0]) 
+	        	out[0] = d;
+	        else if (d > out[1]) 
+	        	out[1] = d;
+	    }
+	    
+	    
+	    return out;
+	}
+	
+	/**
+	 * This method tests if two convex polygons overlap. 
+	 * Method is based on the separating axis theorem. It only
+	 * uses only the edges of the first polygon (polygon "p1")
+	 * to build the list of candidate separating axes.
+	*/
+	public static Object [] findSeparatingAxis (ArrayList<PointD> p1, 
+										ArrayList<PointD> p2) 
+	{
+		Object [] overlapInfo;
+		
+		int aVertCount;
+		int bVertCount;
+		
+		double minOverlap = Double.NEGATIVE_INFINITY;
+		PointD minVector = new PointD(0,0);
+		overlapInfo = new Object [2];
+		
+		aVertCount = p1.size();
+		bVertCount = p2.size();
+		
+		
+	    // Iterate over all the edges
+		int prev = aVertCount-1;
+	    
+		for (int cur = 0 ; cur < aVertCount ; ++cur)
+	    {
+	 
+	        // Get edge vector.  
+	        PointD edge; 
+	        double ex = p1.get(cur).x - p1.get(prev).x;
+	        double ey = p1.get(cur).y - p1.get(prev).y;
+	        edge = new PointD(ex, ey);
+	       
+	        // Rotate vector 90 degrees (doesn't matter which way) to get
+	        // candidate separating axis.
+	        PointD v;
+	        double vx = edge.y;
+	        double vy = -edge.x;
+	        v = IGeometry.normalizeVector(new PointD(vx,vy));
+			
+	        if ((v.y < 0.0))
+			{
+				
+				v.x = -(v.x);
+				v.y = -(v.y);
+				
+			}
+	        
+	        
+	        // Gather extents of both polygons projected onto this axis
+	        double [] p1Bounds; 
+	        double [] p2Bounds;
+	        p1Bounds = IGeometry.gatherPolygonProjectionExtents(p1, v);
+	        p2Bounds = IGeometry.gatherPolygonProjectionExtents(p2, v);
+	 
+	        
+	        // Is this a separating axis?
+	        if (p1Bounds[1] < p2Bounds[0]) 
+	        {
+	        	
+	        	overlapInfo[0] = 0.0;
+	        	overlapInfo[1] = minVector;
+	        	return overlapInfo;
+	        }	        	
+	        else
+	        {
+	        	// negative overlap
+	        	double overlap;
+	        	overlap = p2Bounds[0] - p1Bounds[1] ; 
+	        	if (Math.abs(overlap) < Math.abs(minOverlap))
+	        	{
+	        		minVector = v;
+	        		minOverlap = overlap;
+	        		
+	        	}
+	        }
+	        
+	        if (p2Bounds[1] < p1Bounds[0])
+	        {	
+	        	
+	        	overlapInfo[0] = 0.0;
+	        	overlapInfo[1] = minVector;
+	        	return overlapInfo;        	
+	        }
+	        else
+	        {
+	        	// positive overlap
+	        	double overlap;
+	        	overlap = p2Bounds[1] - p1Bounds[0]; 
+	        	if (Math.abs(overlap) < Math.abs(minOverlap))
+	        	{
+	        		minVector = v;
+	        		minOverlap = overlap;
+	        	}
+	        	
+	        }
+	        // Next edge
+	        prev = cur;
+	    }
+		
+		// Failed to find a separating axis
+		overlapInfo[0] = minOverlap;
+    	overlapInfo[1] = minVector;
+    	
+    	return overlapInfo;
+	    
+	}	
+	
+	/**
+	 * This method returns false if there is a separating axis 
+	 * between the polygons. If there is no separating axis, 
+	 * method returns true. 
+	 */	
+	public static Object [] convexPolygonOverlap (ArrayList<PointD> p1, 
+			ArrayList<PointD> p2) 
+	{
+		
+		Object [] overlapInfo1;
+		Object [] overlapInfo2;
+		
+		// Using P1's edges for a separating axis
+		overlapInfo1 = IGeometry.findSeparatingAxis(p1, p2);
+		if ((double) overlapInfo1[0] == 0.0)
+			return overlapInfo1;
+		
+		// Now swap roles, and use P2's edges
+		overlapInfo2 = IGeometry.findSeparatingAxis(p2, p1);
+		if ((double) overlapInfo2[0] == 0.0)
+			return overlapInfo2;
+		
+		// No separating axis found.  They must overlap.
+		// Return the minimum magnitude vector.
+		
+		if (Math.abs((double) overlapInfo1[0]) < Math.abs((double) overlapInfo2[0]))
+		{		
+			overlapInfo1[0] = -((double) overlapInfo1[0]);
+			
+			return overlapInfo1;
+		}
+		else
+		{	
+			
+			return overlapInfo2;
+		}
+		
+	}
+	
+	public static void calcPolygonSeparationAmount(ArrayList<PointD> p1,
+			ArrayList<PointD> p2, 
+			double [] overlapAmount)
+	{
+		Object [] info = convexPolygonOverlap(p1, p2);
+		double minOverlap = (double) info[0];
+		
+		if(minOverlap > Double.NEGATIVE_INFINITY)
+		{
+			System.out.println("minoverlap: "+minOverlap);
+			PointD minVector = (PointD) info[1];
+
+			PointD temp = IGeometry.getXYProjection(minOverlap,
+				minVector);
+		
+			overlapAmount[0] = temp.x;
+			
+			overlapAmount[1] = temp.y;
+		}
+		else
+		{
+			overlapAmount[0] = 0.0;
+			overlapAmount[1] = 0.0;
+		}
+		System.out.println("overlap igeo: "+overlapAmount[0]);
+	}
+	
+	
 	// TODO may not produce correct test results, since parameter order of
 	// RectangleD constructor is changed
 	private static void testClippingPoints()
@@ -731,6 +971,8 @@ abstract public class IGeometry
 		System.out.println("Clip Point of RectA X:" + clipPoints[0] + " Y: " + clipPoints[1]);
 		System.out.println("Clip Point of RectB X:" + clipPoints[2] + " Y: " + clipPoints[3]);	
 	}
+	
+
 	/*
 	 * Main method for testing purposes.
 	 */

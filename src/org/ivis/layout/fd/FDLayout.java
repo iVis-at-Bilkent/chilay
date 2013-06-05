@@ -428,14 +428,9 @@ public abstract class FDLayout extends Layout
 		double repulsionForceX;
 		double repulsionForceY;
 		
-		if (rectA.intersects(rectB))
+		if (nodeA.overlaps(nodeB, overlapAmount))
 		// two nodes overlap
 		{
-			// calculate separation amount in x and y directions
-			IGeometry.calcSeparationAmount(rectA,
-				rectB,
-				overlapAmount,
-				FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
 
 			repulsionForceX = overlapAmount[0];
 			repulsionForceY = overlapAmount[1];

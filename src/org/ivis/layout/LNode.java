@@ -4,6 +4,8 @@ import java.util.*;
 import java.awt.Point;
 import java.awt.Dimension;
 
+import org.ivis.layout.fd.FDLayoutConstants;
+import org.ivis.util.IGeometry;
 import org.ivis.util.Transform;
 import org.ivis.util.RectangleD;
 import org.ivis.util.PointD;
@@ -806,6 +808,34 @@ public class LNode extends LGraphObject implements Clustered
 		System.out.print("} ");
 	}
 
+	/**
+	 * This method returns true if two LNodes overlap along with the overlap 
+	 * amount in x and y directions. Method returns false if there is no overlap.
+	 */
+	public boolean overlaps(LNode nodeB, double[] overlapAmount)
+	{
+		RectangleD rectA = this.getRect();
+		RectangleD rectB = nodeB.getRect();
+		//System.out.println("In LNODE OVERLAPS");
+		if (rectA.intersects(rectB))
+		// two nodes overlap
+		{
+			// calculate separation amount in x and y directions
+			IGeometry.calcSeparationAmount(rectA,
+				rectB,
+				overlapAmount,
+				FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
+
+			return true;
+		}
+		
+		else
+		{
+			return false;
+		}
+	}
+	
+	
 // -----------------------------------------------------------------------------
 // Section: Class variables
 // -----------------------------------------------------------------------------
