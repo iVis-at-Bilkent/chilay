@@ -1,12 +1,17 @@
 package org.ivis.layout.sbgn;
 
-import java.util.*;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 import org.ivis.layout.LEdge;
 import org.ivis.layout.LGraph;
 import org.ivis.layout.LNode;
 import org.ivis.layout.cose.CoSELayout;
-import org.ivis.layout.fd.FDLayoutConstants;
+import org.ivis.layout.util.MemberPack;
+import org.ivis.layout.util.RectProc;
 
 /**
  * This class implements the layout process of SBGN notation.
@@ -17,11 +22,16 @@ import org.ivis.layout.fd.FDLayoutConstants;
  */
 public class SbgnPDLayout extends CoSELayout
 {
+	// VARIABLES SECTION
 
 	/**
 	 * For remembering contents of a complex.
 	 */
 	Map<SbgnPDNode, LGraph> childGraphMap;
+
+	/**
+	 * Used during Tiling.
+	 */
 	Map<SbgnPDNode, MemberPack> memberPackMap;
 
 	/**
@@ -31,14 +41,28 @@ public class SbgnPDLayout extends CoSELayout
 	LinkedList<SbgnPDNode> complexOrder;
 
 	/**
-	 * The constructor creates and associates with this layout a new graph
-	 * manager as well.
+	 * This parameter indicates the chosen tiling method. It is set to Polyomino
+	 * Packing by default.
 	 */
-	public SbgnPDLayout()
+	public int tilingMethod;
+
+	// METHODS SECTION
+
+	/**
+	 * The constructor creates and associates with this layout a new graph
+	 * manager as well. No tiling performs CoSE Layout.
+	 * 
+	 * @param tilingMethod
+	 *            - SbgnPDConstants.TILING, SbgnPDConstants.POLYOMINO_PACKING or
+	 *            SbgnPDConstants.NO_TILING
+	 */
+	public SbgnPDLayout(int tilingMethod)
 	{
 		childGraphMap = new HashMap<SbgnPDNode, LGraph>();
-		memberPackMap = new HashMap<SbgnPDNode, MemberPack>();
 		complexOrder = new LinkedList<SbgnPDNode>();
+		this.tilingMethod = tilingMethod;
+		if (tilingMethod == SbgnPDConstants.TILING)
+			memberPackMap = new HashMap<SbgnPDNode, MemberPack>();
 	}
 
 	/**
@@ -64,154 +88,24 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public boolean layout()
 	{
-		clearComplexes();
+		System.out.println("SbgnPDLayout runs..");
+
+		if (tilingMethod != SbgnPDConstants.NO_TILING)
+		{
+			complexSearch();
+			System.out.println("Complexes are cleared.");
+		}
+
 		boolean b = super.layout();
-		repopulateComplexes();
 
+		if (tilingMethod != SbgnPDConstants.NO_TILING)
+		{
+			repopulateComplexes();
+			System.out.println("Complexes are repopulated.");
+		}
+
+		System.out.println("Finished SbgnPDLayout.\n");
 		return b;
-	}
-
-	/**
-	 * This method is for orienting Ps and Ss
-	 */
-	private void calcRelativityConstraintForces()
-	{
-		for (int i = 0; i < this.getAllNodes().length; i++)
-		{
-			SbgnPDNode processNode = (SbgnPDNode) this.getAllNodes()[i];
-
-			if (processNode.type.equals(SbgnPDConstants.PROCESS))
-				continue;
-
-			Iterator itr = processNode.getEdges().iterator();
-			while (itr.hasNext())
-			{
-				SbgnPDEdge edge = (SbgnPDEdge) itr.next();
-
-				SbgnPDNode otherEnd = (SbgnPDNode) (edge
-						.getOtherEnd(processNode));
-				double orientationX = otherEnd.orientationX;
-				double orientationY = otherEnd.orientationY;
-				double orientation = Math.sqrt(orientationX * orientationX
-						+ orientationY * orientationY);
-
-				// Here we have substrates defined by the consumption type of
-				// the edges.
-				if (edge.type.equals(SbgnPDConstants.CONSUMPTION))
-				{
-					// As this is a substrate the orientation is inverse
-					orientationX = -orientationX;
-					orientationY = -orientationY;
-				}
-
-				// else it is
-
-				// This is the point we target for this node
-				double orientationTargetX = orientationX * this.idealEdgeLength
-						* 1.5 + otherEnd.getCenterX();
-				double orientationTargetY = orientationY * this.idealEdgeLength
-						* 1.5 + otherEnd.getCenterY();
-
-				// This is the vector that heads for that point
-				double distanceX = orientationTargetX
-						- processNode.getCenterX();
-				double distanceY = orientationTargetY
-						- processNode.getCenterY();
-				double distance = Math.sqrt(distanceX * distanceX + distanceY
-						* distanceY);
-				double forceX = (distance * distanceX)
-						* SbgnPDConstants.RELATIVITY_CONSTRAINT_CONSTANT
-						/ distance;
-				double forceY = (distance * distanceY)
-						* SbgnPDConstants.RELATIVITY_CONSTRAINT_CONSTANT
-						/ distance;
-
-				// Are force too big or too small?
-
-				if (forceX > 10)
-				{
-					forceX = 10;
-				}
-				else if (forceX < -10)
-				{
-					forceX = -10;
-				}
-
-				if (forceY > 10)
-				{
-					forceY = 10;
-				}
-				else if (forceY < -10)
-				{
-					forceY = -10;
-				}
-
-				processNode.relativityConstraintX += forceX;
-				processNode.relativityConstraintY += forceY;
-			}
-		}
-	}
-
-	/**
-	 * @Override This method performs the actual layout on the l-level compound
-	 *           graph. An update() needs to be called for changes to be
-	 *           propogated to the v-level compound graph.
-	 */
-	public void runSpringEmbedder()
-	{
-		// if (!this.incremental)
-		// {
-		// CoSELayout.randomizedMovementCount = 0;
-		// CoSELayout.nonRandomizedMovementCount = 0;
-		// }
-
-		// this.updateAnnealingProbability();
-
-		do
-		{
-			this.totalIterations++;
-
-			if (this.totalIterations
-					% FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
-			{
-				if (this.isConverged())
-				{
-					break;
-				}
-
-				this.coolingFactor = this.initialCoolingFactor
-						* ((this.maxIterations - this.totalIterations) / (double) this.maxIterations);
-
-				// this.updateAnnealingProbability();
-			}
-
-			this.totalDisplacement = 0;
-
-			this.graphManager.updateBounds();
-			this.calcSpringForces();
-			this.calcRepulsionForces();
-			this.calcGravitationalForces();
-			this.calcRelativityConstraintForces();
-			this.moveNodes();
-			this.updateNodeOrientations();
-
-			this.animate();
-		}
-		while (this.totalIterations < this.maxIterations);
-
-		this.graphManager.updateBounds();
-	}
-
-	/**
-	 * This method is for updating orientatiıons of nodes
-	 */
-	private void updateNodeOrientations()
-	{
-		for (int i = 0; i < this.getAllNodes().length; i++)
-		{
-			SbgnPDNode node = (SbgnPDNode) this.getAllNodes()[i];
-			node.updateOrientation();
-		}
 	}
 
 	/**
@@ -219,7 +113,7 @@ public class SbgnPDLayout extends CoSELayout
 	 * contain complex children. After the order is found, child graphs of each
 	 * complex node are cleared.
 	 */
-	public void clearComplexes()
+	public void complexSearch()
 	{
 		for (Object o : getAllNodes())
 		{
@@ -228,7 +122,7 @@ public class SbgnPDLayout extends CoSELayout
 
 			SbgnPDNode comp = (SbgnPDNode) o;
 
-			// complex is found, recurse on it.
+			// complex is found, recurse on it until no visited complex remains.
 			if (!comp.marked)
 				recurseOnComplex(comp);
 		}
@@ -272,7 +166,6 @@ public class SbgnPDLayout extends CoSELayout
 	 * This method checks if the given node contains any unmarked complex nodes
 	 * in its child graph.
 	 * 
-	 * @param comp
 	 * @return true - if there are unmarked complex nodes false - otherwise
 	 */
 	public boolean containsUnmarkedComplex(SbgnPDNode comp)
@@ -288,29 +181,36 @@ public class SbgnPDLayout extends CoSELayout
 		return false;
 	}
 
+	/**
+	 * This method applies polyomino packing on the child graph of a complex
+	 * member and then..
+	 * 
+	 * @param comp
+	 */
 	private void clearComplex(SbgnPDNode comp)
 	{
 		LGraph childGr = comp.getChild();
-
 		childGraphMap.put(comp, childGr);
-		MemberPack pack = new MemberPack(childGr);
-		memberPackMap.put(comp, pack);
+		MemberPack pack = null;
+		if (tilingMethod == SbgnPDConstants.POLYOMINO_PACKING)
+		{
+			applyPolyomino(comp, childGr);
+		}
+		else if (tilingMethod == SbgnPDConstants.TILING)
+		{
+			pack = new MemberPack(childGr);
+			memberPackMap.put(comp, pack);
 
-		// for debug purposes, print the complex and its children
-		// System.out.println(comp);
-		// System.out.println("children");
-		// for (Object n : childGr.getNodes())
-		// {
-		// SbgnPDNode n2 = (SbgnPDNode) n;
-		// System.out.println(n2);
-		// }
-		// System.out.println();
+		}
 
 		getGraphManager().getGraphs().remove(childGr);
 		comp.setChild(null);
 
-		comp.setWidth(pack.getWidth());
-		comp.setHeight(pack.getHeight());
+		if (tilingMethod == SbgnPDConstants.TILING)
+		{
+			comp.setWidth(pack.getWidth());
+			comp.setHeight(pack.getHeight());
+		}
 
 		// Redirect the edges of complex members to the complex.
 		for (Object ch : childGr.getNodes())
@@ -334,7 +234,26 @@ public class SbgnPDLayout extends CoSELayout
 				}
 			}
 		}
+	}
 
+	/**
+	 * This method tiles the given list of nodes by using polyomino packing
+	 * algorithm.
+	 */
+	private void applyPolyomino(SbgnPDNode parent, LGraph graph)
+	{
+		SbgnPDNode[] mpArray = new SbgnPDNode[graph.getNodes().size()];
+
+		for (int i = 0; i < graph.getNodes().size(); i++)
+		{
+			SbgnPDNode s = (SbgnPDNode) graph.getNodes().get(i);
+			mpArray[i] = s;
+		}
+
+		Rectangle r = RectProc.packRectanglesMino(1, mpArray.length, mpArray);
+
+		parent.setWidth(r.getWidth() + 2 * SbgnPDConstants.COMPLEX_MEM_MARGIN);
+		parent.setHeight(r.getHeight() + 2 * SbgnPDConstants.COMPLEX_MEM_MARGIN);
 	}
 
 	/**
@@ -348,271 +267,32 @@ public class SbgnPDLayout extends CoSELayout
 			LGraph chGr = childGraphMap.get(comp);
 
 			comp.setChild(chGr);
-			getGraphManager().getGraphs().add(chGr);
-			MemberPack pack = memberPackMap.get(comp);
-			pack.adjustLocations(comp.getLeft(), comp.getTop());
 
+			if (tilingMethod == SbgnPDConstants.POLYOMINO_PACKING)
+			{
+				Rectangle rect = LGraph.calculateBounds(chGr.getNodes());
+				int differenceX = (int) (rect.x - comp.getLeft());
+				int differenceY = (int) (rect.y - comp.getTop());
+
+				for (int j = 0; j < chGr.getNodes().size(); j++)
+				{
+					SbgnPDNode s = (SbgnPDNode) chGr.getNodes().get(j);
+					s.setLocation(s.getLeft() - differenceX
+							+ SbgnPDConstants.COMPLEX_MEM_MARGIN, s.getTop()
+							- differenceY + SbgnPDConstants.COMPLEX_MEM_MARGIN);
+				}
+				getGraphManager().getGraphs().add(chGr);
+			}
+			else if (tilingMethod == SbgnPDConstants.TILING)
+			{
+				getGraphManager().getGraphs().add(chGr);
+
+				MemberPack pack = memberPackMap.get(comp);
+				pack.adjustLocations(comp.getLeft(), comp.getTop());
+			}
 		}
 		getGraphManager().resetAllNodes();
 		getGraphManager().resetAllNodesToApplyGravitation();
 		getGraphManager().resetAllEdges();
 	}
-
-	protected class Organization
-	{
-		private double width;
-		private double height;
-
-		private List<Double> rowWidth;
-		private List<LinkedList<SbgnPDNode>> rows;
-
-		public Organization()
-		{
-			this.width = SbgnPDConstants.COMPLEX_MEM_MARGIN * 2;
-			this.height = (SbgnPDConstants.COMPLEX_MEM_MARGIN * 2);
-
-			rowWidth = new ArrayList<Double>();
-			rows = new ArrayList<LinkedList<SbgnPDNode>>();
-		}
-
-		public double getWidth()
-		{
-			shiftToLastRow();
-			return width;
-		}
-
-		public double getHeight()
-		{
-			return height;
-		}
-
-		private int getShortestRowIndex()
-		{
-			int r = -1;
-			double min = Double.MAX_VALUE;
-
-			for (int i = 0; i < rows.size(); i++)
-			{
-				if (rowWidth.get(i) < min)
-				{
-					r = i;
-					min = rowWidth.get(i);
-				}
-			}
-
-			return r;
-		}
-
-		private int getLongestRowIndex()
-		{
-			int r = -1;
-			double max = Double.MIN_VALUE;
-
-			for (int i = 0; i < rows.size(); i++)
-			{
-				if (rowWidth.get(i) > max)
-				{
-					r = i;
-					max = rowWidth.get(i);
-				}
-			}
-
-			return r;
-		}
-
-		public void insertNode(SbgnPDNode node)
-		{
-			if (rows.isEmpty())
-			{
-				insertNodeToRow(node, 0);
-			}
-			else if (canAddHorizontal(node.getWidth(), node.getHeight()))
-			{
-				insertNodeToRow(node, getShortestRowIndex());
-			}
-			else
-			{
-				insertNodeToRow(node, rows.size());
-			}
-		}
-
-		private void insertNodeToRow(SbgnPDNode node, int rowIndex)
-		{
-			// Add new row if needed
-
-			if (rowIndex == rows.size())
-			{
-				if (!rows.isEmpty())
-				{
-					height += SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER;
-				}
-				rows.add(new LinkedList<SbgnPDNode>());
-				height += node.getHeight();
-				rowWidth.add(SbgnPDConstants.COMPLEX_MIN_WIDTH);
-
-				assert rows.size() == rowWidth.size();
-			}
-
-			// Update row width
-			double w = rowWidth.get(rowIndex) + node.getWidth();
-			if (!rows.get(rowIndex).isEmpty())
-				w += SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER;
-			rowWidth.set(rowIndex, w);
-
-			// Insert node
-			rows.get(rowIndex).add(node);
-
-			// Update complex width
-			if (width < w)
-			{
-				width = w;
-			}
-		}
-
-		private void shiftToLastRow()
-		{
-			int longest = getLongestRowIndex();
-			int last = rowWidth.size() - 1;
-			LinkedList<SbgnPDNode> row = rows.get(longest);
-			SbgnPDNode node = row.getLast();
-			double diff = node.getWidth()
-					+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER;
-
-			if (width - rowWidth.get(last) > diff)
-			{
-				row.removeLast();
-				rows.get(last).add(node);
-				rowWidth.set(longest, rowWidth.get(longest) - diff);
-				rowWidth.set(last, rowWidth.get(last) + diff);
-
-				width = rowWidth.get(getLongestRowIndex());
-
-				shiftToLastRow();
-			}
-		}
-
-		private boolean canAddHorizontal(double extraWidth, double extraHeight)
-		{
-			int sri = getShortestRowIndex();
-
-			if (sri < 0)
-				return true;
-
-			double min = rowWidth.get(sri);
-
-			if (width - min >= extraWidth
-					+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER)
-			{
-				return true;
-			}
-
-			return height + SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER
-					+ extraHeight > min + extraWidth
-					+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER;
-		}
-
-		public void adjustLocations(double x, double y)
-		{
-			x += SbgnPDConstants.COMPLEX_MEM_MARGIN;
-			y += SbgnPDConstants.COMPLEX_MEM_MARGIN;
-
-			double left = x;
-
-			for (LinkedList<SbgnPDNode> row : rows)
-			{
-				x = left;
-				double maxHeight = 0;
-				for (SbgnPDNode node : row)
-				{
-					node.setLocation(x, y);
-					x += node.getWidth()
-							+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER;
-
-					if (node.getHeight() > maxHeight)
-						maxHeight = node.getHeight();
-				}
-
-				y += maxHeight + SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER;
-			}
-		}
-	}
-
-	protected class MemberPack
-	{
-		private List<SbgnPDNode> members;
-		private Organization org;
-
-		public MemberPack(LGraph childG)
-		{
-			members = new ArrayList<SbgnPDNode>();
-			members.addAll(childG.getNodes());
-			org = new Organization();
-
-			layout();
-		}
-
-		public void layout()
-		{
-			ComparableNode[] compar = new ComparableNode[members.size()];
-
-			int i = 0;
-			for (SbgnPDNode node : members)
-			{
-				compar[i++] = new ComparableNode(node);
-			}
-
-			Arrays.sort(compar);
-
-			members.clear();
-			for (ComparableNode com : compar)
-			{
-				members.add(com.getNode());
-			}
-
-			for (SbgnPDNode node : members)
-			{
-				org.insertNode(node);
-			}
-		}
-
-		public double getWidth()
-		{
-			return org.getWidth();
-		}
-
-		public double getHeight()
-		{
-			return org.getHeight();
-		}
-
-		public void adjustLocations(double x, double y)
-		{
-			org.adjustLocations(x, y);
-		}
-	}
-
-	protected class ComparableNode implements Comparable
-	{
-		private SbgnPDNode node;
-
-		public ComparableNode(SbgnPDNode node)
-		{
-			this.node = node;
-		}
-
-		public SbgnPDNode getNode()
-		{
-			return node;
-		}
-
-		/**
-		 * Inverse compare function to order descending.
-		 */
-		public int compareTo(Object o)
-		{
-			return (new Double(((ComparableNode) o).getNode().getWidth()))
-					.compareTo(node.getWidth());
-		}
-	}
-
 }
