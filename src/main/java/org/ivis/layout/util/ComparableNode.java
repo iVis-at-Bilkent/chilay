@@ -3,7 +3,7 @@ package org.ivis.layout.util;
 import org.ivis.layout.sbgn.SbgnPDNode;
 
 /**
- * Sort the given nodes according to their widths.
+ * Sort the given nodes according to their area calculations.
  * 
  */
 public class ComparableNode implements Comparable
@@ -21,11 +21,12 @@ public class ComparableNode implements Comparable
 	}
 
 	/**
-	 * Inverse compare function to order descending.
+	 * Descending order of areas
 	 */
 	public int compareTo(Object o)
 	{
-		return (new Double(((ComparableNode) o).getNode().getWidth()))
-				.compareTo(node.getWidth());
+		return (new Double(((ComparableNode) o).getNode().getWidth()
+				* ((ComparableNode) o).getNode().getHeight())
+				.compareTo(node.getWidth() * node.getHeight()));
 	}
 }

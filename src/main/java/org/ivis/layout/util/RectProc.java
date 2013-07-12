@@ -1,7 +1,6 @@
 package org.ivis.layout.util;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.Random;
 
 import org.ivis.layout.sbgn.SbgnPDNode;
@@ -51,72 +50,41 @@ public class RectProc
 		}
 	}
 
-	public static Rectangle calcBoundingRect(SbgnPDNode[] rectangles)
-	{
-		int minX = Integer.MAX_VALUE;
-		int maxX = Integer.MIN_VALUE;
-		int minY = Integer.MAX_VALUE;
-		int maxY = Integer.MIN_VALUE;
-
-		for (int i = 0; i < rectangles.length; i++)
-		{
-			if (rectangles[i].getLeft() < minX)
-				minX = (int) rectangles[i].getLeft();
-			if (rectangles[i].getLeft() + rectangles[i].getWidth() > maxX)
-				maxX = (int) (rectangles[i].getLeft() + rectangles[i]
-						.getWidth());
-			if (rectangles[i].getTop() < minY)
-				minY = (int) rectangles[i].getTop();
-			if (rectangles[i].getTop() + rectangles[i].getHeight() > maxY)
-				maxY = (int) (rectangles[i].getTop() + rectangles[i]
-						.getHeight());
-		}
-
-		return new Rectangle(minX, minY, maxX - minX, maxY - minY);
-	}
-
 	/**
 	 * This method packs rectangles using polyomino packing algorithm.
 	 * 
 	 * @return
 	 */
-	public static Rectangle packRectanglesMino(double delta, int rN,
+	public static void packRectanglesMino(double buffer, int rN,
 			SbgnPDNode[] rectangles)
 	{
 		// make the intermediate data structure
 		double[] rX1 = new double[rN];
 		double[] rY1 = new double[rN];
-		double[] rL = new double[rN];
+		double[] rW = new double[rN];
 		double[] rH = new double[rN];
 
 		for (int i = 0; i < rN; i++)
 		{
 			rX1[i] = rectangles[i].getCenterX();
 			rY1[i] = rectangles[i].getCenterY();
-			rL[i] = rectangles[i].getWidth();
+			rW[i] = rectangles[i].getWidth();
 			rH[i] = rectangles[i].getHeight();
 		}
 
 		for (int i = 0; i < rN; i++)
 		{
-			rX1[i] -= rL[i] / 2;
+			rX1[i] -= rW[i] / 2;
 			rY1[i] -= rH[i] / 2;
 		}
 
 		// do the packing
-		packRectanglesMino(delta, rN, rX1, rL, rY1, rH);
-
-		// TODO I commented out the compress rectangles methods due to some
-		// missing classes.
-		// improve the packing by rectangle compaction
-		// EliminateRectangleIntersections(delta,rN,rX1,rL,rY1,rH);
-		// CompressRectangles(delta,rN,rX1,rL,rY1,rH);
-		// CompressRectangles(delta,rN,rX1,rL,rY1,rH);
+		packRectanglesMino(buffer, rN, rX1, rW, rY1, rH, rectangles);
 
 		// transfer back the results
 		for (int i = 0; i < rN; i++)
 		{
-			rX1[i] += rL[i] / 2;
+			rX1[i] += rW[i] / 2;
 			rY1[i] += rH[i] / 2;
 		}
 
@@ -124,37 +92,38 @@ public class RectProc
 		{
 			rectangles[i].setCenter(rX1[i], rY1[i]);
 		}
-
-		return calcBoundingRect(rectangles);
 	}
 
 	/**
 	 * This method packs rectangles using polyomino packing algorithm.
 	 */
 
-	static void packRectanglesMino(double delta, int rN, double[] rX,
-			double[] rL, double[] rY, double[] rH)
+	static void packRectanglesMino(double buffer, int rN, double[] rX,
+			double[] rW, double[] rY, double[] rH, SbgnPDNode[] rectangles)
 	{
 		if (rN == 0)
 			return;
 
-		// claculate the grid step
-		// double stepX = 0,stepY = 0;
-		double area = 0;
+		double stepX = 5, stepY = 5;
 
-		for (int i = 0; i < rN; i++)
-		{
-			// stepX+=rL[i]+delta;
-			// stepY+=rH[i]+delta;
-			area += (rL[i] + delta) * (rH[i] + delta);
-		}
-
-		double stepX = Math.sqrt(area / (rN * 16));
-		// (stepX+stepY)/(rN*8);
+		// dynamically calculate the grid step
+		// double area = 0;
+		//
+		// for (int i = 0; i < rN; i++)
+		// {
+		// // stepX+=rL[i]+delta;
+		// // stepY+=rH[i]+delta;
+		// area += (rW[i] + delta) * (rH[i] + delta);
+		// }
+		//
+		// double stepX = Math.sqrt(area / (rN * 16));
+		// // (stepX+stepY)/(rN*8);
+		//
 
 		// adjust respecting the aspect ratio
+
 		double fstep = 2 / (1 + AspectRatio);
-		double stepY = stepX * AspectRatio * fstep;
+		stepY = stepX * AspectRatio * fstep;
 		stepX *= fstep;
 
 		// make the polyomino representation
@@ -163,22 +132,24 @@ public class RectProc
 		for (int i = 0; i < rN; i++)
 		{
 			// size of the rectangle in grid units
-			int L = (int) Math.ceil((rL[i] + delta) / stepX);
-			int H = (int) Math.ceil((rH[i] + delta) / stepY);
+			int W = (int) Math.ceil((rW[i] + buffer) / stepX);
+			int H = (int) Math.ceil((rH[i] + buffer) / stepY);
 
 			minos[i] = new Polyomino();
-			minos[i].coord = new Point[L * H];
+			minos[i].coord = new Point[W * H];
 
 			// create the polyomino cells
 			int cnt = 0;
 			for (int y = 0; y < H; y++)
-				for (int x = 0; x < L; x++)
+				for (int x = 0; x < W; x++)
 				{
 					minos[i].coord[cnt] = new Point();
 					minos[i].coord[cnt].x = x;
 					minos[i].coord[cnt++].y = y;
+
 				}
 			minos[i].l = cnt;
+			minos[i].label = rectangles[i].label;
 		}
 
 		// do the packing

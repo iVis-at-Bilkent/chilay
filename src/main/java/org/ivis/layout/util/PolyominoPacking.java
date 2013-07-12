@@ -9,9 +9,7 @@ import java.util.Random;
  * set of cells in the infinite planar square grid. The algorithms finds a
  * placement of polyominoes such that the bounding square is minimized.
  * 
- * @author Begum Genc
  */
-
 public class PolyominoPacking
 {
 	/**
@@ -38,14 +36,14 @@ public class PolyominoPacking
 	 * Grid size
 	 */
 	int sizeX;
-	
+
 	/**
 	 * Grid size
 	 */
 	int sizeY;
 
 	/**
-	 *  The number of already placed polyominoes
+	 * The number of already placed polyominoes
 	 */
 	int curmino;
 
@@ -76,7 +74,7 @@ public class PolyominoPacking
 		for (int k = 0; k < pcount; k++)
 			RandomizeMino(k);
 
-		// order the polyominoes in incresing size """""""""""""""
+		// order the polyominoes in increasing size
 		double[] key = new double[pcount];
 		ind = new int[pcount];
 
@@ -91,7 +89,6 @@ public class PolyominoPacking
 		for (curmino = 0; curmino < pcount; curmino++)
 			putMino(ind[curmino]);
 	}
-
 
 	/**
 	 * This creates the grid of given dimensions and fills it with the already
@@ -131,7 +128,8 @@ public class PolyominoPacking
 	}
 
 	/**
-	 * This method checks whether p can be placed in (x,y).
+	 * This method checks whether p can be placed in (x,y). For each polyomino,
+	 * check if the (x,y) is occupied/fits in the grid.
 	 */
 	boolean IsFreePlace(int x, int y, Polyomino p)
 	{
@@ -160,6 +158,7 @@ public class PolyominoPacking
 	boolean tryPlacing(int pi)
 	{
 		Polyomino p = polyominoes[pi];
+
 		int cx = gcx - (int) (rect[pi].getMaxX() + rect[pi].getMinX()) / 2;
 		int cy = gcy - (int) (rect[pi].getMaxY() + rect[pi].getMinY()) / 2;
 
@@ -221,9 +220,9 @@ public class PolyominoPacking
 	{
 		Polyomino p = polyominoes[pi];
 		int i;
+
 		// make the random permutation. Theoretically it speeds up the
 		// algorithm a little.
-
 		for (i = 0; i < p.l; i++)
 		{
 			int i1 = Rgen.nextInt(p.l - i) + i;
@@ -232,7 +231,7 @@ public class PolyominoPacking
 			p.coord[i1] = tmp;
 		}
 
-		// calculate the bounding rectangles
+		// calculate the bounding rectangle of the polyomino
 		rect[pi] = new Rectangle();
 
 		int minX = Integer.MAX_VALUE;
@@ -258,5 +257,4 @@ public class PolyominoPacking
 		rect[pi].width = maxX - minX;
 		rect[pi].height = maxY - minY;
 	}
-
 }

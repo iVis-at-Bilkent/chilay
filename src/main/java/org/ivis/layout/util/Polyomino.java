@@ -3,7 +3,7 @@ package org.ivis.layout.util;
 import java.awt.Point;
 
 /**
- * This class defines a polyomino.
+ * This class defines a polyomino, which includes many small fragments.
  */
 
 public final class Polyomino{
@@ -12,6 +12,8 @@ public final class Polyomino{
 
 	//the resulting placement coordinates
 	public int x,y;
+	
+	public String label;
 
 	// polyomino cells
 	public Point []coord;

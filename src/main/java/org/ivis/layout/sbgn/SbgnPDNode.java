@@ -2,8 +2,10 @@ package org.ivis.layout.sbgn;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.ivis.layout.LEdge;
 import org.ivis.layout.LGraphManager;
 import org.ivis.layout.LNode;
 import org.ivis.layout.cose.CoSENode;
@@ -12,7 +14,8 @@ import org.ivis.layout.cose.CoSENode;
  * This class implements SBGN specific data and functionality for nodes.
  * 
  * @author Begum Genc
- * 
+ * @author Istemi Bahceci
+ 
  *         Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
 public class SbgnPDNode extends CoSENode
@@ -37,15 +40,18 @@ public class SbgnPDNode extends CoSENode
      */
 	public double orientationY;
 
-	public boolean marked;
+	/**
+	 * This parameter is used in DFS to order complex members.
+	 */
+	public boolean visited;
 
 	/**
 	 * Constructor
 	 */
-	public SbgnPDNode(LGraphManager gm, LNode vNode)
+	public SbgnPDNode(LGraphManager gm, Object vNode)
 	{
 		super(gm, vNode);
-		this.marked = false;
+		this.visited = false;
 	}
 
 	/**
@@ -56,7 +62,8 @@ public class SbgnPDNode extends CoSENode
 	{
 		super(gm, loc, size, vNode);
 		this.type = type;
-		this.marked = false;
+		this.visited = false;
+		this.label = vNode.label;
 	}
 
 	public boolean isComplex()
@@ -85,8 +92,7 @@ public class SbgnPDNode extends CoSENode
 						- edge.getOtherEnd(this).getCenterX();
 				distanceY += this.getCenterY()
 						- edge.getOtherEnd(this).getCenterY();
-			}
-			else if (edge.type.equals(SbgnPDConstants.PRODUCTION))
+			} else if (edge.type.equals(SbgnPDConstants.PRODUCTION))
 			{
 				distanceX += edge.getOtherEnd(this).getCenterX()
 						- this.getCenterX();
@@ -98,6 +104,55 @@ public class SbgnPDNode extends CoSENode
 			this.orientationX += distanceX / distance;
 			this.orientationY += distanceY / distance;
 		}
-
 	}
+
+
+	/**
+	 * This method checks if the given node contains any unmarked complex nodes
+	 * in its child graph.
+	 * 
+	 * @return true - if there are unmarked complex nodes false - otherwise
+	 */
+	public boolean containsUnmarkedComplex(SbgnPDNode comp)
+	{
+		if (comp.getChild() == null)
+			return false;
+		else
+		{
+			for (Object child : comp.getChild().getNodes())
+			{
+				SbgnPDNode sbgnChild = (SbgnPDNode) child;
+
+				if (sbgnChild.isComplex() && !sbgnChild.visited)
+					return true;
+			}
+			return false;
+		}
+	}
+	
+
+	/**
+	 * This method returns the neighbors of a given node. Notice that the graph
+	 * is directed. Therefore edges should have the given node as the source
+	 * node.
+	 */
+	public ArrayList<SbgnPDNode> getNeighbors()
+	{
+		ArrayList<SbgnPDNode> neighbors = new ArrayList<>();
+
+		for (int i = 0; i < this.getEdges().size(); i++)
+		{
+			LEdge e = (LEdge) this.getEdges().get(i);
+
+			if (e.getSource().equals(this)
+					&& !e.getTarget().equals(this))
+			{
+				SbgnPDNode s = (SbgnPDNode) e.getTarget();
+				neighbors.add(s);
+			}
+		}
+		return neighbors;
+	}
+
+
 }

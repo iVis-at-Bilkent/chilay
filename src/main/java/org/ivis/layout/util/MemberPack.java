@@ -10,7 +10,7 @@ import org.ivis.layout.sbgn.SbgnPDNode;
 public class MemberPack
 {
 	private List<SbgnPDNode> members;
-	private Organization org;
+	public Organization org;
 
 	public MemberPack(LGraph childG)
 	{
@@ -32,13 +32,13 @@ public class MemberPack
 	public void layout()
 	{
 		// ComparableNode[] compar = new ComparableNode[members.size()];
-		ComparableNodeArea[] compar = new ComparableNodeArea[members.size()];
+		ComparableNode[] compar = new ComparableNode[members.size()];
 
 		int i = 0;
 		for (SbgnPDNode node : members)
 		{
 			// compar[i++] = new ComparableNode(node);
-			compar[i++] = new ComparableNodeArea(node);
+			compar[i++] = new ComparableNode(node);
 
 		}
 
@@ -46,7 +46,7 @@ public class MemberPack
 
 		members.clear();
 		// for (ComparableNode com : compar)
-		for (ComparableNodeArea com : compar)
+		for (ComparableNode com : compar)
 		{
 			members.add(com.getNode());
 		}
@@ -55,6 +55,11 @@ public class MemberPack
 		{
 			org.insertNode(node);
 		}
+
+		// Compaction c = new Compaction(
+		// (ArrayList<SbgnPDNode>) members);
+		// c.perform();
+
 	}
 
 	public double getWidth()
@@ -71,4 +76,10 @@ public class MemberPack
 	{
 		org.adjustLocations(x, y);
 	}
+
+	public List<SbgnPDNode> getMembers()
+	{
+		return members;
+	}
+
 }

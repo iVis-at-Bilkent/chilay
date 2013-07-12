@@ -3,7 +3,6 @@ package org.ivis.layout.util;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import org.ivis.layout.sbgn.SbgnPDConstants;
 import org.ivis.layout.sbgn.SbgnPDNode;
@@ -93,12 +92,10 @@ public class Organization
 		if (rows.isEmpty())
 		{
 			insertNodeToRow(node, 0);
-		}
-		else if (canAddHorizontal(node.getWidth(), node.getHeight()))
+		} else if (canAddHorizontal(node.getWidth(), node.getHeight()))
 		{
 			insertNodeToRow(node, getShortestRowIndex());
-		}
-		else
+		} else
 		{
 			insertNodeToRow(node, rows.size());
 		}
@@ -123,6 +120,7 @@ public class Organization
 			}
 			rows.add(new LinkedList<SbgnPDNode>());
 			height += node.getHeight();
+
 			rowWidth.add(SbgnPDConstants.COMPLEX_MIN_WIDTH);
 
 			assert rows.size() == rowWidth.size();
@@ -130,12 +128,18 @@ public class Organization
 
 		// Update row width
 		double w = rowWidth.get(rowIndex) + node.getWidth();
+
 		if (!rows.get(rowIndex).isEmpty())
+		{
 			w += SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER;
+		}
 		rowWidth.set(rowIndex, w);
 
 		// Insert node
 		rows.get(rowIndex).add(node);
+
+		// TODO can you find a better height management function?
+		updateHeight();
 
 		// Update complex width
 		if (width < w)
@@ -154,12 +158,11 @@ public class Organization
 		int last = rowWidth.size() - 1;
 		LinkedList<SbgnPDNode> row = rows.get(longest);
 		SbgnPDNode node = row.getLast();
+
 		double diff = node.getWidth()
 				+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER;
 
-		double heightDifference = node.getHeight() - findHeightOfRow(last);
-		
-		if (width - rowWidth.get(last) > diff && heightDifference > diff)
+		if (width - rowWidth.get(last) > diff)
 		{
 			row.removeLast();
 			rows.get(last).add(node);
@@ -175,37 +178,24 @@ public class Organization
 	}
 
 	/**
-	 * Finds height of the given row and returns it.
-	 */
-	private double findHeightOfRow(int index)
-	{
-		double maxHeight = 0;
-		List<SbgnPDNode> row = rows.get(index);
-		for(int i = 0; i < row.size(); i++)
-		{
-			if(row.get(i).getHeight() > maxHeight)
-				maxHeight = row.get(i).getHeight();
-		}
-		return maxHeight;
-	}
-
-	/**
 	 * Find the maximum height of each row, add them and update the height of
 	 * the bounding box with the found value.
 	 */
 	private void updateHeight()
 	{
-		int totalHeight = SbgnPDConstants.COMPLEX_MEM_MARGIN;
+		int totalHeight = 2 * SbgnPDConstants.COMPLEX_MEM_MARGIN;
+
 		for (int i = 0; i < rows.size(); i++)
 		{
 			int maxHeight = 0;
 			List<SbgnPDNode> r = rows.get(i);
 
-			for (int j = 0; j < rows.get(i).size(); j++)
+			for (int j = 0; j < r.size(); j++)
 			{
 				if (r.get(j).getHeight() > maxHeight)
 					maxHeight = (int) r.get(j).getHeight();
 			}
+
 			totalHeight += (maxHeight + SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER);
 		}
 		height = totalHeight;
@@ -216,8 +206,9 @@ public class Organization
 		int sri = getShortestRowIndex();
 
 		if (sri < 0)
+		{
 			return true;
-
+		}
 		double min = rowWidth.get(sri);
 
 		if (width - min >= extraWidth
@@ -245,6 +236,7 @@ public class Organization
 			for (SbgnPDNode node : row)
 			{
 				node.setLocation(x, y);
+
 				x += node.getWidth()
 						+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER;
 

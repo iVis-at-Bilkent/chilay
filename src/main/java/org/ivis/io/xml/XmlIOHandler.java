@@ -190,6 +190,7 @@ public class XmlIOHandler
 		lNode.setWidth(bounds.getWidth());
 		lNode.setHeight(bounds.getHeight());
 		lNode.type = xmlNode.getTypeInfo().getValue();
+		lNode.label = xmlNode.getId();
 
 		// Copy cluster IDs
 		if (xmlNode.getClusterIDs() != null)
@@ -363,7 +364,7 @@ public class XmlIOHandler
 	
 	public static void main(String[] args) throws Exception
 	{
-		Layout layout = new SbgnPDLayout(SbgnPDConstants.TILING);
+		Layout layout = new SbgnPDLayout();
 		XmlIOHandler handler = new XmlIOHandler(layout);
 
 		handler.fromXML(new FileInputStream("src/main/java/org/ivis/io/xml/layout.xml"));

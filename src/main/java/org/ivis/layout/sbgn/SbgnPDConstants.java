@@ -41,16 +41,10 @@ public class SbgnPDConstants extends CoSEConstants
 	public static final String STIMULATION = "stimulation";
 	public static final String NECESSARY_STIMULATION = "necessary stimulation";
 
-	public static final int COMPLEX_MEM_HORIZONTAL_BUFFER = 15;
-	public static final int COMPLEX_MEM_VERTICAL_BUFFER = 15;
-	public static final int COMPLEX_MEM_MARGIN = 10;
+	public static final int COMPLEX_MEM_HORIZONTAL_BUFFER = 5;
+	public static final int COMPLEX_MEM_VERTICAL_BUFFER = 5;
+	public static final int COMPLEX_MEM_MARGIN = 5;
 	public static final double COMPLEX_MIN_WIDTH = COMPLEX_MEM_MARGIN * 2;
-
-
-	public static final int NO_TILING = 0;
-	public static final int POLYOMINO_PACKING = 1;
-	public static final int TILING = 2;
-
 	/**
 	 * Relativity constraint factor
 	 */

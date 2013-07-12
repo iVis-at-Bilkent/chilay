@@ -1,8 +1,8 @@
 package org.ivis.layout.sbgn;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -12,6 +12,7 @@ import org.ivis.layout.LNode;
 import org.ivis.layout.cose.CoSELayout;
 import org.ivis.layout.util.MemberPack;
 import org.ivis.layout.util.RectProc;
+import org.ivis.util.RectangleD;
 
 /**
  * This class implements the layout process of SBGN notation.
@@ -35,16 +36,15 @@ public class SbgnPDLayout extends CoSELayout
 	Map<SbgnPDNode, MemberPack> memberPackMap;
 
 	/**
-	 * This list stores the complex molecules in a depth first search manner.
-	 * The first element corresponds to the deep-most node.
+	 * This list stores the complex molecules as a result of DFS. The first
+	 * element corresponds to the deep-most node.
 	 */
 	LinkedList<SbgnPDNode> complexOrder;
 
 	/**
-	 * This parameter indicates the chosen tiling method. It is set to Polyomino
-	 * Packing by default.
+	 * This parameter indicates the chosen compaction method.
 	 */
-	public int tilingMethod;
+	private DefaultCompactionAlgorithm compactionMethod;
 
 	// METHODS SECTION
 
@@ -52,16 +52,17 @@ public class SbgnPDLayout extends CoSELayout
 	 * The constructor creates and associates with this layout a new graph
 	 * manager as well. No tiling performs CoSE Layout.
 	 * 
-	 * @param tilingMethod
-	 *            - SbgnPDConstants.TILING, SbgnPDConstants.POLYOMINO_PACKING or
-	 *            SbgnPDConstants.NO_TILING
+	 * @param compactionMethod
+	 *            - SbgnPDConstants.TILING, SbgnPDConstants.POLYOMINO_PACKING
 	 */
-	public SbgnPDLayout(int tilingMethod)
+	public SbgnPDLayout()
 	{
+		compactionMethod = DefaultCompactionAlgorithm.POLYOMINO_PACKING;
+
 		childGraphMap = new HashMap<SbgnPDNode, LGraph>();
 		complexOrder = new LinkedList<SbgnPDNode>();
-		this.tilingMethod = tilingMethod;
-		if (tilingMethod == SbgnPDConstants.TILING)
+
+		if (compactionMethod == DefaultCompactionAlgorithm.TILING)
 			memberPackMap = new HashMap<SbgnPDNode, MemberPack>();
 	}
 
@@ -70,8 +71,7 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public LNode newNode(Object vNode)
 	{
-		LNode o = (LNode) vNode;
-		return new SbgnPDNode(this.graphManager, o);
+		return new SbgnPDNode(this.graphManager, vNode);
 	}
 
 	/**
@@ -88,23 +88,15 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public boolean layout()
 	{
-		System.out.println("SbgnPDLayout runs..");
+		boolean b = false;
 
-		if (tilingMethod != SbgnPDConstants.NO_TILING)
-		{
-			complexSearch();
-			System.out.println("Complexes are cleared.");
-		}
+		DFSComplex();
 
-		boolean b = super.layout();
+		b = super.layout();
 
-		if (tilingMethod != SbgnPDConstants.NO_TILING)
-		{
-			repopulateComplexes();
-			System.out.println("Complexes are repopulated.");
-		}
+		repopulateComplexes();
+		calculateFullnessOfComplexes();
 
-		System.out.println("Finished SbgnPDLayout.\n");
 		return b;
 	}
 
@@ -113,7 +105,7 @@ public class SbgnPDLayout extends CoSELayout
 	 * contain complex children. After the order is found, child graphs of each
 	 * complex node are cleared.
 	 */
-	public void complexSearch()
+	public void DFSComplex()
 	{
 		for (Object o : getAllNodes())
 		{
@@ -123,8 +115,8 @@ public class SbgnPDLayout extends CoSELayout
 			SbgnPDNode comp = (SbgnPDNode) o;
 
 			// complex is found, recurse on it until no visited complex remains.
-			if (!comp.marked)
-				recurseOnComplex(comp);
+			if (!comp.visited)
+				DFSVisitComplex(comp);
 		}
 
 		// clear each complex
@@ -142,22 +134,21 @@ public class SbgnPDLayout extends CoSELayout
 	 * it is reported. (Depth first)
 	 * 
 	 */
-	public void recurseOnComplex(SbgnPDNode node)
+	public void DFSVisitComplex(SbgnPDNode node)
 	{
 		if (node.getChild() != null)
 		{
 			for (Object n : node.getChild().getNodes())
 			{
 				SbgnPDNode sbgnChild = (SbgnPDNode) n;
-				recurseOnComplex(sbgnChild);
+				DFSVisitComplex(sbgnChild);
 			}
 		}
 
-		if (node.type.equals(SbgnPDConstants.COMPLEX)
-				&& !containsUnmarkedComplex(node))
+		if (node.isComplex() && !containsUnmarkedComplex(node))
 		{
 			complexOrder.add(node);
-			node.marked = true;
+			node.visited = true;
 			return;
 		}
 	}
@@ -170,15 +161,19 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public boolean containsUnmarkedComplex(SbgnPDNode comp)
 	{
-		for (Object child : comp.getChild().getNodes())
+		if (comp.getChild() == null)
+			return false;
+		else
 		{
-			SbgnPDNode sbgnChild = (SbgnPDNode) child;
+			for (Object child : comp.getChild().getNodes())
+			{
+				SbgnPDNode sbgnChild = (SbgnPDNode) child;
 
-			if (sbgnChild.type.equals(SbgnPDConstants.COMPLEX)
-					&& !sbgnChild.marked)
-				return true;
+				if (sbgnChild.isComplex() && !sbgnChild.visited)
+					return true;
+			}
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -189,48 +184,51 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	private void clearComplex(SbgnPDNode comp)
 	{
+		MemberPack pack = null;
 		LGraph childGr = comp.getChild();
 		childGraphMap.put(comp, childGr);
-		MemberPack pack = null;
-		if (tilingMethod == SbgnPDConstants.POLYOMINO_PACKING)
+
+		if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
 		{
-			applyPolyomino(comp, childGr);
+			applyPolyomino(comp);
 		}
-		else if (tilingMethod == SbgnPDConstants.TILING)
+		else if (compactionMethod == DefaultCompactionAlgorithm.TILING)
 		{
 			pack = new MemberPack(childGr);
 			memberPackMap.put(comp, pack);
-
 		}
 
 		getGraphManager().getGraphs().remove(childGr);
 		comp.setChild(null);
 
-		if (tilingMethod == SbgnPDConstants.TILING)
+		if (compactionMethod == DefaultCompactionAlgorithm.TILING)
 		{
 			comp.setWidth(pack.getWidth());
 			comp.setHeight(pack.getHeight());
 		}
 
 		// Redirect the edges of complex members to the complex.
-		for (Object ch : childGr.getNodes())
+		if (childGr != null)
 		{
-			SbgnPDNode chNd = (SbgnPDNode) ch;
-
-			for (Object obj : new ArrayList(chNd.getEdges()))
+			for (Object ch : childGr.getNodes())
 			{
-				LEdge edge = (LEdge) obj;
-				if (edge.getSource() == chNd)
+				SbgnPDNode chNd = (SbgnPDNode) ch;
+
+				for (Object obj : new ArrayList(chNd.getEdges()))
 				{
-					chNd.getEdges().remove(edge);
-					edge.setSource(comp);
-					comp.getEdges().add(edge);
-				}
-				else if (edge.getTarget() == chNd)
-				{
-					chNd.getEdges().remove(edge);
-					edge.setTarget(comp);
-					comp.getEdges().add(edge);
+					LEdge edge = (LEdge) obj;
+					if (edge.getSource() == chNd)
+					{
+						chNd.getEdges().remove(edge);
+						edge.setSource(comp);
+						comp.getEdges().add(edge);
+					}
+					else if (edge.getTarget() == chNd)
+					{
+						chNd.getEdges().remove(edge);
+						edge.setTarget(comp);
+						comp.getEdges().add(edge);
+					}
 				}
 			}
 		}
@@ -240,20 +238,36 @@ public class SbgnPDLayout extends CoSELayout
 	 * This method tiles the given list of nodes by using polyomino packing
 	 * algorithm.
 	 */
-	private void applyPolyomino(SbgnPDNode parent, LGraph graph)
+	private void applyPolyomino(SbgnPDNode parent)
 	{
-		SbgnPDNode[] mpArray = new SbgnPDNode[graph.getNodes().size()];
+		RectangleD r;
+		LGraph childGr = parent.getChild();
 
-		for (int i = 0; i < graph.getNodes().size(); i++)
+		assert (childGr == null) : "Child graph is empty in (Polyomino)";
+
+		// packing takes the input as an array. put the members in an array.
+		SbgnPDNode[] mpArray = new SbgnPDNode[childGr.getNodes().size()];
+		for (int i = 0; i < childGr.getNodes().size(); i++)
 		{
-			SbgnPDNode s = (SbgnPDNode) graph.getNodes().get(i);
+			SbgnPDNode s = (SbgnPDNode) childGr.getNodes().get(i);
 			mpArray[i] = s;
 		}
 
-		Rectangle r = RectProc.packRectanglesMino(1, mpArray.length, mpArray);
+		// pack rectangles
+		RectProc.packRectanglesMino(
+				SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER, mpArray.length,
+				mpArray);
 
-		parent.setWidth(r.getWidth() + 2 * SbgnPDConstants.COMPLEX_MEM_MARGIN);
-		parent.setHeight(r.getHeight() + 2 * SbgnPDConstants.COMPLEX_MEM_MARGIN);
+		// apply compaction
+		Compaction c = new Compaction(
+				(ArrayList<SbgnPDNode>) childGr.getNodes());
+		c.perform();
+
+		// get the resulting rectangle and set parent's (complex) width & height
+		r = calculateBounds(true, (ArrayList<SbgnPDNode>) childGr.getNodes());
+
+		parent.setWidth(r.getWidth());
+		parent.setHeight(r.getHeight());
 	}
 
 	/**
@@ -266,11 +280,15 @@ public class SbgnPDLayout extends CoSELayout
 			SbgnPDNode comp = complexOrder.get(i);
 			LGraph chGr = childGraphMap.get(comp);
 
+			// repopulate the complex
 			comp.setChild(chGr);
 
-			if (tilingMethod == SbgnPDConstants.POLYOMINO_PACKING)
+			// adjust the positions of the members
+			if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
 			{
-				Rectangle rect = LGraph.calculateBounds(chGr.getNodes());
+				RectangleD rect = calculateBounds(false,
+						(ArrayList<SbgnPDNode>) chGr.getNodes());
+
 				int differenceX = (int) (rect.x - comp.getLeft());
 				int differenceY = (int) (rect.y - comp.getTop());
 
@@ -283,7 +301,7 @@ public class SbgnPDLayout extends CoSELayout
 				}
 				getGraphManager().getGraphs().add(chGr);
 			}
-			else if (tilingMethod == SbgnPDConstants.TILING)
+			else if (compactionMethod == DefaultCompactionAlgorithm.TILING)
 			{
 				getGraphManager().getGraphs().add(chGr);
 
@@ -291,8 +309,129 @@ public class SbgnPDLayout extends CoSELayout
 				pack.adjustLocations(comp.getLeft(), comp.getTop());
 			}
 		}
+
+		// reset
 		getGraphManager().resetAllNodes();
 		getGraphManager().resetAllNodesToApplyGravitation();
 		getGraphManager().resetAllEdges();
 	}
+
+	/**
+	 * This method returns the bounding rectangle of the given set of nodes with
+	 * or without the margins
+	 * 
+	 * @return
+	 */
+	public RectangleD calculateBounds(boolean isMarginIncluded,
+			ArrayList<SbgnPDNode> nodes)
+	{
+		int boundLeft = Integer.MAX_VALUE;
+		int boundRight = Integer.MIN_VALUE;
+		int boundTop = Integer.MAX_VALUE;
+		int boundBottom = Integer.MIN_VALUE;
+		int nodeLeft;
+		int nodeRight;
+		int nodeTop;
+		int nodeBottom;
+
+		Iterator<SbgnPDNode> itr = nodes.iterator();
+
+		while (itr.hasNext())
+		{
+			LNode lNode = itr.next();
+			nodeLeft = (int) (lNode.getLeft());
+			nodeRight = (int) (lNode.getRight());
+			nodeTop = (int) (lNode.getTop());
+			nodeBottom = (int) (lNode.getBottom());
+
+			if (boundLeft > nodeLeft)
+				boundLeft = nodeLeft;
+
+			if (boundRight < nodeRight)
+				boundRight = nodeRight;
+
+			if (boundTop > nodeTop)
+				boundTop = nodeTop;
+
+			if (boundBottom < nodeBottom)
+				boundBottom = nodeBottom;
+		}
+
+		if (isMarginIncluded)
+		{
+			return new RectangleD(boundLeft
+					- SbgnPDConstants.COMPLEX_MEM_MARGIN, boundTop
+					- SbgnPDConstants.COMPLEX_MEM_MARGIN, boundRight
+					- boundLeft + 2 * SbgnPDConstants.COMPLEX_MEM_MARGIN,
+					boundBottom - boundTop + 2
+							* SbgnPDConstants.COMPLEX_MEM_MARGIN);
+		}
+		else
+		{
+			return new RectangleD(boundLeft, boundTop, boundRight - boundLeft,
+					boundBottom - boundTop);
+		}
+	}
+
+	/**
+	 * calculates usedArea/totalArea inside the complexes and prints them out.
+	 */
+	private void calculateFullnessOfComplexes()
+	{
+		SbgnPDNode largestComplex = null;
+		double totalArea = 0;
+		double usedArea = 0;
+		double maxArea = Double.MIN_VALUE;
+
+		// find the largest complex -> area
+		for (int i = 0; i < getAllNodes().length; i++)
+		{
+			SbgnPDNode s = (SbgnPDNode) getAllNodes()[i];
+			if (s.type.equals(SbgnPDConstants.COMPLEX)
+					&& s.getWidth() * s.getHeight() > maxArea)
+			{
+				maxArea = s.getWidth() * s.getHeight();
+				largestComplex = s;
+			}
+		}
+
+		usedArea = calculateUsedArea(largestComplex);
+
+		totalArea = largestComplex.getWidth() * largestComplex.getHeight();
+
+		if (compactionMethod == DefaultCompactionAlgorithm.TILING)
+			System.out.println("Tiling results");
+		else if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
+			System.out.println("Polyomino Packing results");
+
+		// System.out.print(largestComplex.label +": ");
+		System.out.println(" = " + usedArea / totalArea);
+	}
+
+	/**
+	 * This method calculates the used area of a given complex node's children
+	 */
+	public double calculateUsedArea(SbgnPDNode parent)
+	{
+		int totalArea = 0;
+		for (int i = 0; i < parent.getChild().getNodes().size(); i++)
+		{
+			SbgnPDNode node = (SbgnPDNode) parent.getChild().getNodes().get(i);
+
+			if (!node.type.equalsIgnoreCase(SbgnPDConstants.COMPLEX))
+			{
+				totalArea += node.getWidth() * node.getHeight();
+			}
+			else
+			{
+				totalArea += calculateUsedArea(node);
+			}
+		}
+		return totalArea;
+	}
+
+	public enum DefaultCompactionAlgorithm
+	{
+		TILING, POLYOMINO_PACKING
+	};
 }
