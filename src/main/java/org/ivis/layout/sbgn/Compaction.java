@@ -3,7 +3,7 @@ package org.ivis.layout.sbgn;
 import java.util.ArrayList;
 
 import org.ivis.util.RectangleD;
-
+ // TODO - commit. correct default compaction algorithm thing.
 /**
  * This class is used to apply compaction on a graph. First a visibility graph
  * is constructed from the given set of nodes. Since visibility graphs are
@@ -56,25 +56,25 @@ public class Compaction
 	 */
 	public void perform()
 	{
-		algorithmBody(CompactionDirection.VERTICAL);
 		algorithmBody(CompactionDirection.HORIZONTAL);
+		algorithmBody(CompactionDirection.VERTICAL);
 	}
 
 	private void algorithmBody(CompactionDirection direction)
 	{
 		this.direction = direction;
 		visGraph = new VisibilityGraph(null, null, null);
-		
+
 		// construct a visibility graph given the direction and vertices
 		visGraph.construct(this.direction, vertices);
-		
+
 		if (visGraph.getEdges().size() > 0)
 		{
 			topologicallySort();
-			
+
 			compactElements();
 		}
-		
+
 		// positions of the vertices has changed. Update them.
 		vertices = (ArrayList<SbgnPDNode>) visGraph.getNodes();
 	}
@@ -115,6 +115,13 @@ public class Compaction
 	private void DFS_Visit(SbgnPDNode s)
 	{
 		ArrayList<SbgnPDNode> neighbors = s.getNeighbors();
+
+		if (neighbors.size() == 0)
+		{
+			s.visited = true;
+			orderedNodeList.add(s);
+			return;
+		}
 
 		for (SbgnPDNode n : neighbors)
 		{
@@ -162,12 +169,14 @@ public class Compaction
 					// buffer.
 					if (distance > SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER)
 					{
-						s.setLocation(s.getLeft(),
+						s.setLocation(
+								s.getLeft(),
 								(s.getTop() - (distance - SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER)));
 					}
 					else
 					{
-						s.setLocation(s.getLeft(), edge.getOtherEnd(s).getBottom()
+						s.setLocation(s.getLeft(), edge.getOtherEnd(s)
+								.getBottom()
 								+ SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER);
 					}
 				}

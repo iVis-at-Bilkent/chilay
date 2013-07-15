@@ -372,22 +372,7 @@ public class XmlIOHandler
 		layout.runLayout();
 		
 		handler.toXML(new FileOutputStream("src/main/java/org/ivis/io/xml/layout_done.xml"));
-
-//		XmlIOHandler.generateClasses();
-	}
-	
-	// DUPLICATE class - used for the test applet
-	public Layout test() throws Exception
-	{
-		XmlIOHandler handler = new XmlIOHandler(layout);
-
-		handler.fromXML(new FileInputStream("org/ivis/io/xml/layout.xml"));
-
-		layout.runLayout();
-		
-		handler.toXML(new FileOutputStream("org/ivis/io/xml/layout_done.xml"));
-
-		return layout;
+		XmlIOHandler.generateClasses();
 	}
 	
 	/**

@@ -51,9 +51,6 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * The constructor creates and associates with this layout a new graph
 	 * manager as well. No tiling performs CoSE Layout.
-	 * 
-	 * @param compactionMethod
-	 *            - SbgnPDConstants.TILING, SbgnPDConstants.POLYOMINO_PACKING
 	 */
 	public SbgnPDLayout()
 	{
@@ -95,8 +92,11 @@ public class SbgnPDLayout extends CoSELayout
 		b = super.layout();
 
 		repopulateComplexes();
-		calculateFullnessOfComplexes();
+		
+		// report the fullness
+//		reportFullnessOfComplexes();
 
+		System.out.println("SbgnPDLayout finished");
 		return b;
 	}
 
@@ -262,7 +262,7 @@ public class SbgnPDLayout extends CoSELayout
 		Compaction c = new Compaction(
 				(ArrayList<SbgnPDNode>) childGr.getNodes());
 		c.perform();
-
+		
 		// get the resulting rectangle and set parent's (complex) width & height
 		r = calculateBounds(true, (ArrayList<SbgnPDNode>) childGr.getNodes());
 
@@ -376,7 +376,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * calculates usedArea/totalArea inside the complexes and prints them out.
 	 */
-	private void calculateFullnessOfComplexes()
+	private void reportFullnessOfComplexes()
 	{
 		SbgnPDNode largestComplex = null;
 		double totalArea = 0;
@@ -403,7 +403,7 @@ public class SbgnPDLayout extends CoSELayout
 			System.out.println("Tiling results");
 		else if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
 			System.out.println("Polyomino Packing results");
-
+		
 		// System.out.print(largestComplex.label +": ");
 		System.out.println(" = " + usedArea / totalArea);
 	}

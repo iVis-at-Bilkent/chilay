@@ -84,8 +84,7 @@ public class VisibilityGraph extends LGraph
 		if (direction == CompactionDirection.VERTICAL)
 		{
 			// ensure that p points to the leftmost element
-			if (q.getLeft() < p.getLeft()
-					&& p.getLeft() < q.getLeft() + q.getWidth())
+			if (q.getLeft() < p.getLeft() && p.getLeft() < q.getRight())
 			{
 				SbgnPDNode temp = p;
 				p = q;
@@ -93,8 +92,7 @@ public class VisibilityGraph extends LGraph
 			}
 
 			// check if there exists a ray
-			if (p.getLeft() <= q.getLeft()
-					&& q.getLeft() <= p.getLeft() + p.getWidth())
+			if (p.getLeft() <= q.getLeft() && q.getLeft() <= p.getRight())
 			{
 				if (sweepIntersectedArea(p, q))
 					return 1;
@@ -104,8 +102,7 @@ public class VisibilityGraph extends LGraph
 		else if (direction == CompactionDirection.HORIZONTAL)
 		{
 			// ensure that p points to the upper element
-			if (q.getTop() < p.getTop()
-					&& p.getTop() < q.getTop() + q.getHeight())
+			if (q.getTop() < p.getTop() && p.getTop() < q.getBottom())
 			{
 				SbgnPDNode temp = p;
 				p = q;
@@ -113,8 +110,7 @@ public class VisibilityGraph extends LGraph
 			}
 
 			// check if there exists a ray
-			if (p.getTop() <= q.getTop()
-					&& q.getTop() <= p.getTop() + p.getHeight())
+			if (p.getTop() <= q.getTop() && q.getTop() <= p.getBottom())
 			{
 				if (sweepIntersectedArea(p, q))
 					return 2;
@@ -122,7 +118,7 @@ public class VisibilityGraph extends LGraph
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Starting from the intersection area between p and q, walk on a line
 	 * perpendicular to the desired direction. If there is an edge that does not
@@ -148,6 +144,10 @@ public class VisibilityGraph extends LGraph
 			end = (int) Math.min(p.getBottom(), q.getBottom());
 		}
 
+		// if they intersect only on the borders, immediately return false.
+		if(start == end)
+			return false;
+		
 		// check for all intersected area
 		for (int sweepPoint = start; sweepPoint <= end; sweepPoint++)
 		{
@@ -173,7 +173,7 @@ public class VisibilityGraph extends LGraph
 
 		return false;
 	}
-	
+
 	/**
 	 * This method tries to construct an edge(RectangleD shape) between two
 	 * nodes. The parameter i indicates the starting point of the edge. For
@@ -255,7 +255,7 @@ public class VisibilityGraph extends LGraph
 
 		return sweepPoint;
 	}
-	
+
 	/**
 	 * This class creates an edge between the given nodes using the given
 	 * direction. While adding the edge, be careful about the source and target
