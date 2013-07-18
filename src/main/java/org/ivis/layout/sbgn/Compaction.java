@@ -43,8 +43,8 @@ public class Compaction
 	 */
 	public Compaction(ArrayList<SbgnPDNode> vertices)
 	{
-		this.orderedNodeList = new ArrayList<>();
-		this.vertices = new ArrayList<>();
+		this.orderedNodeList = new ArrayList<SbgnPDNode>();
+		this.vertices = new ArrayList<SbgnPDNode>();
 		this.vertices = vertices;
 	}
 
@@ -138,7 +138,7 @@ public class Compaction
 	 */
 	private ArrayList<SbgnPDNode> reverseList(ArrayList<SbgnPDNode> originalList)
 	{
-		ArrayList<SbgnPDNode> reverseOutput = new ArrayList<>();
+		ArrayList<SbgnPDNode> reverseOutput = new ArrayList<SbgnPDNode>();
 		for (int i = originalList.size() - 1; i >= 0; i--)
 			reverseOutput.add(originalList.get(i));
 

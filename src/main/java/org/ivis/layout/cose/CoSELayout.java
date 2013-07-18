@@ -247,7 +247,7 @@ public class CoSELayout extends FDLayout
 	
 		this.initSpringEmbedder();
 		this.runSpringEmbedder();
-	
+		
 		System.out.println("Classic CoSE layout finished after " +
 			this.totalIterations + " iterations");
 		

@@ -48,6 +48,5 @@ public class SbgnPDConstants extends CoSEConstants
 	/**
 	 * Relativity constraint factor
 	 */
-	public static double RELATIVITY_CONSTRAINT_CONSTANT = 100;
-	public static final int RELATIVITY_CONSTRAINT_UPDATE_PERIOD = 5;
+    public static double RELATIVITY_CONSTRAINT_CONSTANT = 0.01;
 }

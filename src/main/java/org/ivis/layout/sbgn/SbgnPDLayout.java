@@ -10,6 +10,7 @@ import org.ivis.layout.LEdge;
 import org.ivis.layout.LGraph;
 import org.ivis.layout.LNode;
 import org.ivis.layout.cose.CoSELayout;
+import org.ivis.layout.fd.FDLayoutConstants;
 import org.ivis.layout.util.MemberPack;
 import org.ivis.layout.util.RectProc;
 import org.ivis.util.RectangleD;
@@ -18,6 +19,7 @@ import org.ivis.util.RectangleD;
  * This class implements the layout process of SBGN notation.
  * 
  * @author Begum Genc
+ * @author Istemi Bahceci
  * 
  *         Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
@@ -92,12 +94,168 @@ public class SbgnPDLayout extends CoSELayout
 		b = super.layout();
 
 		repopulateComplexes();
-		
+
 		// report the fullness
-//		reportFullnessOfComplexes();
+		// reportFullnessOfComplexes();
 
 		System.out.println("SbgnPDLayout finished");
 		return b;
+	}
+
+	@Override
+	public void moveNodes()
+	{
+		super.moveNodes();
+	}
+
+	@Override
+	public void calcSpringForces()
+	{
+		super.calcSpringForces();
+	}
+
+	/**
+	 * This method is for orienting Ps and Ss
+	 */
+	private void calcRelativityConstraintForces()
+	{
+		for (int i = 0; i < this.getAllNodes().length; i++)
+		{
+			SbgnPDNode processNode = (SbgnPDNode) this.getAllNodes()[i];
+
+			if (processNode.type.equals(SbgnPDConstants.PROCESS))
+				continue;
+
+			Iterator itr = processNode.getEdges().iterator();
+			while (itr.hasNext())
+			{
+				SbgnPDEdge edge = (SbgnPDEdge) itr.next();
+
+				SbgnPDNode otherEnd = (SbgnPDNode) (edge
+						.getOtherEnd(processNode));
+				double orientationX = otherEnd.orientationX;
+				double orientationY = otherEnd.orientationY;
+				double orientation = Math.sqrt(orientationX * orientationX
+						+ orientationY * orientationY);
+
+				// Here we have substrates defined by the consumption type of
+				// the edges.
+				if (edge.type != null && 
+						edge.type.equals(SbgnPDConstants.CONSUMPTION))
+				{
+					// As this is a substrate the orientation is inverse
+					orientationX = -orientationX;
+					orientationY = -orientationY;
+				}
+
+				// else it is
+
+				// This is the point we target for this node
+				double orientationTargetX = orientationX * this.idealEdgeLength
+						* 1.5 + otherEnd.getCenterX();
+				double orientationTargetY = orientationY * this.idealEdgeLength
+						* 1.5 + otherEnd.getCenterY();
+
+				// This is the vector that heads for that point
+				double distanceX = orientationTargetX
+						- processNode.getCenterX();
+				double distanceY = orientationTargetY
+						- processNode.getCenterY();
+				double distance = Math.sqrt(distanceX * distanceX + distanceY
+						* distanceY);
+				double forceX = (distance * distanceX)
+						* SbgnPDConstants.RELATIVITY_CONSTRAINT_CONSTANT
+						/ distance;
+				double forceY = (distance * distanceY)
+						* SbgnPDConstants.RELATIVITY_CONSTRAINT_CONSTANT
+						/ distance;
+
+				// Are force too big or too small?
+
+				if (forceX > 10)
+				{
+					forceX = 10;
+				}
+				else if (forceX < -10)
+				{
+					forceX = -10;
+				}
+
+				if (forceY > 10)
+				{
+					forceY = 10;
+				}
+				else if (forceY < -10)
+				{
+					forceY = -10;
+				}
+
+				processNode.relativityConstraintX += forceX;
+				processNode.relativityConstraintY += forceY;
+			}
+		}
+	}
+
+	/**
+	 * @Override This method performs the actual layout on the l-level compound
+	 *           graph. An update() needs to be called for changes to be
+	 *           propogated to the v-level compound graph.
+	 */
+	public void runSpringEmbedder()
+	{
+		// if (!this.incremental)
+		// {
+		// CoSELayout.randomizedMovementCount = 0;
+		// CoSELayout.nonRandomizedMovementCount = 0;
+		// }
+
+		// this.updateAnnealingProbability();
+
+		do
+		{
+			this.totalIterations++;
+
+			if (this.totalIterations
+					% FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
+			{
+				if (this.isConverged())
+				{
+					break;
+				}
+
+				this.coolingFactor = this.initialCoolingFactor
+						* ((this.maxIterations - this.totalIterations) / (double) this.maxIterations);
+
+				// this.updateAnnealingProbability();
+			}
+
+			this.totalDisplacement = 0;
+
+			this.graphManager.updateBounds();
+			this.calcSpringForces();
+			this.calcRepulsionForces();
+			this.calcGravitationalForces();
+			this.calcRelativityConstraintForces();
+			this.moveNodes();
+			this.updateNodeOrientations();
+
+			this.animate();
+		}
+		while (this.totalIterations < this.maxIterations);
+
+		this.graphManager.updateBounds();
+	}
+
+	/**
+	 * This method is for updating orientatiýons of nodes
+	 */
+	private void updateNodeOrientations()
+	{
+		for (int i = 0; i < this.getAllNodes().length; i++)
+		{
+			SbgnPDNode node = (SbgnPDNode) this.getAllNodes()[i];
+			node.updateOrientation();
+		}
 	}
 
 	/**
@@ -262,7 +420,7 @@ public class SbgnPDLayout extends CoSELayout
 		Compaction c = new Compaction(
 				(ArrayList<SbgnPDNode>) childGr.getNodes());
 		c.perform();
-		
+
 		// get the resulting rectangle and set parent's (complex) width & height
 		r = calculateBounds(true, (ArrayList<SbgnPDNode>) childGr.getNodes());
 
@@ -403,7 +561,7 @@ public class SbgnPDLayout extends CoSELayout
 			System.out.println("Tiling results");
 		else if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
 			System.out.println("Polyomino Packing results");
-		
+
 		// System.out.print(largestComplex.label +": ");
 		System.out.println(" = " + usedArea / totalArea);
 	}

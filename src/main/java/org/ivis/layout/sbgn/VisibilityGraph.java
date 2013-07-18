@@ -1,5 +1,7 @@
 package org.ivis.layout.sbgn;
 
+import java.awt.Dimension;
+import java.awt.Point;
 import java.util.ArrayList;
 
 import org.ivis.layout.LGraph;
@@ -68,7 +70,9 @@ public class VisibilityGraph extends LGraph
 	{
 		// create the new graph with given vertices
 		for (SbgnPDNode s : vertices)
-			this.add(s);
+			this.add(new SbgnPDNode(getGraphManager(), new Point((int) s
+					.getLeft(), (int) s.getTop()), new Dimension((int) s
+					.getWidth(), (int) s.getHeight()), s, s.type));
 	}
 
 	/**
@@ -145,9 +149,9 @@ public class VisibilityGraph extends LGraph
 		}
 
 		// if they intersect only on the borders, immediately return false.
-		if(start == end)
+		if (start == end)
 			return false;
-		
+
 		// check for all intersected area
 		for (int sweepPoint = start; sweepPoint <= end; sweepPoint++)
 		{
