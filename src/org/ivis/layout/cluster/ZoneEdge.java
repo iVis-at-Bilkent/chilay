@@ -1,7 +1,8 @@
 package org.ivis.layout.cluster;
 
 import org.ivis.layout.cose.CoSEEdge;
-import org.ivis.layout.cose.CoSENode;
+import org.ivis.util.IGeometry;
+import org.ivis.util.IMath;
 
 
 /**
@@ -19,7 +20,7 @@ public class ZoneEdge extends CoSEEdge
 	/**
 	 * Constructor
 	 */
-	public ZoneEdge(CoSENode source, CoSENode target, Object vEdge)
+	public ZoneEdge(ZoneNode source, ZoneNode target, Object vEdge)
 	{
 		super(source, target, vEdge);
 	}
@@ -27,5 +28,46 @@ public class ZoneEdge extends CoSEEdge
 	public ZoneEdge()
 	{
 		this(null, null, null);
+		//this.idealLength = this.idealLength * 5;
+	}
+	
+	public void updateLength()
+	{
+		double[] clipPointCoordinates = new double[4];
+
+		this.isOverlapingSourceAndTarget =
+			IGeometry.getPolygonIntersection(((ZoneNode) (this.target)).polygon,
+					((ZoneNode) (this.source)).polygon,
+					clipPointCoordinates);
+
+		if (!this.isOverlapingSourceAndTarget)
+		{
+			// target clip point minus source clip point gives us length
+
+			this.lengthX = clipPointCoordinates[0] - clipPointCoordinates[2];
+			this.lengthY = clipPointCoordinates[1] - clipPointCoordinates[3];
+
+			if (Math.abs(this.lengthX) < 1.0)
+			{
+				this.lengthX = IMath.sign(this.lengthX);
+			}
+
+			if (Math.abs(this.lengthY) < 1.0)
+			{
+				this.lengthY = IMath.sign(this.lengthY);
+			}
+
+			this.length = Math.sqrt(
+				this.lengthX * this.lengthX + this.lengthY * this.lengthY);
+			
+		}	
+		
+		System.out.println("Edge Source " + this.getSource().label + ", Target " 
+				+ this.getTarget().label + " Lenght" + this.length); // test
+	}
+	
+	public void updateLengthSimple()
+	{
+		this.updateLength();
 	}
 }

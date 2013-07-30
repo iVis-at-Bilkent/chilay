@@ -34,7 +34,7 @@ public class ClusterConstants extends CoSEConstants
 	 * edge length 
 	 */
 	
-	public static final double DEFAULT_INTER_ZONE_EDGE_LENGTH_FACTOR = 2.0;
+	public static final double DEFAULT_INTER_ZONE_EDGE_LENGTH_FACTOR = 3;
 	/**
 	 *
 	 * Determines how much the clusters should be separated
@@ -44,7 +44,7 @@ public class ClusterConstants extends CoSEConstants
 	
 	public static final double DEFAULT_ZONE_SPRING_FACTOR = 1.5;
 	
-	
+	public static final double DEFAULT_ZONE_NEIGHBOR_EDGE_LENGTH_FACTOR = 2;
 // -----------------------------------------------------------------------------
 // Section: Cluster layout remaining contants
 // -----------------------------------------------------------------------------

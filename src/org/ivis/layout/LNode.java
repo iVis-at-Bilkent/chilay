@@ -812,7 +812,7 @@ public class LNode extends LGraphObject implements Clustered
 	 * This method returns true if two LNodes overlap along with the overlap 
 	 * amount in x and y directions. Method returns false if there is no overlap.
 	 */
-	public boolean overlaps(LNode nodeB, double[] overlapAmount)
+	public boolean calcOverlap(LNode nodeB, double[] overlapAmount)
 	{
 		RectangleD rectA = this.getRect();
 		RectangleD rectB = nodeB.getRect();
@@ -834,7 +834,11 @@ public class LNode extends LGraphObject implements Clustered
 			return false;
 		}
 	}
-	
+
+	public void calcIntersection(LNode nodeB, double[] clipPoints)
+	{	
+		IGeometry.getIntersection(this.rect, nodeB.rect, clipPoints);
+	}
 	
 // -----------------------------------------------------------------------------
 // Section: Class variables

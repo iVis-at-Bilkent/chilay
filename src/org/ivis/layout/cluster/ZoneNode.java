@@ -1,18 +1,13 @@
 package org.ivis.layout.cluster;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.awt.Point;
 import java.awt.Dimension;
 
 import org.ivis.layout.*;
 import org.ivis.layout.cose.CoSENode;
-import org.ivis.layout.fd.FDLayoutNode;
-//import org.ivis.layout.fd.FDLayoutNode;
 import org.ivis.util.IGeometry;
-import org.ivis.util.IMath;
 import org.ivis.util.PointD;
-import org.ivis.util.RectangleD;
 
 /**
  * This class implements CoSE specific data and functionality for nodes.
@@ -34,7 +29,7 @@ public class ZoneNode extends CoSENode
 	 * 
 	 */
 	public ArrayList<PointD> polygon;
-	
+	public PointD center;
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization
 // -----------------------------------------------------------------------------
@@ -44,6 +39,7 @@ public class ZoneNode extends CoSENode
 	public ZoneNode(LGraphManager gm, Object vNode)
 	{
 		super(gm, vNode);
+		this.rect = null;
 	}
 
 	/**
@@ -52,13 +48,14 @@ public class ZoneNode extends CoSENode
 	public ZoneNode(LGraphManager gm, Point loc, Dimension size, Object vNode)
 	{
 		super(gm, loc, size, vNode);
+		this.rect = null;
 	}
 
 // -----------------------------------------------------------------------------
 // Section: Remaining methods
 // -----------------------------------------------------------------------------
 
-	public boolean overlaps(LNode nodeB, double [] overlapAmount)
+	public boolean calcOverlap(LNode nodeB, double [] overlapAmount)
 	{
 		ZoneNode b = (ZoneNode) nodeB;
 		
@@ -73,12 +70,6 @@ public class ZoneNode extends CoSENode
 			overlap = IGeometry.convexPolygonOverlap(polygonA,polygonB);
 			if ((double) overlap[0] != 0.0)
 			{
-				/*System.out.println("The clusters " + c1.clusterID + 
-						" and " + c2.clusterID + " overlap."); // test
-				*/
-				Object [] newOverlap = new Object[2];
-					
-
 				//overlap[0]:  overlap amount
 				//overlap[1]:  overlap direction
 					
@@ -88,40 +79,37 @@ public class ZoneNode extends CoSENode
 					
 				overlapAmount[0] = temp.x; // overlap in x						
 				overlapAmount[1] = temp.y; // overlap in y
-
-				//System.out.println("Zone Repulsion for zone "+ this.label + " and " + nodeB.label + " is " + overlapAmount[0] +","+overlapAmount[1]);
-			
+				//System.out.println("Zone " + this.label + " and " + nodeB.label);
+				//System.out.println("Zone Overlap amount x:" + temp.x + " ,y:" + temp.y);	// test
+				
 				return true;
 			}
-
 		}
 		return false;
 	}
 	
-	public void calcCenter()
-	{
-		//PointD center;
-		double cx;
-		double cy;
-
-		cx = 0;
-		cy = 0;
-		
-		for (Object o: this.polygon)
-		{
-			PointD pt = (PointD) o;
-			cx += pt.x;
-			cy += pt.y;
-		}
-		cx = cx / (this.polygon.size());
-		cy = cy / (this.polygon.size());
-		this.setCenter(cx, cy);
+	public void calcIntersection(LNode nodeB, double[] clipPoints)
+	{		
+		IGeometry.getPolygonIntersection(this.polygon, ((ZoneNode) nodeB).polygon, clipPoints);
 	}
 	
 	
+	public void calcCenter()
+	{
+		this.center = IGeometry.getPolygonCenter(this.polygon);
+	}
 	
-// -----------------------------------------------------------------------------
-// Section: Getters and setters
-// -----------------------------------------------------------------------------
-	
+	public void move() 
+	{
+		this.calcCenter();
+		
+		this.springForceX = 0.0;
+		this.springForceY = 0.0;
+		this.repulsionForceX = 0.0;
+		this.repulsionForceY = 0.0;
+		this.gravitationForceX = 0.0;
+		this.gravitationForceY = 0.0;
+		this.displacementX = 0.0;
+		this.displacementY = 0.0;		
+	}	
 }

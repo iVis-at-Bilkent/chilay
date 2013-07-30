@@ -284,7 +284,7 @@ public class LEdge extends LGraphObject
 	public void updateLengthSimple()
 	{
 		// target center minus source center gives us length
-
+		
 		this.lengthX = this.target.getCenterX() - this.source.getCenterX();
 		this.lengthY = this.target.getCenterY() - this.source.getCenterY();
 

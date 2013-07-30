@@ -691,21 +691,17 @@ abstract public class IGeometry
 	        v = IGeometry.normalizeVector(new PointD(vx,vy));
 			
 	        if ((v.y < 0.0))
-			{
-				
+			{				
 				v.x = -(v.x);
-				v.y = -(v.y);
-				
+				v.y = -(v.y);				
 			}
-	        
-	        
+	        	        
 	        // Gather extents of both polygons projected onto this axis
 	        double [] p1Bounds; 
 	        double [] p2Bounds;
 	        p1Bounds = IGeometry.gatherPolygonProjectionExtents(p1, v);
 	        p2Bounds = IGeometry.gatherPolygonProjectionExtents(p2, v);
-	 
-	        
+	 	        
 	        // Is this a separating axis?
 	        if (p1Bounds[1] < p2Bounds[0]) 
 	        {
@@ -722,14 +718,12 @@ abstract public class IGeometry
 	        	if (Math.abs(overlap) < Math.abs(minOverlap))
 	        	{
 	        		minVector = v;
-	        		minOverlap = overlap;
-	        		
+	        		minOverlap = overlap;	        		
 	        	}
 	        }
 	        
 	        if (p2Bounds[1] < p1Bounds[0])
-	        {	
-	        	
+	        {		        	
 	        	overlapInfo[0] = 0.0;
 	        	overlapInfo[1] = minVector;
 	        	return overlapInfo;        	
@@ -743,8 +737,7 @@ abstract public class IGeometry
 	        	{
 	        		minVector = v;
 	        		minOverlap = overlap;
-	        	}
-	        	
+	        	}	
 	        }
 	        // Next edge
 	        prev = cur;
@@ -754,8 +747,7 @@ abstract public class IGeometry
 		overlapInfo[0] = minOverlap;
     	overlapInfo[1] = minVector;
     	
-    	return overlapInfo;
-	    
+    	return overlapInfo;	    
 	}	
 	
 	/**
@@ -765,8 +757,7 @@ abstract public class IGeometry
 	 */	
 	public static Object [] convexPolygonOverlap (ArrayList<PointD> p1, 
 			ArrayList<PointD> p2) 
-	{
-		
+	{		
 		Object [] overlapInfo1;
 		Object [] overlapInfo2;
 		
@@ -785,16 +776,13 @@ abstract public class IGeometry
 		
 		if (Math.abs((double) overlapInfo1[0]) < Math.abs((double) overlapInfo2[0]))
 		{		
-			overlapInfo1[0] = -((double) overlapInfo1[0]);
-			
+			overlapInfo1[0] = -((double) overlapInfo1[0]);			
 			return overlapInfo1;
 		}
 		else
-		{	
-			
+		{				
 			return overlapInfo2;
 		}
-		
 	}
 	
 	public static void calcPolygonSeparationAmount(ArrayList<PointD> p1,
@@ -812,8 +800,7 @@ abstract public class IGeometry
 			PointD temp = IGeometry.getXYProjection(minOverlap,
 				minVector);
 		
-			overlapAmount[0] = temp.x;
-			
+			overlapAmount[0] = temp.x;			
 			overlapAmount[1] = temp.y;
 		}
 		else
@@ -823,7 +810,6 @@ abstract public class IGeometry
 		}
 		System.out.println("overlap igeo: "+overlapAmount[0]);
 	}
-	
 	
 	// TODO may not produce correct test results, since parameter order of
 	// RectangleD constructor is changed
@@ -971,14 +957,338 @@ abstract public class IGeometry
 		System.out.println("Clip Point of RectA X:" + clipPoints[0] + " Y: " + clipPoints[1]);
 		System.out.println("Clip Point of RectB X:" + clipPoints[2] + " Y: " + clipPoints[3]);	
 	}
-	
+	/**
+	 * This method takes two line segments (two points for each line) 
+	 * and calculates their intersection. If they do not intersect 
+	 * it returns a point with coordinates (-1, -1).
+	 */		
+	public static PointD findIntersectionOfTwoLineSegments(PointD p1A, 
+			PointD p2A, PointD p1B, PointD p2B)
+	{
+		// variables to use
+		PointD intersectionPt = new PointD();
+		double slopeA;
+		double slopeB;
+		double constantA;
+		double constantB; 
+		
+		// calculate equations of lines A and B
+		slopeA = (p2A.y - p1A.y) / (p2A.x - p1A.x);
+		slopeB = (p2B.y - p1B.y) / (p2B.x - p1B.x);
+		constantA = p1A.y - (slopeA * p1A.x);
+		constantB = p1B.y - (slopeB * p1B.x);
+		//System.out.println("NumA:"+(p2A.y - p1A.y) + " DenomA:"+ (p2A.x - p1A.x)+ " NumB:"+(p2B.y - p1B.y)+" DenomB:"+(p2B.x - p1B.x));
+		//System.out.println("p2A.y:"+p2A.y+" p1A.y:"+p1A.y+" p2A.x:"+p2A.x+" p1A.x"+p1A.x);
+		//System.out.println("Slopes are: "+slopeA + "," + slopeB);
+		if (slopeA == Double.NEGATIVE_INFINITY || slopeA == Double.POSITIVE_INFINITY)
+		{
+			intersectionPt.x = p1A.x;
+			intersectionPt.y = (slopeB * p1A.x) + constantB;
+		}
+		else if (slopeB == Double.NEGATIVE_INFINITY || 
+				slopeB == Double.POSITIVE_INFINITY)
+		{
+			intersectionPt.x = p1B.x;
+			intersectionPt.y = (slopeA * p1B.x) + constantA;
+		}
+		else if (Double.isNaN(slopeA) || Double.isNaN(slopeB))
+		{
+			return new PointD(-1,-1);
+		}
+		else
+		{
+		// calculate intersection point for lines A and B
+			intersectionPt.x = (constantB - constantA) / 
+					(slopeA - slopeB);
 
+			intersectionPt.y = (slopeA * intersectionPt.x) +
+					constantA;
+		}
+		// check if the intersection point is an element 
+		// of the line segment
+		if (isPointOnLineSegment(p1A, p2A, intersectionPt))
+		{
+			if (isPointOnLineSegment(p1B, p2B, intersectionPt))
+			{
+				return intersectionPt;
+			}
+		}
+		/*
+		if (((p1A.x >= intersectionPt.x) && (p2A.x <= intersectionPt.x)) || 
+				((p1A.x <= intersectionPt.x) && (p2A.x >= intersectionPt.x)))
+		{			
+			if (((p1A.y >= intersectionPt.y) && (p2A.y <= intersectionPt.y)) || 
+					((p1A.y <= intersectionPt.y) && (p2A.y >= intersectionPt.y)))
+			{
+				return intersectionPt;
+			}
+		}
+		*/
+		// if the lines do not intersect, return (-1,-1)
+		intersectionPt.x = -1.0;
+		intersectionPt.y = -1.0;
+		return intersectionPt;
+	}
+	
+	/**
+	 * This method takes an ArrayList of polygon points that is sorted
+	 * according to adjacent edges and two points for a line segment to 
+	 * calculate their intersection. If they do not intersect it returns 
+	 * a point with coordinates (-1, -1).
+	 */	
+	public static boolean getPolygonIntersection (ArrayList<PointD> polygonA,
+			ArrayList<PointD> polygonB, double[] result)
+	{
+		// 
+		PointD clipPtA;
+		PointD clipPtB;
+		result[0] = -1.0;
+		result[1] = -1.0;
+		result[2] = -1.0;
+		result[3] = -1.0;
+		Object [] overlap;
+		
+		if (polygonA.size() > 3 && polygonB.size() > 3)
+		{
+			PointD centerA = getPolygonCenter(polygonA);
+			PointD centerB = getPolygonCenter(polygonB);
+			/*
+			overlap = convexPolygonOverlap(polygonA, polygonB);
+			//if two polygon intersect, then clipping points are centers
+			if ((double) overlap[0] == 0)
+			{
+				result[0] = centerA.x;
+				result[1] = centerA.y;
+				result[2] = centerB.x;
+				result[3] = centerB.y;
+				return false;
+			}
+			*/
+			clipPtA = findIntersectionOfTwoLineSegments
+					(centerA, centerB, 
+							polygonA.get(0), polygonA.get(polygonA.size()-1));
+			
+			for (int i = 1; i < polygonA.size(); i++)
+			{	
+				if (clipPtA.x != -1.0 && clipPtA.y != -1.0)
+				{
+					break;
+				}
+				clipPtA = findIntersectionOfTwoLineSegments
+						(centerA, centerB, 
+								polygonA.get(i-1), polygonA.get(i));				
+			}
+			
+			clipPtB = findIntersectionOfTwoLineSegments
+					(centerA, centerB, 
+							polygonB.get(0), polygonB.get(polygonB.size()-1));
+			
+			for (int i = 1; i < polygonB.size(); i++)
+			{	
+				if (clipPtB.x != -1.0 && clipPtB.y != -1.0)
+				{
+					break;
+				}
+				clipPtB = findIntersectionOfTwoLineSegments
+						(centerA, centerB, 
+								polygonB.get(i-1), polygonB.get(i));				
+			}
+			
+			result[0] = clipPtA.x;
+			result[1] = clipPtA.y;
+			result[2] = clipPtB.x;
+			result[3] = clipPtB.y;
+			
+			// if the polygons are overlapping, then the clip points are the centers
+			if ((result[0] == -1.0 && result[1] == -1.0)
+					|| (result[2] == -1.0 && result[3] == -1.0))
+			{
+				result[0] = centerA.x;
+				result[1] = centerA.y;
+				result[2] = centerB.x;
+				result[3] = centerB.y;	
+				return false;
+			}
+			// Test
+			/*
+			System.out.println("CLIPPING POINTS");
+			System.out.println("PolygonA:");
+			for (Object o : polygonA)
+			{
+				PointD p = (PointD) o;
+				System.out.print(" (" + p.x + "," + p.y+ "),");
+			}
+			System.out.println();
+			System.out.println("PolygonB:");
+			for (Object o : polygonB)
+			{
+				PointD p = (PointD) o;
+				System.out.print(" (" + p.x + "," + p.y+ "),");
+			}
+			System.out.println();
+			System.out.println("Clipping Points:");
+			System.out.println(result[0] + "," + result[1] + " and " +result[2]+","+result[3]);*/
+			return true; //may be true
+		}
+		else
+		{
+			System.out.println("What am i doing here?"); //test
+			return false;
+		}
+	}	
+
+	/**
+	 * This method takes an ArrayList of polygon points and calculates its 
+	 * center. Returns a point that is the position of the center.
+	 * The algorithm is based on the explanations in the following link.
+	 * http://paulbourke.net/geometry/polygonmesh/
+	 */	
+	public static PointD getPolygonCenter(ArrayList<PointD> polygon)
+	{
+		double [] centroid = {0, 0};
+		double signedArea = 0.0;
+		double x0 = 0.0; // Current vertex X
+		double y0 = 0.0; // Current vertex Y
+		double x1 = 0.0; // Next vertex X
+		double y1 = 0.0; // Next vertex Y
+		double a = 0.0;  // Partial signed area
+
+		// For all vertices except last
+		if (polygon.size() < 3)
+		{
+			System.out.println("Not a valid polygon");
+		}
+		else
+		{
+			for (int i = 0; i < polygon.size() - 1; i++)
+			{
+				x0 = polygon.get(i).x;
+			    y0 = polygon.get(i).y;
+			    x1 = polygon.get(i + 1).x;
+			    y1 = polygon.get(i + 1).y;
+			    a = x0 * y1 - x1 * y0;
+			    signedArea += a;
+			    centroid[0] += (x0 + x1) * a;
+			    centroid[1] += (y0 + y1) * a;
+			}
+	
+			// Do last vertex
+			x0 = polygon.get(polygon.size() - 1).x;
+			y0 = polygon.get(polygon.size() - 1).y;
+			x1 = polygon.get(0).x;
+			y1 = polygon.get(0).y;
+			
+			a = (x0 * y1) - (x1 * y0);
+			signedArea += a;
+			centroid[0] += (x0 + x1)*a;
+			centroid[1] += (y0 + y1)*a;
+	
+			signedArea *= 0.5;
+			centroid[0] /= (6.0 * signedArea);
+			centroid[1] /= (6.0 * signedArea);
+		}		
+		return new PointD (centroid[0],centroid[1]);
+	}
+
+	/*
+	public static boolean IsPointOnLine(PointD linePointA, PointD linePointB, PointD point) 
+	{
+	   double a = (linePointB.y - linePointA.y) / (linePointB.x - linePointB.x);
+	   double b = (linePointA.y - a) * linePointA.x;
+	   // check if point is on the line
+	   if ( Math.abs((point.y - (a*point.x+b))) < EPSILON)
+	   {
+		   // check if it is on the line segment
+		   if ()
+	       return true;
+	   }
+
+	   return false;
+	}*/
+	
+	public static boolean isPointOnLineSegment(PointD linePointA, PointD linePointB, PointD point) 
+	{
+		double ac = Math.sqrt((Math.pow((linePointA.x - point.x), 2) + 
+				Math.pow((linePointA.y - point.y), 2)));
+		double bc = Math.sqrt((Math.pow((linePointB.x - point.x), 2) + 
+				Math.pow((linePointB.y - point.y), 2)));
+		double ab = Math.sqrt((Math.pow((linePointA.x - linePointB.x), 2) + 
+				Math.pow((linePointA.y - linePointB.y), 2)));
+		
+		if (Math.abs(ac + bc - ab) < TOLERANCE)
+			return true;
+		else
+			return false;
+	}
+	
+	public static void testLineSegment()
+	{
+		PointD linePointA, linePointB, point;
+/*		
+		linePointA = new PointD(4,2);
+		linePointB = new PointD(1,2);
+		point = new PointD(2.5, 2);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		point = new PointD(0, 2);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		point = new PointD(6, 2);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		point = new PointD(3, 4);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+
+
+		linePointA = new PointD(1,1);
+		linePointB = new PointD(6,3);
+		point = new PointD(3.5, 2);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		point = new PointD(11, 5);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		point = new PointD(4, 1);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		point = new PointD(4, 4);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		*/
+		
+		linePointA = new PointD(2,2);
+		linePointB = new PointD(2,4);
+		point = new PointD(2, 3);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		point = new PointD(2, 3.5);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		point = new PointD(2, 1);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+		
+		point = new PointD(2, 5);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+				
+		point = new PointD(5, 5);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+				
+		point = new PointD(5, 3);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+				
+		point = new PointD(2, 4);
+		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+
+	}
+	
+	
 	/*
 	 * Main method for testing purposes.
 	 */
 	public static void main(String [] args)
 	{
-		testClippingPoints();	
+		//testClippingPoints();	
+		testLineSegment();
 	}
 
 // -----------------------------------------------------------------------------
@@ -991,4 +1301,5 @@ abstract public class IGeometry
 	public static final double ONE_AND_HALF_PI = 1.5 * Math.PI;
 	public static final double TWO_PI = 2.0 * Math.PI;
 	public static final double THREE_PI = 3.0 * Math.PI;
+	public static final double TOLERANCE = 0.00001;
 }

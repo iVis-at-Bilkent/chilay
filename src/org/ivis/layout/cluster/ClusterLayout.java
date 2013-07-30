@@ -1,31 +1,19 @@
 package org.ivis.layout.cluster;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.HashSet;
-import java.util.Random;
-
 
 import org.ivis.layout.LEdge;
-import org.ivis.layout.LGraph;
 import org.ivis.layout.Cluster;
+import org.ivis.layout.LGraph;
 import org.ivis.layout.LGraphManager;
 import org.ivis.layout.LNode;
-import org.ivis.layout.Layout;
-import org.ivis.layout.LayoutConstants;
 import org.ivis.layout.cluster.ClusterGraphManager;
 import org.ivis.layout.cluster.ClusterEdge;
 import org.ivis.layout.cluster.ClusterConstants;
 import org.ivis.layout.cose.*;
-import org.ivis.layout.fd.FDLayoutConstants;
-import org.ivis.layout.fd.FDLayoutEdge;
-import org.ivis.layout.fd.FDLayoutNode;
 import org.ivis.util.IGeometry;
-import org.ivis.util.IMath;
-import org.ivis.util.IntegerQuickSort;
 import org.ivis.util.PointD;
-import org.ivis.util.RectangleD;
 
 /**
  * This class implements a layout process based on the CoSE algorithm.
@@ -41,18 +29,13 @@ import org.ivis.util.RectangleD;
 public class ClusterLayout extends CoSELayout
 {
 
-	HashMap overlappingClusterMap;
-	int maxClusterId;
-	
 	/**
 	 * The constructor creates and associates with this layout a new graph
 	 * manager as well. 
 	 */
 	public ClusterLayout()
 	{
-
-		super();
-		
+		super();		
 	}
 	
 	/**
@@ -69,23 +52,25 @@ public class ClusterLayout extends CoSELayout
 	 * This method creates a new edge associated with the input view edge.
 	 */
 	public LEdge newEdge(Object vEdge)
-	{
-		
-		return new ClusterEdge(null, null, vEdge);
-	
+	{		
+		return new ClusterEdge(null, null, vEdge);	
 	}
-	
+	/**
+	 * This method creates a new node associated with the input view node.
+	 */
+	public LNode newNode(Object vNode)
+	{
+		return new ClusterNode(this.graphManager, vNode);
+	}
 	/**
 	 * Override. This method introduces one more repulsion force to separate 
 	 * overlapping clusters. If polygons of two clusters overlap they are 
 	 * pushed apart in the direction that makes the repulsion force minimum.
 	 */	
 	public void calcRepulsionForces()
-	{
-		
-		this.calcZoneGraphRepulsionForces();
+	{	
 		super.calcRepulsionForces();
-						
+		this.calcZoneGraphRepulsionForces();
 	}
 	
 	/**
@@ -93,12 +78,8 @@ public class ClusterLayout extends CoSELayout
 	 */
 	public void calcSpringForces()
 	{
-		this.calcZoneGraphSpringForces();
-		
 		super.calcSpringForces();
-		
-		
-		
+		this.calcZoneGraphSpringForces();					
 	}
 	
 	/**
@@ -106,32 +87,93 @@ public class ClusterLayout extends CoSELayout
 	 * all edges is set.
 	 */
 	public boolean layout() 
-	{
-		
+	{	
+		// form zones from the clusters
 		if (this.graphManager.getClusterManager().getClusters().size() > 1)
-		{
-			
-			((ClusterGraphManager) (this.graphManager)).formClusterZones();
-
-			// set isInterCluster property for all edges
-			for (Object edge : this.graphManager.getAllEdges())
-			{
-				ClusterEdge e = (ClusterEdge) edge;
-				e.setIsInterCluster();
-			}
-						
+		{	
+			((ClusterGraphManager) (this.graphManager)).formClusterZones();						
 		}
 		
-		scatterZoneGraphNodes();
-		super.layout();
+		this.setIsInterClusterPropertiesOfAllEdges();
+		//testEdgeTypes(); // test
 		
-		
+		super.layout();		
+		this.showZonesInAFrame(); //test
+		//this.testEdgeLengths(); //test
 		return true;
 	}
 	
+	// TODO: TEST METHOD to be deleted
+	public void printPolygons()
+	{
+		for (Object o: this.graphManager.getClusterManager().getClusters())
+		{
+			Cluster c = (Cluster) o;
+			System.out.println("Cluster ID "+c.getClusterID());
+			System.out.println("There are " + c.getNodes().size() + " nodes");
+			System.out.println("Polygon Points: " + c.getPolygon());
+			for (Object p: c.getPolygon())
+			{
+				PointD pt = (PointD) p;
+				System.out.println("Pt x:" + pt.x + " , y:" + pt.y);
+			}
+		}
+
+		for (Object o: this.graphManager.getClusterManager().getClusters())
+		{
+			Cluster c = (Cluster) o;
+			System.out.println("Nodes are");
+			for (Object n : c.getNodes())
+			{
+				ClusterNode node = (ClusterNode) n;
+				System.out.println(" " + node.label);
+			}
+			System.out.println("Pg for cluster "+c.getClusterID()+ " is: " + c.getPolygon());
+		}
+		
+		for (Object o: ((ClusterGraphManager) (this.graphManager)).zoneGraph.getNodes())
+		{
+			ZoneNode z = (ZoneNode) o;
+			System.out.println("Zone " +z.label + " clusters are: "+z.polygon);
+		}		
+	}
+	
+	// TODO: Test method to be deleted
+	public void polygonOverlapTest()
+	{
+		ArrayList <Cluster> clusters = this.graphManager.getClusterManager().getClusters();
+		Object [] overlap;
+		for (int i =  0; i < clusters.size() - 1; i++)
+		{
+			ArrayList<PointD> polygonI = clusters.get(i).getPolygon();
+			
+			for (int j = i + 1; j < clusters.size(); j++) 
+			{
+				System.out.println("Checking clusters "+clusters.get(i).getClusterID() + ", "+clusters.get(j).getClusterID());
+				ArrayList<PointD> polygonJ = clusters.get(j).getPolygon();
+				overlap = IGeometry.convexPolygonOverlap(polygonI,polygonJ);
+				if ((double) overlap[0] != 0.0)
+				{
+					//overlap[0]:  overlap amount
+					//overlap[1]:  overlap direction
+						
+					PointD temp;
+					temp = IGeometry.getXYProjection(((double) overlap[0]),
+							((PointD) overlap[1]));
+								
+					System.out.println("Overlap. x:" + temp.x + ", y:" + temp.y);
+				}
+				System.out.println("No overlap");
+			}			
+		}
+	}
+	
 	/**
-	 * Override. This method changes the spring constant if the edge is
-	 * inter-cluster. 
+	 * Override. This method changes the ideal edge length according to the edge 
+	 * type. The edge is short if it is between two nodes of the same zone. The 
+	 * edge is long between nodes of two different clusters. If the nodes are 
+	 * zone neighbors the edge is longer. The edge between two not-neighboring 
+	 * zones is even longer.  
 	 */
 	protected void calcIdealEdgeLengths()
 	{
@@ -145,10 +187,17 @@ public class ClusterLayout extends CoSELayout
 			
 			if (edge.isInterCluster())
 			{
-				edge.idealLength = edge.idealLength * 
+				if (edge.areNodesZoneNeighbors)
+				{
+					edge.idealLength = edge.idealLength *
+						(ClusterConstants.DEFAULT_ZONE_NEIGHBOR_EDGE_LENGTH_FACTOR); // mid
+				}
+				else
+				{
+					edge.idealLength = edge.idealLength * 
 						(ClusterConstants.DEFAULT_INTER_ZONE_EDGE_LENGTH_FACTOR);
+				}
 			}
-
 		}
 	}
 	
@@ -158,73 +207,55 @@ public class ClusterLayout extends CoSELayout
 	 */
 	public void calcZoneGraphSpringForces()
 	{
-		List zoneEdges = (((ClusterGraphManager) (this.graphManager))).zoneGraph.getEdges();
+		ZoneGraph zoneGraph = ((ClusterGraphManager) (this.graphManager)).zoneGraph;
+		List zoneEdges = zoneGraph.getEdges();
+		List zoneNodes = zoneGraph.getNodes();
 		
 		for (int i = 0; i < zoneEdges.size(); i++)
 		{
-			
 			ZoneEdge edge = (ZoneEdge) zoneEdges.get(i);
 			
-			this.calcSpringForce(edge, edge.idealLength);
-			ZoneNode target = (ZoneNode) edge.getTarget();
+			assert !this.uniformLeafNodeSizes;
 			
-			applyZoneGraphSpringForcesToCluster(target);
-			ZoneNode source = (ZoneNode) edge.getSource();
+			this.calcSpringForce(edge, edge.idealLength);
+		}						
 
-			applyZoneGraphSpringForcesToCluster(source);
-
+		for (Object o :zoneNodes)
+		{
+			this.applySpringForcesToZoneMembers((ZoneNode) o);
 		}
-						
 	}
-	
 	/**
 	 * This method calculates the spring forces between the zones. It is
 	 * called by the override method calcRepulsionForces. 
 	 */
 	public void calcZoneGraphRepulsionForces()
-	{
-		this.calcZonePolygons();
-		
+	{		
 		List zones = (((ClusterGraphManager) (this.graphManager))).zoneGraph.getNodes();
-		 
-		 for (int i = 0; i < zones.size() - 1; i++)
-		 {
-			 ZoneNode zoneA = (ZoneNode) zones.get(i);
-			
-			 for (int j = i + 1; j < zones.size(); j++)
-			 {
-				 ZoneNode zoneB = (ZoneNode) zones.get(j);							 
-				 
-				 // calculate repulsion forces for zone graph nodes 
-				 this.calcRepulsionForce(zoneA, zoneB);
-			 }
-			 
-			 // get the id of the zone to match with the cluster
-			 int clusterID = Integer.parseInt(zoneA.label);
-			 
-			 applyZoneGraphRepulsionsToCluster(zoneA);
-			 			 
-		 }
 		
+		// Checking all zone node pairs
+		for (int i = 0; i < zones.size() - 1; i++)
+		{
+			ZoneNode zoneA = (ZoneNode) zones.get(i);
+			
+			for (int j = i + 1; j < zones.size(); j++)
+			{
+				ZoneNode zoneB = (ZoneNode) zones.get(j);							 
+				 
+				// calculate repulsion forces for zone graph nodes 
+				this.calcRepulsionForce(zoneA, zoneB);
+			}
+						 
+			this.applyRepulsionsToZoneMembers(zoneA);
+		}
 	}
-	
-	/**
-	 * Override. Parameters are changed to ZoneNodes. ZoneNodes have their own 
-	 * overlap methods.
-	 */
-	public void calcRepulsionForce(ZoneNode a, ZoneNode b)
-	{
-		super.calcRepulsionForce(a, b);
-	}
-	
 	
 	/**
 	 * This method applies the spring forces calculated for the zone graph to the
 	 * nodes that belong to the zone
 	 */
-	public void applyZoneGraphSpringForcesToCluster(ZoneNode zone)
+	public void applySpringForcesToZoneMembers(ZoneNode zone)
 	{
-		
 		// get the id of the zone to match with the cluster
 		int clusterID = Integer.parseInt(zone.label);
 
@@ -235,12 +266,10 @@ public class ClusterLayout extends CoSELayout
 		{
 			CoSENode node = (CoSENode) o;
 			
-			node.springForceX = node.springForceX + 
-					( (ClusterConstants.DEFAULT_ZONE_SPRING_FACTOR) * zone.springForceX);			
-			
-			node.springForceY = node.springForceY + 
-					( (ClusterConstants.DEFAULT_ZONE_SPRING_FACTOR) * zone.springForceY);
-
+			node.springForceX +=  
+				( (ClusterConstants.DEFAULT_ZONE_SPRING_FACTOR) * zone.springForceX);				
+			node.springForceY += 
+				( (ClusterConstants.DEFAULT_ZONE_SPRING_FACTOR) * zone.springForceY);
 		}
 	}
 	
@@ -248,9 +277,8 @@ public class ClusterLayout extends CoSELayout
 	 * This method applies the repulsion forces calculated for the zone graph to the
 	 * nodes that belong to the zone
 	 */
-	public void applyZoneGraphRepulsionsToCluster(ZoneNode zone)
+	public void applyRepulsionsToZoneMembers(ZoneNode zone)
 	{
-		
 		 // get the id of the zone to match with the cluster
 		 int clusterID = Integer.parseInt(zone.label);
 		
@@ -261,75 +289,111 @@ public class ClusterLayout extends CoSELayout
 		{
 			CoSENode node = (CoSENode) o;
 			
-			node.repulsionForceX = node.repulsionForceX + 
+			node.repulsionForceX += 
 					(ClusterConstants.DEFAULT_ZONE_REPULSION_FACTOR * zone.repulsionForceX);			
-			node.repulsionForceY = node.repulsionForceY + 
+			node.repulsionForceY += 
 					(ClusterConstants.DEFAULT_ZONE_REPULSION_FACTOR * zone.repulsionForceY);
 		}
 	}
 	
 	/**
-	 * This method changes the positions of the ZoneNodes. It is called from the
+	 * This method changes the center points of the ZoneNodes. It is called from the
 	 * override method moveNodes.
 	 */
-	public void moveZoneGraphNodes()
+	protected void moveZoneGraphNodes()
 	{
-
 		List zones = (((ClusterGraphManager) (this.graphManager))).zoneGraph.getNodes();
-		
+
 		for (Object o: zones)
-		{
+		{			
 			ZoneNode node = (ZoneNode) o;
 			node.move();
-		}
+		}	
 	}
 	
+	/**
+	 * This method checks and sets the isInterCluster property for all edges.
+	 */
+	public void setIsInterClusterPropertiesOfAllEdges()
+	{
+		// set isInterCluster property for all edges
+		for (Object edge : this.graphManager.getAllEdges())
+		{
+			ClusterEdge e = (ClusterEdge) edge;
+			e.setIsInterCluster();			
+		}
+	}
 	/**
 	 * Override. Moves ZoneGraph nodes too.
 	 */
 	public void moveNodes()
 	{
-		moveZoneGraphNodes();
 		super.moveNodes();
-		
-		
+		this.moveZoneGraphNodes();				
 	}
 	
-	/**
-	 * This method calculates the central position of the zone graph nodes.
-	 * It is used to position the zone nodes in the beginning of the layout
-	 * and also for testing purposes.
-	 */
-	private void scatterZoneGraphNodes()
+	// TODO: Test method to be deleted
+	public void printNodeInfo(String place)
 	{
-		ZoneGraph zoneGraph = ((ClusterGraphManager) this.getGraphManager()).zoneGraph;
-		
-		for (Object o:zoneGraph.getNodes())
+		for (Object o: this.graphManager.getAllNodes())
 		{
-			ZoneNode zone = (ZoneNode) o;			
-			zone.calcCenter();
-			
-		} 
-	}
+			CoSENode node = (CoSENode) o;
+			if (node.label.startsWith("T"))
+			{
+				System.out.print("Node label:" + node.label + " " + place);
+				System.out.println(" x:" + node.getCenterX() + " y:" + node.getCenterY());
+				System.out.println("Repulsion forces x:" + node.repulsionForceX+" y:"+node.repulsionForceY);
+				System.out.println("");
+			}
+		}
 
-	/**
-	 * This method calculates the Zone Polygons. It is based on the clusters in 
-	 * ClusterManager.
-	 */
-	private void calcZonePolygons()
+	}
+	
+	// TODO: Test method to be deleted
+	public void showZonesInAFrame()
 	{
-		ArrayList<Cluster> clusters = this.graphManager.
-				getClusterManager().getClusters();
+		ClusterGraphManager gm = ((ClusterGraphManager) (this.graphManager));
+		ArrayList<Cluster> clusters = gm.getClusterManager().getClusters();
+		ZoneGraph zoneGraph = ((ClusterGraphManager) (this.graphManager)).zoneGraph;
+		ZoneTestFrame testFrame = new ZoneTestFrame(clusters,zoneGraph);
+		testFrame.setVisible(true);
 		
-		// calculate polygons for each cluster
-		
-		for (Cluster c:clusters)
+		LGraph graph = (LGraph) (this.graphManager.getGraphs().get(0));
+		graph.updateBounds(true);
+		System.out.println("Bottom: " + graph.getBottom());
+		System.out.println("Top: " + graph.getTop());
+		System.out.println("Left: " + graph.getLeft());
+		System.out.println("Right: " + graph.getRight());
+		System.out.println("Margin: " + graph.getMargin());
+	}
+	
+	// TODO: Test method to be deleted
+	public void testEdgeLengths()
+	{
+		System.out.println("ZONE EDGES");
+		List zoneEdges = ((ClusterGraphManager) this.graphManager).zoneGraph.getEdges();
+		for (Object o: zoneEdges)
 		{
-			c.calculatePolygon();
+			ZoneEdge e = (ZoneEdge) o;
+			System.out.println("Edge " + e.label + " lenght:" + e.getLength());
 		}
 		
+		System.out.println("CLUSTER EDGES");
+		Object [] edges = this.getGraphManager().getAllEdges();
+		for (Object o: edges)
+		{
+			ClusterEdge e = (ClusterEdge) o;
+			System.out.println("Edge " + e.label + " lenght:" + e.getLength());
+		}		
 	}
-
-	
-	private static Random random = new Random(Layout.RANDOM_SEED);
+	// TODO: Test method to be deleted
+	public void testEdgeTypes()
+	{
+		for (Object o: this.getGraphManager().getAllEdges())
+		{
+			ClusterEdge e = (ClusterEdge) o;
+			System.out.print("Edge Source: " + e.getSource().label + " Edge Target: " + e.getTarget().label);
+			System.out.println(" InterCluster: " + e.isInterCluster() + " ZoneNeigbors: " + e.areNodesZoneNeigbors());
+		}
+	}
 }

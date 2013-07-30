@@ -377,7 +377,7 @@ public abstract class FDLayout extends Layout
 		if (this.uniformLeafNodeSizes &&
 			sourceNode.getChild() == null && targetNode.getChild() == null)
 		{
-			edge.updateLengthSimple();
+			edge.updateLengthSimple();			
 		}
 		else
 		{
@@ -416,8 +416,6 @@ public abstract class FDLayout extends Layout
 	 */
 	protected void calcRepulsionForce(FDLayoutNode nodeA, FDLayoutNode nodeB)
 	{
-		RectangleD rectA = nodeA.getRect();
-		RectangleD rectB = nodeB.getRect();
 		double[] overlapAmount = new double[2];
 		double[] clipPoints = new double[4];
 		double distanceX;
@@ -428,21 +426,20 @@ public abstract class FDLayout extends Layout
 		double repulsionForceX;
 		double repulsionForceY;
 		
-		if (nodeA.overlaps(nodeB, overlapAmount))
+		if (nodeA.calcOverlap(nodeB, overlapAmount))
 		// two nodes overlap
 		{
-
 			repulsionForceX = overlapAmount[0];
 			repulsionForceY = overlapAmount[1];
 			
-			assert ! (new RectangleD((rectA.x - repulsionForceX),
+			/*assert ! (new RectangleD((rectA.x - repulsionForceX),
 				(rectA.y - repulsionForceY),
 				rectA.width,
 				rectA.height)).intersects(
 					new RectangleD((rectB.x + repulsionForceX),
 						(rectB.y + repulsionForceY),
 						rectB.width,
-						rectB.height));
+						rectB.height));*/
 		}
 		else
 		// no overlap
@@ -453,13 +450,15 @@ public abstract class FDLayout extends Layout
 				nodeA.getChild() == null && nodeB.getChild() == null)
 			// simply base repulsion on distance of node centers
 			{
+				RectangleD rectA = nodeA.getRect();
+				RectangleD rectB = nodeB.getRect();
 				distanceX = rectB.getCenterX() - rectA.getCenterX();
 				distanceY = rectB.getCenterY() - rectA.getCenterY();
 			}
 			else
 			// use clipping points
 			{
-				IGeometry.getIntersection(rectA, rectB, clipPoints);
+				nodeA.calcIntersection(nodeB, clipPoints);
 
 				distanceX = clipPoints[2] - clipPoints[0];
 				distanceY = clipPoints[3] - clipPoints[1];
@@ -494,7 +493,6 @@ public abstract class FDLayout extends Layout
 			repulsionForceX = repulsionForce * distanceX / distance;
 			repulsionForceY = repulsionForce * distanceY / distance;
 		}
-
 		// Apply forces on the two nodes
 		nodeA.repulsionForceX -= repulsionForceX;
 		nodeA.repulsionForceY -= repulsionForceY;
