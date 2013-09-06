@@ -19,7 +19,6 @@ import org.ivis.util.RectangleD;
  * This class implements the layout process of SBGN notation.
  * 
  * @author Begum Genc
- * @author Istemi Bahceci
  * 
  *         Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
@@ -53,6 +52,9 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * The constructor creates and associates with this layout a new graph
 	 * manager as well. No tiling performs CoSE Layout.
+	 * 
+	 * @param compactionMethod
+	 *            - SbgnPDConstants.TILING, SbgnPDConstants.POLYOMINO_PACKING
 	 */
 	public SbgnPDLayout()
 	{
@@ -94,11 +96,10 @@ public class SbgnPDLayout extends CoSELayout
 		b = super.layout();
 
 		repopulateComplexes();
+		// calculateFullnessOfComplexes();
 
-		// report the fullness
-		// reportFullnessOfComplexes();
-
-		System.out.println("SbgnPDLayout finished");
+		System.out.println("SbgnPD Layout has finished after "
+				+ totalIterations + " iterations");
 		return b;
 	}
 
@@ -115,106 +116,15 @@ public class SbgnPDLayout extends CoSELayout
 	}
 
 	/**
-	 * This method is for orienting Ps and Ss
-	 */
-	private void calcRelativityConstraintForces()
-	{
-		for (int i = 0; i < this.getAllNodes().length; i++)
-		{
-			SbgnPDNode processNode = (SbgnPDNode) this.getAllNodes()[i];
-
-			if (processNode.type.equals(SbgnPDConstants.PROCESS))
-				continue;
-
-			Iterator itr = processNode.getEdges().iterator();
-			while (itr.hasNext())
-			{
-				SbgnPDEdge edge = (SbgnPDEdge) itr.next();
-
-				SbgnPDNode otherEnd = (SbgnPDNode) (edge
-						.getOtherEnd(processNode));
-				double orientationX = otherEnd.orientationX;
-				double orientationY = otherEnd.orientationY;
-				double orientation = Math.sqrt(orientationX * orientationX
-						+ orientationY * orientationY);
-
-				// Here we have substrates defined by the consumption type of
-				// the edges.
-				if (edge.type != null && 
-						edge.type.equals(SbgnPDConstants.CONSUMPTION))
-				{
-					// As this is a substrate the orientation is inverse
-					orientationX = -orientationX;
-					orientationY = -orientationY;
-				}
-
-				// else it is
-
-				// This is the point we target for this node
-				double orientationTargetX = orientationX * this.idealEdgeLength
-						* 1.5 + otherEnd.getCenterX();
-				double orientationTargetY = orientationY * this.idealEdgeLength
-						* 1.5 + otherEnd.getCenterY();
-
-				// This is the vector that heads for that point
-				double distanceX = orientationTargetX
-						- processNode.getCenterX();
-				double distanceY = orientationTargetY
-						- processNode.getCenterY();
-				double distance = Math.sqrt(distanceX * distanceX + distanceY
-						* distanceY);
-				double forceX = (distance * distanceX)
-						* SbgnPDConstants.RELATIVITY_CONSTRAINT_CONSTANT
-						/ distance;
-				double forceY = (distance * distanceY)
-						* SbgnPDConstants.RELATIVITY_CONSTRAINT_CONSTANT
-						/ distance;
-
-				// Are force too big or too small?
-
-				if (forceX > 10)
-				{
-					forceX = 10;
-				}
-				else if (forceX < -10)
-				{
-					forceX = -10;
-				}
-
-				if (forceY > 10)
-				{
-					forceY = 10;
-				}
-				else if (forceY < -10)
-				{
-					forceY = -10;
-				}
-
-				processNode.relativityConstraintX += forceX;
-				processNode.relativityConstraintY += forceY;
-			}
-		}
-	}
-
-	/**
 	 * @Override This method performs the actual layout on the l-level compound
 	 *           graph. An update() needs to be called for changes to be
 	 *           propogated to the v-level compound graph.
 	 */
 	public void runSpringEmbedder()
 	{
-		// if (!this.incremental)
-		// {
-		// CoSELayout.randomizedMovementCount = 0;
-		// CoSELayout.nonRandomizedMovementCount = 0;
-		// }
-
-		// this.updateAnnealingProbability();
-
 		do
 		{
 			this.totalIterations++;
-
 			if (this.totalIterations
 					% FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
 			{
@@ -228,33 +138,47 @@ public class SbgnPDLayout extends CoSELayout
 
 				// this.updateAnnealingProbability();
 			}
-
+			
 			this.totalDisplacement = 0;
 
 			this.graphManager.updateBounds();
 			this.calcSpringForces();
 			this.calcRepulsionForces();
 			this.calcGravitationalForces();
+			
 			this.calcRelativityConstraintForces();
-			this.moveNodes();
-			this.updateNodeOrientations();
 
+			this.moveNodes();
 			this.animate();
 		}
 		while (this.totalIterations < this.maxIterations);
-
+		
 		this.graphManager.updateBounds();
 	}
 
 	/**
-	 * This method is for updating orientatiýons of nodes
-	 */
-	private void updateNodeOrientations()
-	{
+	 * This method is for updating orientations of nodes 
+	 **/
+	private void calcRelativityConstraintForces()
+	{		
+		//check for any node that does not have type information
 		for (int i = 0; i < this.getAllNodes().length; i++)
 		{
 			SbgnPDNode node = (SbgnPDNode) this.getAllNodes()[i];
-			node.updateOrientation();
+			
+			if(node.type == null)
+			{
+				System.out.println("Be careful. There are a number of nodes that do not have type information.");
+				break;
+			}
+		}
+		
+		for (int i = 0; i < this.getAllNodes().length; i++)
+		{
+			SbgnPDNode node = (SbgnPDNode) this.getAllNodes()[i];
+			
+			if(node.type.equals(SbgnPDConstants.PROCESS))
+				node.calcRelativityForce();
 		}
 	}
 
@@ -401,31 +325,38 @@ public class SbgnPDLayout extends CoSELayout
 		RectangleD r;
 		LGraph childGr = parent.getChild();
 
-		assert (childGr == null) : "Child graph is empty in (Polyomino)";
-
-		// packing takes the input as an array. put the members in an array.
-		SbgnPDNode[] mpArray = new SbgnPDNode[childGr.getNodes().size()];
-		for (int i = 0; i < childGr.getNodes().size(); i++)
+		if (childGr == null)
 		{
-			SbgnPDNode s = (SbgnPDNode) childGr.getNodes().get(i);
-			mpArray[i] = s;
+			System.out.println("Child graph is empty (Polyomino)");
 		}
+		else
+		{
+			// packing takes the input as an array. put the members in an array.
+			SbgnPDNode[] mpArray = new SbgnPDNode[childGr.getNodes().size()];
+			for (int i = 0; i < childGr.getNodes().size(); i++)
+			{
+				SbgnPDNode s = (SbgnPDNode) childGr.getNodes().get(i);
+				mpArray[i] = s;
+			}
 
-		// pack rectangles
-		RectProc.packRectanglesMino(
-				SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER, mpArray.length,
-				mpArray);
+			// pack rectangles
+			RectProc.packRectanglesMino(
+					SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER,
+					mpArray.length, mpArray);
 
-		// apply compaction
-		Compaction c = new Compaction(
-				(ArrayList<SbgnPDNode>) childGr.getNodes());
-		c.perform();
+			// apply compaction
+			Compaction c = new Compaction(
+					(ArrayList<SbgnPDNode>) childGr.getNodes());
+			c.perform();
 
-		// get the resulting rectangle and set parent's (complex) width & height
-		r = calculateBounds(true, (ArrayList<SbgnPDNode>) childGr.getNodes());
+			// get the resulting rectangle and set parent's (complex) width &
+			// height
+			r = calculateBounds(true,
+					(ArrayList<SbgnPDNode>) childGr.getNodes());
 
-		parent.setWidth(r.getWidth());
-		parent.setHeight(r.getHeight());
+			parent.setWidth(r.getWidth());
+			parent.setHeight(r.getHeight());
+		}
 	}
 
 	/**
@@ -441,30 +372,35 @@ public class SbgnPDLayout extends CoSELayout
 			// repopulate the complex
 			comp.setChild(chGr);
 
-			// adjust the positions of the members
-			if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
+			// if the child graph is not null, adjust the positions of members
+			if (chGr != null)
 			{
-				RectangleD rect = calculateBounds(false,
-						(ArrayList<SbgnPDNode>) chGr.getNodes());
-
-				int differenceX = (int) (rect.x - comp.getLeft());
-				int differenceY = (int) (rect.y - comp.getTop());
-
-				for (int j = 0; j < chGr.getNodes().size(); j++)
+				// adjust the positions of the members
+				if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
 				{
-					SbgnPDNode s = (SbgnPDNode) chGr.getNodes().get(j);
-					s.setLocation(s.getLeft() - differenceX
-							+ SbgnPDConstants.COMPLEX_MEM_MARGIN, s.getTop()
-							- differenceY + SbgnPDConstants.COMPLEX_MEM_MARGIN);
-				}
-				getGraphManager().getGraphs().add(chGr);
-			}
-			else if (compactionMethod == DefaultCompactionAlgorithm.TILING)
-			{
-				getGraphManager().getGraphs().add(chGr);
+					RectangleD rect = calculateBounds(false,
+							(ArrayList<SbgnPDNode>) chGr.getNodes());
 
-				MemberPack pack = memberPackMap.get(comp);
-				pack.adjustLocations(comp.getLeft(), comp.getTop());
+					int differenceX = (int) (rect.x - comp.getLeft());
+					int differenceY = (int) (rect.y - comp.getTop());
+
+					for (int j = 0; j < chGr.getNodes().size(); j++)
+					{
+						SbgnPDNode s = (SbgnPDNode) chGr.getNodes().get(j);
+						s.setLocation(s.getLeft() - differenceX
+								+ SbgnPDConstants.COMPLEX_MEM_MARGIN,
+								s.getTop() - differenceY
+										+ SbgnPDConstants.COMPLEX_MEM_MARGIN);
+					}
+					getGraphManager().getGraphs().add(chGr);
+				}
+				else if (compactionMethod == DefaultCompactionAlgorithm.TILING)
+				{
+					getGraphManager().getGraphs().add(chGr);
+
+					MemberPack pack = memberPackMap.get(comp);
+					pack.adjustLocations(comp.getLeft(), comp.getTop());
+				}
 			}
 		}
 
@@ -534,7 +470,7 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * calculates usedArea/totalArea inside the complexes and prints them out.
 	 */
-	private void reportFullnessOfComplexes()
+	private void calculateFullnessOfComplexes()
 	{
 		SbgnPDNode largestComplex = null;
 		double totalArea = 0;
@@ -572,6 +508,9 @@ public class SbgnPDLayout extends CoSELayout
 	public double calculateUsedArea(SbgnPDNode parent)
 	{
 		int totalArea = 0;
+		if (parent.getChild() == null)
+			return 0.0;
+
 		for (int i = 0; i < parent.getChild().getNodes().size(); i++)
 		{
 			SbgnPDNode node = (SbgnPDNode) parent.getChild().getNodes().get(i);

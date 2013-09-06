@@ -29,7 +29,6 @@ import org.ivis.layout.LGraphManager;
 import org.ivis.layout.LGraphObject;
 import org.ivis.layout.LNode;
 import org.ivis.layout.Layout;
-import org.ivis.layout.sbgn.SbgnPDConstants;
 import org.ivis.layout.sbgn.SbgnPDLayout;
 import org.ivis.util.PointD;
 import org.ivis.util.RectangleD;
@@ -372,7 +371,22 @@ public class XmlIOHandler
 		layout.runLayout();
 		
 		handler.toXML(new FileOutputStream("src/main/java/org/ivis/io/xml/layout_done.xml"));
-		XmlIOHandler.generateClasses();
+
+//		XmlIOHandler.generateClasses();
+	}
+	
+	// DUPLICATE class - used for the test applet
+	public Layout test() throws Exception
+	{
+		XmlIOHandler handler = new XmlIOHandler(layout);
+
+		handler.fromXML(new FileInputStream("org/ivis/io/xml/layout.xml"));
+
+		layout.runLayout();
+		
+		handler.toXML(new FileOutputStream("org/ivis/io/xml/layout_done.xml"));
+
+		return layout;
 	}
 	
 	/**

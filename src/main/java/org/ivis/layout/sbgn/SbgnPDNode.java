@@ -3,19 +3,13 @@ package org.ivis.layout.sbgn;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.ivis.layout.LEdge;
 import org.ivis.layout.LGraphManager;
 import org.ivis.layout.LNode;
-import org.ivis.layout.cose.CoSELayout;
 import org.ivis.layout.cose.CoSENode;
-import org.ivis.layout.fd.FDLayout;
 import org.ivis.layout.fd.FDLayoutConstants;
-import org.ivis.layout.fd.FDLayoutNode;
-import org.ivis.util.IGeometry;
 import org.ivis.util.IMath;
-import org.ivis.util.RectangleD;
 
 /**
  * This class implements SBGN specific data and functionality for nodes.
@@ -27,28 +21,12 @@ import org.ivis.util.RectangleD;
  */
 public class SbgnPDNode extends CoSENode
 {
-	/**
-	 *
-	 */
-	public double relativityConstraintX;
+	// relativity forces applied on the node.
+	private double relativityConstraintX;
+	private double relativityConstraintY;
 
 	/**
-	 *
-	 */
-	public double relativityConstraintY ;
-
-	/**
-     *
-     */
-	public double orientationX;
-
-	/**
-     *
-     */
-	public double orientationY;
-
-	/**
-	 * This parameter is used in DFS to order complex members.
+	 * This parameter is used in DFS to find ordering of the complex members.
 	 */
 	public boolean visited;
 
@@ -123,53 +101,154 @@ public class SbgnPDNode extends CoSENode
 		return neighbors;
 	}
 
-	protected void updateOrientation()
+	/**
+	 * This method calculates the relativity forces for each node in the graph
+	 * by examining the production and consumption neighbors.
+	 */
+	public void calcRelativityForce()
 	{
-		this.orientationX = 0;
-		this.orientationY = 0;
+		SbgnPDLayout layout = (SbgnPDLayout) this.graphManager.getLayout();
 
-		Iterator itr = this.edges.iterator();
-		while (itr.hasNext())
+		int prodEdgeCount = 0;
+		int consEdgeCount = 0;
+		
+		ArrayList<SbgnPDNode> productions = new ArrayList<SbgnPDNode>();
+		ArrayList<SbgnPDNode> consumptions = new ArrayList<SbgnPDNode>();
+		ArrayList<SbgnPDNode> favoredList;
+		ArrayList<SbgnPDNode> unfavoredList;
+
+		Point targetPoint = new Point();
+		Point reverseTargetPoint = new Point();
+
+		// group products and consumptions separately.
+		for (Object o : this.getEdges())
 		{
-			double distanceX = 0;
-			double distanceY = 0;
-			double distance = 0;
-
-			SbgnPDEdge edge = (SbgnPDEdge) itr.next();
-
-			// edge is of type substrate
-			if (edge.type.equals(SbgnPDConstants.CONSUMPTION))
-			{
-				distanceX += this.getCenterX()
-						- edge.getOtherEnd(this).getCenterX();
-				distanceY += this.getCenterY()
-						- edge.getOtherEnd(this).getCenterY();
-			}
-			else if (edge.type.equals(SbgnPDConstants.PRODUCTION))
-			{
-				distanceX += edge.getOtherEnd(this).getCenterX()
-						- this.getCenterX();
-				distanceY += edge.getOtherEnd(this).getCenterY()
-						- this.getCenterY();
-			}
-			distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-			this.orientationX += distanceX / distance;
-			this.orientationY += distanceY / distance;
+			SbgnPDEdge e = (SbgnPDEdge) o;
+			if (e.type.equals(SbgnPDConstants.PRODUCTION))
+				productions.add((SbgnPDNode) e.getTarget());
+			else if (e.type.equals(SbgnPDConstants.CONSUMPTION))
+				consumptions.add((SbgnPDNode) e.getSource());
 		}
 
+		// find the favored and the unfavored lists 
+		// favor in terms of the edge count of the neighboring nodes.
+		// more count indicates centrality -> favor.
+		for(SbgnPDNode s : productions)
+			prodEdgeCount += s.getEdges().size();
+		for(SbgnPDNode s : consumptions)
+			consEdgeCount += s.getEdges().size();
+		
+		if (prodEdgeCount > consEdgeCount)
+		{
+			favoredList = productions;
+			unfavoredList = consumptions;
+		}
+		else
+		{
+			favoredList = consumptions;
+			unfavoredList = productions;
+		}		
+		
+		// calculate targeted points
+		targetPoint = calcTargetPoint(favoredList);
+		
+		// target the unfavored nodes far away to increase the chance of hops. 
+		// reverse target pt makes 180-degree angle with the target pt *------| |----*
+		// (i.e.increase the distance by default edge length)
+		reverseTargetPoint.x = (int) (this.getCenterX() - ((targetPoint.x - this
+				.getCenterX()) + Math.signum(targetPoint.x - this.getCenterX()) * 
+				layout.coolingFactor * FDLayoutConstants.DEFAULT_EDGE_LENGTH));
+
+		reverseTargetPoint.y = (int) (this.getCenterY() - ((targetPoint.y - this
+				.getCenterY()) + Math.signum(targetPoint.y - this.getCenterY()) * 
+				layout.coolingFactor * FDLayoutConstants.DEFAULT_EDGE_LENGTH));
+
+		// apply the forces
+		applyRelativityForces(favoredList, targetPoint);
+		applyRelativityForces(unfavoredList, reverseTargetPoint);
 	}
 
-	@Override
+	/**
+	 * This methods applies relativity forces to members of the given list
+	 * towards the given point
+	 */
+	private void applyRelativityForces(ArrayList<SbgnPDNode> list, Point pnt)
+	{
+		SbgnPDLayout layout = (SbgnPDLayout) this.graphManager.getLayout();
+		double multiplier = SbgnPDConstants.RELATIVITY_CONSTRAINT_CONSTANT 
+				* layout.coolingFactor;
+	
+		// use cooling factor in calculations (cooling fac. decreases regularly) 
+		for (int i = 0; i < list.size(); i++)
+		{
+			SbgnPDNode s = list.get(i);
+			s.relativityConstraintX = (pnt.x - s.getCenterX()) * multiplier;
+			s.relativityConstraintY = (pnt.y - s.getCenterY()) * multiplier;
+		}
+	}
+
+	/**
+	 * This method calculates a target point to move the elements of given list.
+	 * The target pt is in the middle of the given node list.
+	 * The returned point should have a distance of default edge length
+	 * (origin is the process node) 
+	 */
+	private Point calcTargetPoint(ArrayList<SbgnPDNode> list)
+	{
+		Point targetPnt = new Point();
+		double targetVectorX = 0;
+		double targetVectorY = 0;
+
+		if (list.size() > 0)
+		{
+			// calculate center points of the list
+			for (int i = 0; i < list.size(); i++)
+			{
+				targetPnt.x += list.get(i).getCenterX();
+				targetPnt.y += list.get(i).getCenterY();
+			}
+			targetPnt.x /= list.size();
+			targetPnt.y /= list.size();
+
+			// calculate the vector pointing to that point, whose origin is the current node.
+			targetVectorX = this.getCenterX() - targetPnt.x;
+			targetVectorY = this.getCenterY() - targetPnt.y;
+
+			double vectorLength = Math.sqrt(Math.pow(targetVectorX, 2)
+					+ Math.pow(targetVectorY, 2));
+
+			// accept the vectors that fall in relativity distance neighborhood of the def edge length.
+			if (vectorLength < FDLayoutConstants.DEFAULT_EDGE_LENGTH 
+					- SbgnPDConstants.RELATIVITY_DEVATION_DISTANCE)
+			{
+
+				targetVectorX = FDLayoutConstants.DEFAULT_EDGE_LENGTH;
+				targetVectorY = FDLayoutConstants.DEFAULT_EDGE_LENGTH;
+				
+				targetPnt.x = (int) (this.getCenterX() - targetVectorX);
+				targetPnt.y = (int) (this.getCenterY() - targetVectorY);
+			}
+
+			return targetPnt;
+		}
+
+		return null;
+	}
+
+	/**
+	 * This method recalculates the displacement related attributes of this
+	 * object. These attributes are calculated at each layout iteration once,
+	 * for increasing the speed of the layout.
+	 */
 	public void move()
 	{
-		CoSELayout layout = (CoSELayout) this.graphManager.getLayout();
+		SbgnPDLayout layout = (SbgnPDLayout) this.graphManager.getLayout();
 		this.displacementX = layout.coolingFactor
 				* (this.springForceX + this.repulsionForceX
-						+ this.gravitationForceX + this.relativityConstraintX);
+						+ relativityConstraintX + this.gravitationForceX);
 		this.displacementY = layout.coolingFactor
 				* (this.springForceY + this.repulsionForceY
-						+ this.gravitationForceY + this.relativityConstraintY);
+						+ relativityConstraintY + this.gravitationForceY);
 
 		if (Math.abs(this.displacementX) > layout.maxNodeDisplacement)
 		{
@@ -209,10 +288,9 @@ public class SbgnPDNode extends CoSENode
 		this.repulsionForceY = 0;
 		this.gravitationForceX = 0;
 		this.gravitationForceY = 0;
-		this.relativityConstraintX = 0;
-		this.relativityConstraintY = 0;
 		this.displacementX = 0;
 		this.displacementY = 0;
+		this.relativityConstraintX = 0;
+		this.relativityConstraintY = 0;
 	}
-
 }

@@ -45,8 +45,10 @@ public class SbgnPDConstants extends CoSEConstants
 	public static final int COMPLEX_MEM_VERTICAL_BUFFER = 5;
 	public static final int COMPLEX_MEM_MARGIN = 5;
 	public static final double COMPLEX_MIN_WIDTH = COMPLEX_MEM_MARGIN * 2;
+	
 	/**
 	 * Relativity constraint factor
 	 */
-    public static double RELATIVITY_CONSTRAINT_CONSTANT = 0.01;
+	public static double RELATIVITY_CONSTRAINT_CONSTANT = 0.2;
+	public static double RELATIVITY_DEVATION_DISTANCE = 10;
 }

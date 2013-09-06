@@ -1,419 +1,449 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <view>
-    <node id="glyph1">
-        <bounds height="340.0" width="1000.0" y="312.5" x="-30.0"/>
-        <children>
-            <node id="glyph11">
-                <bounds height="60.0" width="60.0" y="405.0" x="310.0"/>
-                <type value="simple chemical"/>
-            </node>
-            <node id="glyph17">
-                <bounds height="20.0" width="20.0" y="440.0" x="660.0"/>
-                <type value="process"/>
-            </node>
-            <node id="glyph5">
-                <bounds height="60.0" width="60.0" y="510.0" x="260.0"/>
-                <type value="simple chemical"/>
-            </node>
-            <node id="glyph19">
-                <bounds height="20.0" width="20.0" y="530.0" x="440.0"/>
-                <type value="process"/>
-            </node>
-            <node id="glyph10">
-                <bounds height="60.0" width="120.0" y="395.0" x="390.0"/>
-                <type value="macromolecule"/>
-            </node>
-            <node id="glyph7">
-                <bounds height="60.0" width="60.0" y="510.0" x="590.0"/>
-                <type value="simple chemical"/>
-            </node>
-        </children>
-        <type value="compartment"/>
+    <node id="glyph9">
+        <bounds height="60.0" width="120.0" y="375.0" x="259.0"/>
+        <type value="macromolecule"/>
     </node>
     <node id="glyph0">
-        <bounds height="320.0" width="920.0" y="65.0" x="92.25"/>
-        <children>
-            <node id="glyph18">
-                <bounds height="20.0" width="20.0" y="240.0" x="592.3"/>
-                <type value="process"/>
-            </node>
-            <node id="glyph15">
-                <bounds height="20.0" width="20.0" y="310.0" x="282.25"/>
-                <type value="process"/>
-            </node>
-            <node id="glyph4">
-                <bounds height="60.0" width="120.0" y="100.0" x="542.3"/>
-                <type value="macromolecule"/>
-            </node>
-            <node id="glyph12">
-                <bounds height="60.0" width="60.0" y="220.0" x="262.25"/>
-                <type value="simple chemical"/>
-            </node>
-            <node id="glyph13">
-                <bounds height="60.0" width="60.0" y="220.0" x="492.29999999999995"/>
-                <type value="simple chemical"/>
-            </node>
-            <node id="glyph16">
-                <bounds height="20.0" width="20.0" y="240.0" x="432.3"/>
-                <type value="process"/>
-            </node>
-            <node id="glyph8">
-                <bounds height="60.0" width="120.0" y="290.0" x="122.25"/>
-                <type value="macromolecule"/>
-            </node>
-            <node id="glyph9">
-                <bounds height="60.0" width="120.0" y="290.0" x="862.3"/>
-                <type value="macromolecule"/>
-            </node>
-            <node id="glyph3">
-                <bounds height="60.0" width="120.0" y="100.0" x="382.3"/>
-                <type value="macromolecule"/>
-            </node>
-            <node id="glyph47">
-                <bounds height="60.0" width="60.0" y="140.0" x="262.25"/>
-                <type value="simple chemical"/>
-            </node>
-        </children>
-        <type value="compartment"/>
+        <bounds height="60.0" width="60.0" y="196.0" x="339.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph6">
+        <bounds height="60.0" width="60.0" y="284.0" x="265.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph8">
+        <bounds height="20.0" width="20.0" y="299.0" x="374.0"/>
+        <type value="process"/>
+    </node>
+    <node id="glyph7">
+        <bounds height="60.0" width="60.0" y="359.0" x="412.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph12">
+        <bounds height="60.0" width="60.0" y="384.0" x="926.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph13">
+        <bounds height="60.0" width="60.0" y="250.0" x="786.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph1">
+        <bounds height="60.0" width="60.0" y="274.0" x="475.0"/>
+        <type value="simple chemical"/>
     </node>
     <node id="glyph2">
-        <bounds height="720.0" width="920.0" y="630.0" x="75.0"/>
-        <children>
-            <node id="glyph41">
-                <bounds height="20.0" width="20.0" y="780.0" x="880.0"/>
-                <type value="process"/>
-            </node>
-            <node id="glyph33">
-                <bounds height="60.0" width="60.0" y="1010.0" x="520.0"/>
-                <type value="simple chemical"/>
-            </node>
-            <node id="glyph44">
-                <bounds height="20.0" width="20.0" y="980.0" x="290.0"/>
-                <type value="dissociation"/>
-            </node>
-            <node id="glyph37">
-                <bounds height="120.0" width="260.0" y="1070.0" x="170.0"/>
-                <children>
-                    <node id="glyph39">
-                        <bounds height="60.0" width="120.0" y="1100.0" x="300.0"/>
-                        <type value="macromolecule"/>
-                    </node>
-                    <node id="glyph31">
-                        <bounds height="60.0" width="120.0" y="1100.0" x="180.0"/>
-                        <type value="macromolecule"/>
-                    </node>
-                </children>
-                <type value="complex"/>
-            </node>
-            <node id="glyph21">
-                <bounds height="60.0" width="120.0" y="670.0" x="680.0"/>
-                <type value="macromolecule"/>
-            </node>
-            <node id="glyph20">
-                <bounds height="60.0" width="120.0" y="670.0" x="350.0"/>
-                <type value="macromolecule"/>
-            </node>
-            <node id="glyph27">
-                <bounds height="60.0" width="120.0" y="830.0" x="290.0"/>
-                <type value="macromolecule"/>
-            </node>
-            <node id="glyph45">
-                <bounds height="20.0" width="20.0" y="850.0" x="540.0"/>
-                <type value="association"/>
-            </node>
-            <node id="glyph43">
-                <bounds height="20.0" width="20.0" y="1160.0" x="540.0"/>
-                <type value="process"/>
-            </node>
-            <node id="glyph36">
-                <bounds height="140.0" width="140.0" y="830.0" x="690.0"/>
-                <children>
-                    <node id="glyph28">
-                        <bounds height="60.0" width="120.0" y="840.0" x="700.0"/>
-                        <type value="macromolecule"/>
-                    </node>
-                    <node id="glyph35">
-                        <bounds height="60.0" width="60.0" y="900.0" x="730.0"/>
-                        <type value="simple chemical"/>
-                    </node>
-                </children>
-                <type value="complex"/>
-            </node>
-            <node id="glyph22">
-                <bounds height="60.0" width="60.0" y="860.0" x="860.0"/>
-                <type value="simple chemical"/>
-            </node>
-            <node id="glyph24">
-                <bounds height="20.0" width="20.0" y="690.0" x="610.0"/>
-                <type value="process"/>
-            </node>
-            <node id="glyph32">
-                <bounds height="60.0" width="160.0" y="1250.0" x="150.0"/>
-                <type value="phenotype"/>
-            </node>
-            <node id="glyph26">
-                <bounds height="60.0" width="120.0" y="910.0" x="470.0"/>
-                <type value="macromolecule"/>
-            </node>
-            <node id="glyph25">
-                <bounds height="60.0" width="60.0" y="750.0" x="440.0"/>
-                <type value="simple chemical"/>
-            </node>
-            <node id="glyph42">
-                <bounds height="20.0" width="20.0" y="1010.0" x="750.0"/>
-                <type value="association"/>
-            </node>
-            <node id="glyph40">
-                <bounds height="60.0" width="60.0" y="1010.0" x="450.0"/>
-                <type value="simple chemical"/>
-            </node>
-        </children>
-        <type value="compartment"/>
+        <bounds height="60.0" width="60.0" y="302.0" x="705.0"/>
+        <type value="simple chemical"/>
     </node>
-    <node id="glyph14">
-        <bounds height="120.0" width="200.0" y="190.0" x="620.0"/>
-        <children>
-            <node id="glyph6">
-                <bounds height="60.0" width="60.0" y="220.0" x="690.0"/>
-                <type value="simple chemical"/>
-            </node>
-        </children>
-        <type value="compartment"/>
+    <node id="glyph15">
+        <bounds height="60.0" width="120.0" y="397.0" x="699.0"/>
+        <type value="macromolecule"/>
+    </node>
+    <node id="glyph3">
+        <bounds height="60.0" width="60.0" y="448.0" x="846.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph17">
+        <bounds height="60.0" width="120.0" y="190.0" x="601.0"/>
+        <type value="macromolecule"/>
+    </node>
+    <node id="glyph10">
+        <bounds height="20.0" width="20.0" y="301.0" x="610.0"/>
+        <type value="process"/>
+    </node>
+    <node id="glyph19">
+        <bounds height="60.0" width="120.0" y="269.0" x="886.0"/>
+        <type value="macromolecule"/>
+    </node>
+    <node id="glyph11">
+        <bounds height="20.0" width="20.0" y="363.0" x="842.0"/>
+        <type value="process"/>
+    </node>
+    <node id="glyph18">
+        <bounds height="60.0" width="120.0" y="582.0" x="853.0"/>
+        <type value="macromolecule"/>
+    </node>
+    <node id="glyph16">
+        <bounds height="20.0" width="20.0" y="540.0" x="784.0"/>
+        <type value="process"/>
+    </node>
+    <node id="glyph22">
+        <bounds height="60.0" width="120.0" y="449.0" x="556.0"/>
+        <type value="macromolecule"/>
+    </node>
+    <node id="glyph4">
+        <bounds height="60.0" width="60.0" y="531.0" x="644.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph23">
+        <bounds height="60.0" width="60.0" y="618.0" x="610.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph24">
+        <bounds height="60.0" width="60.0" y="613.0" x="531.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph25">
+        <bounds height="60.0" width="60.0" y="513.0" x="409.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph20">
+        <bounds height="20.0" width="20.0" y="552.0" x="542.0"/>
+        <type value="process"/>
+    </node>
+    <node id="glyph26">
+        <bounds height="60.0" width="60.0" y="435.0" x="474.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph35">
+        <bounds height="60.0" width="120.0" y="774.0" x="285.0"/>
+        <type value="macromolecule"/>
+    </node>
+    <node id="glyph36">
+        <bounds height="60.0" width="120.0" y="576.0" x="49.0"/>
+        <type value="macromolecule"/>
+    </node>
+    <node id="glyph37">
+        <bounds height="60.0" width="120.0" y="308.0" x="10.0"/>
+        <type value="macromolecule"/>
+    </node>
+    <node id="glyph38">
+        <bounds height="60.0" width="120.0" y="174.0" x="434.0"/>
+        <type value="macromolecule"/>
+    </node>
+    <node id="glyph21">
+        <bounds height="60.0" width="60.0" y="612.0" x="426.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph42">
+        <bounds height="60.0" width="60.0" y="702.0" x="428.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph41">
+        <bounds height="60.0" width="60.0" y="692.0" x="230.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph31">
+        <bounds height="20.0" width="20.0" y="692.0" x="351.0"/>
+        <type value="process"/>
+    </node>
+    <node id="glyph27">
+        <bounds height="60.0" width="60.0" y="582.0" x="262.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph32">
+        <bounds height="20.0" width="20.0" y="526.0" x="194.0"/>
+        <type value="process"/>
+    </node>
+    <node id="glyph28">
+        <bounds height="60.0" width="60.0" y="407.0" x="134.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph43">
+        <bounds height="60.0" width="60.0" y="206.0" x="159.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph33">
+        <bounds height="20.0" width="20.0" y="319.0" x="189.0"/>
+        <type value="process"/>
+    </node>
+    <node id="glyph29">
+        <bounds height="60.0" width="60.0" y="201.0" x="257.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph39">
+        <bounds height="60.0" width="60.0" y="105.0" x="254.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph40">
+        <bounds height="60.0" width="60.0" y="10.0" x="387.0"/>
+        <type value="simple chemical"/>
     </node>
     <node id="glyph34">
-        <bounds height="120.0" width="200.0" y="630.0" x="790.0"/>
-        <children>
-            <node id="glyph23">
-                <bounds height="60.0" width="60.0" y="660.0" x="860.0"/>
-                <type value="simple chemical"/>
-            </node>
-        </children>
-        <type value="compartment"/>
+        <bounds height="20.0" width="20.0" y="130.0" x="373.0"/>
+        <type value="process"/>
     </node>
-    <node id="glyph999">
-        <bounds height="760.0" width="860.0" y="780.0" x="345.0"/>
-        <children>
-            <node id="glyph38">
-                <bounds height="160.0" width="260.0" y="1080.0" x="645.0"/>
-                <children>
-                    <node id="glyph30">
-                        <bounds height="60.0" width="120.0" y="1150.0" x="670.0"/>
-                        <type value="macromolecule"/>
-                    </node>
-                    <node id="glyph29">
-                        <bounds height="60.0" width="120.0" y="1100.0" x="760.0"/>
-                        <type value="macromolecule"/>
-                    </node>
-                    <node id="glyph46">
-                        <bounds height="60.0" width="60.0" y="1160.0" x="790.0"/>
-                        <type value="simple chemical"/>
-                    </node>
-                </children>
-                <type value="complex"/>
-            </node>
-            <node id="glyph338">
-                <bounds height="160.0" width="260.0" y="1075.0" x="645.0"/>
-                <children>
-                    <node id="glyph320">
-                        <bounds height="60.0" width="120.0" y="1150.0" x="670.0"/>
-                        <type value="macromolecule"/>
-                    </node>
-                    <node id="glyph229">
-                        <bounds height="60.0" width="120.0" y="1100.0" x="760.0"/>
-                        <type value="macromolecule"/>
-                    </node>
-                </children>
-                <type value="complex"/>
-            </node>
-            <node id="glyph888">
-                <bounds height="60.0" width="60.0" y="1160.0" x="790.0"/>
-                <type value="simple chemical"/>
-            </node>
-            <node id="glyph299">
-                <bounds height="60.0" width="120.0" y="1100.0" x="760.0"/>
-                <type value="macromolecule"/>
-            </node>
-        </children>
-        <type value="complex"/>
+    <node id="glyph30">
+        <bounds height="60.0" width="60.0" y="83.0" x="462.0"/>
+        <type value="simple chemical"/>
+    </node>
+    <node id="glyph14">
+        <bounds height="20.0" width="20.0" y="510.0" x="743.0"/>
+        <type value="process"/>
+    </node>
+    <node id="glyph5">
+        <bounds height="60.0" width="60.0" y="597.0" x="723.0"/>
+        <type value="simple chemical"/>
     </node>
     <edge id="1">
-        <sourceNode id="glyph8"/>
-        <targetNode id="glyph15"/>
-        <type value="necessary stimulation"/>
+        <sourceNode id="glyph9"/>
+        <targetNode id="glyph8"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="2">
-        <sourceNode id="glyph12"/>
-        <targetNode id="glyph16"/>
+        <sourceNode id="glyph0"/>
+        <targetNode id="glyph8"/>
+        <bendPointList/>
         <type value="consumption"/>
     </edge>
     <edge id="3">
-        <sourceNode id="glyph16"/>
-        <targetNode id="glyph13"/>
+        <sourceNode id="glyph8"/>
+        <targetNode id="glyph1"/>
+        <bendPointList/>
         <type value="production"/>
     </edge>
     <edge id="4">
-        <sourceNode id="glyph13"/>
-        <targetNode id="glyph18"/>
+        <sourceNode id="glyph6"/>
+        <targetNode id="glyph8"/>
+        <bendPointList/>
         <type value="consumption"/>
     </edge>
     <edge id="5">
-        <sourceNode id="glyph18"/>
-        <targetNode id="glyph6"/>
+        <sourceNode id="glyph8"/>
+        <targetNode id="glyph7"/>
+        <bendPointList/>
         <type value="production"/>
     </edge>
     <edge id="6">
-        <sourceNode id="glyph4"/>
-        <targetNode id="glyph18"/>
-        <type value="necessary stimulation"/>
-    </edge>
-    <edge id="7">
-        <sourceNode id="glyph3"/>
-        <targetNode id="glyph16"/>
-        <type value="catalysis"/>
-    </edge>
-    <edge id="8">
-        <sourceNode id="glyph10"/>
-        <targetNode id="glyph19"/>
-        <type value="catalysis"/>
-    </edge>
-    <edge id="9">
-        <sourceNode id="glyph7"/>
-        <targetNode id="glyph19"/>
-        <type value="consumption"/>
-    </edge>
-    <edge id="10">
-        <sourceNode id="glyph19"/>
-        <targetNode id="glyph5"/>
+        <sourceNode id="glyph11"/>
+        <targetNode id="glyph12"/>
+        <bendPointList/>
         <type value="production"/>
     </edge>
-    <edge id="11">
-        <sourceNode id="glyph19"/>
+    <edge id="7">
+        <sourceNode id="glyph13"/>
         <targetNode id="glyph11"/>
+        <bendPointList/>
+        <type value="consumption"/>
+    </edge>
+    <edge id="8">
+        <sourceNode id="glyph1"/>
+        <targetNode id="glyph10"/>
+        <bendPointList/>
+        <type value="consumption"/>
+    </edge>
+    <edge id="9">
+        <sourceNode id="glyph10"/>
+        <targetNode id="glyph2"/>
+        <bendPointList/>
+        <type value="production"/>
+    </edge>
+    <edge id="10">
+        <sourceNode id="glyph2"/>
+        <targetNode id="glyph11"/>
+        <bendPointList/>
+        <type value="consumption"/>
+    </edge>
+    <edge id="11">
+        <sourceNode id="glyph11"/>
+        <targetNode id="glyph3"/>
+        <bendPointList/>
         <type value="production"/>
     </edge>
     <edge id="12">
-        <sourceNode id="glyph9"/>
-        <targetNode id="glyph17"/>
-        <type value="necessary stimulation"/>
+        <sourceNode id="glyph14"/>
+        <targetNode id="glyph4"/>
+        <bendPointList/>
+        <type value="production"/>
     </edge>
     <edge id="13">
-        <sourceNode id="glyph6"/>
-        <targetNode id="glyph17"/>
-        <type value="consumption"/>
+        <sourceNode id="glyph15"/>
+        <targetNode id="glyph14"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="14">
-        <sourceNode id="glyph17"/>
-        <targetNode id="glyph7"/>
-        <type value="production"/>
+        <sourceNode id="glyph3"/>
+        <targetNode id="glyph16"/>
+        <bendPointList/>
+        <type value="consumption"/>
     </edge>
     <edge id="15">
-        <sourceNode id="glyph7"/>
-        <targetNode id="glyph24"/>
-        <type value="necessary stimulation"/>
+        <sourceNode id="glyph16"/>
+        <targetNode id="glyph5"/>
+        <bendPointList/>
+        <type value="production"/>
     </edge>
     <edge id="16">
-        <sourceNode id="glyph20"/>
-        <targetNode id="glyph24"/>
-        <type value="consumption"/>
+        <sourceNode id="glyph16"/>
+        <targetNode id="glyph4"/>
+        <bendPointList/>
+        <type value="production"/>
     </edge>
     <edge id="17">
-        <sourceNode id="glyph24"/>
-        <targetNode id="glyph21"/>
-        <type value="production"/>
+        <sourceNode id="glyph17"/>
+        <targetNode id="glyph10"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="18">
-        <sourceNode id="glyph41"/>
-        <targetNode id="glyph22"/>
-        <type value="production"/>
+        <sourceNode id="glyph19"/>
+        <targetNode id="glyph11"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="19">
-        <sourceNode id="glyph22"/>
-        <targetNode id="glyph42"/>
-        <type value="stimulation"/>
+        <sourceNode id="glyph18"/>
+        <targetNode id="glyph16"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="20">
-        <sourceNode id="glyph36"/>
-        <targetNode id="glyph42"/>
-        <type value="consumption"/>
+        <sourceNode id="glyph22"/>
+        <targetNode id="glyph20"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="21">
-        <sourceNode id="glyph26"/>
-        <targetNode id="glyph42"/>
+        <sourceNode id="glyph4"/>
+        <targetNode id="glyph20"/>
+        <bendPointList/>
         <type value="consumption"/>
     </edge>
     <edge id="22">
-        <sourceNode id="glyph43"/>
-        <targetNode id="glyph37"/>
+        <sourceNode id="glyph20"/>
+        <targetNode id="glyph21"/>
+        <bendPointList/>
         <type value="production"/>
     </edge>
     <edge id="23">
-        <sourceNode id="glyph43"/>
-        <targetNode id="glyph33"/>
-        <type value="production"/>
-    </edge>
-    <edge id="24">
-        <sourceNode id="glyph43"/>
-        <targetNode id="glyph40"/>
-        <type value="production"/>
-    </edge>
-    <edge id="25">
-        <sourceNode id="glyph37"/>
-        <targetNode id="glyph44"/>
+        <sourceNode id="glyph23"/>
+        <targetNode id="glyph20"/>
+        <bendPointList/>
         <type value="consumption"/>
     </edge>
+    <edge id="24">
+        <sourceNode id="glyph24"/>
+        <targetNode id="glyph20"/>
+        <bendPointList/>
+        <type value="consumption"/>
+    </edge>
+    <edge id="25">
+        <sourceNode id="glyph20"/>
+        <targetNode id="glyph25"/>
+        <bendPointList/>
+        <type value="production"/>
+    </edge>
     <edge id="26">
-        <sourceNode id="glyph44"/>
-        <targetNode id="glyph27"/>
+        <sourceNode id="glyph20"/>
+        <targetNode id="glyph26"/>
+        <bendPointList/>
         <type value="production"/>
     </edge>
     <edge id="27">
-        <sourceNode id="glyph44"/>
-        <targetNode id="glyph26"/>
-        <type value="production"/>
+        <sourceNode id="glyph35"/>
+        <targetNode id="glyph31"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="28">
-        <sourceNode id="glyph25"/>
-        <targetNode id="glyph45"/>
-        <type value="consumption"/>
+        <sourceNode id="glyph36"/>
+        <targetNode id="glyph32"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="29">
-        <sourceNode id="glyph27"/>
-        <targetNode id="glyph45"/>
-        <type value="consumption"/>
+        <sourceNode id="glyph37"/>
+        <targetNode id="glyph33"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="30">
-        <sourceNode id="glyph45"/>
-        <targetNode id="glyph36"/>
-        <type value="production"/>
+        <sourceNode id="glyph38"/>
+        <targetNode id="glyph34"/>
+        <bendPointList/>
+        <type value="catalysis"/>
     </edge>
     <edge id="31">
         <sourceNode id="glyph21"/>
-        <targetNode id="glyph41"/>
-        <type value="necessary stimulation"/>
+        <targetNode id="glyph31"/>
+        <bendPointList/>
+        <type value="consumption"/>
     </edge>
     <edge id="32">
-        <sourceNode id="glyph5"/>
-        <targetNode id="glyph15"/>
+        <sourceNode id="glyph42"/>
+        <targetNode id="glyph31"/>
+        <bendPointList/>
         <type value="consumption"/>
     </edge>
     <edge id="33">
-        <sourceNode id="glyph15"/>
-        <targetNode id="glyph12"/>
+        <sourceNode id="glyph31"/>
+        <targetNode id="glyph41"/>
+        <bendPointList/>
         <type value="production"/>
     </edge>
     <edge id="34">
-        <sourceNode id="glyph47"/>
-        <targetNode id="glyph16"/>
-        <type value="consumption"/>
+        <sourceNode id="glyph31"/>
+        <targetNode id="glyph27"/>
+        <bendPointList/>
+        <type value="production"/>
     </edge>
     <edge id="35">
-        <sourceNode id="glyph23"/>
-        <targetNode id="glyph41"/>
+        <sourceNode id="glyph27"/>
+        <targetNode id="glyph32"/>
+        <bendPointList/>
         <type value="consumption"/>
     </edge>
     <edge id="36">
-        <sourceNode id="glyph37"/>
-        <targetNode id="glyph32"/>
-        <type value="stimulation"/>
+        <sourceNode id="glyph32"/>
+        <targetNode id="glyph28"/>
+        <bendPointList/>
+        <type value="production"/>
+    </edge>
+    <edge id="37">
+        <sourceNode id="glyph28"/>
+        <targetNode id="glyph33"/>
+        <bendPointList/>
+        <type value="consumption"/>
+    </edge>
+    <edge id="38">
+        <sourceNode id="glyph33"/>
+        <targetNode id="glyph43"/>
+        <bendPointList/>
+        <type value="production"/>
+    </edge>
+    <edge id="39">
+        <sourceNode id="glyph33"/>
+        <targetNode id="glyph29"/>
+        <bendPointList/>
+        <type value="production"/>
+    </edge>
+    <edge id="40">
+        <sourceNode id="glyph29"/>
+        <targetNode id="glyph34"/>
+        <bendPointList/>
+        <type value="consumption"/>
+    </edge>
+    <edge id="41">
+        <sourceNode id="glyph29"/>
+        <targetNode id="glyph8"/>
+        <bendPointList/>
+        <type value="consumption"/>
+    </edge>
+    <edge id="42">
+        <sourceNode id="glyph39"/>
+        <targetNode id="glyph34"/>
+        <bendPointList/>
+        <type value="consumption"/>
+    </edge>
+    <edge id="43">
+        <sourceNode id="glyph34"/>
+        <targetNode id="glyph40"/>
+        <bendPointList/>
+        <type value="production"/>
+    </edge>
+    <edge id="44">
+        <sourceNode id="glyph34"/>
+        <targetNode id="glyph30"/>
+        <bendPointList/>
+        <type value="production"/>
+    </edge>
+    <edge id="45">
+        <sourceNode id="glyph14"/>
+        <targetNode id="glyph5"/>
+        <bendPointList/>
+        <type value="production"/>
     </edge>
 </view>

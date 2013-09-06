@@ -3,7 +3,7 @@ package org.ivis.layout.sbgn;
 import java.util.ArrayList;
 
 import org.ivis.util.RectangleD;
- // TODO - commit. correct default compaction algorithm thing.
+
 /**
  * This class is used to apply compaction on a graph. First a visibility graph
  * is constructed from the given set of nodes. Since visibility graphs are
@@ -56,8 +56,31 @@ public class Compaction
 	 */
 	public void perform()
 	{
-		algorithmBody(CompactionDirection.HORIZONTAL);
 		algorithmBody(CompactionDirection.VERTICAL);
+		removeVisibilityEdges();
+		
+		algorithmBody(CompactionDirection.HORIZONTAL);
+		removeVisibilityEdges();
+
+	}
+
+	private void removeVisibilityEdges()
+	{
+		for(Object objNode : vertices)
+		{
+			SbgnPDNode sbgnNode = (SbgnPDNode) objNode;
+			
+			for(int i = 0; i < sbgnNode.getEdges().size(); i++)
+			{
+				Object objEdge = sbgnNode.getEdges().get(i);
+				
+				if( objEdge instanceof VisibilityEdge)
+				{
+					sbgnNode.getEdges().remove(i);
+					i--;
+				}
+			}
+		}	
 	}
 
 	private void algorithmBody(CompactionDirection direction)
@@ -111,27 +134,27 @@ public class Compaction
 			}
 		}
 	}
+	
+    private void DFS_Visit(SbgnPDNode s)
+    {
+            ArrayList<SbgnPDNode> neighbors = s.getNeighbors();
 
-	private void DFS_Visit(SbgnPDNode s)
-	{
-		ArrayList<SbgnPDNode> neighbors = s.getNeighbors();
+            if (neighbors.size() == 0)
+            {
+                    s.visited = true;
+                    orderedNodeList.add(s);
+                    return;
+            }
 
-		if (neighbors.size() == 0)
-		{
-			s.visited = true;
-			orderedNodeList.add(s);
-			return;
-		}
+            for (SbgnPDNode n : neighbors)
+            {
+                    if (!n.visited)
+                            DFS_Visit(n);
+            }
 
-		for (SbgnPDNode n : neighbors)
-		{
-			if (!n.visited)
-				DFS_Visit(n);
-		}
-
-		s.visited = true;
-		orderedNodeList.add(s);
-	}
+            s.visited = true;
+            orderedNodeList.add(s);
+    }
 
 	/**
 	 * Reverse the element order of a given list
@@ -190,8 +213,10 @@ public class Compaction
 					}
 					else
 					{
-						s.setLocation(edge.getOtherEnd(s).getRight()
-								+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER, s.getTop());
+						s.setLocation(
+								edge.getOtherEnd(s).getRight()
+										+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER,
+								s.getTop());
 					}
 				}
 			}

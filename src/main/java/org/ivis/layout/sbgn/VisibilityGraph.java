@@ -1,7 +1,5 @@
 package org.ivis.layout.sbgn;
 
-import java.awt.Dimension;
-import java.awt.Point;
 import java.util.ArrayList;
 
 import org.ivis.layout.LGraph;
@@ -70,9 +68,7 @@ public class VisibilityGraph extends LGraph
 	{
 		// create the new graph with given vertices
 		for (SbgnPDNode s : vertices)
-			this.add(new SbgnPDNode(getGraphManager(), new Point((int) s
-					.getLeft(), (int) s.getTop()), new Dimension((int) s
-					.getWidth(), (int) s.getHeight()), s, s.type));
+			this.add(s);
 	}
 
 	/**
@@ -88,7 +84,8 @@ public class VisibilityGraph extends LGraph
 		if (direction == CompactionDirection.VERTICAL)
 		{
 			// ensure that p points to the leftmost element
-			if (q.getLeft() < p.getLeft() && p.getLeft() < q.getRight())
+			if (q.getLeft() < p.getLeft()
+					&& p.getLeft() < q.getLeft() + q.getWidth())
 			{
 				SbgnPDNode temp = p;
 				p = q;
@@ -96,7 +93,8 @@ public class VisibilityGraph extends LGraph
 			}
 
 			// check if there exists a ray
-			if (p.getLeft() <= q.getLeft() && q.getLeft() <= p.getRight())
+			if (p.getLeft() <= q.getLeft()
+					&& q.getLeft() <= p.getLeft() + p.getWidth())
 			{
 				if (sweepIntersectedArea(p, q))
 					return 1;
@@ -106,7 +104,8 @@ public class VisibilityGraph extends LGraph
 		else if (direction == CompactionDirection.HORIZONTAL)
 		{
 			// ensure that p points to the upper element
-			if (q.getTop() < p.getTop() && p.getTop() < q.getBottom())
+			if (q.getTop() < p.getTop()
+					&& p.getTop() < q.getTop() + q.getHeight())
 			{
 				SbgnPDNode temp = p;
 				p = q;
@@ -114,7 +113,8 @@ public class VisibilityGraph extends LGraph
 			}
 
 			// check if there exists a ray
-			if (p.getTop() <= q.getTop() && q.getTop() <= p.getBottom())
+			if (p.getTop() <= q.getTop()
+					&& q.getTop() <= p.getTop() + p.getHeight())
 			{
 				if (sweepIntersectedArea(p, q))
 					return 2;
