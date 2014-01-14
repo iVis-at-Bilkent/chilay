@@ -59,11 +59,11 @@ public class ZoneEdge extends CoSEEdge
 
 			this.length = Math.sqrt(
 				this.lengthX * this.lengthX + this.lengthY * this.lengthY);
-			
+			//System.out.println("Here");
 		}	
 		
-		System.out.println("Edge Source " + this.getSource().label + ", Target " 
-				+ this.getTarget().label + " Lenght" + this.length); // test
+		//System.out.println("Zone Edge Source " + this.getSource().label + ", Target " 
+			//	+ this.getTarget().label + " Lenght" + this.length); // test
 	}
 	
 	public void updateLengthSimple()

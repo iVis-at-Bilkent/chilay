@@ -250,6 +250,7 @@ public class CoSELayout extends FDLayout
 	
 		System.out.println("Classic CoSE layout finished after " +
 			this.totalIterations + " iterations");
+		LayoutConstants.iterations = this.totalIterations;
 		
 		return true;
 	}

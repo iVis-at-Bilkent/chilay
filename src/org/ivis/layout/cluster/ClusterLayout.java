@@ -8,6 +8,7 @@ import org.ivis.layout.Cluster;
 import org.ivis.layout.LGraph;
 import org.ivis.layout.LGraphManager;
 import org.ivis.layout.LNode;
+import org.ivis.layout.LayoutConstants;
 import org.ivis.layout.cluster.ClusterGraphManager;
 import org.ivis.layout.cluster.ClusterEdge;
 import org.ivis.layout.cluster.ClusterConstants;
@@ -29,6 +30,8 @@ import org.ivis.util.PointD;
 public class ClusterLayout extends CoSELayout
 {
 
+	//public static final boolean areConsoleAndNewFrameTestsOn = false;
+	
 	/**
 	 * The constructor creates and associates with this layout a new graph
 	 * manager as well. 
@@ -94,12 +97,15 @@ public class ClusterLayout extends CoSELayout
 			((ClusterGraphManager) (this.graphManager)).formClusterZones();						
 		}
 		
-		this.setIsInterClusterPropertiesOfAllEdges();
-		//testEdgeTypes(); // test
+		this.setIsInterClusterPropertiesOfAllEdges();		
+		super.layout();	
 		
-		super.layout();		
-		this.showZonesInAFrame(); //test
-		//this.testEdgeLengths(); //test
+		if (LayoutConstants.TESTS_ACTIVE)
+		{
+			this.showZonesInAFrame(); //test
+			//this.testEdgeLengths(); //test
+			//this.testPostProcess(); //test
+		}
 		return true;
 	}
 	
@@ -183,7 +189,8 @@ public class ClusterLayout extends CoSELayout
 		for (Object obj : this.graphManager.getAllEdges())
 		{
 			edge = (ClusterEdge) obj;			
-			edge.idealLength = super.idealEdgeLength;
+			edge.idealLength = super.idealEdgeLength *
+					(ClusterConstants.DEFAULT_SAME_CLUSTER_EDGE_LENGTH_FACTOR);
 			
 			if (edge.isInterCluster())
 			{
@@ -360,11 +367,6 @@ public class ClusterLayout extends CoSELayout
 		
 		LGraph graph = (LGraph) (this.graphManager.getGraphs().get(0));
 		graph.updateBounds(true);
-		System.out.println("Bottom: " + graph.getBottom());
-		System.out.println("Top: " + graph.getTop());
-		System.out.println("Left: " + graph.getLeft());
-		System.out.println("Right: " + graph.getRight());
-		System.out.println("Margin: " + graph.getMargin());
 	}
 	
 	// TODO: Test method to be deleted
@@ -392,8 +394,65 @@ public class ClusterLayout extends CoSELayout
 		for (Object o: this.getGraphManager().getAllEdges())
 		{
 			ClusterEdge e = (ClusterEdge) o;
-			System.out.print("Edge Source: " + e.getSource().label + " Edge Target: " + e.getTarget().label);
-			System.out.println(" InterCluster: " + e.isInterCluster() + " ZoneNeigbors: " + e.areNodesZoneNeigbors());
+			//System.out.print("Edge Source: " + e.getSource().label + " Edge Target: " + e.getTarget().label);
+			//System.out.println(" InterCluster: " + e.isInterCluster() + " ZoneNeigbors: " + e.areNodesZoneNeigbors());
+		}
+	}
+	
+	/** This method is called after the layout process to see if a node is 
+	 *  overlapping with a zone that it does not belong to 
+	 */
+	public void testPostProcess()
+	{
+		Object [] nodes = this.getGraphManager().getAllNodes();
+		List clusters = this.getGraphManager().getClusterManager().getClusters();
+		ArrayList<PointD> zonePolygon;
+		Object [] overlap;
+		
+		for (Object o: nodes) 
+		{
+			ClusterNode node = (ClusterNode) o;
+			List<Cluster> nodeZones = node.getClusters();
+			
+			// Get the node polygon 
+			double left = node.getLeft();
+			double right = node.getRight();
+			double top = node.getTop();
+			double bottom = node.getBottom();
+			ArrayList <PointD> nodePolygon = new ArrayList<PointD>(); 
+			nodePolygon.add(new PointD(left, top));
+			nodePolygon.add(new PointD(right, top));
+			nodePolygon.add(new PointD(right, bottom));
+			nodePolygon.add(new PointD(left, bottom));
+						
+			// Check if it overlaps with the zone polygons
+			for (Object c : clusters)
+			{
+				Cluster zone = (Cluster) c;
+				zonePolygon = zone.getPolygon();
+				
+				// Compare two polygons
+				overlap = IGeometry.convexPolygonOverlap(nodePolygon, zonePolygon);
+				
+				if ((double) overlap[0] != 0.0) 
+				{
+					//System.out.println("Overlap with zone" +zone.getClusterID());
+					int flag = 0;
+					for (Object nz : nodeZones)
+					{
+						Cluster zoneCluster = (Cluster) nz;
+						if (!zone.equals(zoneCluster))
+						{
+							flag = zone.getClusterID();
+						}
+					}
+					
+					if (flag != 0)
+					{
+						System.out.println(node.label + " overlaps with zone " + flag);
+					}
+				}
+			}
 		}
 	}
 }

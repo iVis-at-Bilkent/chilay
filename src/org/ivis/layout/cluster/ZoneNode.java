@@ -77,10 +77,10 @@ public class ZoneNode extends CoSENode
 				temp = IGeometry.getXYProjection(((double) overlap[0]),
 						((PointD) overlap[1]));
 					
-				overlapAmount[0] = temp.x; // overlap in x						
-				overlapAmount[1] = temp.y; // overlap in y
-				//System.out.println("Zone " + this.label + " and " + nodeB.label);
-				//System.out.println("Zone Overlap amount x:" + temp.x + " ,y:" + temp.y);	// test
+				overlapAmount[0] = temp.x * ClusterConstants.DEFAULT_CLUSTER_SEPARATION; // overlap in x						
+				overlapAmount[1] = temp.y * ClusterConstants.DEFAULT_CLUSTER_SEPARATION; // overlap in y
+			//	System.out.println("Zone " + this.label + " and " + nodeB.label);
+			//	System.out.println("Zone Overlap amount x:" + temp.x + " ,y:" + temp.y);	// test
 				
 				return true;
 			}

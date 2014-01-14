@@ -132,7 +132,7 @@ class ZoneTestFrame extends JFrame
         	Line2D line = new Line2D.Double(p1x, p1y, p2x, p2y);
         	g2.setColor(new Color(0, 0, 0));
         	g2.draw(line); 
-        	System.out.println("Resulting edge drawn is between " + result[0] + "," + result[1]+ " & " +result[2]+ "," +result[3]);
+        	//System.out.println("Resulting edge drawn is between " + result[0] + "," + result[1]+ " & " +result[2]+ "," +result[3]);
         }        
     }
 }
