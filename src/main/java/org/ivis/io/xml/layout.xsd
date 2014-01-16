@@ -37,7 +37,7 @@
 		<xsd:sequence>
 			<xsd:element ref="customData" maxOccurs="1" minOccurs="0"></xsd:element>
 		</xsd:sequence>
-		<xsd:attribute name="type" type="xsd:string"></xsd:attribute>
+<!-- 		<xsd:attribute name="type" type="xsd:string"></xsd:attribute> -->
 		<xsd:attribute name="id" type="xsd:NCName" use="required"></xsd:attribute>
 	</xsd:complexType>
 
@@ -58,6 +58,13 @@
 							</xsd:attribute>
 							<xsd:attribute name="height"
 								type="xsd:double" use="required">
+							</xsd:attribute>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="type" maxOccurs="1" minOccurs="0">
+						<xsd:complexType>
+							<xsd:attribute name="value" type="xsd:string"
+								use="optional">
 							</xsd:attribute>
 						</xsd:complexType>
 					</xsd:element>
@@ -101,6 +108,13 @@
 						<xsd:complexType>
 							<xsd:attribute name="id"
 								type="xsd:string">
+							</xsd:attribute>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="type" maxOccurs="1" minOccurs="0">
+						<xsd:complexType>
+							<xsd:attribute name="value" type="xsd:string"
+								use="optional">
 							</xsd:attribute>
 						</xsd:complexType>
 					</xsd:element>

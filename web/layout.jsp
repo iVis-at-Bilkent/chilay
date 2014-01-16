@@ -7,6 +7,7 @@
 <jsp:directive.page import="java.io.BufferedInputStream"/>
 <jsp:directive.page import="org.ivis.layout.cose.CoSELayout"/>
 <jsp:directive.page import="org.ivis.layout.cise.CiSELayout"/>
+<jsp:directive.page import="org.ivis.layout.sbgn.SbgnPDLayout"/>
 <jsp:directive.page import="org.ivis.layout.LayoutConstants"/>
 <jsp:directive.page import="org.ivis.layout.LayoutOptionsPack"/>
 <jsp:directive.page import="java.util.List"/>
@@ -94,7 +95,7 @@
 		
 		Layout layout;
 		
-		assert (layoutStyle.equals("cose") || layoutStyle.equals("cise")) :
+		assert (layoutStyle.equals("cose") || layoutStyle.equals("cise") || layoutStyle.equals("sbgn")):
 			"Invalid layout style!";
 
 		if (layoutStyle.equals("cose"))
@@ -104,6 +105,10 @@
 		else if (layoutStyle.equals("cise"))
 		{
 			layout = new CiSELayout();
+		}
+		else if (layoutStyle.equals("sbgn"))
+		{
+			layout = new SbgnPDLayout();
 		}
 		else
 		{
@@ -126,20 +131,18 @@
 
 		if (layoutQualityString != null)
 		{
+
 			if (layoutQualityString.equals(LayoutConstants.DEFAULT_QUALITY))
 			{
-				layoutOptionsPack.getGeneral().
-					setLayoutQuality(LayoutConstants.DEFAULT_QUALITY);
+				layoutOptionsPack.getGeneral().layoutQuality = LayoutConstants.DEFAULT_QUALITY;
 			}
 			else if (layoutQualityString.equals(LayoutConstants.PROOF_QUALITY))
 			{
-				layoutOptionsPack.getGeneral().
-					setLayoutQuality(LayoutConstants.PROOF_QUALITY);
+				layoutOptionsPack.getGeneral().layoutQuality = LayoutConstants.PROOF_QUALITY;
 			}
 			else
 			{
-				layoutOptionsPack.getGeneral().
-					setLayoutQuality(LayoutConstants.DRAFT_QUALITY);
+				layoutOptionsPack.getGeneral().layoutQuality = LayoutConstants.DRAFT_QUALITY;
 			}
 		}
 
@@ -147,92 +150,79 @@
 
 		if (animateOnLayout != null)
 		{
-			layoutOptionsPack.getGeneral().setAnimationOnLayout(
-				(Boolean.parseBoolean(animateOnLayout)));
+			layoutOptionsPack.getGeneral().animationOnLayout = (Boolean.parseBoolean(animateOnLayout));
 		}
 
 		String animateDuringLayout = options.get("animateDuringLayout");
 
 		if (animateDuringLayout != null)
 		{
-			layoutOptionsPack.getGeneral().setAnimationDuringLayout(
-				(Boolean.parseBoolean(animateDuringLayout)));
+			layoutOptionsPack.getGeneral().animationDuringLayout = (Boolean.parseBoolean(animateDuringLayout));
 		}
 		
 		String animationPeriod = options.get("animationPeriod");
 
 		if (animationPeriod != null)
 		{
-			layoutOptionsPack.getGeneral().
-				setAnimationPeriod((Integer.parseInt(animationPeriod)));
+			layoutOptionsPack.getGeneral().animationPeriod = (Integer.parseInt(animationPeriod));
 		}
 		
 		String incremental = options.get("incremental");
 
 		if (incremental != null)
 		{
-			layoutOptionsPack.getGeneral().
-				setIncremental((Boolean.parseBoolean(incremental)));
+			layoutOptionsPack.getGeneral().incremental = (Boolean.parseBoolean(incremental));
 		}
 
 		String createBendsAsNeeded = options.get("createBendsAsNeeded");
 
 		if (createBendsAsNeeded != null)
 		{
-			layoutOptionsPack.getGeneral().setCreateBendsAsNeeded(
-				(Boolean.parseBoolean(createBendsAsNeeded)));
+			layoutOptionsPack.getGeneral().createBendsAsNeeded = (Boolean.parseBoolean(createBendsAsNeeded));
 		}
-		
 		
 		String uniformLeafNodeSizes = options.get("uniformLeafNodeSizes");
 
 		if (uniformLeafNodeSizes != null)
 		{
-			layoutOptionsPack.getGeneral().
-				setUniformLeafNodeSizes((Boolean.parseBoolean(uniformLeafNodeSizes)));
+			layoutOptionsPack.getGeneral().uniformLeafNodeSizes = (Boolean.parseBoolean(uniformLeafNodeSizes));
 		}
 
-		if (layoutStyle.equals("cose"))
+		if (layoutStyle.equals("cose") || layoutStyle.equals("sbgn") )
 		{
 			String springStrength = options.get("springStrength");
-
+			
 			if (springStrength != null)
 			{
-				layoutOptionsPack.getCoSE().
-					setSpringStrength((Integer.parseInt(springStrength)));
+				layoutOptionsPack.getCoSE().springStrength = (Integer.parseInt(springStrength));
 			}
 
 			String repulsionStrength = options.get("repulsionStrength");
 
 			if (repulsionStrength != null)
 			{
-				layoutOptionsPack.getCoSE().
-					setRepulsionStrength((Integer.parseInt(repulsionStrength)));
+				layoutOptionsPack.getCoSE().repulsionStrength = (Integer.parseInt(repulsionStrength));
 			}
 
 			String gravityStrentgh = options.get("gravityStrength");
 
 			if (gravityStrentgh != null)
 			{
-				layoutOptionsPack.getCoSE().
-					setGravityStrength((Integer.parseInt(gravityStrentgh)));
+				layoutOptionsPack.getCoSE().gravityStrength = (Integer.parseInt(gravityStrentgh));
 			}
 			
 			String gravityRange = options.get("gravityRange");
 
 			if (gravityRange != null)
 			{
-				layoutOptionsPack.getCoSE().
-					setGravityRange((Integer.parseInt(gravityRange)));
+				layoutOptionsPack.getCoSE().gravityRange = (Integer.parseInt(gravityRange));
 			}
 
-			String compoundGravityStrentgh =
-				options.get("compoundGravityStrength");
+			String compoundGravityStrentgh = options.get("compoundGravityStrength");
 
 			if (compoundGravityStrentgh != null)
 			{
-				layoutOptionsPack.getCoSE().setCompoundGravityStrength(
-					(Integer.parseInt(compoundGravityStrentgh)));
+				layoutOptionsPack.getCoSE().compoundGravityStrength = (Integer.parseInt(compoundGravityStrentgh));
 			}
 
 			String compoundGravityRange =
@@ -240,58 +230,52 @@
 
 			if (compoundGravityRange != null)
 			{
-				layoutOptionsPack.getCoSE().setCompoundGravityRange(
-					(Integer.parseInt(compoundGravityRange)));
+				layoutOptionsPack.getCoSE().compoundGravityRange = (Integer.parseInt(compoundGravityRange));
 			}
 			
 			String idealEdgeLength = options.get("idealEdgeLength");
 
 			if (idealEdgeLength != null)
 			{
-				layoutOptionsPack.getCoSE().
-					setIdealEdgeLength((Integer.parseInt(idealEdgeLength)));
+				layoutOptionsPack.getCoSE().idealEdgeLength = (Integer.parseInt(idealEdgeLength));
 			}
 			
 			String smartEdgeLengthCalc = options.get("smartEdgeLengthCalc");
 
 			if (smartEdgeLengthCalc != null)
 			{
-				layoutOptionsPack.getCoSE().
-					setSmartEdgeLengthCalc((Boolean.parseBoolean(smartEdgeLengthCalc)));
+				layoutOptionsPack.getCoSE().smartEdgeLengthCalc = (Boolean.parseBoolean(smartEdgeLengthCalc));
 			}
 			
 			String multiLevelScaling = options.get("multiLevelScaling");
 
 			if (multiLevelScaling != null)
 			{
-				layoutOptionsPack.getCoSE().
-					setMultiLevelScaling((Boolean.parseBoolean(multiLevelScaling)));
+				layoutOptionsPack.getCoSE().multiLevelScaling = (Boolean.parseBoolean(multiLevelScaling));
 			}
 			
 			String smartRepulsionRangeCalc = options.get("smartRepulsionRangeCalc");
 
 			if (smartRepulsionRangeCalc != null)
 			{
-				layoutOptionsPack.getCoSE().
-					setSmartRepulsionRangeCalc((Boolean.parseBoolean(smartRepulsionRangeCalc)));
+				layoutOptionsPack.getCoSE().smartRepulsionRangeCalc = (Boolean.parseBoolean(smartRepulsionRangeCalc));
 			}
 		}
+
 		else if (layoutStyle.equals("cise"))
 		{
 			String nodeSeparation = options.get("nodeSeparation");
 
 			if (nodeSeparation != null)
 			{
-				layoutOptionsPack.getCiSE().
-					setNodeSeparation((Integer.parseInt(nodeSeparation)));
+				layoutOptionsPack.getCiSE().nodeSeparation = (Integer.parseInt(nodeSeparation));
 			}
 
 			String desiredEdgeLength = options.get("desiredEdgeLength");
 
 			if (desiredEdgeLength != null)
 			{
-				layoutOptionsPack.getCiSE().
-					setDesiredEdgeLength((Integer.parseInt(desiredEdgeLength)));
+				layoutOptionsPack.getCiSE().desiredEdgeLength = (Integer.parseInt(desiredEdgeLength));
 			}
 
 			String interClusterEdgeLengthFactor =
@@ -299,16 +283,14 @@
 
 			if (interClusterEdgeLengthFactor != null)
 			{
-				layoutOptionsPack.getCiSE().setInterClusterEdgeLengthFactor(
-					(Integer.parseInt(interClusterEdgeLengthFactor)));
+				layoutOptionsPack.getCiSE().interClusterEdgeLengthFactor = (Integer.parseInt(interClusterEdgeLengthFactor));
 			}
 			
 			String allowNodesInsideCircle = options.get("allowNodesInsideCircle");
 			
 			if (allowNodesInsideCircle != null)
 			{
-				layoutOptionsPack.getCiSE().
-					setAllowNodesInsideCircle((Boolean.parseBoolean(allowNodesInsideCircle)));
+				layoutOptionsPack.getCiSE().allowNodesInsideCircle = (Boolean.parseBoolean(allowNodesInsideCircle));
 			}
 			
 			String maxRatioOfNodesInsideCircle =
@@ -316,8 +298,7 @@
 
 			if (maxRatioOfNodesInsideCircle != null)
 			{
-				layoutOptionsPack.getCiSE().
-					setMaxRatioOfNodesInsideCircle((Double.parseDouble(maxRatioOfNodesInsideCircle)));
+				layoutOptionsPack.getCiSE().maxRatioOfNodesInsideCircle = (Double.parseDouble(maxRatioOfNodesInsideCircle));
 			}
 		}
 
