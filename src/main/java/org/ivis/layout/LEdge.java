@@ -242,6 +242,15 @@ public class LEdge extends LGraphObject
 		return null;
 	}
 
+    /**
+     * This method updates the length of this edge as well as whether or not the
+     * circle representing the geometry of its end nodes overlap.
+     */
+    public void updateLengthCircular()
+    {
+
+    }
+
 	/**
 	 * This method updates the length of this edge as well as whether or not the
 	 * rectangles representing the geometry of its end nodes overlap.

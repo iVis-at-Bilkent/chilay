@@ -72,6 +72,11 @@ public class PointD
 		return new DimensionD(this.x - pt.x, this.y - pt.y);
 	}
 
+    public double getDistance(PointD pt)
+    {
+        return  Math.sqrt( Math.pow(this.x - pt.x,2) + Math.pow(this.y - pt.y,2));
+    }
+
 	public PointD getCopy()
 	{
 		return new PointD(this.x, this.y);
@@ -84,6 +89,10 @@ public class PointD
 		
 		return this;
 	}
-	
-	
+
+    @Override
+    public String toString()
+    {
+        return "X: " + this.x + " Y: " + this.y;
+    }
 }

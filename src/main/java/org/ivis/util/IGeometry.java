@@ -462,6 +462,59 @@ abstract public class IGeometry
 		
 		return false;
 	}
+
+    /**
+     * This method calculates the intersection (clipping) points of the two
+     * input circular vertices with line segment defined by the centers of these two
+     * circles. The clipping points are saved in the input double array and
+     * whether or not the two rectangles overlap is returned.
+     */
+    public static boolean getCircularClippingPoints(PointD centerA,
+                                                 PointD centerB,
+                                                 double radiusA,
+                                                 double radiusB,
+                                                 double[] result)
+    {
+        //Distance between centers of two circles
+        double distanceBtwCenters = centerA.getDistance(centerB);
+
+        double xDifference = centerB.x - centerA.x;
+        double yDifference = centerB.y - centerA.y;
+
+        if (distanceBtwCenters > 0)
+        // If two circles do not have same centers
+        {
+
+            // x component of the unit vector that is connecting the centers of the circle A and circle B
+            // this vector points from A to B :  A ----> B
+            xDifference = xDifference / distanceBtwCenters;
+            yDifference = yDifference / distanceBtwCenters;
+
+            // Clipping points of first circle
+            result[0] = centerA.getX() + radiusA * xDifference;
+            result[1] = centerA.getY() + radiusA * yDifference;
+
+            // Clipping points of second circle
+            result[2] = centerB.getX() - radiusB * xDifference;
+            result[3] = centerB.getY() - radiusB * yDifference;
+
+            if(radiusA+radiusB > distanceBtwCenters)
+            // this means that two circles are overlapping
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        // Centers of the circles are the same this means containment or circle with same geometric properties
+        // and position, hence this means that two circles are overlapping.
+        {
+            return true;
+        }
+    }
 	
 	/**
 	 * This method returns in which cardinal direction does input point stays
@@ -591,6 +644,11 @@ abstract public class IGeometry
 	{
 		RectangleD rectA = new RectangleD(5, 6, 2, 4);
 		RectangleD rectB;
+
+        PointD centerA;
+        PointD centerB;
+        double radiusA;
+        double radiusB;
 		
 		rectB = new RectangleD(0, 4, 1, 4);
 		findAndPrintClipPoints(rectA, rectB);
@@ -717,6 +775,19 @@ abstract public class IGeometry
 		
 		rectB = new RectangleD(5, 6, 2, 4);
 //		findAndPrintClipPoints(rectA, rectB);
+//----------------------------------------------
+        centerA = new PointD(1,1);
+        centerB = new PointD(3,1);
+        radiusA = 4;
+        radiusB = 2;
+        findAndPrintClipPointsOfCircles(centerA,centerB,radiusA,radiusB);
+//----------------------------------------------
+        centerA = new PointD(1,1);
+        centerB = new PointD(4,5);
+        radiusA = 2;
+        radiusB = 2;
+        findAndPrintClipPointsOfCircles(centerA,centerB,radiusA,radiusB);
+//----------------------------------------------
 	}
 	
 	private static void findAndPrintClipPoints(RectangleD rectA, RectangleD rectB)
@@ -731,6 +802,23 @@ abstract public class IGeometry
 		System.out.println("Clip Point of RectA X:" + clipPoints[0] + " Y: " + clipPoints[1]);
 		System.out.println("Clip Point of RectB X:" + clipPoints[2] + " Y: " + clipPoints[3]);	
 	}
+
+    private static void findAndPrintClipPointsOfCircles(PointD centerA,
+                                                        PointD centerB,
+                                                        double radiusA,
+                                                        double radiusB)
+    {
+        System.out.println("---------------------");
+        double[] clipPoints = new double[4];
+
+        System.out.println("CircleA Center(x,y): " + centerA.toString() + "  Radius: " + radiusA);
+        System.out.println("CircleA Center(x,y): " + centerB.toString() + "  Radius: " + radiusB);
+        IGeometry.getCircularClippingPoints(centerA, centerB, radiusA, radiusB, clipPoints);
+
+        System.out.println("Clip Point of circleA X:" + clipPoints[0] + " Y: " + clipPoints[1]);
+        System.out.println("Clip Point of circleA X:" + clipPoints[2] + " Y: " + clipPoints[3]);
+    }
+
 	/*
 	 * Main method for testing purposes.
 	 */

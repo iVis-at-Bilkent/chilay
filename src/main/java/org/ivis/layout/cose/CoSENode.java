@@ -35,6 +35,14 @@ public class CoSENode extends FDLayoutNode
 	 * so it can already be processed during the coarsening process
 	 */
 	private boolean processed;
+
+
+    /**
+     * Radius variables, these will be used in the two phase gradual size increase
+     * method while representing the nodes as circles or ellipses
+     */
+    private int radiusX;
+    private int radiusY;
 	
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization

@@ -1,5 +1,6 @@
 package org.ivis.layout.fd;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -93,6 +94,41 @@ public abstract class FDLayout extends Layout
 	 * Maximum number of layout iterations allowed
 	 */
 	protected int maxIterations = 2500;
+	
+	/**
+	 * Maximum number of layout iterations allowed for phase one 
+	 * of two phase gradual size increase method.
+	 */
+	protected int phaseOneIterations = (int)(maxIterations * (0.25));
+	
+	/**
+	 * Maximum number of layout iterations allowed for phase two 
+	 * of two phase gradual size increase method.
+	 */
+	protected int phaseTwoIterations = maxIterations * phaseOneIterations;
+	
+	/**
+	 * Flag for determining whether we are using two phase gradual size
+	 * increase method or not.
+	 */
+	protected boolean useTwoPhaseGradualSizeIncrease;
+	
+	/**
+	 * Enumeration types for the phase one and phase two of two phase
+	 * gradual size increase method.
+	 * 
+	 */
+	protected enum Phase
+	{
+	   FIRST,
+	   SECOND
+	};
+
+    /**
+     * variable that holds the current state of the two phase gradual size
+     * increase method
+     */
+    protected Phase currentPhase;
 
 	/**
 	 * Total number of iterations currently performed
@@ -125,6 +161,7 @@ public abstract class FDLayout extends Layout
 	 * Grid is re-calculated after every tenth iteration.
 	 */
 	protected Vector[][] grid;
+	
 	
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization
@@ -381,7 +418,16 @@ public abstract class FDLayout extends Layout
 		}
 		else
 		{
-			edge.updateLength();
+            if (this.useTwoPhaseGradualSizeIncrease && currentPhase == Phase.FIRST)
+            // If two phase gradual size increase method is active update edges according to circular vertices.
+            {
+                  edge.updateLengthCircular();
+            }
+            else
+            // Regular rectangular calculations takes place here.
+            {
+                  edge.updateLength();
+            }
 
 			if (edge.isOverlapingSourceAndTarget())
 			{
@@ -420,34 +466,54 @@ public abstract class FDLayout extends Layout
 		RectangleD rectB = nodeB.getRect();
 		double[] overlapAmount = new double[2];
 		double[] clipPoints = new double[4];
-		double distanceX;
-		double distanceY;
+		double distanceX = 0;
+		double distanceY = 0;
 		double distanceSquared;
 		double distance;
 		double repulsionForce;
-		double repulsionForceX;
-		double repulsionForceY;
+		double repulsionForceX = 0;
+		double repulsionForceY = 0;
 		
 		if (rectA.intersects(rectB))
 		// two nodes overlap
 		{
-			// calculate separation amount in x and y directions
-			IGeometry.calcSeparationAmount(rectA,
-				rectB,
-				overlapAmount,
-				FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
+            if (this.useTwoPhaseGradualSizeIncrease)
+            // we are using two phase gradual size increase method
+            // we should handle overlap case differently
+            {
+                if ( this.currentPhase == Phase.FIRST )
+                // calculations for first phase
+                {
+                    // TODO circular or elliptic overlapping case here
+                }
+                else
+                // calculations for second phase
+                {
+                    // TODO rectangular overlap here but we need to resolve collisions
+                    // while preserving the relative positions
+                }
+            }
+            else
+            {
+                // calculate separation amount in x and y directions
+                IGeometry.calcSeparationAmount(rectA,
+                        rectB,
+                        overlapAmount,
+                        FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
 
-			repulsionForceX = overlapAmount[0];
-			repulsionForceY = overlapAmount[1];
-			
-			assert ! (new RectangleD((rectA.x - repulsionForceX),
-				(rectA.y - repulsionForceY),
-				rectA.width,
-				rectA.height)).intersects(
-					new RectangleD((rectB.x + repulsionForceX),
-						(rectB.y + repulsionForceY),
-						rectB.width,
-						rectB.height));
+                repulsionForceX = overlapAmount[0];
+                repulsionForceY = overlapAmount[1];
+
+                assert ! (new RectangleD((rectA.x - repulsionForceX),
+                        (rectA.y - repulsionForceY),
+                        rectA.width,
+                        rectA.height)).intersects(
+                        new RectangleD((rectB.x + repulsionForceX),
+                                (rectB.y + repulsionForceY),
+                                rectB.width,
+                                rectB.height));
+            }
+
 		}
 		else
 		// no overlap
@@ -462,12 +528,29 @@ public abstract class FDLayout extends Layout
 				distanceY = rectB.getCenterY() - rectA.getCenterY();
 			}
 			else
-			// use clipping points
+			// non uniformly sized vertices, use clipping points
 			{
-				IGeometry.getIntersection(rectA, rectB, clipPoints);
+                if (this.useTwoPhaseGradualSizeIncrease && this.currentPhase == Phase.FIRST)
+                // nodes are circular in first phase of gradual size increase method so calculate the distance
+                // using clipping points
+                {
+                    // TODO add appropriate methods to IGeometry class to retrieve the shortest distance between
+                    // two circular vertices.
 
-				distanceX = clipPoints[2] - clipPoints[0];
-				distanceY = clipPoints[3] - clipPoints[1];
+                    /*PointD centerA = new PointD(rectA.getCenterX(), rectA.getCenterY());
+                    PointD centerB = new PointD(rectB.getCenterX(), rectB.getCenterY());
+
+                    IGeometry.getCircularClippingPoints(centerA, centerB, )*/
+
+                }
+                else
+                {
+                    IGeometry.getIntersection(rectA, rectB, clipPoints);
+
+                    distanceX = clipPoints[2] - clipPoints[0];
+                    distanceY = clipPoints[3] - clipPoints[1];
+                }
+
 			}
 
 			// No repulsion range. FR grid variant should take care of this.
