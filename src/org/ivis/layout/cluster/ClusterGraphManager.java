@@ -213,17 +213,20 @@ public class ClusterGraphManager extends CoSEGraphManager
 		for (Object o: this.getClusterManager().getClusters())
 		{			
 			Cluster c = (Cluster) o;
-			ZoneNode newNode = new ZoneNode(this, null);
-			
-			// set labels as the clusterIDs so that we can find nodes
-			newNode.label = Integer.toString(c.getClusterID());
-						
-			// set ZoneNode polygon as cluster polygon
-			// zone polygon simply points to the cluster polygon
-			c.calculatePolygon();
-			newNode.polygon = c.getPolygon();
-			
-			zoneGraph.add(newNode);						
+			if (c.getNodes().size() > 0)
+			{
+				ZoneNode newNode = new ZoneNode(this, null);
+				
+				// set labels as the clusterIDs so that we can find nodes
+				newNode.label = Integer.toString(c.getClusterID());
+							
+				// set ZoneNode polygon as cluster polygon
+				// zone polygon simply points to the cluster polygon
+				c.calculatePolygon();
+				newNode.polygon = c.getPolygon();
+				
+				zoneGraph.add(newNode);
+			}									
 		}		
 	}
 	
