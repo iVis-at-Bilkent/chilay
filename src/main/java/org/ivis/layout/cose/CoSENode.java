@@ -208,4 +208,20 @@ public class CoSENode extends FDLayoutNode
 	{
 		return processed;
 	}
+
+    public int getRadiusX() {
+        return radiusX;
+    }
+
+    public void setRadiusX(int radiusX) {
+        this.radiusX = radiusX;
+    }
+
+    public int getRadiusY() {
+        return radiusY;
+    }
+
+    public void setRadiusY(int radiusY) {
+        this.radiusY = radiusY;
+    }
 }

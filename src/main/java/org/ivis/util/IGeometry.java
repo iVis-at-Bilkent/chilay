@@ -463,17 +463,52 @@ abstract public class IGeometry
 		return false;
 	}
 
+
+    /**
+     * This method calculates *half* the amount in x and y directions of the two
+     * input circular nodes needed to separate them keeping their respective
+     * positioning, and returns the result in the input array.We assume that
+     * the two cırcles do intersect. Fırst element of ınput array holds half of
+     * the overlap value in X direction, second element holds the half of the
+     * overlap value in Y direction.
+     */
+    public static void calcCircularSeperationAmount(PointD centerA,
+                                             PointD centerB,
+                                             double radiusA,
+                                             double radiusB,
+                                             double[] overlapAmount)
+    {
+        double [] clippingPoints = new double[4];
+
+        // We assume that two nodes are overlapping.
+        getCircularIntersection(centerA, centerB, radiusA, radiusB, clippingPoints);
+
+        // Clipping points of circular node A and node B
+        PointD clippingPointA = new PointD(clippingPoints[0], clippingPoints[1]);
+        PointD clippingPointB = new PointD(clippingPoints[2], clippingPoints[3]);
+
+        // Vector pointing from point A to point B
+        PointD vectorAB = new PointD(clippingPointB.getX()-clippingPointA.getX(),
+                                     clippingPointB.getY()-clippingPointA.getY());
+
+        // Overlap amounts in X and Y directions
+       overlapAmount[0] = vectorAB.getX()/2;
+       overlapAmount[1] = vectorAB.getY()/2;
+
+    }
+
+
     /**
      * This method calculates the intersection (clipping) points of the two
-     * input circular vertices with line segment defined by the centers of these two
+     * input circular nodes with line segment defined by the centers of these two
      * circles. The clipping points are saved in the input double array and
      * whether or not the two rectangles overlap is returned.
      */
-    public static boolean getCircularClippingPoints(PointD centerA,
-                                                 PointD centerB,
-                                                 double radiusA,
-                                                 double radiusB,
-                                                 double[] result)
+    public static boolean getCircularIntersection(PointD centerA,
+                                                  PointD centerB,
+                                                  double radiusA,
+                                                  double radiusB,
+                                                  double[] result)
     {
         //Distance between centers of two circles
         double distanceBtwCenters = centerA.getDistance(centerB);
@@ -813,7 +848,7 @@ abstract public class IGeometry
 
         System.out.println("CircleA Center(x,y): " + centerA.toString() + "  Radius: " + radiusA);
         System.out.println("CircleA Center(x,y): " + centerB.toString() + "  Radius: " + radiusB);
-        IGeometry.getCircularClippingPoints(centerA, centerB, radiusA, radiusB, clipPoints);
+        IGeometry.getCircularIntersection(centerA, centerB, radiusA, radiusB, clipPoints);
 
         System.out.println("Clip Point of circleA X:" + clipPoints[0] + " Y: " + clipPoints[1]);
         System.out.println("Clip Point of circleA X:" + clipPoints[2] + " Y: " + clipPoints[3]);

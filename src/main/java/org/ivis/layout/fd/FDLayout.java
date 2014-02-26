@@ -94,41 +94,6 @@ public abstract class FDLayout extends Layout
 	 * Maximum number of layout iterations allowed
 	 */
 	protected int maxIterations = 2500;
-	
-	/**
-	 * Maximum number of layout iterations allowed for phase one 
-	 * of two phase gradual size increase method.
-	 */
-	protected int phaseOneIterations = (int)(maxIterations * (0.25));
-	
-	/**
-	 * Maximum number of layout iterations allowed for phase two 
-	 * of two phase gradual size increase method.
-	 */
-	protected int phaseTwoIterations = maxIterations * phaseOneIterations;
-	
-	/**
-	 * Flag for determining whether we are using two phase gradual size
-	 * increase method or not.
-	 */
-	protected boolean useTwoPhaseGradualSizeIncrease;
-	
-	/**
-	 * Enumeration types for the phase one and phase two of two phase
-	 * gradual size increase method.
-	 * 
-	 */
-	protected enum Phase
-	{
-	   FIRST,
-	   SECOND
-	};
-
-    /**
-     * variable that holds the current state of the two phase gradual size
-     * increase method
-     */
-    protected Phase currentPhase;
 
 	/**
 	 * Total number of iterations currently performed
@@ -396,59 +361,74 @@ public abstract class FDLayout extends Layout
 		}
 	}
 
+    /**
+     * This method calculates the spring force for the ends of input edge based
+     * on the input ideal length.This method returns spring force by the input springForceComponents
+     * array. First element of the springForceComponents is X component and second element is Y component of
+     * spring force between two input nodes.
+     */
+    protected void getSpringForce(LEdge edge, double idealLength, double [] springForceComponents)
+    {
+        FDLayoutNode sourceNode = (FDLayoutNode) edge.getSource();
+        FDLayoutNode targetNode = (FDLayoutNode) edge.getTarget();
+        double length;
+        double springForce;
+        double springForceX;
+        double springForceY;
+
+        // Update edge length
+
+        if (this.uniformLeafNodeSizes &&
+                sourceNode.getChild() == null && targetNode.getChild() == null)
+        {
+            edge.updateLengthSimple();
+        }
+        else
+        {
+            edge.updateLength();
+
+            if (edge.isOverlapingSourceAndTarget())
+            {
+                return;
+            }
+        }
+
+        length = edge.getLength();
+
+        // Calculate spring forces
+        springForce = this.springConstant * (length - idealLength);
+
+        //			// does not seem to be needed
+        //			if (Math.abs(springForce) > CoSEConstants.MAX_SPRING_FORCE)
+        //			{
+        //				springForce = IMath.sign(springForce) * CoSEConstants.MAX_SPRING_FORCE;
+        //			}
+
+        // Project force onto x and y axes
+        springForceX = springForce * (edge.getLengthX() / length);
+        springForceY = springForce * (edge.getLengthY() / length);
+
+        // Return X and Y component of spring force via input array.
+        springForceComponents[0] = springForceX;
+        springForceComponents[1] = springForceY;
+    }
+
 	/**
 	 * This method calculates the spring force for the ends of input edge based
 	 * on the input ideal length.
 	 */
 	protected void calcSpringForce(LEdge edge, double idealLength)
 	{
-		FDLayoutNode sourceNode = (FDLayoutNode) edge.getSource();
-		FDLayoutNode targetNode = (FDLayoutNode) edge.getTarget();
-		double length;
-		double springForce;
-		double springForceX;
-		double springForceY;
+        FDLayoutNode sourceNode = (FDLayoutNode) edge.getSource();
+        FDLayoutNode targetNode = (FDLayoutNode) edge.getTarget();
+        double [] springForce = new double[2];
+        double springForceX;
+        double springForceY;
 
-		// Update edge length
+        getSpringForce(edge, idealLength, springForce);
 
-		if (this.uniformLeafNodeSizes &&
-			sourceNode.getChild() == null && targetNode.getChild() == null)
-		{
-			edge.updateLengthSimple();
-		}
-		else
-		{
-            if (this.useTwoPhaseGradualSizeIncrease && currentPhase == Phase.FIRST)
-            // If two phase gradual size increase method is active update edges according to circular vertices.
-            {
-                  edge.updateLengthCircular();
-            }
-            else
-            // Regular rectangular calculations takes place here.
-            {
-                  edge.updateLength();
-            }
-
-			if (edge.isOverlapingSourceAndTarget())
-			{
-				return;
-			}
-		}
-
-		length = edge.getLength();
-
-		// Calculate spring forces
-		springForce = this.springConstant * (length - idealLength);
-
-	//			// does not seem to be needed
-	//			if (Math.abs(springForce) > CoSEConstants.MAX_SPRING_FORCE)
-	//			{
-	//				springForce = IMath.sign(springForce) * CoSEConstants.MAX_SPRING_FORCE;
-	//			}
-
-		// Project force onto x and y axes
-		springForceX = springForce * (edge.getLengthX() / length);
-		springForceY = springForce * (edge.getLengthY() / length);
+        springForceX = springForce[0];
+        springForceY = springForce[1];
 
 		// Apply forces on the end nodes
 		sourceNode.springForceX += springForceX;
@@ -457,120 +437,85 @@ public abstract class FDLayout extends Layout
 		targetNode.springForceY -= springForceY;
 	}
 
-	/**
-	 * This method calculates the repulsion forces for the input node pair.
-	 */
-	protected void calcRepulsionForce(FDLayoutNode nodeA, FDLayoutNode nodeB)
-	{
-		RectangleD rectA = nodeA.getRect();
-		RectangleD rectB = nodeB.getRect();
-		double[] overlapAmount = new double[2];
-		double[] clipPoints = new double[4];
-		double distanceX = 0;
-		double distanceY = 0;
-		double distanceSquared;
-		double distance;
-		double repulsionForce;
-		double repulsionForceX = 0;
-		double repulsionForceY = 0;
-		
-		if (rectA.intersects(rectB))
-		// two nodes overlap
-		{
-            if (this.useTwoPhaseGradualSizeIncrease)
-            // we are using two phase gradual size increase method
-            // we should handle overlap case differently
+    /**
+     * This method calculates the repulsion forces for the input node pair and returns it by the input
+     * repulsionForceComponents array. First element of the repulsionForceComponents is X component
+     * and second element is Y component of repulsion force between two input nodes.
+     */
+    protected void getRepulsionForce(FDLayoutNode nodeA, FDLayoutNode nodeB, double[] repulsionForceComponents)
+    {
+        RectangleD rectA = nodeA.getRect();
+        RectangleD rectB = nodeB.getRect();
+        double[] overlapAmount = new double[2];
+        double[] clipPoints = new double[4];
+        double distanceX = 0;
+        double distanceY = 0;
+        double distanceSquared;
+        double distance;
+        double repulsionForce;
+        double repulsionForceX = 0;
+        double repulsionForceY = 0;
+
+        if (rectA.intersects(rectB))
+        // two nodes overlap
+        {
+            // calculate separation amount in x and y directions
+            IGeometry.calcSeparationAmount(rectA,
+                    rectB,
+                    overlapAmount,
+                    FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
+
+            repulsionForceX = overlapAmount[0];
+            repulsionForceY = overlapAmount[1];
+
+            assert ! (new RectangleD((rectA.x - repulsionForceX),
+                    (rectA.y - repulsionForceY),
+                    rectA.width,
+                    rectA.height)).intersects(
+                    new RectangleD((rectB.x + repulsionForceX),
+                            (rectB.y + repulsionForceY),
+                            rectB.width,
+                            rectB.height));
+        }
+        else
+        // no overlap
+        {
+            // calculate distance
+
+            if (this.uniformLeafNodeSizes &&
+                    nodeA.getChild() == null && nodeB.getChild() == null)
+            // simply base repulsion on distance of node centers
             {
-                if ( this.currentPhase == Phase.FIRST )
-                // calculations for first phase
-                {
-                    // TODO circular or elliptic overlapping case here
-                }
-                else
-                // calculations for second phase
-                {
-                    // TODO rectangular overlap here but we need to resolve collisions
-                    // while preserving the relative positions
-                }
+                distanceX = rectB.getCenterX() - rectA.getCenterX();
+                distanceY = rectB.getCenterY() - rectA.getCenterY();
             }
             else
+            // non uniformly sized vertices, use clipping points
             {
-                // calculate separation amount in x and y directions
-                IGeometry.calcSeparationAmount(rectA,
-                        rectB,
-                        overlapAmount,
-                        FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
+                IGeometry.getIntersection(rectA, rectB, clipPoints);
 
-                repulsionForceX = overlapAmount[0];
-                repulsionForceY = overlapAmount[1];
-
-                assert ! (new RectangleD((rectA.x - repulsionForceX),
-                        (rectA.y - repulsionForceY),
-                        rectA.width,
-                        rectA.height)).intersects(
-                        new RectangleD((rectB.x + repulsionForceX),
-                                (rectB.y + repulsionForceY),
-                                rectB.width,
-                                rectB.height));
+                distanceX = clipPoints[2] - clipPoints[0];
+                distanceY = clipPoints[3] - clipPoints[1];
             }
 
-		}
-		else
-		// no overlap
-		{
-			// calculate distance
+            // No repulsion range. FR grid variant should take care of this.
 
-			if (this.uniformLeafNodeSizes &&
-				nodeA.getChild() == null && nodeB.getChild() == null)
-			// simply base repulsion on distance of node centers
-			{
-				distanceX = rectB.getCenterX() - rectA.getCenterX();
-				distanceY = rectB.getCenterY() - rectA.getCenterY();
-			}
-			else
-			// non uniformly sized vertices, use clipping points
-			{
-                if (this.useTwoPhaseGradualSizeIncrease && this.currentPhase == Phase.FIRST)
-                // nodes are circular in first phase of gradual size increase method so calculate the distance
-                // using clipping points
-                {
-                    // TODO add appropriate methods to IGeometry class to retrieve the shortest distance between
-                    // two circular vertices.
+            if (Math.abs(distanceX) < FDLayoutConstants.MIN_REPULSION_DIST)
+            {
+                distanceX = IMath.sign(distanceX) *
+                        FDLayoutConstants.MIN_REPULSION_DIST;
+            }
 
-                    /*PointD centerA = new PointD(rectA.getCenterX(), rectA.getCenterY());
-                    PointD centerB = new PointD(rectB.getCenterX(), rectB.getCenterY());
+            if (Math.abs(distanceY) < FDLayoutConstants.MIN_REPULSION_DIST)
+            {
+                distanceY = IMath.sign(distanceY) *
+                        FDLayoutConstants.MIN_REPULSION_DIST;
+            }
 
-                    IGeometry.getCircularClippingPoints(centerA, centerB, )*/
+            distanceSquared = distanceX * distanceX + distanceY * distanceY;
+            distance = Math.sqrt(distanceSquared);
 
-                }
-                else
-                {
-                    IGeometry.getIntersection(rectA, rectB, clipPoints);
-
-                    distanceX = clipPoints[2] - clipPoints[0];
-                    distanceY = clipPoints[3] - clipPoints[1];
-                }
-
-			}
-
-			// No repulsion range. FR grid variant should take care of this.
-
-			if (Math.abs(distanceX) < FDLayoutConstants.MIN_REPULSION_DIST)
-			{
-				distanceX = IMath.sign(distanceX) *
-					FDLayoutConstants.MIN_REPULSION_DIST;
-			}
-
-			if (Math.abs(distanceY) < FDLayoutConstants.MIN_REPULSION_DIST)
-			{
-				distanceY = IMath.sign(distanceY) *
-					FDLayoutConstants.MIN_REPULSION_DIST;
-			}
-
-			distanceSquared = distanceX * distanceX + distanceY * distanceY;
-			distance = Math.sqrt(distanceSquared);
-
-			repulsionForce = this.repulsionConstant / distanceSquared;
+            repulsionForce = this.repulsionConstant / distanceSquared;
 
 //			// does not seem to be needed
 //			if (Math.abs(repulsionForce) > CoSEConstants.MAX_REPULSION_FORCE)
@@ -578,10 +523,30 @@ public abstract class FDLayout extends Layout
 //				repulsionForce = IMath.sign(repulsionForce) * CoSEConstants.MAX_REPULSION_FORCE;
 //			}
 
-			// Project force onto x and y axes
-			repulsionForceX = repulsionForce * distanceX / distance;
-			repulsionForceY = repulsionForce * distanceY / distance;
-		}
+            // Project force onto x and y axes
+            repulsionForceX = repulsionForce * distanceX / distance;
+            repulsionForceY = repulsionForce * distanceY / distance;
+        }
+
+        // Return repulsion force components
+        repulsionForceComponents[0] = repulsionForceX;
+        repulsionForceComponents[1] = repulsionForceY;
+    }
+
+
+	/**
+	 * This method calculates the repulsion forces for the input node pair.
+	 */
+	protected void calcRepulsionForce(FDLayoutNode nodeA, FDLayoutNode nodeB)
+	{
+        double [] repulsionForce = new double[2];
+        double repulsionForceX;
+        double repulsionForceY;
+
+        getRepulsionForce(nodeA, nodeB, repulsionForce);
+
+        repulsionForceX = repulsionForce[0];
+        repulsionForceY = repulsionForce[1];
 
 		// Apply forces on the two nodes
 		nodeA.repulsionForceX -= repulsionForceX;
