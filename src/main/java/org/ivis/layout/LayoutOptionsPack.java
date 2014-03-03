@@ -60,6 +60,7 @@ public class LayoutOptionsPack implements Serializable
 		public int compoundGravityRange; // 0-100
 		public boolean smartEdgeLengthCalc; // T-F
 		public boolean multiLevelScaling; // T-F
+        public boolean twoPhaseGradualSizeIncrease; // T-F
 
 		public int defaultIdealEdgeLength = CoSEConstants.DEFAULT_EDGE_LENGTH;
 		public int defaultSpringStrength = 50;
@@ -71,6 +72,7 @@ public class LayoutOptionsPack implements Serializable
 		public int defaultCompoundGravityRange = 50;
 		public boolean defaultSmartEdgeLengthCalc = CoSEConstants.DEFAULT_USE_SMART_IDEAL_EDGE_LENGTH_CALCULATION;
 		public boolean defaultMultiLevelScaling = CoSEConstants.DEFAULT_USE_MULTI_LEVEL_SCALING;
+        public boolean defaultTwoPhaseGradualSizeIncrease = CoSEConstants.DEFAULT_USE_TWO_PHASE_GRADUAL_SIZE_INCREASE;
 	}
 
 	public class Cluster
@@ -159,6 +161,7 @@ public class LayoutOptionsPack implements Serializable
 		this.coSE.compoundGravityRange = this.coSE.defaultCompoundGravityRange ;
 		this.coSE.smartEdgeLengthCalc = this.coSE.defaultSmartEdgeLengthCalc ;
 		this.coSE.multiLevelScaling = this.coSE.defaultMultiLevelScaling ;
+        this.coSE.twoPhaseGradualSizeIncrease = this.coSE.defaultTwoPhaseGradualSizeIncrease;
 
 		this.cluster.idealEdgeLength = this.cluster.defaultIdealEdgeLength;
 		this.cluster.clusterSeperation = this.cluster.defaultClusterSeperation;

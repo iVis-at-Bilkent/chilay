@@ -15,6 +15,7 @@ public class CoSEConstants extends FDLayoutConstants
 // Section: CoSE layout user options
 // -----------------------------------------------------------------------------
 	public static final boolean DEFAULT_USE_MULTI_LEVEL_SCALING = false;
+    public static final boolean DEFAULT_USE_TWO_PHASE_GRADUAL_SIZE_INCREASE = false;
 	
 // -----------------------------------------------------------------------------
 // Section: CoSE layout remaining contants
@@ -29,4 +30,15 @@ public class CoSEConstants extends FDLayoutConstants
 	 * Default separation of trees in a forest when tiled to a grid
 	 */
 	public static final int DEFAULT_COMPONENT_SEPERATION = 60;
+
+    /**
+     * Enumeration types for the phase one and phase two of two phase
+     * gradual size increase method.
+     *
+     */
+    public static enum Phase
+    {
+        FIRST,
+        SECOND
+    };
 }

@@ -71,21 +71,10 @@ public class CoSELayout extends FDLayout
     protected boolean useTwoPhaseGradualSizeIncrease;
 
     /**
-     * Enumeration types for the phase one and phase two of two phase
-     * gradual size increase method.
-     *
-     */
-    protected enum Phase
-    {
-        FIRST,
-        SECOND
-    };
-
-    /**
      * variable that holds the current state of the two phase gradual size
      * increase method
      */
-    protected Phase currentPhase;
+    protected CoSEConstants.Phase currentPhase;
 
 // -----------------------------------------------------------------------------
 // Section: Constructors and initializations
@@ -696,17 +685,12 @@ public class CoSELayout extends FDLayout
 // -----------------------------------------------------------------------------
 
     @Override
-    protected void getSpringForce(LEdge edge, double idealLength, double[] springForceComponents)
+    protected void updateEdgeLength(LEdge edge)
     {
         FDLayoutNode sourceNode = (FDLayoutNode) edge.getSource();
         FDLayoutNode targetNode = (FDLayoutNode) edge.getTarget();
-        double length;
-        double springForce;
-        double springForceX;
-        double springForceY;
 
         // Update edge length
-
         if (this.uniformLeafNodeSizes &&
                 sourceNode.getChild() == null && targetNode.getChild() == null)
         {
@@ -714,7 +698,7 @@ public class CoSELayout extends FDLayout
         }
         else
         {
-            if (this.useTwoPhaseGradualSizeIncrease && currentPhase == Phase.FIRST)
+            if (this.useTwoPhaseGradualSizeIncrease && currentPhase == CoSEConstants.Phase.FIRST)
             // If two phase gradual size increase method is active update edges according to circular vertices.
             {
                 ((CoSEEdge)edge).updateLengthCircular();
@@ -730,41 +714,14 @@ public class CoSELayout extends FDLayout
                 return;
             }
         }
-
-        length = edge.getLength();
-
-        // Calculate spring forces
-        springForce = this.springConstant * (length - idealLength);
-
-        //			// does not seem to be needed
-        //			if (Math.abs(springForce) > CoSEConstants.MAX_SPRING_FORCE)
-        //			{
-        //				springForce = IMath.sign(springForce) * CoSEConstants.MAX_SPRING_FORCE;
-        //			}
-
-        // Project force onto x and y axes
-        springForceX = springForce * (edge.getLengthX() / length);
-        springForceY = springForce * (edge.getLengthY() / length);
-
-        // Return X and Y component of spring force via input array.
-        springForceComponents[0] = springForceX;
-        springForceComponents[1] = springForceY;
     }
 
     @Override
-    protected void getRepulsionForce(FDLayoutNode nodeA, FDLayoutNode nodeB, double[] repulsionForceComponents)
+    protected void getRepulsionForceOverlap(FDLayoutNode nodeA, FDLayoutNode nodeB, double[] repulsionForceComponents)
     {
         RectangleD rectA = nodeA.getRect();
         RectangleD rectB = nodeB.getRect();
         double[] overlapAmount = new double[2];
-        double[] clipPoints = new double[4];
-        double distanceX = 0;
-        double distanceY = 0;
-        double distanceSquared;
-        double distance;
-        double repulsionForce;
-        double repulsionForceX = 0;
-        double repulsionForceY = 0;
 
         if (rectA.intersects(rectB))
         // two nodes overlap
@@ -773,17 +730,17 @@ public class CoSELayout extends FDLayout
             // we are using two phase gradual size increase method
             // we should handle overlap case differently
             {
-                if ( this.currentPhase == Phase.FIRST )
+                if ( this.currentPhase == CoSEConstants.Phase.FIRST )
                 // circular overlap calculations for first phase
                 {
                     // calculate circular separation amount in X and Y directions
                     PointD centerA = new PointD(rectA.getCenterX(), rectB.getCenterY());
                     PointD centerB = new PointD(rectA.getCenterX(), rectB.getCenterY());
                     IGeometry.calcCircularSeperationAmount(centerA, centerB, ((CoSENode)nodeA).getRadiusX(),
-                                                          ((CoSENode)nodeB).getRadiusX(),overlapAmount );
+                            ((CoSENode)nodeB).getRadiusX(),overlapAmount );
 
-                    repulsionForceX = overlapAmount[0];
-                    repulsionForceY = overlapAmount[1];
+                    repulsionForceComponents[0] = overlapAmount[0];
+                    repulsionForceComponents[1] = overlapAmount[1];
                 }
                 else
                 // calculations for second phase
@@ -800,94 +757,65 @@ public class CoSELayout extends FDLayout
                         overlapAmount,
                         FDLayoutConstants.DEFAULT_EDGE_LENGTH / 2.0);
 
-                repulsionForceX = overlapAmount[0];
-                repulsionForceY = overlapAmount[1];
+                repulsionForceComponents[0] = overlapAmount[0];
+                repulsionForceComponents[1] = overlapAmount[1];
 
-                assert ! (new RectangleD((rectA.x - repulsionForceX),
-                        (rectA.y - repulsionForceY),
+                assert ! (new RectangleD((rectA.x - repulsionForceComponents[0]),
+                        (rectA.y - repulsionForceComponents[1]),
                         rectA.width,
                         rectA.height)).intersects(
-                        new RectangleD((rectB.x + repulsionForceX),
-                                (rectB.y + repulsionForceY),
+                        new RectangleD((rectB.x + repulsionForceComponents[0]),
+                                (rectB.y + repulsionForceComponents[1]),
                                 rectB.width,
                                 rectB.height));
             }
 
         }
-        else
-        // no overlap
-        {
-            // calculate distance
-
-            if (this.uniformLeafNodeSizes &&
-                    nodeA.getChild() == null && nodeB.getChild() == null)
-            // simply base repulsion on distance of node centers
-            {
-                distanceX = rectB.getCenterX() - rectA.getCenterX();
-                distanceY = rectB.getCenterY() - rectA.getCenterY();
-            }
-            else
-            // non uniformly sized vertices, use clipping points
-            {
-                if (this.useTwoPhaseGradualSizeIncrease && this.currentPhase == Phase.FIRST)
-                // nodes are circular in first phase of gradual size increase method so calculate the distance
-                // using clipping points
-                {
-                    // retrieve the shortest distance between two circular vertices.
-                    PointD centerA = new PointD(rectA.getCenterX(), rectA.getCenterY());
-                    PointD centerB = new PointD(rectB.getCenterX(), rectB.getCenterY());
-                    // Get circular clipping points
-                    IGeometry.getCircularIntersection(centerA, centerB, ((CoSENode)nodeA).getRadiusX(),
-                                                     ((CoSENode)nodeB).getRadiusX(),clipPoints );
-
-                }
-                else
-                // Regular rectangular clipping point calculation takes place
-                {
-                    IGeometry.getIntersection(rectA, rectB, clipPoints);
-                }
-
-                distanceX = clipPoints[2] - clipPoints[0];
-                distanceY = clipPoints[3] - clipPoints[1];
-
-            }
-
-            // No repulsion range. FR grid variant should take care of this.
-
-            if (Math.abs(distanceX) < FDLayoutConstants.MIN_REPULSION_DIST)
-            {
-                distanceX = IMath.sign(distanceX) *
-                        FDLayoutConstants.MIN_REPULSION_DIST;
-            }
-
-            if (Math.abs(distanceY) < FDLayoutConstants.MIN_REPULSION_DIST)
-            {
-                distanceY = IMath.sign(distanceY) *
-                        FDLayoutConstants.MIN_REPULSION_DIST;
-            }
-
-            distanceSquared = distanceX * distanceX + distanceY * distanceY;
-            distance = Math.sqrt(distanceSquared);
-
-            repulsionForce = this.repulsionConstant / distanceSquared;
-
-//			// does not seem to be needed
-//			if (Math.abs(repulsionForce) > CoSEConstants.MAX_REPULSION_FORCE)
-//			{
-//				repulsionForce = IMath.sign(repulsionForce) * CoSEConstants.MAX_REPULSION_FORCE;
-//			}
-
-            // Project force onto x and y axes
-            repulsionForceX = repulsionForce * distanceX / distance;
-            repulsionForceY = repulsionForce * distanceY / distance;
-        }
-
-        // Return repulsion force components
-        repulsionForceComponents[0] = repulsionForceX;
-        repulsionForceComponents[1] = repulsionForceY;
     }
 
-    // -----------------------------------------------------------------------------
+    @Override
+    protected void  getDistanceBetweenTwoNodes(FDLayoutNode nodeA, FDLayoutNode nodeB, double [] distanceComponents)
+    {
+        RectangleD rectA = nodeA.getRect();
+        RectangleD rectB = nodeB.getRect();
+        double[] clipPoints = new double[4];
+
+        // calculate distance
+        if (this.uniformLeafNodeSizes &&
+                nodeA.getChild() == null && nodeB.getChild() == null)
+        // simply base repulsion on distance of node centers
+        {
+            distanceComponents[0] = rectB.getCenterX() - rectA.getCenterX();
+            distanceComponents[1] = rectB.getCenterY() - rectA.getCenterY();
+        }
+        else
+        // non uniformly sized vertices, use clipping points
+        {
+            if (this.useTwoPhaseGradualSizeIncrease && this.currentPhase == CoSEConstants.Phase.FIRST)
+            // nodes are circular in first phase of gradual size increase method so calculate the distance
+            // using clipping points
+            {
+                // retrieve the shortest distance between two circular vertices.
+                PointD centerA = new PointD(rectA.getCenterX(), rectA.getCenterY());
+                PointD centerB = new PointD(rectB.getCenterX(), rectB.getCenterY());
+                // Get circular clipping points
+                IGeometry.getCircularIntersection(centerA, centerB, ((CoSENode)nodeA).getRadiusX(),
+                        ((CoSENode)nodeB).getRadiusX(),clipPoints );
+
+            }
+            else
+            // Regular rectangular clipping point calculation takes place
+            {
+                IGeometry.getIntersection(rectA, rectB, clipPoints);
+            }
+
+            distanceComponents[0] = clipPoints[2] - clipPoints[0];
+            distanceComponents[1] = clipPoints[3] - clipPoints[1];
+
+        }
+    }
+
+// -----------------------------------------------------------------------------
 // Section: Temporary methods (especially for testing)
 // -----------------------------------------------------------------------------
 
