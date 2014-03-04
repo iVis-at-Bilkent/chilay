@@ -312,6 +312,7 @@ public class CoSELayout extends FDLayout
 			this.totalDisplacement = 0;
 
 			this.graphManager.updateBounds();
+            this.increaseNodeSizesGradually();
 			this.calcSpringForces();
 			this.calcRepulsionForces();
 			this.calcGravitationalForces();
@@ -323,6 +324,59 @@ public class CoSELayout extends FDLayout
 		
 		this.graphManager.updateBounds();
 	}
+
+
+
+    /**
+     * This method updates the radius of the CoSENodes in the first phase by setting the radii of the ellipse or
+     * radius of the circle that is representing the node according to the number of total iterations and the number
+     * of phase one iterations.
+     * */
+    protected void increaseNodeSizesGradually()
+    {
+        Object[] lNodes = this.getAllNodes();
+        CoSENode node;
+        double nodeWidth;
+        double nodeHeight;
+        double increaseRatio = this.totalIterations / this.phaseOneIterations;
+
+        if (this.useTwoPhaseGradualSizeIncrease)
+        {
+            if (this.totalIterations == this.phaseOneIterations)
+            {
+                this.currentPhase = CoSEConstants.Phase.SECOND;
+            }
+
+            if (this.currentPhase == CoSEConstants.Phase.FIRST &&
+               (this.totalIterations % CoSEConstants.DEFAULT_TWO_PHASE_SIZE_INCREASE_CHECK_PERIOD == 0))
+            {
+                for (int i = 0; i < lNodes.length; i++)
+                {
+                    node = (CoSENode) lNodes[i];
+                    nodeWidth  = node.getWidth();
+                    nodeHeight = node.getHeight();
+
+                    if (node.getChild() == null)
+                    //Increase the size gradually for the non compound nodes
+                    {
+                        nodeWidth  = node.getWidth() * increaseRatio;
+                        nodeHeight = node.getHeight() * increaseRatio;
+                    }
+
+                    //TODO handle ellipse case also
+
+                    /*
+                     If the nodes are represented by circles in the first phase
+                     update the radius of the node  to half of the maximum of width
+                     and height. Set radiusY also for convenience
+                    */
+                    node.setRadiusX(Math.max(nodeWidth/2,nodeHeight/2));
+                    node.setRadiusY(Math.max(nodeWidth/2,nodeHeight/2));
+
+                }
+            }
+        }
+    }
 
 	/**
 	 * This method finds and forms a list of nodes for which gravitation should

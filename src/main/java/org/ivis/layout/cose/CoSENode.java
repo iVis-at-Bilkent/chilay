@@ -41,8 +41,8 @@ public class CoSENode extends FDLayoutNode
      * Radius variables, these will be used in the two phase gradual size increase
      * method while representing the nodes as circles or ellipses
      */
-    private int radiusX;
-    private int radiusY;
+    private double radiusX;
+    private double radiusY;
 	
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization
@@ -209,19 +209,19 @@ public class CoSENode extends FDLayoutNode
 		return processed;
 	}
 
-    public int getRadiusX() {
+    public double getRadiusX() {
         return radiusX;
     }
 
-    public void setRadiusX(int radiusX) {
+    public void setRadiusX(double radiusX) {
         this.radiusX = radiusX;
     }
 
-    public int getRadiusY() {
+    public double getRadiusY() {
         return radiusY;
     }
 
-    public void setRadiusY(int radiusY) {
+    public void setRadiusY(double radiusY) {
         this.radiusY = radiusY;
     }
 }

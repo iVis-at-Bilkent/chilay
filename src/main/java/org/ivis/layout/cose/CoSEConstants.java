@@ -32,6 +32,12 @@ public class CoSEConstants extends FDLayoutConstants
 	public static final int DEFAULT_COMPONENT_SEPERATION = 60;
 
     /**
+     * Default size increase check period for two phase gradual size increase
+     * method in CoSE.
+     */
+    public static final int DEFAULT_TWO_PHASE_SIZE_INCREASE_CHECK_PERIOD = 100;
+
+    /**
      * Enumeration types for the phase one and phase two of two phase
      * gradual size increase method.
      *
