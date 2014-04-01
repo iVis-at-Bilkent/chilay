@@ -373,7 +373,12 @@ public abstract class FDLayout extends Layout
         double springForceX;
         double springForceY;
 
-        this.updateEdgeLength(edge);
+        if(!this.updateEdgeLength(edge))
+        //If source and target of this edge overlaps we ignore the spring force.
+    	{
+        	return;
+    	}
+        
         length = edge.getLength();
 
         // Calculate spring forces
@@ -398,8 +403,10 @@ public abstract class FDLayout extends Layout
 
     /**
      * This method updates the length of the input edge
+     * and returns true if source and target of this edge overlaps
+     * else returns false.
      */
-    protected void updateEdgeLength(LEdge edge)
+    protected boolean updateEdgeLength(LEdge edge)
     {
         FDLayoutNode sourceNode = (FDLayoutNode) edge.getSource();
         FDLayoutNode targetNode = (FDLayoutNode) edge.getTarget();
@@ -416,9 +423,10 @@ public abstract class FDLayout extends Layout
 
             if (edge.isOverlapingSourceAndTarget())
             {
-                return;
+                return false;
             }
         }
+        return true;
     }
 
     /**

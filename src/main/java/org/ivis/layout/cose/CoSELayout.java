@@ -739,7 +739,7 @@ public class CoSELayout extends FDLayout
 // -----------------------------------------------------------------------------
 
     @Override
-    protected void updateEdgeLength(LEdge edge)
+    protected boolean updateEdgeLength(LEdge edge)
     {
         FDLayoutNode sourceNode = (FDLayoutNode) edge.getSource();
         FDLayoutNode targetNode = (FDLayoutNode) edge.getTarget();
@@ -756,6 +756,11 @@ public class CoSELayout extends FDLayout
             // If two phase gradual size increase method is active update edges according to circular vertices.
             {
                 ((CoSEEdge)edge).updateLengthCircular();
+                
+                if (edge.isOverlapingSourceAndTarget())
+                {
+                    return false;
+                }
             }
             else
             // Regular rectangular calculations takes place here.
@@ -765,9 +770,10 @@ public class CoSELayout extends FDLayout
 
             if (edge.isOverlapingSourceAndTarget())
             {
-                return;
+                return false;
             }
         }
+        return true;
     }
 
     @Override
