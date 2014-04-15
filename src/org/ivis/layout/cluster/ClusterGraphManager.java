@@ -145,7 +145,7 @@ public class ClusterGraphManager extends CoSEGraphManager
 		
 		maxClusterId = getGreatestClusterId();
 		Object [] nodes = this.getAllNodes();
-				
+		System.out.println("TESTFN");		
 		for (Object o: nodes)
 		{
 			List clusters;
@@ -198,9 +198,17 @@ public class ClusterGraphManager extends CoSEGraphManager
 					
 					zoneGraphEdgeTable.add(temp);
 					node.resetClusters();
-					node.addCluster(newCluster);												
+					node.addCluster(newCluster);
+					
 				}				
 			}
+			/*else if ((clusters.size() == 0) ||
+					((clusters.size() == 1 ) && (((Cluster) clusters.get(0)).getClusterID() == 0)))
+			{
+				System.out.println("TEST");
+				this.getClusterManager().createCluster(generateClusterID(), null);
+				Cluster newCluster = this.getClusterManager().getClusterByID(maxClusterId);
+			}*/
 		}		
 	}
 	
@@ -215,6 +223,7 @@ public class ClusterGraphManager extends CoSEGraphManager
 			Cluster c = (Cluster) o;
 			if (c.getNodes().size() > 0)
 			{
+				
 				ZoneNode newNode = new ZoneNode(this, null);
 				
 				// set labels as the clusterIDs so that we can find nodes

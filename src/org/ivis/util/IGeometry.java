@@ -785,31 +785,31 @@ abstract public class IGeometry
 		}
 	}
 	
-	public static void calcPolygonSeparationAmount(ArrayList<PointD> p1,
-			ArrayList<PointD> p2, 
-			double [] overlapAmount)
-	{
-		Object [] info = convexPolygonOverlap(p1, p2);
-		double minOverlap = (double) info[0];
-		
-		if(minOverlap > Double.NEGATIVE_INFINITY)
-		{
-			System.out.println("minoverlap: "+minOverlap);
-			PointD minVector = (PointD) info[1];
-
-			PointD temp = IGeometry.getXYProjection(minOverlap,
-				minVector);
-		
-			overlapAmount[0] = temp.x;			
-			overlapAmount[1] = temp.y;
-		}
-		else
-		{
-			overlapAmount[0] = 0.0;
-			overlapAmount[1] = 0.0;
-		}
-		System.out.println("overlap igeo: "+overlapAmount[0]);
-	}
+//	public static void calcPolygonSeparationAmount(ArrayList<PointD> p1,
+//			ArrayList<PointD> p2, 
+//			double [] overlapAmount)
+//	{
+//		Object [] info = convexPolygonOverlap(p1, p2);
+//		double minOverlap = (double) info[0];
+//		
+//		if(minOverlap > Double.NEGATIVE_INFINITY)
+//		{
+//			System.out.println("minoverlap: "+minOverlap);
+//			PointD minVector = (PointD) info[1];
+//
+//			PointD temp = IGeometry.getXYProjection(minOverlap,
+//				minVector);
+//		
+//			overlapAmount[0] = temp.x;			
+//			overlapAmount[1] = temp.y;
+//		}
+//		else
+//		{
+//			overlapAmount[0] = 0.0;
+//			overlapAmount[1] = 0.0;
+//		}
+//		System.out.println("overlap igeo: "+overlapAmount[0]);
+//	}
 	
 	// TODO may not produce correct test results, since parameter order of
 	// RectangleD constructor is changed
@@ -1107,8 +1107,9 @@ abstract public class IGeometry
 				result[1] = centerA.y;
 				result[2] = centerB.x;
 				result[3] = centerB.y;	
-				return false;
+				return true; // TEST true
 			}
+
 			// Test
 			/*
 			System.out.println("CLIPPING POINTS");
@@ -1128,7 +1129,7 @@ abstract public class IGeometry
 			System.out.println();
 			System.out.println("Clipping Points:");
 			System.out.println(result[0] + "," + result[1] + " and " +result[2]+","+result[3]);*/
-			return true; //may be true
+			return false; //may be true //TEST
 		}
 		else
 		{
@@ -1166,7 +1167,7 @@ abstract public class IGeometry
 			    y0 = polygon.get(i).y;
 			    x1 = polygon.get(i + 1).x;
 			    y1 = polygon.get(i + 1).y;
-			    a = x0 * y1 - x1 * y0;
+			    a = (x0 * y1) - (x1 * y0);
 			    signedArea += a;
 			    centroid[0] += (x0 + x1) * a;
 			    centroid[1] += (y0 + y1) * a;
@@ -1186,25 +1187,10 @@ abstract public class IGeometry
 			signedArea *= 0.5;
 			centroid[0] /= (6.0 * signedArea);
 			centroid[1] /= (6.0 * signedArea);
-		}		
+		}
+
 		return new PointD (centroid[0],centroid[1]);
 	}
-
-	/*
-	public static boolean IsPointOnLine(PointD linePointA, PointD linePointB, PointD point) 
-	{
-	   double a = (linePointB.y - linePointA.y) / (linePointB.x - linePointB.x);
-	   double b = (linePointA.y - a) * linePointA.x;
-	   // check if point is on the line
-	   if ( Math.abs((point.y - (a*point.x+b))) < EPSILON)
-	   {
-		   // check if it is on the line segment
-		   if ()
-	       return true;
-	   }
-
-	   return false;
-	}*/
 	
 	public static boolean isPointOnLineSegment(PointD linePointA, PointD linePointB, PointD point) 
 	{
@@ -1278,7 +1264,50 @@ abstract public class IGeometry
 				
 		point = new PointD(2, 4);
 		System.out.println(isPointOnLineSegment(linePointA, linePointB, point));
+				
+		PointD intersect, center;
+		
+		intersect = findIntersectionOfTwoLineSegments(new PointD(0,1), new PointD(4,5), new PointD(2,1), new PointD(2,5));
+		System.out.println(intersect.x + ", " + intersect.y);
+		
+		ArrayList<PointD> polygon = new ArrayList<PointD>();
+		polygon.add(new PointD(2,2));
+		polygon.add(new PointD(2,4)); 
+		polygon.add(new PointD(4,4));		
+		polygon.add(new PointD(4,2)); 
 
+		
+		center = getPolygonCenter(polygon);
+		System.out.println(center.x + ", " + center.y);
+		
+		
+		double [] result = {0.0,0.0,0.0,0.0};
+		ArrayList<PointD> p1 = new ArrayList<PointD>();
+		ArrayList<PointD> p2 = new ArrayList<PointD>();
+		ArrayList<PointD> p3 = new ArrayList<PointD>();
+		
+		p1.add(new PointD(2,2));
+		p1.add(new PointD(1,3));
+		p1.add(new PointD(2,4));
+		p1.add(new PointD(4,4));
+		p1.add(new PointD(5,3));
+		p1.add(new PointD(4,2));
+		
+		p2.add(new PointD(3,3));
+		p2.add(new PointD(3,5));
+		p2.add(new PointD(5,5));
+		p2.add(new PointD(5,3));
+		
+		p3.add(new PointD(6,4));
+		p3.add(new PointD(6,6));
+		p3.add(new PointD(8,6));
+		p3.add(new PointD(8,4));
+		
+		getPolygonIntersection(p1, p2, result);
+		System.out.println("[0]:"+result[0]+" [1]:"+result[1] +" [2]:"+result[2]+ " [3]:"+result[3]);
+		
+		getPolygonIntersection(p1, p3, result);
+		System.out.println("[0]:"+result[0]+" [1]:"+result[1] +" [2]:"+result[2]+ " [3]:"+result[3]);
 	}
 	
 	

@@ -46,7 +46,7 @@ public class ClusterConstants extends CoSEConstants
 	 */
 	public static final double DEFAULT_INTER_ZONE_EDGE_LENGTH_FACTOR = 3;
 	
-	public static final double DEFAULT_ZONE_REPULSION_FACTOR = 1.0;
+	public static final double DEFAULT_ZONE_REPULSION_FACTOR = 0.9;
 	
 	public static final double DEFAULT_ZONE_SPRING_FACTOR = 1.5;
 	

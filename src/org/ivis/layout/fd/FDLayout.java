@@ -335,11 +335,11 @@ public abstract class FDLayout extends Layout
 	{
 		FDLayoutNode node;
 		Object[] lNodes = this.getAllNodesToApplyGravitation();
-
+		
 		for (int i = 0; i < lNodes.length; i++)
 		{
 			node = (FDLayoutNode) lNodes[i];
-
+			
 			this.calcGravitationalForce(node);
 		}
 	}
@@ -390,15 +390,24 @@ public abstract class FDLayout extends Layout
 		}
 
 		length = edge.getLength();
-
+		double dl = length - idealLength;
+		
 		// Calculate spring forces
-		springForce = this.springConstant * (length - idealLength);
+		if (dl > 2.0 * idealLength)
+		{
+			springForce = 0.0044 * this.springConstant * dl * dl;
 
-	//			// does not seem to be needed
-	//			if (Math.abs(springForce) > CoSEConstants.MAX_SPRING_FORCE)
-	//			{
-	//				springForce = IMath.sign(springForce) * CoSEConstants.MAX_SPRING_FORCE;
-	//			}
+			if (Math.abs(springForce) > 200)
+			{
+				springForce = IMath.sign(springForce) * 200;
+			}
+		}
+		else
+		{
+			springForce = this.springConstant * dl;
+		}
+
+
 
 		// Project force onto x and y axes
 		springForceX = springForce * (edge.getLengthX() / length);
@@ -556,8 +565,8 @@ public abstract class FDLayout extends Layout
 			}
 		}
 
-//			System.out.printf("\tgravitation=(%5.1f,%5.1f)\n",
-//				new Object [] {node.gravitationForceX, node.gravitationForceY});
+//		System.out.printf("\tgravitation=(%5.1f,%5.1f)\n",
+//			new Object [] {node.gravitationForceX, node.gravitationForceY});
 	}
 
 	/**
