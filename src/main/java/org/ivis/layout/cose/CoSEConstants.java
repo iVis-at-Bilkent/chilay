@@ -15,7 +15,7 @@ public class CoSEConstants extends FDLayoutConstants
 // Section: CoSE layout user options
 // -----------------------------------------------------------------------------
 	public static final boolean DEFAULT_USE_MULTI_LEVEL_SCALING = false;
-    public static final boolean DEFAULT_USE_TWO_PHASE_GRADUAL_SIZE_INCREASE = false;
+    public static final boolean DEFAULT_USE_TWO_PHASE_GRADUAL_SIZE_INCREASE = true;
 	
 // -----------------------------------------------------------------------------
 // Section: CoSE layout remaining contants

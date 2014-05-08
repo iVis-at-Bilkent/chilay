@@ -47,8 +47,8 @@ public class CoSEEdge extends FDLayoutEdge
         RectangleD rectB = this.source.getRect();
 
         // calculate circular separation amount in X and Y directions
-        PointD centerA = new PointD(rectA.getCenterX(), rectB.getCenterY());
-        PointD centerB = new PointD(rectA.getCenterX(), rectB.getCenterY());
+        PointD centerA = new PointD(rectA.getCenterX(), rectA.getCenterY());
+        PointD centerB = new PointD(rectB.getCenterX(), rectB.getCenterY());
 
         this.isOverlapingSourceAndTarget =
                 IGeometry.getCircularIntersection(centerA, centerB,

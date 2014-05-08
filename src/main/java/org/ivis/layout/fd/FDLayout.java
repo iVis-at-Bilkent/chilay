@@ -503,7 +503,7 @@ public abstract class FDLayout extends Layout
         double repulsionForceX;
         double repulsionForceY;
 
-        if (rectA.intersects(rectB))
+        if (this.intersects(nodeA, nodeB))
         // two nodes overlap
         {
             this.getRepulsionForceOverlap(nodeA, nodeB, repulsionForceComponents);
@@ -533,9 +533,7 @@ public abstract class FDLayout extends Layout
                         FDLayoutConstants.MIN_REPULSION_DIST;
             }
 
-            distanceSquared = distanceX * distanceX + distanceY * distanceY;
-            distance = Math.sqrt(distanceSquared);
-
+            distanceSquared = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
             repulsionForce = this.repulsionConstant / distanceSquared;
 
 //			// does not seem to be needed
@@ -545,8 +543,8 @@ public abstract class FDLayout extends Layout
 //			}
 
             // Project force onto x and y axes
-            repulsionForceX = repulsionForce * distanceX / distance;
-            repulsionForceY = repulsionForce * distanceY / distance;
+            repulsionForceX = repulsionForce * distanceX / distanceSquared;
+            repulsionForceY = repulsionForce * distanceY / distanceSquared;
         }
 
         // Apply forces on the two nodes
@@ -781,6 +779,15 @@ public abstract class FDLayout extends Layout
         }
 
     }
+    
+    /**
+     * This method returns true if given two nodes' rectangles intersect.
+     */
+    protected boolean intersects(FDLayoutNode nodeA, FDLayoutNode nodeB)
+    {
+    	return  nodeA.getRect().intersects(nodeB.getRect());
+    }
+    
     /**
      * This method calculates repulsion range
      * Also it can be used to calculate the height of a grid's edge

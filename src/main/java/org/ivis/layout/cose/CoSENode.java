@@ -121,12 +121,12 @@ public class CoSENode extends FDLayoutNode
 				this.displacementY);
 		}
 
-//		System.out.printf("\t%s@[%5.1f,%5.1f] s=(%5.1f,%5.1f) r=(%5.1f,%5.1f) g=(%5.1f,%5.1f)\n",
-//			new Object [] {this.label,
-//			this.getLeft(), this.getTop(),
-//			this.springForceX, this.springForceY,
-//			this.repulsionForceX, this.repulsionForceY,
-//			this.gravitationForceX, this.gravitationForceY});
+		/*System.out.printf("\t%s@[%5.1f,%5.1f] s=(%5.1f,%5.1f) r=(%5.1f,%5.1f) g=(%5.1f,%5.1f)\n",
+			new Object [] {this.label,
+			this.getLeft(), this.getTop(),
+			this.springForceX, this.springForceY,
+  			this.repulsionForceX, this.repulsionForceY,
+			this.gravitationForceX, this.gravitationForceY});*/
 
 		layout.totalDisplacement +=
 			Math.abs(this.displacementX) + Math.abs(this.displacementY);
