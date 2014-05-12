@@ -1193,13 +1193,13 @@ abstract public class IGeometry
 	}
 	
 	public static boolean isPointOnLineSegment(PointD linePointA, PointD linePointB, PointD point) 
-	{
-		double ac = Math.sqrt((Math.pow((linePointA.x - point.x), 2) + 
-				Math.pow((linePointA.y - point.y), 2)));
-		double bc = Math.sqrt((Math.pow((linePointB.x - point.x), 2) + 
-				Math.pow((linePointB.y - point.y), 2)));
-		double ab = Math.sqrt((Math.pow((linePointA.x - linePointB.x), 2) + 
-				Math.pow((linePointA.y - linePointB.y), 2)));
+	{	
+		double ac = Math.sqrt(((linePointA.x - point.x) * (linePointA.x - point.x)) + 
+				((linePointA.y - point.y) * (linePointA.y - point.y)));
+		double bc = Math.sqrt(((linePointB.x - point.x) * (linePointB.x - point.x)) + 
+				((linePointB.y - point.y) * (linePointB.y - point.y)));
+		double ab = Math.sqrt(((linePointA.x - linePointB.x) * (linePointA.x - linePointB.x)) + 
+				((linePointA.y - linePointB.y) * (linePointA.y - linePointB.y)));
 		
 		if (Math.abs(ac + bc - ab) < TOLERANCE)
 			return true;
