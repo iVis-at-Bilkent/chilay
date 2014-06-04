@@ -11,6 +11,7 @@ import java.awt.*;
 import org.ivis.layout.*;
 import org.ivis.layout.cose.CoSEConstants.Phase;
 import org.ivis.layout.fd.*;
+import org.ivis.layout.util.GraphMLWriter;
 import org.ivis.util.*;
 
 /**
@@ -75,7 +76,7 @@ public class CoSELayout extends FDLayout
      * Maximum number of layout iterations allowed for phase two
      * of two phase gradual size increase method.
      */
-    protected int phaseTwoIterations = maxIterations * phaseOneIterations;
+    protected int phaseTwoIterations = maxIterations - phaseOneIterations;
 
     /**
      * Flag for determining whether we are using two phase gradual size
@@ -319,7 +320,7 @@ public class CoSELayout extends FDLayout
 		{
 			this.totalIterations++;
 
-			if (this.totalIterations > maxPhaseOneIterationsForSizeIncrease &&
+			if (this.totalIterations > phaseOneIterations &&
 			   (this.totalIterations % FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0))
 			{
 				if (this.isConverged())
@@ -337,44 +338,50 @@ public class CoSELayout extends FDLayout
 			this.totalDisplacement = 0;
 
 			this.graphManager.updateBounds();
-            this.increaseNodeSizesGradually();
+            //this.increaseNodeSizesGradually();
 			this.calcSpringForces();
+			//GraphMLWriter writer = new GraphMLWriter("C:\\Users\\Istemi\\Desktop\\beforeRep.graphml");
+			//GraphMLWriter writer2 = new GraphMLWriter("C:\\Users\\Istemi\\Desktop\\afterRep.graphml");
+			//writer.saveGraph(this.getGraphManager());
 			this.calcRepulsionForces();
+			//this.moveNodes();
+			//writer2.saveGraph(this.getGraphManager());
 			this.calcGravitationalForces();
 			this.moveNodes();
 
 			this.animate();
+			
+	        /*Object[] lEdges = this.getAllEdges();
+	        FDLayoutEdge edge;
+
+	        for (int i = 0; i < lEdges.length; i++)
+	        {
+	            edge = (FDLayoutEdge) lEdges[i];
+
+	            System.out.println("-----------------------");
+		        System.out.println(edge.getSource().label + " " + edge.getTarget().label);
+				System.out.println("Edge Length: " + edge.getLength());
+	        }*/
 		}
 		while (this.totalIterations < this.maxIterations);
-		
+	
 		this.graphManager.updateBounds();
-		
-		Object[] lNodes = this.getAllNodes();
-		CoSENode node;
-		
-		 for (int i = 0; i < lNodes.length; i++)
-         {
-			 node = (CoSENode) lNodes[i];         
-		 }
 	}
 	
 	protected void setInitialRadii()
 	{
 		Object[] lNodes = this.getAllNodes();
 		CoSENode node;
-        double nodeWidth;
-        double nodeHeight;
+        double nodeWidth = 0;
+        double nodeHeight = 0;
 		
 		 for (int i = 0; i < lNodes.length; i++)
          {
              node = (CoSENode) lNodes[i];
-             nodeWidth  = node.getWidth();
-             nodeHeight = node.getHeight();
 
              if (node.getChild() == null)
-             //Increase the size gradually for the non compound nodes
              {
-                 nodeWidth  = node.getWidth() ;
+                 nodeWidth  = node.getWidth();
                  nodeHeight = node.getHeight() ;
              }
              
@@ -385,12 +392,11 @@ public class CoSELayout extends FDLayout
               update the radius of the node  to half of the maximum of width
               and height. Set radiusY also for convenience
              */
-             node.setRadiusX(Math.max(nodeWidth/2,nodeHeight/2));
-             node.setRadiusY(Math.max(nodeWidth/2,nodeHeight/2));
+             node.setRadiusX(Math.max(nodeWidth/2,nodeHeight/2) /* * initialPercentPhaseOne*/);
+             node.setRadiusY(Math.max(nodeWidth/2,nodeHeight/2) /* * initialPercentPhaseOne*/);
          }
 
 	}
-
 
     /**
      * This method updates the radius of the CoSENodes in the first phase by setting the radii of the ellipse or
@@ -403,7 +409,7 @@ public class CoSELayout extends FDLayout
         CoSENode node;
         double nodeWidth;
         double nodeHeight;
-        double increaseRatio = (this.totalIterations / this.phaseOneIterations);
+        double increaseRatio = (this.totalIterations / this.maxPhaseOneIterationsForSizeIncrease);
 
         if (this.useTwoPhaseGradualSizeIncrease)
         {
@@ -855,7 +861,7 @@ public class CoSELayout extends FDLayout
         // circular overlap calculations for first phase
         {
 	        // calculate circular separation amount in X and Y directions
-	        PointD centerA = new PointD(rectA.getCenterX(), rectB.getCenterY());
+	        PointD centerA = new PointD(rectA.getCenterX(), rectA.getCenterY());
 	        PointD centerB = new PointD(rectB.getCenterX(), rectB.getCenterY());
 	        IGeometry.calcCircularSeperationAmount(centerA, 
 	        		centerB, 
@@ -868,15 +874,26 @@ public class CoSELayout extends FDLayout
 	        repulsionForceComponents[1] = overlapAmount[1];
 	        
 	        // Assert if two circles overlap after seperation
-	        CoSENode tmpNodeA = (CoSENode)nodeA;
-	        CoSENode tmpNodeB = (CoSENode)nodeB;
-	        tmpNodeA.setCenter(tmpNodeA.getCenterX()-repulsionForceComponents[0], 
-	        				   tmpNodeA.getCenterY()-repulsionForceComponents[1]);
-	        
-	        tmpNodeB.setCenter(tmpNodeB.getCenterX()-repulsionForceComponents[0], 
- 				   			   tmpNodeB.getCenterY()-repulsionForceComponents[1]); 
-	        
-	        assert (this.intersects(tmpNodeA, tmpNodeB));
+	        double radiusA = ((CoSENode)nodeA).getRadiusX();
+   		 	double radiusB = ((CoSENode)nodeB).getRadiusX();
+   		 	
+   		    centerA.setX(centerA.getX() - repulsionForceComponents[0]);
+   		    centerA.setY(centerA.getY() - repulsionForceComponents[1]);
+   		    
+   		    centerB.setX(centerB.getX() + repulsionForceComponents[0]);
+   		    centerB.setY(centerB.getY() + repulsionForceComponents[1]);
+   		    
+	        /*System.out.println("-----------------------");
+	        System.out.println(nodeA.label + " " + nodeB.label);
+   		    System.out.println(centerA + " radius: " + radiusA + " rectW: " + rectA.getWidth()+ " rectH: " + rectA.getHeight());
+   		    System.out.println(centerB + " radius: " + radiusB + " rect: "  + rectB.getWidth() + " rectH: " + rectA.getHeight());
+   		    System.out.println("Seperation amount: " + repulsionForceComponents[0] + " " + repulsionForceComponents[1]);
+   		    System.out.println(IGeometry.intersectsCircle(centerA, centerB, radiusA, radiusB));*/
+   		    
+	        assert !(IGeometry.intersectsCircle(centerA, 
+	        		centerB,
+	        		radiusA, 
+	        		radiusB));
         }
         else
         // calculations for second phase
@@ -889,15 +906,17 @@ public class CoSELayout extends FDLayout
 
             repulsionForceComponents[0] = overlapAmount[0];
             repulsionForceComponents[1] = overlapAmount[1];
-
-            assert ! (new RectangleD((rectA.x - repulsionForceComponents[0]),
+            
+            RectangleD rect1 = new RectangleD((rectA.x - repulsionForceComponents[0]),
                     (rectA.y - repulsionForceComponents[1]),
                     rectA.width,
-                    rectA.height)).intersects(
-                    new RectangleD((rectB.x + repulsionForceComponents[0]),
-                            (rectB.y + repulsionForceComponents[1]),
-                            rectB.width,
-                            rectB.height));
+                    rectA.height);
+            RectangleD rect2 = new RectangleD((rectB.x + repulsionForceComponents[0]),
+                    (rectB.y + repulsionForceComponents[1]),
+                    rectB.width,
+                    rectB.height);
+
+           assert !(rect1.intersects(rect2));
         }
     }
     
@@ -956,7 +975,7 @@ public class CoSELayout extends FDLayout
                 		centerB, 
                 		((CoSENode)nodeA).getRadiusX(),
                         ((CoSENode)nodeB).getRadiusX(),
-                        clipPoints );
+                        clipPoints);
 
             }
             else

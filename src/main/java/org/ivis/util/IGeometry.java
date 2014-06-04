@@ -3,6 +3,8 @@ package org.ivis.util;
 import java.awt.geom.Line2D;
 import java.awt.Point;
 
+import org.ivis.layout.cose.CoSENode;
+
 /**
  * This class maintains a list of static geometry related utility methods.
  *
@@ -463,7 +465,6 @@ abstract public class IGeometry
 		return false;
 	}
 
-
     /**
      * This method calculates *half* the amount in x and y directions of the two
      * input circular nodes needed to separate them keeping their respective
@@ -481,50 +482,93 @@ abstract public class IGeometry
     {
         double [] clippingPoints = new double[4];
         
-        PointD overlapVectorAB;
-
-        // We assume that two nodes are overlapping.
-        getCircularIntersection(centerA, centerB, radiusA, radiusB, clippingPoints);
-        
-        // Clipping points of circular node A and node B
-        PointD clippingPointA = new PointD(clippingPoints[0], clippingPoints[1]);
-        PointD clippingPointB = new PointD(clippingPoints[2], clippingPoints[3]);
-        
-    	double centerXDifference = centerB.getX()-centerA.getX();
-    	double centerYDifference = centerB.getY()-centerA.getY();
+        PointD overlapVectorAB;        
         
     	//TODO This code block can be written in a better way ! 
     	
         // Circle A contains circle B
         if (containsCircle(centerA, centerB, radiusA, radiusB)) 
         {   	
-			double xOverlap = radiusB + Math.min(radiusB, Math.abs(centerXDifference)) + 
-							  clippingPointB.getX()-clippingPointA.getX() ;
-			double yOverlap = radiusB + Math.min(radiusB, Math.abs(centerYDifference)) + 
-					  		  clippingPointB.getY()-clippingPointA.getY();
-			overlapVectorAB = new PointD(xOverlap,yOverlap);
+        	overlapVectorAB = calcCircularSeparationAmountContainment(centerA, centerB, radiusA, radiusB,seperationBuffer);
 		}
         // Circle B contains circle A
         else if(containsCircle(centerB, centerA, radiusB, radiusA))
         {
-			double xOverlap = radiusA + Math.min(radiusA, Math.abs(centerXDifference)) + 
-					  clippingPointB.getX()-clippingPointA.getX() ;
-			double yOverlap = radiusA + Math.min(radiusA, Math.abs(centerYDifference)) + 
-			  		  clippingPointB.getY()-clippingPointA.getY();
-			overlapVectorAB = new PointD(xOverlap,yOverlap);
+        	overlapVectorAB = calcCircularSeparationAmountContainment(centerB, centerA, radiusB, radiusA,seperationBuffer);
         }
         // No containment
         else
         {
+            // We assume that two nodes are overlapping.
+            getCircularIntersection(centerA, centerB, radiusA, radiusB, clippingPoints);       
+            
+            // Clipping points of circular node A and node B
+            PointD clippingPointA = new PointD(clippingPoints[0], clippingPoints[1]);
+            PointD clippingPointB = new PointD(clippingPoints[2], clippingPoints[3]); 
+            
             // Vector pointing from point A to point B
-            overlapVectorAB = new PointD(clippingPointB.getX()-clippingPointA.getX(),
-                                         clippingPointB.getY()-clippingPointA.getY());
+            overlapVectorAB = new PointD(clippingPointA.getX()-clippingPointB.getX(),
+                                         clippingPointA.getY()-clippingPointB.getY());
         }
 
         // Overlap amounts in X and Y directions
-        overlapAmount[0] = overlapVectorAB.getX()/2 + seperationBuffer;
-        overlapAmount[1] = overlapVectorAB.getY()/2 + seperationBuffer;
+        overlapAmount[0] = overlapVectorAB.getX() * (0.5 + seperationBuffer);
+        overlapAmount[1] = overlapVectorAB.getY() * (0.5 + seperationBuffer);
 
+    }
+    
+    /**
+     * A contains B
+     */
+    protected static PointD calcCircularSeparationAmountContainment(PointD centerA,
+    		PointD centerB,
+            double radiusA,
+            double radiusB,
+            double seperationBuffer)
+    {
+        // Clipping points of circular node A and node B
+        PointD clippingPointA = new PointD();
+        PointD clippingPointB = new PointD();
+        
+        //Distance between centers of two circles
+        double distanceBtwCenters = centerA.getDistance(centerB);
+
+        double xDifference = centerB.x - centerA.x;
+        double yDifference = centerB.y - centerA.y;
+
+        if (distanceBtwCenters > 0)
+        // If two circles do not have same centers
+        {
+            // x component of the unit vector that is connecting the centers of the circle A and circle B
+            // this vector points from A to B :  A ----> B
+            xDifference = xDifference / distanceBtwCenters;
+            yDifference = yDifference / distanceBtwCenters;
+
+        }
+        else
+        // Centers of the circles are the same this means containment or circle with same geometric properties
+        // and position, hence this means that two circles are overlapping.
+        {
+        	PointD overlapResolveDirection = new PointD(Math.cos(45), Math.sin(45));
+        	xDifference = overlapResolveDirection.getX();
+        	yDifference = overlapResolveDirection.getY();
+        }
+        
+        // Clipping points of first circle
+        clippingPointA.setX(centerA.getX() + radiusA * xDifference);
+        clippingPointA.setY(centerA.getY() + radiusA * yDifference);
+
+        // Clipping points of second circle
+        clippingPointB.setX(centerB.getX() + radiusB * xDifference);
+        clippingPointB.setY(centerB.getY() + radiusB * yDifference);
+    	
+        double seperationValue = 2*radiusB + 
+				  clippingPointB.getDistance(clippingPointA);
+        
+		double xOverlap = xDifference * (seperationValue+seperationBuffer);
+  		double yOverlap = yDifference * (seperationValue+seperationBuffer);
+  		
+  		return new PointD(xOverlap,yOverlap);
     }
 
     /**
@@ -575,16 +619,6 @@ abstract public class IGeometry
         // Centers of the circles are the same this means containment or circle with same geometric properties
         // and position, hence this means that two circles are overlapping.
         {
-        	PointD overlapResolveDirection = new PointD(Math.cos(45), Math.sin(45));
-        	
-            // Clipping points of first circle
-            result[0] = centerA.getX() + radiusA * overlapResolveDirection.getX();
-            result[1] = centerA.getY() + radiusA * overlapResolveDirection.getY();
-
-            // Clipping points of second circle
-            result[2] = centerB.getX() - radiusB * overlapResolveDirection.getX();
-            result[3] = centerB.getY() - radiusB * overlapResolveDirection.getY();
-        	
             return true;
         }
     }
@@ -604,7 +638,7 @@ abstract public class IGeometry
     
     /**
      * This method returns true if circle represented by centerA and radiusA
-     * contains the circle that is represented by centerB and radiusB
+     * intersects with the circle that is represented by centerB and radiusB
      */
     public static boolean intersectsCircle(PointD centerA,
             PointD centerB,
@@ -612,7 +646,7 @@ abstract public class IGeometry
             double radiusB)
     { 
     	double distanceBtwCenters = centerA.getDistance(centerB);
-    	return (distanceBtwCenters <= radiusA-radiusB) || (distanceBtwCenters < radiusA+radiusB) ;
+    	return (distanceBtwCenters < Math.abs(radiusA-radiusB) || (distanceBtwCenters <= radiusA+radiusB)) ;
     }
 	
 	/**
@@ -887,6 +921,21 @@ abstract public class IGeometry
         radiusB = 2;
         findAndPrintClipPointsOfCircles(centerA,centerB,radiusA,radiusB);
 //----------------------------------------------
+        centerA = new PointD(0,0);
+        centerB = new PointD(0,0);
+        radiusA = 2;
+        radiusB = 2;
+        findAndPrintSeperationAmountCircle(centerA, centerB, radiusA, radiusB);
+//----------------------------------------------
+        System.out.println("---------------------");
+        centerA = new PointD(0,0);
+        centerB = new PointD(1,2);
+        radiusA = 3;
+        radiusB = 1;
+        System.out.println("A contains B " + containsCircle(centerA, centerB, radiusA, radiusB));
+        System.out.println("B contains A " + containsCircle(centerB, centerA, radiusB, radiusA));
+//----------------------------------------------
+        
 	}
 	
 	private static void findAndPrintClipPoints(RectangleD rectA, RectangleD rectB)
@@ -917,6 +966,31 @@ abstract public class IGeometry
         System.out.println("Clip Point of circleA X:" + clipPoints[0] + " Y: " + clipPoints[1]);
         System.out.println("Clip Point of circleB X:" + clipPoints[2] + " Y: " + clipPoints[3]);
     }
+    
+    private static void findAndPrintSeperationAmountCircle(PointD centerA,
+            PointD centerB,
+            double radiusA,
+            double radiusB)
+	{
+		System.out.println("---------------------");
+		double[] seperationAmounts = new double[2];
+		
+		System.out.println("CircleA Center(x,y): " + centerA.toString() + "  Radius: " + radiusA);
+		System.out.println("CircleB Center(x,y): " + centerB.toString() + "  Radius: " + radiusB);
+		IGeometry.calcCircularSeperationAmount(centerA, centerB, radiusA, radiusB, seperationAmounts,0);
+		
+		System.out.println("Seperation amount for circleA X:" + seperationAmounts[0] + " Y: " + seperationAmounts[1]);
+	 	
+	    centerA.setX(centerA.getX() - seperationAmounts[0]);
+	    centerA.setY(centerA.getY() - seperationAmounts[1]);
+	    
+	    centerB.setX(centerB.getX() + seperationAmounts[0]);
+	    centerB.setY(centerB.getY() + seperationAmounts[1]);
+	    
+	    System.out.println(centerA);
+	    System.out.println(centerB);
+	    System.out.println(IGeometry.intersectsCircle(centerA, centerB, radiusA, radiusB));
+	}  
 
 	/*
 	 * Main method for testing purposes.

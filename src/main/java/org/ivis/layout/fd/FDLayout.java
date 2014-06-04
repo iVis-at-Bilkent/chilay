@@ -398,7 +398,7 @@ public abstract class FDLayout extends Layout
         sourceNode.springForceX += springForceX;
         sourceNode.springForceY += springForceY;
         targetNode.springForceX -= springForceX;
-        targetNode.springForceY -= springForceY;
+        targetNode.springForceY -= springForceY;      
     }
 
     /**

@@ -45,21 +45,22 @@ public class CoSEEdge extends FDLayoutEdge
         double[] clipPointCoordinates = new double[4];
         RectangleD rectA = this.target.getRect();
         RectangleD rectB = this.source.getRect();
+        
+        double radiusA = ((CoSENode)this.target).getRadiusX();
+        double radiusB = ((CoSENode)this.target).getRadiusY();
 
         // calculate circular separation amount in X and Y directions
         PointD centerA = new PointD(rectA.getCenterX(), rectA.getCenterY());
         PointD centerB = new PointD(rectB.getCenterX(), rectB.getCenterY());
 
         this.isOverlapingSourceAndTarget =
-                IGeometry.getCircularIntersection(centerA, centerB,
-                        ((CoSENode)this.target).getRadiusX(),
-                        ((CoSENode)this.source).getRadiusX(),
-                        clipPointCoordinates );
+                IGeometry.intersectsCircle(centerA, centerB, radiusA, radiusB);
 
         if (!this.isOverlapingSourceAndTarget)
         {
+        	IGeometry.getCircularIntersection(centerA, centerB, radiusA, radiusB, clipPointCoordinates);
+        	
             // target clip point minus source clip point gives us length
-
             this.lengthX = clipPointCoordinates[0] - clipPointCoordinates[2];
             this.lengthY = clipPointCoordinates[1] - clipPointCoordinates[3];
 

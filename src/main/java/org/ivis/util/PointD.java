@@ -74,7 +74,7 @@ public class PointD
 
     public double getDistance(PointD pt)
     {
-        return  Math.sqrt( Math.pow(this.x - pt.x,2) + Math.pow(this.y - pt.y,2));
+        return  Math.sqrt( Math.pow(this.x - pt.x,2) + Math.pow(this.y - pt.y,2) );
     }
 
 	public PointD getCopy()
