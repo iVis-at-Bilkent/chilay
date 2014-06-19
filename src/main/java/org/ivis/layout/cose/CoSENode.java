@@ -6,6 +6,7 @@ import java.awt.Dimension;
 
 import org.ivis.layout.*;
 import org.ivis.layout.fd.FDLayoutNode;
+import org.ivis.layout.sbgn.SbgnProcessNode.Orientation;
 import org.ivis.util.IMath;
 
 /**
@@ -35,6 +36,18 @@ public class CoSENode extends FDLayoutNode
 	 * so it can already be processed during the coarsening process
 	 */
 	private boolean processed;
+	
+	/**
+	 * added for comparison to sbgn pd layout
+	 * TODO - you may remove this
+	 */
+	public double OKCount = 0;
+	
+	/**
+	 * added for comparison to sbgn pd layout
+	 * TODO - you may remove this
+	 */
+	public Orientation orient;
 	
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization

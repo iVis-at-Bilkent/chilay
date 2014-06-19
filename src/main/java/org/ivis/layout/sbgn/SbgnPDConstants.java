@@ -31,6 +31,13 @@ public class SbgnPDConstants extends CoSEConstants
 	public static final String TAG = "tag";
 	public static final String NUCLEIC_ACID_FEATURE = "nucleic acid feature";
 	public static final String UNSPECIFIED_ENTITY = "unspecified entity";
+	public static final String INPUT_PORT = "input_port";
+	public static final String OUTPUT_PORT = "output_port";
+
+	/**
+	 *  This compound type is only used to enclose a process node and its two associated port nodes 
+	 */
+	public static final String DUMMY_COMPOUND = "dummy compound";
 
 	// Below are the SBGN Arc specific types.
 	public static final String PRODUCTION = "production";
@@ -41,27 +48,23 @@ public class SbgnPDConstants extends CoSEConstants
 	public static final String STIMULATION = "stimulation";
 	public static final String NECESSARY_STIMULATION = "necessary stimulation";
 
-	// Below are port node specific types
-	public static final String PRODUCTION_PORT = "production port";
-	public static final String CONSUMPTION_PORT = "consumption port";
-	
 	public static final int RIGID_EDGE_LENGTH = 20;
 	public static final String RIGID_EDGE = "rigid edge";
 	
-	public static final int PORT_NODE_DEFAULT_WIDTH = 5;
-	public static final int PORT_NODE_DEFAULT_HEIGHT = 5;
+	public static final int PORT_NODE_DEFAULT_WIDTH = 3;
+	public static final int PORT_NODE_DEFAULT_HEIGHT = 3;
 	
 	public static final int COMPLEX_MEM_HORIZONTAL_BUFFER = 5;
 	public static final int COMPLEX_MEM_VERTICAL_BUFFER = 5;
 	public static final int COMPLEX_MEM_MARGIN = 5;
-	public static final double COMPLEX_MIN_WIDTH = COMPLEX_MEM_MARGIN * 2;
+	public static final double COMPLEX_MIN_WIDTH = COMPLEX_MEM_MARGIN * 2;	
 	
-	/**
-	 * Relativity constraint factor
-	 */
-	public static double RELATIVITY_CONSTRAINT_CONSTANT = 0.4;
-	public static double RELATIVITY_DEVATION_DISTANCE = 10;
+	public static final int APPROXIMATION_DISTANCE = 10;
+	public static final double ANGLE_TOLERANCE = 91;
+	public static final double ROTATION_90_DEGREE = 60;
+	public static final double ROTATION_180_DEGREE = 0.8;
+	public static final int ROTATIONAL_FORCE_ITERATION_COUNT = 20;
+	public static final double ROTATIONAL_FORCE_CONVERGENCE = 0.97;
 	
-	
-	public static final double PROBABILITY_CHANGE_DIRECTION = 0.7;
 }
+

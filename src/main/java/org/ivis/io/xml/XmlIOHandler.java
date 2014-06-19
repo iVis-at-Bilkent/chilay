@@ -33,7 +33,8 @@ import org.ivis.layout.Layout;
 import org.ivis.layout.sbgn.SbgnPDConstants;
 import org.ivis.layout.sbgn.SbgnPDEdge;
 import org.ivis.layout.sbgn.SbgnPDLayout;
-import org.ivis.layout.sbgn.SbgnPortNode;
+import org.ivis.layout.sbgn.SbgnPDNode;
+import org.ivis.layout.sbgn.SbgnProcessNode;
 import org.ivis.util.PointD;
 import org.ivis.util.RectangleD;
 
@@ -159,8 +160,8 @@ public class XmlIOHandler
 		marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper",
 				new EmptyNameSpacePrefixMapper());
 
-		writePortNodes();
-		writeRigidEdges();
+		writePortAndProcessNodes();
+//		writeRigidEdges();
 		marshaller.marshal(this.loadedModel, outputStream);
 
 	}
@@ -390,13 +391,15 @@ public class XmlIOHandler
 		// XmlIOHandler.generateClasses();
 	}
 
-	private void writePortNodes()
+	private void writePortAndProcessNodes()
 	{
 		for (Object o : this.gm.getAllNodes())
 		{
-			if (o instanceof SbgnPortNode)
+			if ( o instanceof SbgnProcessNode || (o instanceof SbgnPDNode && ((SbgnPDNode)o).type != null && 
+					(((SbgnPDNode)o).type.equals(SbgnPDConstants.INPUT_PORT) 
+							|| ((SbgnPDNode)o).type.equals(SbgnPDConstants.OUTPUT_PORT))))
 			{
-				SbgnPortNode s = (SbgnPortNode) o;
+				SbgnPDNode s = (SbgnPDNode) o;
 
 				NodeComplexType.Bounds b = new NodeComplexType.Bounds();
 				b.setHeight((int) s.getHeight());
@@ -405,8 +408,8 @@ public class XmlIOHandler
 				b.setY((int) s.getTop());
 
 				NodeComplexType.Type t = new NodeComplexType.Type();
-				// TODO type bilgisiyle ilgilen
-				t.setValue(SbgnPDConstants.MACROMOLECULE);
+
+				t.setValue(s.type);
 
 				NodeComplexType n = objectFactory.createNodeComplexType();
 				n.setBounds(b);
@@ -460,15 +463,17 @@ public class XmlIOHandler
 	}
 
 	// DUPLICATE class - used for the test applet
-	public Layout test() throws Exception
+	public Layout test(String fileName) throws Exception
 	{
 		XmlIOHandler handler = new XmlIOHandler(layout);
 
-		handler.fromXML(new FileInputStream("org/ivis/io/xml/layout.xml"));
+		handler.fromXML(new FileInputStream(fileName));
 
 		layout.runLayout();
 
-		handler.toXML(new FileOutputStream("org/ivis/io/xml/layout_done.xml"));
+//		handler.toXML(new FileOutputStream("org/ivis/io/xml/layout_done.xml"));
+
+//		System.out.println("result: " + ((SbgnPDLayout)layout).properlyOrientedEdgeCount/((SbgnPDLayout)layout).totalEdgeCount + "\n");
 
 		// handler.writePortNodes("org/ivis/io/xml/layout_done.xml");
 

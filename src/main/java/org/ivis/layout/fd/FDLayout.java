@@ -616,7 +616,7 @@ public abstract class FDLayout extends Layout
 	/**
 	 * This method creates the empty grid with proper dimensions
 	 */
-	private Vector[][] calcGrid(LGraph g)
+	protected Vector[][] calcGrid(LGraph g)
 	{
 		int i, j;
 		Vector[][] grid;
@@ -643,7 +643,7 @@ public abstract class FDLayout extends Layout
 	 * This method adds input node v to the proper grid squares, 
 	 * and also sets the grid start and finish points of v 
 	 */
-	private void addNodeToGrid(FDLayoutNode v, 
+	protected void addNodeToGrid(FDLayoutNode v, 
 		Vector[][] grid, 
 		double left, 
 		double top)
@@ -673,7 +673,7 @@ public abstract class FDLayout extends Layout
 	 * And calculates the repulsion forces between nodeA and its surrounding.
 	 * During the calculation, ignores the nodes that have already been processed.
 	 */
-	private void calculateRepulsionForceOfANode (Vector[][] grid, 
+	protected void calculateRepulsionForceOfANode (Vector[][] grid, 
 		FDLayoutNode nodeA,
 		HashSet<FDLayoutNode> processedNodeSet)
 	{

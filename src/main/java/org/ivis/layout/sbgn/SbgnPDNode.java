@@ -5,31 +5,35 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import org.ivis.layout.LEdge;
+import org.ivis.layout.LGraph;
 import org.ivis.layout.LGraphManager;
 import org.ivis.layout.LNode;
+import org.ivis.layout.LayoutConstants;
 import org.ivis.layout.cose.CoSELayout;
 import org.ivis.layout.cose.CoSENode;
 import org.ivis.layout.fd.FDLayoutConstants;
+import org.ivis.layout.sbgn.SbgnProcessNode.Orientation;
 import org.ivis.util.IMath;
+import org.ivis.util.PointD;
 
 /**
  * This class implements SBGN specific data and functionality for nodes.
  * 
  * @author Begum Genc
- * @author Istemi Bahceci
  * 
  *         Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
 public class SbgnPDNode extends CoSENode
 {
-	// relativity forces applied on the node.
-	protected double relativityConstraintX;
-	protected double relativityConstraintY;
-
 	/**
 	 * This parameter is used in DFS to find ordering of the complex members.
 	 */
 	public boolean visited;
+
+	/**
+	 * This parameter
+	 */
+	public boolean isDummyCompound;
 
 	/**
 	 * Constructor
@@ -38,6 +42,7 @@ public class SbgnPDNode extends CoSENode
 	{
 		super(gm, vNode);
 		this.visited = false;
+		this.isDummyCompound = false;
 	}
 
 	/**
@@ -50,6 +55,27 @@ public class SbgnPDNode extends CoSENode
 		this.type = type;
 		this.visited = false;
 		this.label = vNode.label;
+		this.isDummyCompound = false;
+	}
+
+	public void copyNode(SbgnPDNode s, LGraphManager graphManager)
+	{
+		this.type = s.type;
+		this.label = s.label;
+		this.setCenter(s.getCenterX(), s.getCenterY());
+		this.setChild(s.getChild());
+		this.setHeight(s.getHeight());
+		this.setLocation(s.getLocation().x, s.getLocation().y);
+		this.setNext(s.getNext());
+		this.setOwner(s.getOwner());
+		this.setPred1(s.getPred1());
+		this.setPred2(s.getPred2());
+		this.setWidth(s.getWidth());
+	}
+
+	public double getSpringForceX()
+	{
+		return this.springForceX;
 	}
 
 	public boolean isComplex()
@@ -78,6 +104,62 @@ public class SbgnPDNode extends CoSENode
 			}
 			return false;
 		}
+	}
+
+	public void resetForces()
+	{
+		this.springForceX = 0;
+		this.springForceY = 0;
+		this.repulsionForceX = 0;
+		this.repulsionForceY = 0;
+	}
+
+	protected void rotateNode(PointD origin, int rotationDegree)
+	{
+		PointD relativePt = new PointD(this.getCenterX() - origin.x,
+				this.getCenterY() - origin.y);
+		PointD rotatedPt = new PointD(-Math.signum(rotationDegree)
+				* relativePt.y, Math.signum(rotationDegree) * relativePt.x);
+
+		this.setCenter(rotatedPt.x + origin.x, rotatedPt.y + origin.y);
+
+		double newHeight = this.getWidth();
+		double newWidth = this.getHeight();
+		this.setWidth(newWidth);
+		this.setHeight(newHeight);
+	}
+
+	/**
+	 * This method is used for port nodes only
+	 */
+	public PointD calcAveragePoint()
+	{
+		PointD averagePnt = new PointD();
+
+		for (Object o : this.getEdges())
+		{
+			SbgnPDEdge edge = (SbgnPDEdge) o;
+			if (edge.type.equals(SbgnPDConstants.RIGID_EDGE))
+				continue;
+
+			averagePnt.x += edge.getOtherEnd(this).getCenterX();
+			averagePnt.y += edge.getOtherEnd(this).getCenterY();
+		}
+
+		averagePnt.x /= (this.getEdges().size() - 1);
+		averagePnt.y /= (this.getEdges().size() - 1);
+
+		return averagePnt;
+	}
+
+	public void printForces()
+	{
+		System.out.println("springForceX: " + this.springForceX
+				+ " springForceY: " + this.springForceY + "\nrepulsionForceX: "
+				+ this.repulsionForceX + " repulsionForceY: "
+				+ this.repulsionForceY + "\ngravitationForceX: "
+				+ this.gravitationForceX + " gravitationForceY: "
+				+ this.gravitationForceY);
 	}
 
 	/**
@@ -109,81 +191,37 @@ public class SbgnPDNode extends CoSENode
 		return neighbors;
 	}
 
-	public SbgnPortNode getOtherPortNode(SbgnPortNode s)
-	{
-		if (this.type.equals(SbgnPDConstants.PROCESS))
-		{
-			String desiredType = "";
-			if (s.type.equals(SbgnPDConstants.PRODUCTION_PORT))
-				desiredType = SbgnPDConstants.CONSUMPTION_PORT;
-			else if (s.type.equals(SbgnPDConstants.CONSUMPTION_PORT))
-				desiredType = SbgnPDConstants.PRODUCTION_PORT;
-
-			for (Object o : getEdges())
-			{
-				SbgnPDEdge rigidEdge = (SbgnPDEdge) o;
-				if (rigidEdge.type.equals(SbgnPDConstants.RIGID_EDGE)
-						&& rigidEdge.getOtherEnd(this).type.equals(desiredType))
-					return (SbgnPortNode) rigidEdge.getOtherEnd(this);
-			}
-			return s;
-		}
-		return null;
-	}
-
+	/**
+	 * This method updates the bounds of this compound node. If the node is a
+	 * dummy compound, do not include label and extra margins.
+	 */
 	@Override
-	public void move()
+	public void updateBounds()
 	{
-		CoSELayout layout = (CoSELayout) this.graphManager.getLayout();
-		this.displacementX = layout.coolingFactor
-				* (this.springForceX + this.repulsionForceX
-						+ this.gravitationForceX + this.relativityConstraintX);
-		this.displacementY = layout.coolingFactor
-				* (this.springForceY + this.repulsionForceY
-						+ this.gravitationForceY + this.relativityConstraintY);
+		assert this.getChild() != null;
 
-		if (Math.abs(this.displacementX) > layout.maxNodeDisplacement)
+		if (this.getChild().getNodes().size() != 0)
 		{
-			this.displacementX = layout.maxNodeDisplacement
-					* IMath.sign(this.displacementX);
-		}
+			// wrap the children nodes by re-arranging the boundaries
+			LGraph childGraph = this.getChild();
+			childGraph.updateBounds(true);
 
-		if (Math.abs(this.displacementY) > layout.maxNodeDisplacement)
-		{
-			this.displacementY = layout.maxNodeDisplacement
-					* IMath.sign(this.displacementY);
-		}
+			this.rect.x = childGraph.getLeft();
+			this.rect.y = childGraph.getTop();
 
-		if (this.child == null)
-		// a simple node, just move it
-		{
-			this.moveBy(this.displacementX, this.displacementY);
+			if (this.type != null && this.type.equals(SbgnPDConstants.DUMMY_COMPOUND))
+			{
+				this.setWidth(childGraph.getRight() - childGraph.getLeft());
+				this.setHeight(childGraph.getBottom() - childGraph.getTop());
+			}
+			else
+			{
+				this.setWidth(childGraph.getRight() - childGraph.getLeft() + 2
+						* LayoutConstants.COMPOUND_NODE_MARGIN);
+				this.setHeight(childGraph.getBottom() - childGraph.getTop() + 2
+						* LayoutConstants.COMPOUND_NODE_MARGIN
+						+ LayoutConstants.LABEL_HEIGHT);
+			}
 		}
-		else if (this.child.getNodes().size() == 0)
-		// an empty compound node, again just move it
-		{
-			this.moveBy(this.displacementX, this.displacementY);
-		}
-		// non-empty compound node, propogate movement to children as well
-		else
-		{
-			this.propogateDisplacementToChildren(this.displacementX,
-					this.displacementY);
-		}
-
-		layout.totalDisplacement += Math.abs(this.displacementX)
-				+ Math.abs(this.displacementY);
-
-		this.springForceX = 0;
-		this.springForceY = 0;
-		this.repulsionForceX = 0;
-		this.repulsionForceY = 0;
-		this.gravitationForceX = 0;
-		this.gravitationForceY = 0;
-		this.displacementX = 0;
-		this.displacementY = 0;
-		this.relativityConstraintX = 0;
-		this.relativityConstraintY = 0;
 	}
-
 }

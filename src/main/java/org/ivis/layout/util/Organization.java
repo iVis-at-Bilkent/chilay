@@ -20,6 +20,8 @@ public class Organization
 	private double height;
 
 	private List<Double> rowWidth;
+	private List<Double> rowHeight;
+
 	private List<LinkedList<SbgnPDNode>> rows;
 
 	/**
@@ -28,9 +30,11 @@ public class Organization
 	public Organization()
 	{
 		this.width = SbgnPDConstants.COMPLEX_MEM_MARGIN * 2;
-		this.height = (SbgnPDConstants.COMPLEX_MEM_MARGIN * 2);
+		this.height = SbgnPDConstants.COMPLEX_MEM_MARGIN * 2 ;
 
 		rowWidth = new ArrayList<Double>();
+		rowHeight = new ArrayList<Double>();
+
 		rows = new ArrayList<LinkedList<SbgnPDNode>>();
 	}
 
@@ -92,10 +96,12 @@ public class Organization
 		if (rows.isEmpty())
 		{
 			insertNodeToRow(node, 0);
-		} else if (canAddHorizontal(node.getWidth(), node.getHeight()))
+		}
+		else if (canAddHorizontal(node.getWidth(), node.getHeight()))
 		{
 			insertNodeToRow(node, getShortestRowIndex());
-		} else
+		}
+		else
 		{
 			insertNodeToRow(node, rows.size());
 		}
@@ -114,14 +120,10 @@ public class Organization
 		// Add new row if needed
 		if (rowIndex == rows.size())
 		{
-			if (!rows.isEmpty())
-			{
-				height += SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER;
-			}
 			rows.add(new LinkedList<SbgnPDNode>());
-			height += node.getHeight();
-
+			
 			rowWidth.add(SbgnPDConstants.COMPLEX_MIN_WIDTH);
+			rowHeight.add(0.0);
 
 			assert rows.size() == rowWidth.size();
 		}
@@ -135,17 +137,29 @@ public class Organization
 		}
 		rowWidth.set(rowIndex, w);
 
-		// Insert node
-		rows.get(rowIndex).add(node);
-
-		// TODO can you find a better height management function?
-		updateHeight();
-
 		// Update complex width
 		if (width < w)
 		{
 			width = w;
 		}
+
+		// Update height
+		double h = node.getHeight();
+		if (rowIndex > 0)
+			h += SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER;
+
+		double extraHeight = 0;
+		if (h > rowHeight.get(rowIndex))
+		{
+			extraHeight = rowHeight.get(rowIndex);
+			rowHeight.set(rowIndex, h);
+			extraHeight = rowHeight.get(rowIndex) - extraHeight;
+		}
+
+		height += extraHeight;
+
+		// Insert node
+		rows.get(rowIndex).add(node);
 	}
 
 	/**
@@ -171,34 +185,29 @@ public class Organization
 
 			width = rowWidth.get(getLongestRowIndex());
 
-			updateHeight();
+			// Update height of the organization
+			double maxHeight = Double.MIN_VALUE;
+			for (int i = 0; i < row.size(); i++)
+			{
+				if (row.get(i).getHeight() > maxHeight)
+					maxHeight = row.get(i).getHeight();
+			}
+			if (longest > 0)
+				maxHeight += SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER;
+
+			double prevTotal = rowHeight.get(longest) + rowHeight.get(last);
+
+			rowHeight.set(longest, maxHeight);
+			if (rowHeight.get(last) < node.getHeight()
+					+ SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER)
+				rowHeight.set(last, node.getHeight()
+						+ SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER);
+
+			double finalTotal = rowHeight.get(longest) + rowHeight.get(last);
+			height += (finalTotal - prevTotal);
 
 			shiftToLastRow();
 		}
-	}
-
-	/**
-	 * Find the maximum height of each row, add them and update the height of
-	 * the bounding box with the found value.
-	 */
-	private void updateHeight()
-	{
-		int totalHeight = 2 * SbgnPDConstants.COMPLEX_MEM_MARGIN;
-
-		for (int i = 0; i < rows.size(); i++)
-		{
-			int maxHeight = 0;
-			List<SbgnPDNode> r = rows.get(i);
-
-			for (int j = 0; j < r.size(); j++)
-			{
-				if (r.get(j).getHeight() > maxHeight)
-					maxHeight = (int) r.get(j).getHeight();
-			}
-
-			totalHeight += (maxHeight + SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER);
-		}
-		height = totalHeight;
 	}
 
 	private boolean canAddHorizontal(double extraWidth, double extraHeight)
@@ -211,14 +220,21 @@ public class Organization
 		}
 		double min = rowWidth.get(sri);
 
+		double hDiff = 0;
+		if (rowHeight.get(sri) < extraHeight)
+		{
+			if (sri > 0)
+				hDiff = extraHeight
+						+ SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER
+						- rowHeight.get(sri);
+		}
 		if (width - min >= extraWidth
 				+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER)
 		{
 			return true;
 		}
 
-		return height + SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER
-				+ extraHeight > min + extraWidth
+		return height + hDiff > min + extraWidth
 				+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER;
 	}
 

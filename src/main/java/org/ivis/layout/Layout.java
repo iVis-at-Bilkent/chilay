@@ -104,6 +104,12 @@ public abstract class Layout
 	 */
 	protected boolean isRemoteUse;
 	
+	/**
+	 * This method added for comparison of sbgnpd and cose layouts
+	 * TODO you may remove
+	 */
+	public long executionTime = 0;
+	
 // -----------------------------------------------------------------------------
 // Section: Constructors and initializations
 // -----------------------------------------------------------------------------
@@ -247,6 +253,7 @@ public abstract class Layout
 				long endTime = System.currentTimeMillis();
 				long excTime = endTime - startTime;
 				
+				this.executionTime = excTime;
 				System.out.println("Total execution time: " + excTime + " miliseconds.");
 			}
 		}
