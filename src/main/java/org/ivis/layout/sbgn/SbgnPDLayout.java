@@ -401,9 +401,9 @@ public class SbgnPDLayout extends CoSELayout
 	 * to call this method after new node creation. Here, it is used after the
 	 * creation of port nodes)
 	 */
-	private void resetAllNodesToApplyGravitation()
+	private void resetNodesToApplyGravitation()
 	{
-		ArrayList<Object> allNodesToApplyGravitation = new ArrayList<>();
+		ArrayList<Object> allNodesToApplyGravitation = new ArrayList<Object>();
 		for (Object o : getAllNodes())
 		{
 			if (o instanceof SbgnProcessNode
@@ -1134,7 +1134,7 @@ public class SbgnPDLayout extends CoSELayout
 		if (!arePortNodesCreated())
 		{
 			createPortNodes();
-			resetAllNodesToApplyGravitation();
+			resetNodesToApplyGravitation();
 		}
 		this.initSpringEmbedder();
 		this.runSpringEmbedder();
