@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import org.ivis.layout.LEdge;
@@ -275,6 +276,8 @@ public class SbgnPDLayout extends CoSELayout
 
 				LGraph childGraph = newGraph(null);
 
+				ownerGraph.add(processNode);
+				
 				// convert the process node to our specific SbgnProcessNode
 				processNode.copyFromSBGNPDNode(s, this.getGraphManager());
 
@@ -292,6 +295,8 @@ public class SbgnPDLayout extends CoSELayout
 				rigidPortConsumption.label = ""
 						+ (this.graphManager.getAllEdges().length + 1);
 
+				ownerGraph.remove(processNode);
+				
 				// move nodes to compound
 				childGraph.add(processNode);
 				childGraph.add(inputPort);
@@ -301,7 +306,6 @@ public class SbgnPDLayout extends CoSELayout
 				childGraph.add(rigidPortProcess, inputPort, processNode);
 				childGraph.add(rigidPortConsumption, outputPort, processNode);
 
-				compoundNode.setChild(childGraph);
 				compoundNode.setOwner(ownerGraph);
 
 				compoundNode.setCenter(processNode.getCenterX(),
@@ -309,7 +313,7 @@ public class SbgnPDLayout extends CoSELayout
 
 				ownerGraph.add(compoundNode);
 
-				this.graphManager.add(compoundNode.getChild(), compoundNode);
+				this.graphManager.add(childGraph, compoundNode);
 
 				ownerGraph.remove(s);
 
@@ -634,6 +638,7 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	private void groupZeroDegreeMembers()
 	{
+		Map <SbgnPDNode, LGraph> childComplexMap = new HashMap<SbgnPDNode, LGraph>();
 		for (Object graphObj : this.getGraphManager().getGraphs())
 		{
 			ArrayList<SbgnPDNode> zeroDegreeNodes = new ArrayList<SbgnPDNode>();
@@ -663,20 +668,20 @@ public class SbgnPDLayout extends CoSELayout
 
 				ownerGraph.add(complex);
 
-				complex.setChild(newGraph(null));
+				LGraph childGraph = newGraph(null);
 
 				for (SbgnPDNode zeroNode : zeroDegreeNodes)
 				{
 					ownerGraph.remove(zeroNode);
-					complex.getChild().add(zeroNode);
+					childGraph.add(zeroNode);
 				}
 				dummyComplexList.add(complex);
+				childComplexMap.put(complex, childGraph);
 			}
-
 		}
 
 		for (SbgnPDNode complex : dummyComplexList)
-			this.graphManager.add(complex.getChild(), complex);
+			this.graphManager.add(childComplexMap.get(complex), complex);
 
 		this.getGraphManager().updateBounds();
 
