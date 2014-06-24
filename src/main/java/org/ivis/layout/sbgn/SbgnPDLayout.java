@@ -12,6 +12,7 @@ import java.util.Vector;
 import org.ivis.layout.LEdge;
 import org.ivis.layout.LGraph;
 import org.ivis.layout.LNode;
+import org.ivis.layout.LayoutConstants;
 import org.ivis.layout.cose.CoSELayout;
 import org.ivis.layout.fd.FDLayoutConstants;
 import org.ivis.layout.fd.FDLayoutEdge;
@@ -270,9 +271,9 @@ public class SbgnPDLayout extends CoSELayout
 
 				processList.add(processNode);
 
-				compoundNode.label = "DummyCompound_" + processNode.label;
-				inputPort.label = "InputPort_" + processNode.label;
-				outputPort.label = "OutputPort_" + processNode.label;
+				compoundNode.label = "DummyCompound_" + s.label;
+				inputPort.label = "InputPort_" + s.label;
+				outputPort.label = "OutputPort_" + s.label;
 
 				LGraph childGraph = newGraph(null);
 
@@ -911,11 +912,18 @@ public class SbgnPDLayout extends CoSELayout
 
 		int differenceX = (int) (rect.x - comp.getLeft());
 		int differenceY = (int) (rect.y - comp.getTop());
-
+		
+		// if the parent graph is a compound, add compound margins
+		if(!comp.type.equals(SbgnPDConstants.COMPLEX))
+		{			
+			differenceX -= LayoutConstants.COMPOUND_NODE_MARGIN;
+			differenceY -= LayoutConstants.COMPOUND_NODE_MARGIN;		
+		}
+		
 		for (int j = 0; j < chGr.getNodes().size(); j++)
 		{
 			SbgnPDNode s = (SbgnPDNode) chGr.getNodes().get(j);
-
+						
 			s.setLocation(s.getLeft() - differenceX
 					+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER, s.getTop()
 					- differenceY + SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER);
