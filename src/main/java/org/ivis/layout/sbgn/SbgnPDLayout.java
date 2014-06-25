@@ -390,11 +390,13 @@ public class SbgnPDLayout extends CoSELayout
 			{
 				sEdge.setTarget(inputPort);
 				inputPort.getEdges().add(sEdge);
+				System.out.println("label: " + sEdge.label);
 			}
 			else if (sEdge.type.equals(SbgnPDConstants.PRODUCTION))
 			{
 				sEdge.setSource(outputPort);
 				outputPort.getEdges().add(sEdge);
+				System.out.println("label: " + sEdge.label);
 			}
 
 			i--;
@@ -1110,6 +1112,7 @@ public class SbgnPDLayout extends CoSELayout
 		b = super.layout();
 		repopulateComplexes();
 
+		this.getAllNodes();
 		return b;
 	}
 

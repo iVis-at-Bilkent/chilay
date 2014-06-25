@@ -32,5 +32,24 @@ public class SbgnPDEdge extends CoSEEdge
 		correspondingAngle = 0;
 		isProperlyOriented = false;
 	}
+
+	public void copy(SbgnPDEdge edge)
+	{
+		this.setSource(edge.getSource());
+		this.setTarget(edge.getTarget());
+		this.label = edge.label;
+		this.type = edge.type;
+		this.correspondingAngle = edge.correspondingAngle;
+		this.isProperlyOriented = edge.isProperlyOriented;
+		this.idealLength = edge.idealLength;
+		this.isInterGraph = edge.isInterGraph;
+		this.bendpoints = edge.bendpoints;
+		this.isOverlapingSourceAndTarget = edge.isOverlapingSourceAndTarget;
+		this.lca = edge.lca;
+		this.length = edge.length;
+		this.lengthX = edge.lengthX;
+		this.lengthY = edge.lengthY;
+		this.sourceInLca = edge.sourceInLca;
+	}
 	
 }

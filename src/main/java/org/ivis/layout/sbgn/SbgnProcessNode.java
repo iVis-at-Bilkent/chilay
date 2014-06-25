@@ -94,6 +94,8 @@ public class SbgnProcessNode extends SbgnPDNode
 			SbgnPDEdge newEdge = new SbgnPDEdge((SbgnPDNode) edge.getSource(),
 					(SbgnPDNode) edge.getTarget(), null, edge.type);
 
+			newEdge.copy(edge);
+			
 			if (edge.getSource().equals(s))
 			{
 				newEdge.setSource(this);
