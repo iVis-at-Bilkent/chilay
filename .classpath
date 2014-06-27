@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/begum/workspace/lib-platform/swt-3.4.2-win32-win32-x86_64.jar"/>
+	<classpathentry kind="lib" path="/home/begum/Documents/jaxb-ri-2.2.7/lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="/home/begum/Documents/jaxb-ri-2.2.7/lib/jaxb-core.jar"/>
+	<classpathentry kind="lib" path="/home/begum/Documents/jaxb-ri-2.2.7/lib/jaxb-core-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/begum/Documents/jaxb-ri-2.2.7/lib/jaxb-impl.jar"/>
+	<classpathentry kind="lib" path="/home/begum/Documents/jaxb-ri-2.2.7/lib/jaxb-impl-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/begum/Documents/jaxb-ri-2.2.7/lib/jaxb-jxc.jar"/>
+	<classpathentry kind="lib" path="/home/begum/Documents/jaxb-ri-2.2.7/lib/jaxb-jxc-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/begum/Documents/jaxb-ri-2.2.7/lib/jaxb-xjc.jar"/>
+	<classpathentry kind="lib" path="/home/begum/Documents/jaxb-ri-2.2.7/lib/jaxb-xjc-javadoc.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

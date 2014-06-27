@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<view>
+
+	<node id="pnr9">
+		<type value="process" />
+		<bounds height="10" width="10" x="167.9" y="179.8" />
+	</node>
+	<node id="a1">
+		<type value="macromolecule" />
+		<bounds height="54" width="90" x="4" y="158" />
+	</node>
+	<node id="a8">
+		<type value="simple chemical" />
+		<bounds height="22" width="72" x="83" y="128" />
+	</node>
+	<node id="a12">
+		<type value="simple chemical" />
+		<bounds height="26" width="29" x="107" y="210" />
+	</node>
+	<node id="a13">
+		<type value="simple chemical" />
+		<bounds height="26" width="29" x="207" y="210" />
+	</node>
+	<node id="a01">
+		<type value="simple chemical" />
+		<bounds height="26" width="29" x="107" y="210" />
+	</node>
+	<node id="a02">
+		<type value="simple chemical" />
+		<bounds height="26" width="29" x="207" y="210" />
+	</node>
+	<node id="pnr0">
+		<type value="process" />
+		<bounds height="10" width="10" x="167.9" y="179.8" />
+	</node>
+	<node id="a11">
+		<type value="complex" />
+		<bounds height="85.725" width="106.5" x="247.75" y="140.2375" />
+		<children>
+			<node id="sa4">
+				<type value="macromolecule" />
+				<bounds height="54" width="90" x="256" y="169.2" />
+			</node>
+			<node id="sa3">
+				<type value="simple chemical" />
+				<bounds height="22" width="72" x="265" y="143" />
+			</node>
+		</children>
+	</node>
+	<edge id="10">
+		<type value="consumption" />
+		<sourceNode id="a1" />
+		<targetNode id="pnr9" />
+	</edge>
+	<edge id="11">
+		<type value="production" />
+		<sourceNode id="pnr9" />
+		<targetNode id="a11" />
+	</edge>
+	<edge id="011">
+		<type value="production" />
+		<sourceNode id="pnr0" />
+		<targetNode id="a01" />
+	</edge>
+	<edge id="0011">
+		<type value="production" />
+		<sourceNode id="pnr0" />
+		<targetNode id="a02" />
+	</edge>
+	<edge id="1">
+		<type value="consumption" />
+		<sourceNode id="a11" />
+		<targetNode id="pnr0" />
+	</edge>
+	<edge id="12">
+		<type value="consumption" />
+		<sourceNode id="a12" />
+		<targetNode id="pnr9" />
+	</edge>
+	<edge id="13">
+		<type value="consumption" />
+		<sourceNode id="a8" />
+		<targetNode id="pnr9" />
+	</edge>
+	<edge id="14">
+		<type value="production" />
+		<sourceNode id="pnr9" />
+		<targetNode id="a13" />
+	</edge>
+</view>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><view><node id="pnvPTS">
+  <type value="process"/>
+  <bounds height="10" width="10" x="673" y="440.1"/>
+</node><node id="pnvPGI">
+  <type value="process"/>
+  <bounds height="10" width="10" x="448.4" y="692"/>
+</node><node id="pnvPGM">
+  <type value="process"/>
+  <bounds height="10" width="10" x="638.2" y="700.4"/>
+</node><node id="pnvG6PDH">
+  <type value="process"/>
+  <bounds height="10" width="10" x="541" y="493.9"/>
+</node><node id="pnvPFK">
+  <type value="process"/>
+  <bounds height="10" width="10" x="228" y="748.7"/>
+</node><node id="pnvTA">
+  <type value="process"/>
+  <bounds height="10" width="10" x="187.9" y="564.5"/>
+</node><node id="pnvTKA">
+  <type value="process"/>
+  <bounds height="10" width="10" x="138.3" y="262.2"/>
+</node><node id="pnvTKB">
+  <type value="process"/>
+  <bounds height="10" width="10" x="187.3" y="527.1"/>
+</node><node id="pnvMURSyNTH">
+  <type value="process"/>
+  <bounds height="10" width="10" x="392" y="553"/>
+</node><node id="pnvALDO">
+  <type value="process"/>
+  <bounds height="10" width="10" x="177.1" y="527.7"/>
+</node><node id="pnvGAPDH">
+  <type value="process"/>
+  <bounds height="10" width="10" x="131.5" y="264"/>
+</node><node id="pnvTIS">
+  <type value="process"/>
+  <bounds height="10" width="10" x="134.3" y="404.3"/>
+</node><node id="pnvTRPSYNTH">
+  <type value="process"/>
+  <bounds height="10" width="10" x="416.5" y="312.1"/>
+</node><node id="pnvG3PDH">
+  <type value="process"/>
+  <bounds height="10" width="10" x="384.8" y="368.1"/>
+</node><node id="pnvPGK">
+  <type value="process"/>
+  <bounds height="10" width="10" x="310.3" y="114.5"/>
+</node><node id="pnvsersynth">
+  <type value="process"/>
+  <bounds height="10" width="10" x="498.4" y="331"/>
+</node><node id="pnvrpGluMu">
+  <type value="process"/>
+  <bounds height="10" width="10" x="647.3" y="160.1"/>
+</node><node id="pnvENO">
+  <type value="process"/>
+  <bounds height="10" width="10" x="775.7" y="359.5"/>
+</node><node id="pnvPK">
+  <type value="process"/>
+  <bounds height="10" width="10" x="750.9" y="306.8"/>
+</node><node id="pnvpepCxylase">
+  <type value="process"/>
+  <bounds height="10" width="10" x="609.6" y="361.4"/>
+</node><node id="pnvSynth1">
+  <type value="process"/>
+  <bounds height="10" width="10" x="610.1" y="422.1"/>
+</node><node id="pnvSynth2">
+  <type value="process"/>
+  <bounds height="10" width="10" x="525.5" y="236.4"/>
+</node><node id="pnvDAHPS">
+  <type value="process"/>
+  <bounds height="10" width="10" x="487.9" y="499.7"/>
+</node><node id="pnvPDH">
+  <type value="process"/>
+  <bounds height="10" width="10" x="614.4" y="272.3"/>
+</node><node id="pnvMethSynth">
+  <type value="process"/>
+  <bounds height="10" width="10" x="513.1" y="233.3"/>
+</node><node id="pnvPGDH">
+  <type value="process"/>
+  <bounds height="10" width="10" x="354.2" y="257.1"/>
+</node><node id="pnvR5PI">
+  <type value="process"/>
+  <bounds height="10" width="10" x="200.6" y="58"/>
+</node><node id="pnvRu5P">
+  <type value="process"/>
+  <bounds height="10" width="10" x="157.7" y="266.9"/>
+</node><node id="pnvPPK">
+  <type value="process"/>
+  <bounds height="10" width="10" x="292.3" y="199.8"/>
+</node><node id="pnvG1PAT">
+  <type value="process"/>
+  <bounds height="10" width="10" x="545.1" y="568.3"/>
+</node><node id="pnvG6P">
+  <type value="process"/>
+  <bounds height="10" width="10" x="531.8" y="508.29999999999995"/>
+</node><node id="pnvf6P">
+  <type value="process"/>
+  <bounds height="10" width="10" x="381.1" y="569.7"/>
+</node><node id="pnvfdP">
+  <type value="process"/>
+  <bounds height="10" width="10" x="341.9" y="511.1"/>
+</node><node id="pnvGAP">
+  <type value="process"/>
+  <bounds height="10" width="10" x="344.3" y="362.4"/>
+</node><node id="pnvDHAP">
+  <type value="process"/>
+  <bounds height="10" width="10" x="389.4" y="431.8"/>
+</node><node id="pnvPGP">
+  <type value="process"/>
+  <bounds height="10" width="10" x="355.7" y="225.5"/>
+</node><node id="pnvPG3">
+  <type value="process"/>
+  <bounds height="10" width="10" x="493.9" y="276.1"/>
+</node><node id="pnvpg2">
+  <type value="process"/>
+  <bounds height="10" width="10" x="600" y="324.1"/>
+</node><node id="pnvPEP">
+  <type value="process"/>
+  <bounds height="10" width="10" x="590.1" y="483"/>
+</node><node id="pnvRibu5p">
+  <type value="process"/>
+  <bounds height="10" width="10" x="385.5" y="263"/>
+</node><node id="pnvRIB5P">
+  <type value="process"/>
+  <bounds height="10" width="10" x="349.2" y="166.1"/>
+</node><node id="pnvXYL5P">
+  <type value="process"/>
+  <bounds height="10" width="10" x="319" y="365.8"/>
+</node><node id="pnvSED7P">
+  <type value="process"/>
+  <bounds height="10" width="10" x="288.3" y="422.9"/>
+</node><node id="pnvpyr">
+  <type value="process"/>
+  <bounds height="10" width="10" x="551.9" y="227.9"/>
+</node><node id="pnvPG">
+  <type value="process"/>
+  <bounds height="10" width="10" x="470.2" y="355.6"/>
+</node><node id="pnvE4P">
+  <type value="process"/>
+  <bounds height="10" width="10" x="414.7" y="443.2"/>
+</node><node id="pnvGLP">
+  <type value="process"/>
+  <bounds height="10" width="10" x="550" y="594.3"/>
+</node><node id="pnvEXTER">
+  <type value="process"/>
+  <bounds height="10" width="10" x="617.5" y="355.9"/>
+</node><node id="ca0">
+  <type value="compartment"/>
+  <bounds height="766.72955" width="823.8162" x="24.991899999999987" y="24.985225000000014"/>
+  <children>
+    <node id="sa2">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="557.75" y="572"/>
+    </node>
+    <node id="sa3">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="604.9" y="273.65"/>
+    </node>
+    <node id="sa17">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="251.7" y="169.2"/>
+    </node>
+    <node id="sa10">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="271.2" y="538.4"/>
+    </node>
+    <node id="sa9">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="166.85" y="400.9"/>
+    </node>
+    <node id="sa16">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="676.05" y="245.45"/>
+    </node>
+    <node id="sa4">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="253" y="654.3"/>
+    </node>
+    <node id="sa5">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="586.3" y="697.95"/>
+    </node>
+    <node id="sa12">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="186.35" y="105.8"/>
+    </node>
+    <node id="sa6">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="436.05" y="330.5"/>
+    </node>
+    <node id="sa11">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="134.45" y="352.1"/>
+    </node>
+    <node id="sa18">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="420.95" y="356.45"/>
+    </node>
+    <node id="sa15">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="446.8" y="146.65"/>
+    </node>
+    <node id="sa1">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="726.8" y="343.4"/>
+    </node>
+    <node id="sa0">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="645.4" y="434.55"/>
+    </node>
+    <node id="sa14">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="191.3" y="178"/>
+    </node>
+    <node id="sa8">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="67" y="410.3"/>
+    </node>
+    <node id="sa13">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="214.7" y="427.75"/>
+    </node>
+    <node id="sa7">
+      <type value="macromolecule"/>
+      <bounds height="40" width="80" x="229.10000000000002" y="655.1"/>
+    </node>
+  </children>
+</node><edge id="1"><type value="consumption" /><sourceNode id="sa1"/><targetNode id="pnvPTS"/></edge><edge id="2"><type value="production" /><sourceNode id="pnvPTS"/><targetNode id="sa2"/></edge><edge id="3"><type value="consumption" /><sourceNode id="sa0"/><targetNode id="pnvPTS"/></edge><edge id="4"><type value="production" /><sourceNode id="pnvPTS"/><targetNode id="sa3"/></edge><edge id="5"><type value="consumption" /><sourceNode id="sa2"/><targetNode id="pnvPGI"/></edge><edge id="6"><type value="production" /><sourceNode id="pnvPGI"/><targetNode id="sa4"/></edge><edge id="7"><type value="consumption" /><sourceNode id="sa2"/><targetNode id="pnvPGM"/></edge><edge id="8"><type value="production" /><sourceNode id="pnvPGM"/><targetNode id="sa5"/></edge><edge id="9"><type value="consumption" /><sourceNode id="sa2"/><targetNode id="pnvG6PDH"/></edge><edge id="10"><type value="production" /><sourceNode id="pnvG6PDH"/><targetNode id="sa6"/></edge><edge id="11"><type value="consumption" /><sourceNode id="sa4"/><targetNode id="pnvPFK"/></edge><edge id="12"><type value="production" /><sourceNode id="pnvPFK"/><targetNode id="sa7"/></edge><edge id="13"><type value="consumption" /><sourceNode id="sa9"/><targetNode id="pnvTA"/></edge><edge id="14"><type value="production" /><sourceNode id="pnvTA"/><targetNode id="sa4"/></edge><edge id="15"><type value="consumption" /><sourceNode id="sa8"/><targetNode id="pnvTA"/></edge><edge id="16"><type value="production" /><sourceNode id="pnvTA"/><targetNode id="sa10"/></edge><edge id="17"><type value="consumption" /><sourceNode id="sa12"/><targetNode id="pnvTKA"/></edge><edge id="18"><type value="production" /><sourceNode id="pnvTKA"/><targetNode id="sa9"/></edge><edge id="19"><type value="consumption" /><sourceNode id="sa11"/><targetNode id="pnvTKA"/></edge><edge id="20"><type value="production" /><sourceNode id="pnvTKA"/><targetNode id="sa8"/></edge><edge id="21"><type value="consumption" /><sourceNode id="sa10"/><targetNode id="pnvTKB"/></edge><edge id="22"><type value="production" /><sourceNode id="pnvTKB"/><targetNode id="sa9"/></edge><edge id="23"><type value="consumption" /><sourceNode id="sa11"/><targetNode id="pnvTKB"/></edge><edge id="24"><type value="production" /><sourceNode id="pnvTKB"/><targetNode id="sa4"/></edge><edge id="25"><type value="consumption" /><sourceNode id="sa4"/><targetNode id="pnvMURSyNTH"/></edge><edge id="26"><type value="production" /><sourceNode id="pnvMURSyNTH"/><targetNode id="sa18"/></edge><edge id="27"><type value="consumption" /><sourceNode id="sa7"/><targetNode id="pnvALDO"/></edge><edge id="28"><type value="production" /><sourceNode id="pnvALDO"/><targetNode id="sa13"/></edge><edge id="29"><type value="production" /><sourceNode id="pnvALDO"/><targetNode id="sa9"/></edge><edge id="30"><type value="consumption" /><sourceNode id="sa9"/><targetNode id="pnvGAPDH"/></edge><edge id="31"><type value="production" /><sourceNode id="pnvGAPDH"/><targetNode id="sa14"/></edge><edge id="32"><type value="consumption" /><sourceNode id="sa13"/><targetNode id="pnvTIS"/></edge><edge id="33"><type value="production" /><sourceNode id="pnvTIS"/><targetNode id="sa9"/></edge><edge id="34"><type value="consumption" /><sourceNode id="sa18"/><targetNode id="pnvTRPSYNTH"/></edge><edge id="35"><type value="production" /><sourceNode id="pnvTRPSYNTH"/><targetNode id="sa3"/></edge><edge id="36"><type value="production" /><sourceNode id="pnvTRPSYNTH"/><targetNode id="sa9"/></edge><edge id="37"><type value="consumption" /><sourceNode id="sa13"/><targetNode id="pnvG3PDH"/></edge><edge id="38"><type value="production" /><sourceNode id="pnvG3PDH"/><targetNode id="sa18"/></edge><edge id="39"><type value="consumption" /><sourceNode id="sa14"/><targetNode id="pnvPGK"/></edge><edge id="40"><type value="production" /><sourceNode id="pnvPGK"/><targetNode id="sa15"/></edge><edge id="41"><type value="consumption" /><sourceNode id="sa15"/><targetNode id="pnvsersynth"/></edge><edge id="42"><type value="production" /><sourceNode id="pnvsersynth"/><targetNode id="sa18"/></edge><edge id="43"><type value="consumption" /><sourceNode id="sa15"/><targetNode id="pnvrpGluMu"/></edge><edge id="44"><type value="production" /><sourceNode id="pnvrpGluMu"/><targetNode id="sa16"/></edge><edge id="45"><type value="consumption" /><sourceNode id="sa16"/><targetNode id="pnvENO"/></edge><edge id="46"><type value="production" /><sourceNode id="pnvENO"/><targetNode id="sa0"/></edge><edge id="47"><type value="consumption" /><sourceNode id="sa0"/><targetNode id="pnvPK"/></edge><edge id="48"><type value="production" /><sourceNode id="pnvPK"/><targetNode id="sa3"/></edge><edge id="49"><type value="consumption" /><sourceNode id="sa0"/><targetNode id="pnvpepCxylase"/></edge><edge id="50"><type value="production" /><sourceNode id="pnvpepCxylase"/><targetNode id="sa18"/></edge><edge id="51"><type value="consumption" /><sourceNode id="sa0"/><targetNode id="pnvSynth1"/></edge><edge id="52"><type value="production" /><sourceNode id="pnvSynth1"/><targetNode id="sa18"/></edge><edge id="53"><type value="consumption" /><sourceNode id="sa3"/><targetNode id="pnvSynth2"/></edge><edge id="54"><type value="production" /><sourceNode id="pnvSynth2"/><targetNode id="sa18"/></edge><edge id="55"><type value="consumption" /><sourceNode id="sa10"/><targetNode id="pnvDAHPS"/></edge><edge id="56"><type value="production" /><sourceNode id="pnvDAHPS"/><targetNode id="sa18"/></edge><edge id="57"><type value="consumption" /><sourceNode id="sa0"/><targetNode id="pnvDAHPS"/></edge><edge id="58"><type value="consumption" /><sourceNode id="sa3"/><targetNode id="pnvPDH"/></edge><edge id="59"><type value="production" /><sourceNode id="pnvPDH"/><targetNode id="sa18"/></edge><edge id="60"><type value="consumption" /><sourceNode id="sa18"/><targetNode id="pnvMethSynth"/></edge><edge id="61"><type value="production" /><sourceNode id="pnvMethSynth"/><targetNode id="sa3"/></edge><edge id="62"><type value="consumption" /><sourceNode id="sa6"/><targetNode id="pnvPGDH"/></edge><edge id="63"><type value="production" /><sourceNode id="pnvPGDH"/><targetNode id="sa17"/></edge><edge id="64"><type value="consumption" /><sourceNode id="sa17"/><targetNode id="pnvR5PI"/></edge><edge id="65"><type value="production" /><sourceNode id="pnvR5PI"/><targetNode id="sa12"/></edge><edge id="66"><type value="consumption" /><sourceNode id="sa17"/><targetNode id="pnvRu5P"/></edge><edge id="67"><type value="production" /><sourceNode id="pnvRu5P"/><targetNode id="sa11"/></edge><edge id="68"><type value="consumption" /><sourceNode id="sa12"/><targetNode id="pnvPPK"/></edge><edge id="69"><type value="production" /><sourceNode id="pnvPPK"/><targetNode id="sa18"/></edge><edge id="70"><type value="consumption" /><sourceNode id="sa5"/><targetNode id="pnvG1PAT"/></edge><edge id="71"><type value="production" /><sourceNode id="pnvG1PAT"/><targetNode id="sa18"/></edge><edge id="72"><type value="consumption" /><sourceNode id="sa2"/><targetNode id="pnvG6P"/></edge><edge id="73"><type value="production" /><sourceNode id="pnvG6P"/><targetNode id="sa18"/></edge><edge id="74"><type value="consumption" /><sourceNode id="sa4"/><targetNode id="pnvf6P"/></edge><edge id="75"><type value="production" /><sourceNode id="pnvf6P"/><targetNode id="sa18"/></edge><edge id="76"><type value="consumption" /><sourceNode id="sa7"/><targetNode id="pnvfdP"/></edge><edge id="77"><type value="production" /><sourceNode id="pnvfdP"/><targetNode id="sa18"/></edge><edge id="78"><type value="consumption" /><sourceNode id="sa9"/><targetNode id="pnvGAP"/></edge><edge id="79"><type value="production" /><sourceNode id="pnvGAP"/><targetNode id="sa18"/></edge><edge id="80"><type value="consumption" /><sourceNode id="sa13"/><targetNode id="pnvDHAP"/></edge><edge id="81"><type value="production" /><sourceNode id="pnvDHAP"/><targetNode id="sa18"/></edge><edge id="82"><type value="consumption" /><sourceNode id="sa14"/><targetNode id="pnvPGP"/></edge><edge id="83"><type value="production" /><sourceNode id="pnvPGP"/><targetNode id="sa18"/></edge><edge id="84"><type value="consumption" /><sourceNode id="sa15"/><targetNode id="pnvPG3"/></edge><edge id="85"><type value="production" /><sourceNode id="pnvPG3"/><targetNode id="sa18"/></edge><edge id="86"><type value="consumption" /><sourceNode id="sa16"/><targetNode id="pnvpg2"/></edge><edge id="87"><type value="production" /><sourceNode id="pnvpg2"/><targetNode id="sa18"/></edge><edge id="88"><type value="consumption" /><sourceNode id="sa0"/><targetNode id="pnvPEP"/></edge><edge id="89"><type value="production" /><sourceNode id="pnvPEP"/><targetNode id="sa18"/></edge><edge id="90"><type value="consumption" /><sourceNode id="sa17"/><targetNode id="pnvRibu5p"/></edge><edge id="91"><type value="production" /><sourceNode id="pnvRibu5p"/><targetNode id="sa18"/></edge><edge id="92"><type value="consumption" /><sourceNode id="sa12"/><targetNode id="pnvRIB5P"/></edge><edge id="93"><type value="production" /><sourceNode id="pnvRIB5P"/><targetNode id="sa18"/></edge><edge id="94"><type value="consumption" /><sourceNode id="sa11"/><targetNode id="pnvXYL5P"/></edge><edge id="95"><type value="production" /><sourceNode id="pnvXYL5P"/><targetNode id="sa18"/></edge><edge id="96"><type value="consumption" /><sourceNode id="sa8"/><targetNode id="pnvSED7P"/></edge><edge id="97"><type value="production" /><sourceNode id="pnvSED7P"/><targetNode id="sa18"/></edge><edge id="98"><type value="consumption" /><sourceNode id="sa3"/><targetNode id="pnvpyr"/></edge><edge id="99"><type value="production" /><sourceNode id="pnvpyr"/><targetNode id="sa18"/></edge><edge id="100"><type value="consumption" /><sourceNode id="sa6"/><targetNode id="pnvPG"/></edge><edge id="101"><type value="production" /><sourceNode id="pnvPG"/><targetNode id="sa18"/></edge><edge id="102"><type value="consumption" /><sourceNode id="sa10"/><targetNode id="pnvE4P"/></edge><edge id="103"><type value="production" /><sourceNode id="pnvE4P"/><targetNode id="sa18"/></edge><edge id="104"><type value="consumption" /><sourceNode id="sa5"/><targetNode id="pnvGLP"/></edge><edge id="105"><type value="production" /><sourceNode id="pnvGLP"/><targetNode id="sa18"/></edge><edge id="106"><type value="consumption" /><sourceNode id="sa18"/><targetNode id="pnvEXTER"/></edge><edge id="107"><type value="production" /><sourceNode id="pnvEXTER"/><targetNode id="sa1"/></edge></view>

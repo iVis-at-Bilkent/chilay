@@ -26,18 +26,15 @@ public class MemberPack
 		{
 			nodes[i] = (SbgnPDNode) childG.getNodes().get(i);
 		}
-
 	}
 
 	public void layout()
 	{
-		// ComparableNode[] compar = new ComparableNode[members.size()];
 		ComparableNode[] compar = new ComparableNode[members.size()];
 
 		int i = 0;
 		for (SbgnPDNode node : members)
 		{
-			// compar[i++] = new ComparableNode(node);
 			compar[i++] = new ComparableNode(node);
 
 		}
@@ -45,7 +42,7 @@ public class MemberPack
 		Arrays.sort(compar);
 
 		members.clear();
-		// for (ComparableNode com : compar)
+
 		for (ComparableNode com : compar)
 		{
 			members.add(com.getNode());

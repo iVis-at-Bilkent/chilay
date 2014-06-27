@@ -563,6 +563,22 @@ public class SbgnProcessNode extends SbgnPDNode
 		return null;
 	}
 
+	public boolean isVertical()
+	{
+		if(this.orientation.equals(Orientation.TOP_TO_BOTTOM) ||
+				this.orientation.equals(Orientation.BOTTOM_TO_TOP))
+			return true;
+		return false;
+	}
+	
+	public boolean isHorizontal()
+	{
+		if(this.orientation.equals(Orientation.LEFT_TO_RIGHT) ||
+				this.orientation.equals(Orientation.RIGHT_TO_LEFT))
+			return true;
+		return false;
+	}
+	
 	public enum Orientation
 	{
 		BOTTOM_TO_TOP, TOP_TO_BOTTOM, LEFT_TO_RIGHT, RIGHT_TO_LEFT

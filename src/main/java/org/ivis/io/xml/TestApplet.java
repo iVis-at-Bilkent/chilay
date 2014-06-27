@@ -56,7 +56,7 @@ public class TestApplet extends Applet implements MouseListener
 	private Button layoutButton;
 	private Button exitButton;
 
-	private double zoomLevel = 2.1;
+	private double zoomLevel = 1.3;
 	private double properlyOrientedCoSEEdgeCnt;
 	double totalEdgeCount = 0;
 	Object myLayout;
@@ -95,10 +95,9 @@ public class TestApplet extends Applet implements MouseListener
 		add(exitButton);
 
 //		fileList.add("org/ivis/io/xml/brca1gadd45.xml");
-		fileList.add("org/ivis/io/xml/ube2sube3a.xml");
-//		fileList.add("org/ivis/io/xml/mdm2ube2d1.xml");
+//		fileList.add("org/ivis/io/xml/ube2sube3a.xml");
 //		fileList.add("org/ivis/io/xml/small.xml");
-//		fileList.add("org/ivis/io/xml/layout.xml");
+		fileList.add("org/ivis/io/xml/layout.xml");
 //		fileList.add("org/ivis/io/xml/insuline.xml");
 //		fileList.add("org/ivis/io/xml/neuronal.xml");
 //		fileList.add("org/ivis/io/xml/huaiyu.xml");
@@ -232,7 +231,6 @@ public class TestApplet extends Applet implements MouseListener
 			}
 			else if (node.type != null && node.isDummyCompound)
 			{
-				System.out.println("dummy");
 				g.setColor(Color.MAGENTA);
 			}
 
@@ -314,19 +312,19 @@ public class TestApplet extends Applet implements MouseListener
 			{
 				if (sbgnEdges.get(i).isProperlyOriented)
 					g.setColor(Color.LIGHT_GRAY);
-				else if (sbgnEdges.get(i).getTarget() instanceof SbgnProcessNode)
-					g.setColor(Color.RED);
 				else
-					g.setColor(Color.LIGHT_GRAY);
+					g.setColor(Color.RED);
+//				else
+//					g.setColor(Color.LIGHT_GRAY);
 			}
 			else if (sbgnEdges.get(i).type.equals(SbgnPDConstants.CONSUMPTION))
 			{
 				if (sbgnEdges.get(i).isProperlyOriented)
 					g.setColor(Color.LIGHT_GRAY);
-				else if (sbgnEdges.get(i).getSource() instanceof SbgnProcessNode)
-					g.setColor(Color.GREEN);
 				else
-					g.setColor(Color.LIGHT_GRAY);
+					g.setColor(Color.GREEN);
+//				else
+//					g.setColor(Color.LIGHT_GRAY);
 			}
 			else if (sbgnEdges.get(i).type.equals(SbgnPDConstants.RIGID_EDGE))
 				g.setColor(Color.BLUE);
@@ -497,7 +495,7 @@ public class TestApplet extends Applet implements MouseListener
 		}
 
 		System.out.println("totalResult: " + properlyOrientedCoSEEdgeCnt
-				+ " / " + totalEdgeCount);
+				+ " / " + totalEdgeCount + ": " + properlyOrientedCoSEEdgeCnt/totalEdgeCount);
 	}
 
 	private boolean isAngleAppropriate(CoSENode node, PointD portNode,
@@ -633,7 +631,7 @@ public class TestApplet extends Applet implements MouseListener
 						+ "CoSEResult,CoSEExecTime\n");
 				performSbgnPDLayout(writer);
 
-				//performCoSELayout(writer);
+//				performCoSELayout(writer);
 
 				writer.flush();
 				writer.close();

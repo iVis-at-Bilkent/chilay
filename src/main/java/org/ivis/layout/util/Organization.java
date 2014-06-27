@@ -176,7 +176,7 @@ public class Organization
 		double diff = node.getWidth()
 				+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER;
 
-		if (width - rowWidth.get(last) > diff)
+		if (width - rowWidth.get(last) > diff && rowHeight.get(last) > node.getHeight())
 		{
 			row.removeLast();
 			rows.get(last).add(node);
@@ -200,9 +200,11 @@ public class Organization
 			rowHeight.set(longest, maxHeight);
 			if (rowHeight.get(last) < node.getHeight()
 					+ SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER)
+			{
 				rowHeight.set(last, node.getHeight()
 						+ SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER);
-
+			}
+			
 			double finalTotal = rowHeight.get(longest) + rowHeight.get(last);
 			height += (finalTotal - prevTotal);
 

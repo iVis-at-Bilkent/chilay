@@ -492,11 +492,9 @@ public class XmlIOHandler
 
 		String execName = "C:\\Program Files\\Java\\jdk1.7.0_40\\bin\\xjc.exe";
 
-		System.out.println(execName);
 		String deneme = execName + " -p org.ivis.io.xml.model "
 				+ "src/main/java/org/ivis/io/xml/layout.xsd -d src";
 
-		System.out.println(deneme);
 		Process p = Runtime.getRuntime().exec(deneme);
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(
