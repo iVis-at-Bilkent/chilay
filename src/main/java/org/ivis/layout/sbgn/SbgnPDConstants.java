@@ -60,10 +60,10 @@ public class SbgnPDConstants extends CoSEConstants
 	public static final double COMPLEX_MIN_WIDTH = COMPLEX_MEM_MARGIN * 2;	
 	
 	public static final int APPROXIMATION_DISTANCE = 50;
-	public static final double ANGLE_TOLERANCE = 95;
+	public static final double ANGLE_TOLERANCE = 100;
 	public static final double ROTATION_90_DEGREE = 60;
-	public static final double ROTATION_180_DEGREE = 0.8;
-	public static final int ROTATIONAL_FORCE_ITERATION_COUNT = 5;
-	public static final double ROTATIONAL_FORCE_CONVERGENCE = 0.97;
+	public static final double ROTATION_180_DEGREE = 0.5;
+	public static final int ROTATIONAL_FORCE_ITERATION_COUNT = 2;
+	public static final double ROTATIONAL_FORCE_CONVERGENCE = 1.0;
 }
 

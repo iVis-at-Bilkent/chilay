@@ -128,8 +128,8 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	private void doPhase1()
 	{
-		// perform cose for 2000 iterations
-		this.maxIterations = 1000;
+		// perform cose for 500 iterations
+		this.maxIterations = 500;
 		this.totalIterations = 0;
 
 		do
@@ -189,7 +189,7 @@ public class SbgnPDLayout extends CoSELayout
 		{
 			this.totalIterations++;
 
-			if (this.totalIterations == 1 || (this.totalIterations % 401 == 0 
+			if (this.totalIterations == 1 || (this.totalIterations % 307 == 0 
 					&& this.totalIterations < 3*this.maxIterations / 4))
 				approximateSingleNodesPositions();
 
@@ -199,11 +199,6 @@ public class SbgnPDLayout extends CoSELayout
 				oldRatio = newRatio;
 				newRatio = properlyOrientedEdgeCount / totalEdgeCount;
 
-				if(newRatio < oldRatio)
-				{
-					// if the result is worse than the prev result, increase max iterations
-					this.maxIterations += 400;
-				}
 				if (this.isConverged()
 						&& newRatio > SbgnPDConstants.ROTATIONAL_FORCE_CONVERGENCE)
 				{

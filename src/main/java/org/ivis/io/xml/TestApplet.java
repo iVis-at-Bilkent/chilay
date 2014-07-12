@@ -56,7 +56,7 @@ public class TestApplet extends Applet implements MouseListener
 	private Button layoutButton;
 	private Button exitButton;
 
-	private double zoomLevel = 1.3;
+	private double zoomLevel = 2.3;
 	private double properlyOrientedCoSEEdgeCnt;
 	double totalEdgeCount = 0;
 	Object myLayout;
@@ -97,8 +97,8 @@ public class TestApplet extends Applet implements MouseListener
 //		fileList.add("org/ivis/io/xml/brca1gadd45.xml");
 //		fileList.add("org/ivis/io/xml/ube2sube3a.xml");
 //		fileList.add("org/ivis/io/xml/small.xml");
-		fileList.add("org/ivis/io/xml/layout.xml");
-//		fileList.add("org/ivis/io/xml/insuline.xml");
+//		fileList.add("org/ivis/io/xml/layout.xml");
+		fileList.add("org/ivis/io/xml/insuline.xml");
 //		fileList.add("org/ivis/io/xml/neuronal.xml");
 //		fileList.add("org/ivis/io/xml/huaiyu.xml");
 
