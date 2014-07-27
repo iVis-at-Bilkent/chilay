@@ -742,4 +742,9 @@ public abstract class FDLayout extends Layout
 	{
 		return 0.0;
 	}
+	
+	public int getTotalIterations()
+	{
+		return totalIterations;
+	}
 }

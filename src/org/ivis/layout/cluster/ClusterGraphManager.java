@@ -89,11 +89,16 @@ public class ClusterGraphManager extends CoSEGraphManager
 	public void updateBounds()
 	{
 		super.updateBounds();
-		
-		for(Object o: this.getClusterManager().getClusters())
+		ClusterLayout currentLayout = ((ClusterLayout) this.getLayout());
+		double coolingFactor = (currentLayout.coolingFactor);
+		int iterationFrequency =  (int) ((1 - coolingFactor) * 8) + 1 ;
+		if (currentLayout.getTotalIterations() % iterationFrequency == 0)
 		{
-			Cluster c = (Cluster) o;
-			c.calculatePolygon();
+			for(Object o: this.getClusterManager().getClusters())
+			{
+				Cluster c = (Cluster) o;
+				c.calculatePolygon();
+			}
 		}
 	}
 	
@@ -145,7 +150,7 @@ public class ClusterGraphManager extends CoSEGraphManager
 		
 		maxClusterId = getGreatestClusterId();
 		Object [] nodes = this.getAllNodes();
-		System.out.println("TESTFN");		
+		//System.out.println("TESTFN");		
 		for (Object o: nodes)
 		{
 			List clusters;

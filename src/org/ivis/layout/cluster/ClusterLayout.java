@@ -1,6 +1,7 @@
 package org.ivis.layout.cluster;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.ivis.layout.LEdge;
@@ -13,6 +14,7 @@ import org.ivis.layout.cluster.ClusterGraphManager;
 import org.ivis.layout.cluster.ClusterEdge;
 import org.ivis.layout.cluster.ClusterConstants;
 import org.ivis.layout.cose.*;
+import org.ivis.layout.fd.FDLayoutConstants;
 import org.ivis.util.IGeometry;
 import org.ivis.util.PointD;
 
@@ -73,7 +75,8 @@ public class ClusterLayout extends CoSELayout
 	public void calcRepulsionForces()
 	{	
 		super.calcRepulsionForces();
-		this.calcZoneGraphRepulsionForces();
+		if (this.totalIterations % 10 == 0)
+			this.calcZoneGraphRepulsionForces();
 	}
 	
 	/**
@@ -82,7 +85,8 @@ public class ClusterLayout extends CoSELayout
 	public void calcSpringForces()
 	{
 		super.calcSpringForces();
-		this.calcZoneGraphSpringForces();					
+		if (this.totalIterations % 10 == 0)
+			this.calcZoneGraphSpringForces();					
 	}
 	
 	/**
