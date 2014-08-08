@@ -129,7 +129,7 @@ public class SbgnPDLayout extends CoSELayout
 	private void doPhase1()
 	{
 		// perform cose for 500 iterations
-		this.maxIterations = 500;
+		this.maxIterations = 200;
 		this.totalIterations = 0;
 
 		do
@@ -189,7 +189,7 @@ public class SbgnPDLayout extends CoSELayout
 		{
 			this.totalIterations++;
 
-			if (this.totalIterations == 1 || (this.totalIterations % 307 == 0 
+			if (this.totalIterations == 1 || (this.totalIterations % 211 == 0 
 					&& this.totalIterations < 3*this.maxIterations / 4))
 				approximateSingleNodesPositions();
 
@@ -569,12 +569,6 @@ public class SbgnPDLayout extends CoSELayout
 		}
 
 		return degree;
-		// if ((parentNode.getChild() == null && parentNode.getEdges().size() ==
-		// 0)
-		// || (parentNode.getChild() != null && parentNode.getEdges().size() ==
-		// 0
-		// && parentNode.getChild().getEdges().size() == 0))
-		// return 0;
 	}
 
 	/**
@@ -822,8 +816,6 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * This method returns the bounding rectangle of the given set of nodes with
 	 * or without the margins
-	 * 
-	 * @return
 	 */
 	protected RectangleD calculateBounds(boolean isMarginIncluded,
 			ArrayList<SbgnPDNode> nodes)
