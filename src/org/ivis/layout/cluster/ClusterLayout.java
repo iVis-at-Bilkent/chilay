@@ -14,7 +14,6 @@ import org.ivis.layout.cluster.ClusterGraphManager;
 import org.ivis.layout.cluster.ClusterEdge;
 import org.ivis.layout.cluster.ClusterConstants;
 import org.ivis.layout.cose.*;
-import org.ivis.layout.fd.FDLayoutConstants;
 import org.ivis.util.IGeometry;
 import org.ivis.util.PointD;
 
@@ -66,6 +65,35 @@ public class ClusterLayout extends CoSELayout
 	public LNode newNode(Object vNode)
 	{
 		return new ClusterNode(this.graphManager, vNode);
+	}
+	/**
+	 * Override. This method modifies the gravitation constants for 
+	 * this layout.
+	 */
+	public void initParameters()
+	{
+		super.initParameters();
+		
+		this.gravityRangeFactor = super.gravityRangeFactor * 1.5;
+		this.gravityConstant = super.gravityConstant * 1.5;
+	}
+	/**
+	 * Override. This method adds all nodes in the graph to the 
+	 * list of nodes that gravitation is applied to
+	 */
+	public void calculateNodesToApplyGravitationTo()
+	{
+		LinkedList nodeList = new LinkedList();
+		LGraph graph;
+
+		for (Object obj : this.graphManager.getGraphs())
+		{
+			graph = (LGraph) obj;
+			nodeList.addAll(graph.getNodes());			
+		}
+
+		this.graphManager.setAllNodesToApplyGravitation(nodeList);
+
 	}
 	/**
 	 * Override. This method introduces one more repulsion force to separate 
@@ -257,7 +285,7 @@ public class ClusterLayout extends CoSELayout
 				this.calcRepulsionForce(zoneA, zoneB);
 			}
 						 
-			this.applyRepulsionsToZoneMembers(zoneA);
+			this.applyRepulsionForcesToZoneMembers(zoneA);
 		}
 	}
 	
@@ -288,10 +316,10 @@ public class ClusterLayout extends CoSELayout
 	 * This method applies the repulsion forces calculated for the zone graph to the
 	 * nodes that belong to the zone
 	 */
-	public void applyRepulsionsToZoneMembers(ZoneNode zone)
+	public void applyRepulsionForcesToZoneMembers(ZoneNode zone)
 	{
-		 // get the id of the zone to match with the cluster
-		 int clusterID = Integer.parseInt(zone.label);
+		// get the id of the zone to match with the cluster
+		int clusterID = Integer.parseInt(zone.label);
 		
 		// match zone id to cluster id and get the cluster
 		Cluster cluster = this.graphManager.getClusterManager().getClusterByID(clusterID);
@@ -458,5 +486,44 @@ public class ClusterLayout extends CoSELayout
 				}
 			}
 		}
+	}
+	/**
+	 * 
+	 */
+	public void calcZoneGraphGravitationalForces()
+	{		
+		List zones = (((ClusterGraphManager) (this.graphManager))).zoneGraph.getNodes();
+		
+		for (int i = 0; i < zones.size(); i++)
+		{
+			ZoneNode zone = (ZoneNode) zones.get(i);
+			PointD center = zone.center;
+			
+			// get the id of the zone to match with the cluster
+			int clusterID = Integer.parseInt(zone.label);
+			
+			// match zone id to cluster id and get the cluster
+			Cluster cluster = this.graphManager.getClusterManager().getClusterByID(clusterID);
+			
+			for (Object o:cluster.getNodes())
+			{
+				CoSENode node = (CoSENode) o;
+				
+				double distanceX;
+				double distanceY;
+
+				distanceX = node.getCenterX() - center.x;
+				distanceY = node.getCenterY() - center.y;
+
+				node.gravitationForceX = -this.gravityConstant * distanceX;
+				node.gravitationForceY = -this.gravityConstant * distanceY;		
+			}
+		}						 		
+	}
+	public void calcGravitationalForces()
+	{
+		super.calcGravitationalForces();
+		if (this.totalIterations % 10 == 0)
+			this.calcZoneGraphGravitationalForces();
 	}
 }
