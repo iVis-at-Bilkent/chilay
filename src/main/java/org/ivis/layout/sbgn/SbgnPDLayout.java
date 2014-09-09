@@ -84,6 +84,7 @@ public class SbgnPDLayout extends CoSELayout
 	// for results
 	public int phase1IterationCount;
 	public int phase2IterationCount;
+	public int approximationPeriod = 211;
 
 	/**
 	 * The constructor creates and associates with this layout a new graph

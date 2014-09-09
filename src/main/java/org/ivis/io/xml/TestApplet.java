@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 
+import javax.xml.bind.JAXBException;
+
 import org.ivis.layout.Layout;
 import org.ivis.layout.cose.CoSEEdge;
 import org.ivis.layout.cose.CoSELayout;
@@ -30,9 +32,9 @@ import org.ivis.util.PointD;
 import org.ivis.util.RectangleD;
 
 /**
- * This class is used to test the results of sbgnpd layout algorithm with two
+ * This class is used to test the results of sbgn-pd layout algorithm with two
  * tiling methods: polyomino packing and basic tiling. The applet only displays
- * the bounding boxes of the nodes and the edges.
+ * the bounding boxes of the nodes and draws the edges. 
  * 
  * @author Begum Genc
  * 
@@ -40,7 +42,7 @@ import org.ivis.util.RectangleD;
 public class TestApplet extends Applet implements MouseListener
 {
 	public final int RUN_COUNT = 1;
-	
+
 	private ArrayList<SbgnPDNode> sbgnNodes;
 	private ArrayList<SbgnPDEdge> sbgnEdges;
 
@@ -61,8 +63,7 @@ public class TestApplet extends Applet implements MouseListener
 	double totalEdgeCount = 0;
 	Object myLayout;
 	Graphics g2;
-	
-	
+
 	private boolean isDebugOn = false;
 
 	public void init()
@@ -94,17 +95,17 @@ public class TestApplet extends Applet implements MouseListener
 		add(layoutButton);
 		add(exitButton);
 
-//		fileList.add("org/ivis/io/xml/brca1gadd45.xml");
-//		fileList.add("org/ivis/io/xml/ube2sube3a.xml");
-//		fileList.add("org/ivis/io/xml/small.xml");
-//		fileList.add("org/ivis/io/xml/layout.xml");
+		//		fileList.add("org/ivis/io/xml/brca1gadd45.xml");
+		//		fileList.add("org/ivis/io/xml/ube2sube3a.xml");
+		//		fileList.add("org/ivis/io/xml/small.xml");
+		//		fileList.add("org/ivis/io/xml/layout.xml");
 		fileList.add("org/ivis/io/xml/insuline.xml");
-//		fileList.add("org/ivis/io/xml/neuronal.xml");
-//		fileList.add("org/ivis/io/xml/huaiyu.xml");
+		//		fileList.add("org/ivis/io/xml/neuronal.xml");
+		//		fileList.add("org/ivis/io/xml/huaiyu.xml");
 
-//		fileList.add("org/ivis/io/xml/glycolysis.xml");
-//		fileList.add("org/ivis/io/xml/adenine.xml");
-//		fileList.add("org/ivis/io/xml/androgen.xml");
+		//		fileList.add("org/ivis/io/xml/glycolysis.xml");
+		//		fileList.add("org/ivis/io/xml/adenine.xml");
+		//		fileList.add("org/ivis/io/xml/androgen.xml");
 
 	}
 
@@ -156,12 +157,12 @@ public class TestApplet extends Applet implements MouseListener
 					(int) (node.getWidth() / zoomLevel),
 					(int) (node.getHeight() / zoomLevel));
 
-//			if (node.type.equals(SbgnPDConstants.PROCESS))
-//			{
-//				g.drawString("" + node.label + " " + node.OKCount,
-//						(int) (node.getCenterX() / zoomLevel),
-//						(int) (node.getCenterY() / zoomLevel));
-//			}
+			//			if (node.type.equals(SbgnPDConstants.PROCESS))
+			//			{
+			//				g.drawString("" + node.label + " " + node.OKCount,
+			//						(int) (node.getCenterX() / zoomLevel),
+			//						(int) (node.getCenterY() / zoomLevel));
+			//			}
 		}
 	}
 
@@ -238,12 +239,12 @@ public class TestApplet extends Applet implements MouseListener
 			{
 				g.setColor(Color.PINK);
 			}
-			
+
 			else
 			{
 				g.setColor(Color.DARK_GRAY);
 			}
-			
+
 			//
 			if (node instanceof SbgnProcessNode
 					&& ((SbgnProcessNode) node).isHighlighted)
@@ -266,9 +267,9 @@ public class TestApplet extends Applet implements MouseListener
 			//
 			// if (node instanceof SbgnProcessNode)
 			// {
-//			if(node.label != null)
-//			 g.drawString(node.label, (int) (node.getCenterX() /
-//					 zoomLevel), (int) (node.getCenterY() / zoomLevel));
+			//			if(node.label != null)
+			//			 g.drawString(node.label, (int) (node.getCenterX() /
+			//					 zoomLevel), (int) (node.getCenterY() / zoomLevel));
 			//
 			// g.setColor(Color.BLACK);
 			// }
@@ -314,8 +315,8 @@ public class TestApplet extends Applet implements MouseListener
 					g.setColor(Color.LIGHT_GRAY);
 				else
 					g.setColor(Color.RED);
-//				else
-//					g.setColor(Color.LIGHT_GRAY);
+				//				else
+				//					g.setColor(Color.LIGHT_GRAY);
 			}
 			else if (sbgnEdges.get(i).type.equals(SbgnPDConstants.CONSUMPTION))
 			{
@@ -323,8 +324,8 @@ public class TestApplet extends Applet implements MouseListener
 					g.setColor(Color.LIGHT_GRAY);
 				else
 					g.setColor(Color.GREEN);
-//				else
-//					g.setColor(Color.LIGHT_GRAY);
+				//				else
+				//					g.setColor(Color.LIGHT_GRAY);
 			}
 			else if (sbgnEdges.get(i).type.equals(SbgnPDConstants.RIGID_EDGE))
 				g.setColor(Color.BLUE);
@@ -495,7 +496,8 @@ public class TestApplet extends Applet implements MouseListener
 		}
 
 		System.out.println("totalResult: " + properlyOrientedCoSEEdgeCnt
-				+ " / " + totalEdgeCount + ": " + properlyOrientedCoSEEdgeCnt/totalEdgeCount);
+				+ " / " + totalEdgeCount + ": " + properlyOrientedCoSEEdgeCnt
+				/ totalEdgeCount);
 	}
 
 	private boolean isAngleAppropriate(CoSENode node, PointD portNode,
@@ -621,6 +623,17 @@ public class TestApplet extends Applet implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
+		// if (e.getSource() == layoutButton)
+		// {
+		// try
+		// {
+		// testParameters();
+		// }
+		// catch (Exception e1)
+		// {
+		// e1.printStackTrace();
+		// }
+		// }
 		try
 		{
 			if (e.getSource() == layoutButton)
@@ -631,7 +644,7 @@ public class TestApplet extends Applet implements MouseListener
 						+ "CoSEResult,CoSEExecTime\n");
 				performSbgnPDLayout(writer);
 
-//				performCoSELayout(writer);
+				// performCoSELayout(writer);
 
 				writer.flush();
 				writer.close();
@@ -698,7 +711,8 @@ public class TestApplet extends Applet implements MouseListener
 			}
 		}
 
-		 repaint();
+		// comment out if you do not want to see the boxes
+		repaint();
 	}
 
 	private void performSbgnPDLayout(Writer writer)
@@ -740,26 +754,99 @@ public class TestApplet extends Applet implements MouseListener
 				e1.printStackTrace();
 			}
 		}
+
+		Object[] allNodes = ((SbgnPDLayout) myLayout).getAllNodes();
+		Object[] allEdges = ((SbgnPDLayout) myLayout).getAllEdges();
+
+		// for each node and edge, specify the object types.
+		this.sbgnNodes.clear();
+		this.sbgnEdges.clear();
+
+		for (int i = 0; i < allNodes.length; i++)
+		{
+			this.sbgnNodes.add((SbgnPDNode) allNodes[i]);
+		}
+
+		for (int i = 0; i < allEdges.length; i++)
+		{
+			this.sbgnEdges.add((SbgnPDEdge) allEdges[i]);
+		}
 		
-		 Object[] allNodes = ((SbgnPDLayout) myLayout).getAllNodes();
-		 Object[] allEdges = ((SbgnPDLayout) myLayout).getAllEdges();
-		
-		 // for each node and edge, specify the object types.
-		 this.sbgnNodes.clear();
-		 this.sbgnEdges.clear();
-		
-		 for (int i = 0; i < allNodes.length; i++)
-		 {
-		 this.sbgnNodes.add((SbgnPDNode) allNodes[i]);
-		 }
-		
-		 for (int i = 0; i < allEdges.length; i++)
-		 {
-		 this.sbgnEdges.add((SbgnPDEdge) allEdges[i]);
-		 }
-		
-		 repaint();
+		// comment out if you do not want to see the boxes
+		repaint();
 	}
+
+	/**
+	 * This method is used for parameter tuning. In order to use this, the
+	 * static fields in SbgnPDConstants should be changed. RUN_COUNT should be
+	 * set.
+	 */
+	/*
+	 * private void testParameters() throws Exception { XmlIOHandler xih;
+	 * SbgnPDLayout sLayout = null;
+	 * 
+	 * int[] appDistance = { 5, 20, 30, 50 }; double[] angleTol = { 100 };
+	 * double[] rot90 = { 40, 60, 70, 90 }; double[] rot180 = { 0.5, 0.6, 0.7 };
+	 * int[] iterCnt = { 2, 5, 10, 20 }; int[] phase1IterCnt = { 200, 500, 1000,
+	 * 1500 }; int[] approxValues = { 211, 307, 503 }; double avgResult = 0;
+	 * long avgExecTime = 0; double avgPhase2IterCnt = 0;
+	 * 
+	 * for (int fileIndex = 0; fileIndex < fileList.size(); fileIndex++) {
+	 * FileWriter writer = new FileWriter("parameterTest" + fileIndex + ".csv");
+	 * writer.append("appDistance,angleTol,rot90," +
+	 * "rot180, iterCnt, apprxPeriod, phase1IterCnt, phase2IterCnt, nodeCnt, edgeCnt, avgResult,"
+	 * + "avgExecTime\n"); System.out.println("running for... " +
+	 * fileList.get(fileIndex));
+	 * 
+	 * for (int i = 0; i < appDistance.length; i++) {
+	 * SbgnPDConstants.APPROXIMATION_DISTANCE = appDistance[i];
+	 * System.out.println("app dist: " + appDistance[i]); for (int j = 0; j <
+	 * angleTol.length; j++) { SbgnPDConstants.ANGLE_TOLERANCE = angleTol[j];
+	 * 
+	 * for (int k = 0; k < rot90.length; k++) {
+	 * SbgnPDConstants.ROTATION_90_DEGREE = rot90[k];
+	 * 
+	 * for (int l = 0; l < rot180.length; l++) {
+	 * SbgnPDConstants.ROTATION_180_DEGREE = rot180[l];
+	 * 
+	 * for (int m = 0; m < iterCnt.length; m++) {
+	 * SbgnPDConstants.ROTATIONAL_FORCE_ITERATION_COUNT = iterCnt[m];
+	 * 
+	 * for (int n = 0; n < phase1IterCnt.length; n++) { ((SbgnPDLayout)
+	 * myLayout).phase1IterationCount = phase1IterCnt[n];
+	 * 
+	 * for (int u = 0; u < approxValues.length; u++) { ((SbgnPDLayout)
+	 * myLayout).approximationPeriod = approxValues[u];
+	 * 
+	 * avgResult = 0; avgExecTime = 0; avgPhase2IterCnt = 0;
+	 * 
+	 * for (int w = 0; w < RUN_COUNT; w++) { myLayout = new SbgnPDLayout();
+	 * 
+	 * // apply layout and get the // resulting layout try { xih = new
+	 * XmlIOHandler( (SbgnPDLayout) myLayout); Layout x = xih.test(fileList
+	 * .get(fileIndex)); sLayout = (SbgnPDLayout) x; avgResult +=
+	 * (sLayout.properlyOrientedEdgeCount / sLayout.totalEdgeCount); avgExecTime
+	 * += sLayout.executionTime; avgPhase2IterCnt +=
+	 * sLayout.phase2IterationCount;
+	 * 
+	 * } catch (JAXBException e) { e.printStackTrace(); } }
+	 * 
+	 * writer.append("" + SbgnPDConstants.APPROXIMATION_DISTANCE);
+	 * writer.append(','); writer.append("" + SbgnPDConstants.ANGLE_TOLERANCE);
+	 * writer.append(','); writer.append("" +
+	 * SbgnPDConstants.ROTATION_90_DEGREE); writer.append(','); writer.append(""
+	 * + SbgnPDConstants.ROTATION_180_DEGREE); writer.append(',');
+	 * writer.append("" + SbgnPDConstants.ROTATIONAL_FORCE_ITERATION_COUNT);
+	 * writer.append(','); writer.append("" + ((SbgnPDLayout)
+	 * myLayout).approximationPeriod); writer.append(','); writer.append("" +
+	 * phase1IterCnt[n]); writer.append(','); writer.append("" +
+	 * avgPhase2IterCnt / RUN_COUNT); writer.append(','); writer.append("" +
+	 * sLayout.getAllNodes().length); writer.append(','); writer.append("" +
+	 * sLayout.getAllEdges().length); writer.append(','); writer.append("" +
+	 * avgResult / RUN_COUNT); writer.append(','); writer.append("" +
+	 * avgExecTime / RUN_COUNT); writer.append('\n'); writer.flush(); } } } } }
+	 * } } writer.close(); } }
+	 */
 
 	@Override
 	public void mousePressed(MouseEvent e)
