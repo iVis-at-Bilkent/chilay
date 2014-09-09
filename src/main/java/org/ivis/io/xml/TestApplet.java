@@ -95,17 +95,14 @@ public class TestApplet extends Applet implements MouseListener
 		add(layoutButton);
 		add(exitButton);
 
-		//		fileList.add("org/ivis/io/xml/brca1gadd45.xml");
-		//		fileList.add("org/ivis/io/xml/ube2sube3a.xml");
-		//		fileList.add("org/ivis/io/xml/small.xml");
-		//		fileList.add("org/ivis/io/xml/layout.xml");
-		fileList.add("org/ivis/io/xml/insuline.xml");
-		//		fileList.add("org/ivis/io/xml/neuronal.xml");
-		//		fileList.add("org/ivis/io/xml/huaiyu.xml");
-
-		//		fileList.add("org/ivis/io/xml/glycolysis.xml");
-		//		fileList.add("org/ivis/io/xml/adenine.xml");
-		//		fileList.add("org/ivis/io/xml/androgen.xml");
+//		fileList.add("org/ivis/io/xml/small.xml");
+		fileList.add("org/ivis/io/xml/layout.xml");
+//		fileList.add("org/ivis/io/xml/insuline.xml");
+//		fileList.add("org/ivis/io/xml/neuronal.xml");
+//		fileList.add("org/ivis/io/xml/huaiyu.xml");
+//		fileList.add("org/ivis/io/xml/glycolysis.xml");
+//		fileList.add("org/ivis/io/xml/adenine.xml");
+//		fileList.add("org/ivis/io/xml/androgen.xml");
 
 	}
 
