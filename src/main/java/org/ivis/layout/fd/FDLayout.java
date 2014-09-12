@@ -533,7 +533,7 @@ public abstract class FDLayout extends Layout
 
             distanceSquared = distanceX * distanceX + distanceY * distanceY;
             distance = Math.sqrt(distanceSquared);
-            repulsionForce = this.repulsionConstant / distance;
+            repulsionForce = this.repulsionConstant / distanceSquared;
 
 //			// does not seem to be needed
 //			if (Math.abs(repulsionForce) > CoSEConstants.MAX_REPULSION_FORCE)
