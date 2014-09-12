@@ -47,7 +47,7 @@ public class CoSEEdge extends FDLayoutEdge
         RectangleD rectB = this.source.getRect();
         
         double radiusA = ((CoSENode)this.target).getRadiusX();
-        double radiusB = ((CoSENode)this.target).getRadiusY();
+        double radiusB = ((CoSENode)this.source).getRadiusX();
 
         // calculate circular separation amount in X and Y directions
         PointD centerA = new PointD(rectA.getCenterX(), rectA.getCenterY());

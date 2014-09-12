@@ -495,6 +495,8 @@ abstract public class IGeometry
         else if(containsCircle(centerB, centerA, radiusB, radiusA))
         {
         	overlapVectorAB = calcCircularSeparationAmountContainment(centerB, centerA, radiusB, radiusA,seperationBuffer);
+        	overlapVectorAB.x *= -1;
+        	overlapVectorAB.y *= -1;
         }
         // No containment
         else
@@ -512,8 +514,9 @@ abstract public class IGeometry
         }
 
         // Overlap amounts in X and Y directions
-        overlapAmount[0] = overlapVectorAB.getX() * (0.5 + seperationBuffer);
-        overlapAmount[1] = overlapVectorAB.getY() * (0.5 + seperationBuffer);
+        double overlapVectorLength = overlapVectorAB.getDistance(new PointD(0,0));
+        overlapAmount[0] = overlapVectorAB.getX() * (0.5 + seperationBuffer/overlapVectorLength);
+        overlapAmount[1] = overlapVectorAB.getY() * (0.5 + seperationBuffer/overlapVectorLength);
 
     }
     

@@ -15,7 +15,7 @@ public class CoSEConstants extends FDLayoutConstants
 // Section: CoSE layout user options
 // -----------------------------------------------------------------------------
 	public static final boolean DEFAULT_USE_MULTI_LEVEL_SCALING = false;
-    public static final boolean DEFAULT_USE_TWO_PHASE_GRADUAL_SIZE_INCREASE = true;
+    public static final boolean DEFAULT_USE_TWO_PHASE_GRADUAL_SIZE_INCREASE = false;
 	
 // -----------------------------------------------------------------------------
 // Section: CoSE layout remaining contants
@@ -35,7 +35,7 @@ public class CoSEConstants extends FDLayoutConstants
      * Default size increase check period for two phase gradual size increase
      * method in CoSE.
      */
-    public static final int DEFAULT_TWO_PHASE_SIZE_INCREASE_CHECK_PERIOD = 100;
+    public static final int DEFAULT_TWO_PHASE_SIZE_INCREASE_CHECK_PERIOD = 10;
 
     /**
      * Enumeration types for the phase one and phase two of two phase

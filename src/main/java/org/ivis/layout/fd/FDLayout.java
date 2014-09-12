@@ -491,14 +491,12 @@ public abstract class FDLayout extends Layout
      */
     protected void calcRepulsionForce(FDLayoutNode nodeA, FDLayoutNode nodeB)
     {
-        RectangleD rectA = nodeA.getRect();
-        RectangleD rectB = nodeB.getRect();
         double [] repulsionForceComponents = new double[2];
         double [] distanceComponents = new double[2];
         double distanceX;
         double distanceY;
-        double distanceSquared;
         double distance;
+        double distanceSquared;
         double repulsionForce;
         double repulsionForceX;
         double repulsionForceY;
@@ -533,8 +531,9 @@ public abstract class FDLayout extends Layout
                         FDLayoutConstants.MIN_REPULSION_DIST;
             }
 
-            distanceSquared = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-            repulsionForce = this.repulsionConstant / distanceSquared;
+            distanceSquared = distanceX * distanceX + distanceY * distanceY;
+            distance = Math.sqrt(distanceSquared);
+            repulsionForce = this.repulsionConstant / distance;
 
 //			// does not seem to be needed
 //			if (Math.abs(repulsionForce) > CoSEConstants.MAX_REPULSION_FORCE)
@@ -543,8 +542,8 @@ public abstract class FDLayout extends Layout
 //			}
 
             // Project force onto x and y axes
-            repulsionForceX = repulsionForce * distanceX / distanceSquared;
-            repulsionForceY = repulsionForce * distanceY / distanceSquared;
+            repulsionForceX = repulsionForce * (distanceX / distance);
+            repulsionForceY = repulsionForce * (distanceY / distance);
         }
 
         // Apply forces on the two nodes
