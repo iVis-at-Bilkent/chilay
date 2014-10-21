@@ -358,7 +358,7 @@ public class CoSELayout extends FDLayout
 					}
 				}
 
-				//Adjust cooling factor accordingly
+				//Adjust cooling factor decrease mechanism
 				if (this.useTwoPhaseGradualSizeIncrease)
 				{
 					this.decreaseCoolingFactorGradually();
@@ -404,6 +404,10 @@ public class CoSELayout extends FDLayout
 		this.graphManager.updateBounds();
 	}
 	
+	/**
+	 * This method initializes the initial factor according to the phases of
+	 * two phase gradual size increase method.
+	 * */
 	protected void setInitialCoolingFactor()
 	{
 		if (this.currentPhase == Phase.FIRST) 
@@ -416,6 +420,11 @@ public class CoSELayout extends FDLayout
 		}
 	}
 	
+	
+	/**
+	 * This method initializes the initial factor according to the phases of
+	 * two phase gradual size increase method.
+	 * */
 	protected void setInitialRadii()
 	{
 		Object[] lNodes = this.getAllNodes();
@@ -443,7 +452,6 @@ public class CoSELayout extends FDLayout
              node.setRadiusX(Math.max(nodeWidth/2,nodeHeight/2) * initialPercentPhaseOne);
              node.setRadiusY(Math.max(nodeWidth/2,nodeHeight/2) * initialPercentPhaseOne);
          }
-
 	}
 
     /**
@@ -493,7 +501,10 @@ public class CoSELayout extends FDLayout
         }
     }
     
-    /***/
+	/**
+	 * This method decreases cooling factor according to the phase of 
+	 * two phase gradual size increase method.
+	 * */
     public void decreaseCoolingFactorGradually()
     {
     	if (this.currentPhase == CoSEConstants.Phase.FIRST)
