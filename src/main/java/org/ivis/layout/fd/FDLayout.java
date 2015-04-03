@@ -358,6 +358,21 @@ public abstract class FDLayout extends Layout
 			node.move();
 		}
 	}
+	
+	/**
+	 * This method resets forces acting on each node
+	 */
+	public void resetForces()
+	{
+		Object[] lNodes = this.getAllNodes();
+		FDLayoutNode node;
+
+		for (int i = 0; i < lNodes.length; i++)
+		{
+			node = (FDLayoutNode) lNodes[i];
+			node.reset();
+		}
+	}
 
 	/**
 	 * This method calculates the spring force for the ends of input edge based

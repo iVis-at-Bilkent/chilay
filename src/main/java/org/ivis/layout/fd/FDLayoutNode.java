@@ -91,4 +91,10 @@ public abstract class FDLayoutNode extends LNode
 	 * for increasing the speed of the layout.
 	 */
 	abstract public void move();
+	
+	/*
+	 * Abstract reset method that is designed to reset the force and displacement values 
+	 * for this node object
+	 */
+	abstract public void reset();
 }

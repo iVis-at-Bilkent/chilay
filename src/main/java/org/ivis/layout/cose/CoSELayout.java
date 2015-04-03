@@ -268,6 +268,9 @@ public class CoSELayout extends FDLayout
 
 //		this.updateAnnealingProbability();
 
+		this.graphManager.updateBounds();
+		this.update();
+		
 		do
 		{
 			this.totalIterations++;
@@ -287,18 +290,20 @@ public class CoSELayout extends FDLayout
 
 			this.totalDisplacement = 0;
 
-			this.graphManager.updateBounds();
 			this.calcSpringForces();
 			this.calcRepulsionForces();
 			this.calcGravitationalForces();
 			this.moveNodes();
-
+			this.graphManager.updateBounds();
+			
 			this.animate();
+			this.resetForces();
 		}
 		while (this.totalIterations < this.maxIterations);
 		
 		this.graphManager.updateBounds();
 	}
+	
 
 	/**
 	 * This method finds and forms a list of nodes for which gravitation should

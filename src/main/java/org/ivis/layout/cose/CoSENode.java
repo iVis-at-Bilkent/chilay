@@ -70,7 +70,7 @@ public class CoSENode extends FDLayoutNode
 			(this.springForceX + this.repulsionForceX + this.gravitationForceX);
 		this.displacementY = layout.coolingFactor *
 			(this.springForceY + this.repulsionForceY + this.gravitationForceY);
-
+		
 		if (Math.abs(this.displacementX) > layout.maxNodeDisplacement)
 		{
 			this.displacementX = layout.maxNodeDisplacement *
@@ -123,14 +123,7 @@ public class CoSENode extends FDLayoutNode
 		layout.totalDisplacement +=
 			Math.abs(this.displacementX) + Math.abs(this.displacementY);
 
-		this.springForceX = 0;
-		this.springForceY = 0;
-		this.repulsionForceX = 0;
-		this.repulsionForceY = 0;
-		this.gravitationForceX = 0;
-		this.gravitationForceY = 0;
-		this.displacementX = 0;
-		this.displacementY = 0;
+
 	}
 
 	/*
@@ -156,6 +149,22 @@ public class CoSENode extends FDLayoutNode
 				lNode.propogateDisplacementToChildren(dX, dY);
 			}
 		}
+	}
+	
+
+	/*
+	 * This method resets the forces acting on this node object and the displacement value
+	 */
+	public void reset()
+	{
+		this.springForceX = 0;
+		this.springForceY = 0;
+		this.repulsionForceX = 0;
+		this.repulsionForceY = 0;
+		this.gravitationForceX = 0;
+		this.gravitationForceY = 0;
+		this.displacementX = 0;
+		this.displacementY = 0;
 	}
 		
 // -----------------------------------------------------------------------------
