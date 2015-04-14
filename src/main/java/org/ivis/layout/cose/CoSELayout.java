@@ -300,8 +300,6 @@ public class CoSELayout extends FDLayout
 			this.resetForces();
 		}
 		while (this.totalIterations < this.maxIterations);
-		
-		this.graphManager.updateBounds();
 	}
 	
 
