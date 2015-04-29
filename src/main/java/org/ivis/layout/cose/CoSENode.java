@@ -66,21 +66,21 @@ public class CoSENode extends FDLayoutNode
 	public void move()
 	{
 		CoSELayout layout = (CoSELayout) this.graphManager.getLayout();
+		double maxNodeDisplacement = layout.coolingFactor * layout.maxNodeDisplacement;
+
 		this.displacementX = layout.coolingFactor *
 			(this.springForceX + this.repulsionForceX + this.gravitationForceX);
 		this.displacementY = layout.coolingFactor *
 			(this.springForceY + this.repulsionForceY + this.gravitationForceY);
 		
-		if (Math.abs(this.displacementX) > layout.maxNodeDisplacement)
+		if (Math.abs(this.displacementX) > maxNodeDisplacement)
 		{
-			this.displacementX = layout.maxNodeDisplacement *
-				IMath.sign(this.displacementX);
+			this.displacementX = maxNodeDisplacement * IMath.sign(this.displacementX);
 		}
 
-		if (Math.abs(this.displacementY) > layout.maxNodeDisplacement)
+		if (Math.abs(this.displacementY) > maxNodeDisplacement)
 		{
-			this.displacementY = layout.maxNodeDisplacement *
-				IMath.sign(this.displacementY);
+			this.displacementY = maxNodeDisplacement * IMath.sign(this.displacementY);
 		}
 
 		// Apply simulated annealing here
