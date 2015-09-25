@@ -292,6 +292,12 @@ public class Cluster implements Comparable
 				parent = parent.getParent();
 			}
 
+			// draw cluster boundaries with a little buffer around
+			left -= 10;
+			right += 10;
+			top -= 10;
+			bottom += 10;
+
 			this.polygon.add(new PointD(left, top));
 			this.polygon.add(new PointD(right, top));
 			this.polygon.add(new PointD(right, bottom));
@@ -415,7 +421,8 @@ public class Cluster implements Comparable
 		double y2 = - (pt3.y - pt2.y);
 		
 		// decide using cross product, right hand rule is applied
-		if((x1* y2 - y1 * x2) <= 0){
+		if ((x1* y2 - y1 * x2) <= 0)
+		{
 			return true;
 		}
 		else
@@ -423,7 +430,152 @@ public class Cluster implements Comparable
 			return false;
 		}
 	}
-	
+
+	/**
+	 * This method checks whether or not the given node is completely within the
+	 * bounds of this cluster (its convex polygon).
+	 */
+	public boolean isCompletelyInsideClusterBounds(Clustered node)
+	{
+		PointD ul = new PointD(node.getLeft(), node.getTop());
+		PointD ll = new PointD(node.getLeft(), node.getBottom());
+		PointD ur = new PointD(node.getRight(), node.getTop());
+		PointD lr = new PointD(node.getRight(), node.getBottom());
+
+		return (this.isInside(ul) && this.isInside(ll) && this.isInside(ur) && this.isInside(lr));
+	}
+
+	/**
+	 * This method checks whether or not the given node is (at least) partially
+	 * inside the bounds of this cluster (its convex polygon).
+	 */
+	public boolean isPartiallyInsideClusterBounds(Clustered node)
+	{
+		boolean ul = this.isInside(new PointD(node.getLeft(), node.getTop()));
+		boolean ll = this.isInside(new PointD(node.getLeft(), node.getBottom()));
+		boolean ur = this.isInside(new PointD(node.getRight(), node.getTop()));
+		boolean lr = this.isInside(new PointD(node.getRight(), node.getBottom()));
+
+		return (ul || ll || ur || lr);
+	}
+
+	/**
+	 * This method checks whether or not the given point is inside the bounds of
+	 * this cluster (its convex polygon).
+	 */
+	boolean isInside(PointD p)
+	{
+		int n = this.polygon.size();
+
+		// There must be at least 3 vertices in polygon[]
+		if (n < 3)  return false;
+
+		// Create a point for line segment from p to infinite
+		PointD extreme = new PointD(Double.MAX_VALUE, p.y);
+
+		// Count intersections of the above line with sides of polygon
+		int count = 0;
+		int i = 0;
+		PointD p_i;
+		PointD p_next;
+
+		do
+		{
+			int next = (i + 1) % n;
+
+			// Check if the line segment from 'p' to 'extreme' intersects
+			// with the line segment from 'polygon[i]' to 'polygon[next]'
+			p_i = this.polygon.get(i);
+			p_next = this.polygon.get(next);
+
+			if (doIntersect(p_i, p_next, p, extreme))
+			{
+				// If the point 'p' is co-linear with line segment 'i-next',
+				// then check if it lies on segment. If it lies, return true,
+				// otherwise false
+				if (this.calcOrientation(p_i, p, p_next) == 0)
+				{
+					return this.isOnSegment(p_i, p, p_next);
+				}
+
+				if (this.calcOrientation(p, p_i, extreme) != 0)
+				{
+					count++;
+				}
+			}
+
+			i = next;
+
+		} while (i != 0);
+
+		// Return true if count is odd, false otherwise
+		return count % 2 == 1;
+	}
+
+	/**
+	 * Given three co-linear points p, q, r, this method checks if point q lies
+	 * on line segment p-r.
+	 */
+	public boolean isOnSegment(PointD p, PointD q, PointD r)
+	{
+		if (q.x <= Double.max(p.x, r.x) && q.x >= Double.min(p.x, r.x) &&
+			q.y <= Double.max(p.y, r.y) && q.y >= Double.min(p.y, r.y))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * This method finds the orientation of ordered triplet (p, q, r), and
+	 * returns following values:
+	 * 	0 --> p, q and r are co-linear,
+	 * 	1 --> clockwise,
+	 * 	2 --> counter-clockwise.
+	 */
+	public int calcOrientation(PointD p, PointD q, PointD r)
+	{
+		int val = (int)((q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y));
+
+		if (val == 0)
+			return 0;  // co-linear
+
+		return (val > 0)? 1: 2; // clockwise or counter-clockwise
+	}
+
+	/**
+	 * This method returns true if line segment p1-q1 and p2-q2 intersect.
+	 */
+	public boolean doIntersect(PointD p1, PointD q1, PointD p2, PointD q2)
+	{
+		// Find the four orientations needed for general and
+		// special cases
+		int o1 = this.calcOrientation(p1, q1, p2);
+		int o2 = this.calcOrientation(p1, q1, q2);
+		int o3 = this.calcOrientation(p2, q2, p1);
+		int o4 = this.calcOrientation(p2, q2, q1);
+
+		// General case
+		if (o1 != o2 && o3 != o4)
+			return true;
+
+		// Special Cases
+		// p1, q1 and p2 are co-linear and p2 lies on segment p1-q1
+		if (o1 == 0 && this.isOnSegment(p1, p2, q1)) return true;
+
+		// p1, q1 and p2 are co-linear and q2 lies on segment p1-q1
+		if (o2 == 0 && this.isOnSegment(p1, q2, q1)) return true;
+
+		// p2, q2 and p1 are co-linear and p1 lies on segment p2-q2
+		if (o3 == 0 && this.isOnSegment(p2, p1, q2)) return true;
+
+		// p2, q2 and q1 are co-linear and q1 lies on segment p2-q2
+		if (o4 == 0 && this.isOnSegment(p2, q1, q2)) return true;
+
+		return false; // Doesn't fall in any of the above cases
+	}
+
 	/**
 	 * Method to make 2 clusters comparable
 	 */
