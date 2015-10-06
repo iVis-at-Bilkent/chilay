@@ -167,8 +167,6 @@ public class CiSENode extends FDLayoutNode
 		{
 			this.getChild().updateBounds(true);
 		}
-
-
 	}
 
 	/**
@@ -176,9 +174,7 @@ public class CiSENode extends FDLayoutNode
 	 */
 	public void reset() 
 	{
-		// TODO Auto-generated method stub
 		this.displacementX = 0.0;
 		this.displacementY = 0.0;
-		
 	}
 }

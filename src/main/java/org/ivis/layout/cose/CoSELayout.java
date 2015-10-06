@@ -250,6 +250,7 @@ public class CoSELayout extends FDLayout
 	
 		System.out.println("Classic CoSE layout finished after " +
 			this.totalIterations + " iterations");
+		LayoutConstants.iterations = this.totalIterations;
 		
 		return true;
 	}
@@ -301,7 +302,6 @@ public class CoSELayout extends FDLayout
 		}
 		while (this.totalIterations < this.maxIterations);
 	}
-	
 
 	/**
 	 * This method finds and forms a list of nodes for which gravitation should

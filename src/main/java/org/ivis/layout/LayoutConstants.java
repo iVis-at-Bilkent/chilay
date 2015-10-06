@@ -28,7 +28,10 @@ public class LayoutConstants
 	public static final boolean DEFAULT_ANIMATION_DURING_LAYOUT = false;
 	public static final int DEFAULT_ANIMATION_PERIOD = 50;
 	public static final boolean DEFAULT_UNIFORM_LEAF_NODE_SIZES = false;
-
+	/**
+	 * Testing parameters
+	 */
+	public static final boolean TESTS_ACTIVE = false;
 // -----------------------------------------------------------------------------
 // Section: General other constants
 // -----------------------------------------------------------------------------
@@ -88,4 +91,13 @@ public class LayoutConstants
 	 */
 	public static final int WORLD_CENTER_X = 1200;
 	public static final int WORLD_CENTER_Y = 900;
+
+	/*
+	 * Margins for cluster boundaries
+	 */
+	public static final int CLUSTER_BOUNDARY_MARGIN = 4;
+	
+	// Test variables
+	public static long time = 0;
+	public static int iterations = 0;
 }

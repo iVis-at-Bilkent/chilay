@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import org.ivis.util.PointD;
+import org.ivis.util.IGeometry;
 
 /**
  * This class represents a cluster manager for layout purposes. A cluster manager
  * maintains a collection of clusters.
  *
- * @author Shatlyk Ashyralyyev
+ * @author Shatlyk Ashyralyyev 
+ * @author Can Cagdas Cengiz
  *
  * Copyright: i-Vis Research Group, Bilkent University, 2007 - present
  */
@@ -62,6 +67,7 @@ public class ClusterManager
 		this.polygonUsed = polygonUsed;
 	}
 	
+	
 	/**
 	 * This method returns clusterIDs of all existing clusters as sorted array.
 	 */
@@ -84,6 +90,7 @@ public class ClusterManager
 		
 		return result;
 	}
+	
 	
 // -----------------------------------------------------------------------------
 // Section: Remaining Methods
@@ -212,4 +219,78 @@ public class ClusterManager
 	 * cluster ID is set, it should incremented by 1.
 	 */
 	public static int idCounter = 1;
-}
+	
+	/**
+	 * This method finds the overlapping clusters. The calculation uses 
+	 * the points of cluster polygons. The overlap information is returned
+	 * in arraylist of object arrays. An object array has the following 
+	 * elements.
+	 * [0] = Id of the first cluster
+	 * [1] = Id of the second cluster
+	 * [2] = Overlap in x-axis
+	 * [3] = Overlap in y-axis  
+	 */
+	public ArrayList<Object []> getOverlapInformation()
+	{
+		Object [] overlap;
+		ArrayList<Object []> overlapInfo;
+		Cluster c1;
+		Cluster c2;
+		
+		ArrayList<PointD> p1;
+		ArrayList<PointD> p2;
+		
+		int numberOfClusters;
+		
+		numberOfClusters = clusters.size();
+		overlapInfo = new ArrayList<Object []>();
+		
+		// loop is optimized such that each pair is compared only once
+		
+		for (int i = 0; i < numberOfClusters; i++)
+		{
+			c1 = (Cluster) clusters.get(i);
+			p1 = c1.getPolygon();
+			
+			for (int j = i + 1; j < numberOfClusters; j++)
+			{
+				c2 = (Cluster) clusters.get(j);
+				p2 = c2.getPolygon();
+				
+				// System.out.println("Checking clusters "+c1.clusterID+ " and "+ c2.clusterID); //test
+				
+				if ( (p1.size() > 3) && (p2.size() > 3) )
+				{
+					overlap = IGeometry.convexPolygonOverlap(p1,p2);
+					if ((double) overlap[0] != 0.0)
+					{
+						/*System.out.println("The clusters " + c1.clusterID + 
+								" and " + c2.clusterID + " overlap."); // test
+						*/
+						Object [] newOverlap = new Object[4];
+						
+						newOverlap[0] = c1.clusterID;
+						newOverlap[1] = c2.clusterID;
+						newOverlap[2] = overlap[0]; // overlap amount
+						newOverlap[3] = overlap[1]; // overlap direction
+						
+						PointD temp;
+						temp = IGeometry.getXYProjection(((double) overlap[0]),
+								((PointD) overlap[1]));
+						
+						newOverlap[2] = temp.x; // overlap in x						
+						newOverlap[3] = temp.y; // overlap in y
+						
+						overlapInfo.add(newOverlap);
+					}	
+				}
+			}
+			
+		}
+		return overlapInfo;
+	}
+				
+	
+} //end of class
+
+

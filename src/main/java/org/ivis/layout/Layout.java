@@ -248,6 +248,7 @@ public abstract class Layout
 				long excTime = endTime - startTime;
 				
 				System.out.println("Total execution time: " + excTime + " miliseconds.");
+				LayoutConstants.time = excTime;
 			}
 		}
 		
