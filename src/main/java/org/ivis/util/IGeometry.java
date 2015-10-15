@@ -957,7 +957,7 @@ abstract public class IGeometry
 		System.out.println("Clip Point of RectA X:" + clipPoints[0] + " Y: " + clipPoints[1]);
 		System.out.println("Clip Point of RectB X:" + clipPoints[2] + " Y: " + clipPoints[3]);	
 	}
-<<<<<<< HEAD
+
 	/**
 	 * This method takes two line segments (two points for each line) 
 	 * and calculates their intersection. If they do not intersect 
