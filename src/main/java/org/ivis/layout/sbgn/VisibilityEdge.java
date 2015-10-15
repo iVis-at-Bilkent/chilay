@@ -1,7 +1,6 @@
 package org.ivis.layout.sbgn;
 
 import org.ivis.layout.cose.CoSEEdge;
-import org.ivis.layout.cose.CoSENode;
 
 /**
  * This class implements Visibility graph specific length update process for

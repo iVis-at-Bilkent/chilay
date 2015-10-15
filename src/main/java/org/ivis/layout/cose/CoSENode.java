@@ -48,7 +48,12 @@ public class CoSENode extends FDLayoutNode
 	 * TODO - you may remove this
 	 */
 	public Orientation orient;
-	
+
+	/**
+	 * added for comparison to sbgn pd layout
+	 * TODO - you may remove this
+	 */
+	public boolean isOrientationProper;
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization
 // -----------------------------------------------------------------------------

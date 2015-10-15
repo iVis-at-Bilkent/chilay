@@ -52,4 +52,23 @@ public class SbgnPDEdge extends CoSEEdge
 		this.sourceInLca = edge.sourceInLca;
 	}
 	
+	public boolean isEffector()
+	{
+		if(this.type.equals(SbgnPDConstants.MODULATION) || 
+				this.type.equals(SbgnPDConstants.STIMULATION) || 
+				this.type.equals(SbgnPDConstants.CATALYSIS) || 
+				this.type.equals(SbgnPDConstants.INHIBITION) || 
+				this.type.equals(SbgnPDConstants.NECESSARY_STIMULATION))
+			return true;
+		
+		return false;
+	}
+	
+	public boolean isRigidEdge()
+	{
+		if(this.type.equals(SbgnPDConstants.RIGID_EDGE))
+			return true;
+		else
+			return false;
+	}
 }

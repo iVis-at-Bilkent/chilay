@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
 
 import org.ivis.layout.LEdge;
@@ -14,11 +13,14 @@ import org.ivis.layout.LGraph;
 import org.ivis.layout.LNode;
 import org.ivis.layout.LayoutConstants;
 import org.ivis.layout.cose.CoSELayout;
+import org.ivis.layout.cose.CoSENode;
 import org.ivis.layout.fd.FDLayoutConstants;
 import org.ivis.layout.fd.FDLayoutEdge;
 import org.ivis.layout.fd.FDLayoutNode;
+import org.ivis.layout.sbgn.SbgnProcessNode.Orientation;
 import org.ivis.layout.util.MemberPack;
 import org.ivis.layout.util.RectProc;
+import org.ivis.util.IGeometry;
 import org.ivis.util.PointD;
 import org.ivis.util.RectangleD;
 
@@ -44,14 +46,16 @@ public class SbgnPDLayout extends CoSELayout
 	Map<SbgnPDNode, MemberPack> memberPackMap;
 
 	/**
-	 * List of dummy complexes (a dummy complex for all degree zero nodes at a level)
+	 * List of dummy complexes (a dummy complex for all degree zero nodes at a
+	 * level)
 	 */
 	LinkedList<SbgnPDNode> dummyComplexList;
 
 	/**
-	 * List of removed complexes (was created for degree zero nodes)
+	 * List of removed complexes (was created for degree zero nodes). They store
+	 * the dummy complex and its child graph
 	 */
-	Map<SbgnPDNode, LGraph> removedDummyComplexMap;
+	Map<SbgnPDNode, LGraph> emptiedDummyComplexMap;
 
 	/**
 	 * This list stores the complex molecules as a result of DFS. The first
@@ -74,7 +78,7 @@ public class SbgnPDLayout extends CoSELayout
 	 * This parameter stores the total neighboring edge count of all process
 	 * nodes.
 	 */
-	public double totalEdgeCount;
+	public double totalEdgeCountToBeOriented;
 
 	/**
 	 * This parameter indicates the phase number (1 or 2)
@@ -84,7 +88,18 @@ public class SbgnPDLayout extends CoSELayout
 	// for results
 	public int phase1IterationCount;
 	public int phase2IterationCount;
-	public int approximationPeriod = 211;
+
+	/**
+	 * 0 for roulette wheel selection, 1 for random selection.
+	 */
+	public int rotationRandomizationMethod;
+
+	public ArrayList<SbgnProcessNode> processNodeList;
+
+	public double successRatio;
+	public double enhancedRatio;
+	
+	public int totalEffCount;
 
 	/**
 	 * The constructor creates and associates with this layout a new graph
@@ -97,13 +112,17 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public SbgnPDLayout()
 	{
+		rotationRandomizationMethod = 1;
+
+		this.enhancedRatio = 0;
+		this.totalEffCount = 0;
 		this.compactionMethod = DefaultCompactionAlgorithm.TILING;
 
 		this.childGraphMap = new HashMap<SbgnPDNode, LGraph>();
 		this.complexOrder = new LinkedList<SbgnPDNode>();
 		this.dummyComplexList = new LinkedList<SbgnPDNode>();
-		this.removedDummyComplexMap = new HashMap<SbgnPDNode, LGraph>();
-
+		this.emptiedDummyComplexMap = new HashMap<SbgnPDNode, LGraph>();
+		this.processNodeList = new ArrayList<SbgnProcessNode>();
 		if (compactionMethod == DefaultCompactionAlgorithm.TILING)
 			this.memberPackMap = new HashMap<SbgnPDNode, MemberPack>();
 	}
@@ -115,22 +134,31 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	public void runSpringEmbedder()
 	{
+		System.out.println("SBGN-PD Layout is running...");
 		this.phaseNumber = 1;
 		doPhase1();
 
 		this.phaseNumber = 2;
 		doPhase2();
 
+		// used to calculate - to make sure
+		recalcProperlyOrientedEdges(true);
+		
+		System.out.println("success ratio: " + this.successRatio);
+
+		finalEnhancement();
+		
+		System.out.println("enhanced ratio: " + this.enhancedRatio);
+
 		removeDummyCompounds();
 	}
-	
+
 	/**
 	 * At this phase, CoSE is applied for a number of iterations.
 	 */
 	private void doPhase1()
 	{
-		// perform cose for 500 iterations
-		this.maxIterations = 200;
+		this.maxIterations = SbgnPDConstants.PHASE1_MAX_ITERATION_COUNT;
 		this.totalIterations = 0;
 
 		do
@@ -139,7 +167,6 @@ public class SbgnPDLayout extends CoSELayout
 			if (this.totalIterations
 					% FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
 			{
-
 				if (this.isConverged())
 				{
 					break;
@@ -163,25 +190,21 @@ public class SbgnPDLayout extends CoSELayout
 
 		this.graphManager.updateBounds();
 		this.phase1IterationCount = this.totalIterations;
-		System.out.print("" + phase1IterationCount + " ");
 	}
 
 	/**
-	 * At this phase, location of single nodes are approximated occasionally. 
+	 * At this phase, location of single nodes are approximated occasionally.
 	 * Rotational forces are applied. Cooling factor starts from a small value
-	 * to change layout less.
+	 * to prevent huge changes.
 	 */
 	private void doPhase2()
 	{
-		double newRatio = 0.0;
-		double oldRatio = 0.0;
-
 		// dynamic max iteration
-		this.maxIterations = (int) Math.log(this.getAllEdges().length + 
-				this.getAllNodes().length ) * 400;
-		
-		//cooling fac is small
-		this.initialCoolingFactor = 0.3;
+		this.maxIterations = (int) Math.log(this.getAllEdges().length
+				+ this.getAllNodes().length) * 400;
+
+		// cooling fac is small
+		this.initialCoolingFactor = SbgnPDConstants.PHASE2_INITIAL_COOLINGFACTOR;
 		this.coolingFactor = this.initialCoolingFactor;
 
 		this.totalIterations = 0;
@@ -190,18 +213,14 @@ public class SbgnPDLayout extends CoSELayout
 		{
 			this.totalIterations++;
 
-			if (this.totalIterations == 1 || (this.totalIterations % 211 == 0 
-					&& this.totalIterations < 3*this.maxIterations / 4))
-				approximateSingleNodesPositions();
-
 			if (this.totalIterations
 					% FDLayoutConstants.CONVERGENCE_CHECK_PERIOD == 0)
 			{
-				oldRatio = newRatio;
-				newRatio = properlyOrientedEdgeCount / totalEdgeCount;
+				successRatio = this.properlyOrientedEdgeCount
+						/ totalEdgeCountToBeOriented;
 
 				if (this.isConverged()
-						&& newRatio > SbgnPDConstants.ROTATIONAL_FORCE_CONVERGENCE)
+						&& successRatio >= SbgnPDConstants.ROTATIONAL_FORCE_CONVERGENCE)
 				{
 					break;
 				}
@@ -211,7 +230,7 @@ public class SbgnPDLayout extends CoSELayout
 			}
 
 			this.totalDisplacement = 0;
-			
+
 			this.graphManager.updateBounds();
 
 			this.calcSpringForces();
@@ -220,220 +239,642 @@ public class SbgnPDLayout extends CoSELayout
 			this.moveNodes();
 			this.animate();
 		}
-		while (this.totalIterations < this.maxIterations && this.maxIterations < 10000);
-
-		System.out.println(this.properlyOrientedEdgeCount + " " + this.totalEdgeCount
-				+ " " + this.totalIterations + " " + newRatio);
+		while (this.totalIterations < this.maxIterations
+				&& this.totalIterations < 10000);
 
 		this.phase2IterationCount = this.totalIterations;
 		this.graphManager.updateBounds();
-		System.out.println("phase2 has finished after " + this.phase2IterationCount
-				+ " iterations");
+	}
+
+	@Override
+	public void moveNodes()
+	{
+		this.properlyOrientedEdgeCount = 0;
+		this.totalEdgeCountToBeOriented = 0;
+
+		// only change single node positions on early stages
+		if (hasApproximationPeriodReached() && this.coolingFactor > 0.02)
+		{
+			for (SbgnProcessNode p : processNodeList)
+				p.applyApproximations();
+		}
+
+		for (SbgnProcessNode p : processNodeList)
+		{
+			// calculate rotational forces for phase 2 only
+			if (this.phaseNumber == 2)
+			{
+				p.calcRotationalForces();
+
+				this.properlyOrientedEdgeCount += p.properEdgeCount;
+				this.totalEdgeCountToBeOriented += (p.consumptionEdges.size()
+						+ p.productEdges.size() + p.effectorEdges.size());
+				this.successRatio = this.properlyOrientedEdgeCount
+						/ this.totalEdgeCountToBeOriented;
+			}
+			p.transferForces();
+
+			p.resetForces();
+			p.inputPort.resetForces();
+			p.outputPort.resetForces();
+
+		}
+
+		// each time, rotate one process that wants to rotate
+		if (this.totalIterations
+				% SbgnPDConstants.ROTATIONAL_FORCE_ITERATION_COUNT == 0
+				&& this.phaseNumber == 2)
+			rotateAProcess();
+
+		super.moveNodes();
+	}
+
+	private boolean hasApproximationPeriodReached()
+	{
+		if(this.totalIterations % 100 == SbgnPDConstants.APPROXIMATION_PERIOD)
+			return true;
+		else
+			return false;
+	}
+
+	private void rotateAProcess()
+	{
+		ArrayList<SbgnProcessNode> processNodesToBeRotated = new ArrayList<SbgnProcessNode>();
+
+		for (SbgnProcessNode p : this.processNodeList)
+		{
+			if (p.isRotationNecessary())
+				processNodesToBeRotated.add(p);
+		}
+
+		// random selection
+		if (processNodesToBeRotated.size() > 0)
+		{
+			int randomIndex = 0;
+
+			if (rotationRandomizationMethod == 0)
+			{
+				randomIndex = rouletteWheelSelection(processNodesToBeRotated);
+
+				if (randomIndex == -1)
+					System.out
+							.println("ERROR: no nodes have been selected for rotation");
+			}
+			else
+			{
+				randomIndex = (int) (Math.random() * processNodesToBeRotated
+						.size());
+			}
+
+			SbgnProcessNode p = processNodesToBeRotated.get(randomIndex);
+			p.applyRotation();
+		}
+
+		// // reset net rotational forces on all processes for next round
+		// not used because even if the amount is small, summing up the net
+		// force from prev iterations yield better results
+		// for (Object o : this.getAllNodes())
+		// {
+		// if (o instanceof SbgnProcessNode)
+		// ((SbgnProcessNode) o).netRotationalForce = 0;
+		// }
 	}
 
 	/**
-	 * This method finds all the single-edge neighbors of port nodes -except
-	 * rigid-edged node aka process node-. They are grouped as the nodes that
-	 * have a single edge and the nodes that have more than one edge.
+	 * This method iterates over the process nodes and checks if there exists
+	 * another orientation which maximizes the total number of properly edges.
+	 * If there is, the orientation is changed.
 	 */
-	private void approximateSingleNodesPositions()
+	private void finalEnhancement()
 	{
+		ArrayList<Orientation> orientationList;
+		double bestStepResult;
+		Orientation bestOrientation = null;
+		double stepAppropriateEdgeCnt = 0;
+		double totalProperEdges = 0;
+		double angle;
+
+		orientationList = new ArrayList<Orientation>();
+		orientationList.add(Orientation.LEFT_TO_RIGHT);
+		orientationList.add(Orientation.RIGHT_TO_LEFT);
+		orientationList.add(Orientation.TOP_TO_BOTTOM);
+		orientationList.add(Orientation.BOTTOM_TO_TOP);
+
+		for (SbgnProcessNode p : processNodeList)
+		{
+			bestStepResult = p.properEdgeCount;
+			bestOrientation = null;
+			ArrayList<Boolean> rememberPropList = new ArrayList<Boolean>();
+			ArrayList<Boolean> bestPropList = new ArrayList<Boolean>();
+
+			for (Orientation orient : orientationList)
+			{
+				stepAppropriateEdgeCnt = 0;
+
+				PointD inputPortTarget = p.findPortTargetPoint(true, orient);
+				PointD outputPortTarget = p.findPortTargetPoint(false, orient);
+
+				rememberPropList = new ArrayList<Boolean>();
+
+				for (SbgnPDEdge edge : p.consumptionEdges)
+				{
+					SbgnPDNode node = (SbgnPDNode) edge.getSource();
+					angle = IGeometry.calculateAngle(inputPortTarget,
+							p.inputPort.getCenter(), node.getCenter());
+					if (angle <= SbgnPDConstants.ANGLE_TOLERANCE)
+					{
+						stepAppropriateEdgeCnt++;
+						rememberPropList.add(true);
+					}
+					else
+						rememberPropList.add(false);
+				}
+
+				for (SbgnPDEdge edge : p.productEdges)
+				{
+					SbgnPDNode node = (SbgnPDNode) edge.getTarget();
+					angle = IGeometry.calculateAngle(outputPortTarget,
+							p.outputPort.getCenter(), node.getCenter());
+
+					if (angle <= SbgnPDConstants.ANGLE_TOLERANCE)
+					{
+						stepAppropriateEdgeCnt++;
+						rememberPropList.add(true);
+
+					}
+					else
+						rememberPropList.add(false);
+				}
+
+				for (SbgnPDEdge edge : p.effectorEdges)
+				{
+					SbgnPDNode node = (SbgnPDNode) edge.getSource();
+					angle = calcEffectorAngle(orient, p.getCenter(), node);
+
+					if (angle <= SbgnPDConstants.EFFECTOR_ANGLE_TOLERANCE)
+					{
+						stepAppropriateEdgeCnt++;
+						rememberPropList.add(true);
+
+					}
+					else
+						rememberPropList.add(false);
+				}
+
+				if (stepAppropriateEdgeCnt > bestStepResult)
+				{
+					bestStepResult = stepAppropriateEdgeCnt;
+					bestOrientation = orient;
+					bestPropList = rememberPropList;
+				}
+			}
+			totalProperEdges += bestStepResult;
+
+			// it means a better position has been found
+			if (bestStepResult > p.properEdgeCount)
+			{
+				p.setOrientation(bestOrientation);
+				p.properEdgeCount = bestStepResult;
+
+				// mark edges with best known configuration values
+				for (int i = 0; i < p.consumptionEdges.size(); i++)
+				{
+					p.consumptionEdges.get(i).isProperlyOriented = bestPropList
+							.get(i);
+				}
+				for (int i = 0; i < p.productEdges.size(); i++)
+				{
+					p.productEdges.get(i).isProperlyOriented = bestPropList
+							.get(i + p.consumptionEdges.size());
+				}
+				for (int i = 0; i < p.effectorEdges.size(); i++)
+				{
+					p.effectorEdges.get(i).isProperlyOriented = bestPropList
+							.get(i
+									+ (p.consumptionEdges.size() + p.productEdges
+											.size()));
+				}
+			}
+		}
+
+		this.properlyOrientedEdgeCount = totalProperEdges;
+		this.enhancedRatio = totalProperEdges / totalEdgeCountToBeOriented;
+		
+		for(SbgnProcessNode p : processNodeList)
+		{
+			totalEffCount += p.effectorEdges.size();
+		}
+	}
+
+	/**
+	 * If a process node has higher netRotationalForce, it has more chance to be
+	 * rotated
+	 */
+	private int rouletteWheelSelection(
+			ArrayList<SbgnProcessNode> processNodesToBeRotated)
+	{
+		double randomNumber = Math.random();
+		double[] fitnessValues = new double[processNodesToBeRotated.size()];
+		double totalSum = 0, sumOfProbabilities = 0;
+		int i = 0;
+
+		for (SbgnProcessNode p : processNodesToBeRotated)
+			totalSum += Math.abs(p.netRotationalForce);
+
+		// normalize all between 0..1
+		for (SbgnProcessNode p : processNodesToBeRotated)
+		{
+			fitnessValues[i] = sumOfProbabilities
+					+ (Math.abs(p.netRotationalForce) / totalSum);
+			sumOfProbabilities = fitnessValues[i];
+			i++;
+		}
+
+		if (randomNumber < fitnessValues[0])
+			return 0;
+		else
+		{
+			for (int j = 0; j < fitnessValues.length - 1; j++)
+			{
+				if (randomNumber >= fitnessValues[j]
+						&& randomNumber < fitnessValues[j + 1])
+					return j + 1;
+			}
+		}
+
+		return -1;
+	}
+
+	private double calcEffectorAngle(Orientation orient, PointD centerPt,
+			CoSENode eff)
+	{
+		double idealEdgeLength = this.idealEdgeLength;
+		PointD targetPnt = new PointD();
+		PointD centerPnt = centerPt;
+
+		// find target point
+		if (orient.equals(Orientation.LEFT_TO_RIGHT)
+				|| orient.equals(Orientation.RIGHT_TO_LEFT))
+		{
+			targetPnt.x = centerPnt.x;
+
+			if (eff.getCenterY() > centerPnt.y)
+				targetPnt.y = centerPnt.y + idealEdgeLength;
+			else
+				targetPnt.y = centerPnt.y - idealEdgeLength;
+		}
+		else if (orient.equals(Orientation.BOTTOM_TO_TOP)
+				|| orient.equals(Orientation.TOP_TO_BOTTOM))
+		{
+			targetPnt.y = centerPnt.y;
+
+			if (eff.getCenterX() > centerPnt.x)
+				targetPnt.x = centerPnt.x + idealEdgeLength;
+			else
+				targetPnt.x = centerPnt.x - idealEdgeLength;
+		}
+
+		double angle = IGeometry.calculateAngle(targetPnt, centerPnt,
+				eff.getCenter());
+
+		return angle;
+	}
+
+	/**
+	 * Recursively calculate if the node or its child nodes have any edges to
+	 * other nodes. Return the total number of edges.
+	 */
+	private int calcGraphDegree(SbgnPDNode parentNode)
+	{
+		int degree = 0;
+		if (parentNode.getChild() == null)
+		{
+			degree = parentNode.getEdges().size();
+			return degree;
+		}
+
+		for (Object o : parentNode.getChild().getNodes())
+		{
+			degree = degree + parentNode.getEdges().size()
+					+ calcGraphDegree((SbgnPDNode) o);
+		}
+
+		return degree;
+	}
+
+	private void recalcProperlyOrientedEdges(boolean isLastIteration)
+	{
+		this.properlyOrientedEdgeCount = 0.0;
+		this.totalEdgeCountToBeOriented = 0;
 		// get all process nodes
-		for (Object o : getAllNodes())
+		for (SbgnProcessNode p : processNodeList)
 		{
-			if (!(o instanceof SbgnProcessNode))
-				continue;
-
-			SbgnProcessNode processNode = (SbgnProcessNode) o;
-
-			applyApproximation(processNode.getInputPort());
-			applyApproximation(processNode.getOutputPort());
-			
-			applyEffectorApproximation(processNode);
+			p.calcProperlyOrientedEdges();
+			this.properlyOrientedEdgeCount += p.properEdgeCount;
+			this.totalEdgeCountToBeOriented += (p.consumptionEdges.size()
+					+ p.productEdges.size() + p.effectorEdges.size());
+			this.successRatio = this.properlyOrientedEdgeCount
+					/ this.totalEdgeCountToBeOriented;
 		}
 	}
 
 	/**
-	 * A process may have a number of effectors. Find the location of each effector. 
-	 * If the orientation of process node is vertical, effectors should be placed 
-	 * on the horizontal line using some randomness. (or vice versa)
+	 * This method finds all the zero degree nodes in the graph which are not
+	 * owned by a complex node. Zero degree nodes at each level are grouped
+	 * together and placed inside a dummy complex to reduce bounds of root
+	 * graph.
 	 */
-	private void applyEffectorApproximation(SbgnProcessNode process)
+	private void groupZeroDegreeMembers()
 	{
-		LinkedList<SbgnPDNode> effectorNodes = new LinkedList<SbgnPDNode>();
-		PointD newPoint = new PointD();
-		PointD approximationPnt = new PointD();
-		
-		// identify the effectors
-		for (Object o : process.getEdges())
+		Map<SbgnPDNode, LGraph> childComplexMap = new HashMap<SbgnPDNode, LGraph>();
+		for (Object graphObj : this.getGraphManager().getGraphs())
 		{
-			SbgnPDEdge edge = (SbgnPDEdge) o;
-			
-			if(edge.type.equals(SbgnPDConstants.CATALYSIS))
-				effectorNodes.add((SbgnPDNode) edge.getSource());
-		}
-		
-		for(SbgnPDNode eff : effectorNodes)
-		{
-			if (eff.getEdges().size() != 1)
+			ArrayList<SbgnPDNode> zeroDegreeNodes = new ArrayList<SbgnPDNode>();
+			LGraph ownerGraph = (LGraph) graphObj;
+
+			// do not process complex nodes (their members are already owned)
+			if (ownerGraph.getParent().type != null
+					&& ((SbgnPDNode) ownerGraph.getParent()).isComplex())
 				continue;
-			
-			// find target point
-			if (process.isHorizontal())
+
+			for (Object nodeObj : ownerGraph.getNodes())
 			{
-				approximationPnt.x = process.getCenterX();
+				SbgnPDNode node = (SbgnPDNode) nodeObj;
 
-				if(eff.getCenterY() > process.getCenterY())
-					approximationPnt.y = process.getCenterY() + this.idealEdgeLength;
-				else
-					approximationPnt.y = process.getCenterY() - this.idealEdgeLength;
+				if (calcGraphDegree(node) == 0)
+				{
+					zeroDegreeNodes.add(node);
+				}
 			}
-			else if (process.isVertical())
+
+			if (zeroDegreeNodes.size() > 1)
 			{
-				approximationPnt.y = process.getCenterY();
+				// create a new dummy complex
+				SbgnPDNode complex = (SbgnPDNode) newNode(null);
+				complex.type = SbgnPDConstants.COMPLEX;
+				complex.label = "DummyComplex_" + ownerGraph.getParent().label;
 
-				if(eff.getCenterX() > process.getCenterX())
-					approximationPnt.x = process.getCenterX() + this.idealEdgeLength;
-				else
-					approximationPnt.x = process.getCenterX() - this.idealEdgeLength;
+				ownerGraph.add(complex);
+
+				LGraph childGraph = newGraph(null);
+
+				for (SbgnPDNode zeroNode : zeroDegreeNodes)
+				{
+					ownerGraph.remove(zeroNode);
+					childGraph.add(zeroNode);
+				}
+				dummyComplexList.add(complex);
+				childComplexMap.put(complex, childGraph);
 			}
-			
-			// set target point in a circular area
-			newPoint.x = approximationPnt.x
-					+ (Math.random() * SbgnPDConstants.APPROXIMATION_DISTANCE * 2)
-					- SbgnPDConstants.APPROXIMATION_DISTANCE;
-			newPoint.y = approximationPnt.y
-					+ (Math.random() * SbgnPDConstants.APPROXIMATION_DISTANCE * 2)
-					- SbgnPDConstants.APPROXIMATION_DISTANCE;
-			
-			eff.setCenter(newPoint.x, newPoint.y);
-		}
-	}
-	
-	private void applyApproximation(SbgnPDNode port)
-	{
-		LinkedList<SbgnPDNode> oneEdgeNodes = new LinkedList<SbgnPDNode>();
-		LinkedList<SbgnPDNode> multiEdgeNodes = new LinkedList<SbgnPDNode>();
-		SbgnPDNode nodeOfInterest = null;
-		
-		// get all non-rigid edges of port node
-		for (Object e : port.getEdges())
-		{
-			SbgnPDEdge edge = (SbgnPDEdge) e;
-
-			if (edge.type.equals(SbgnPDConstants.RIGID_EDGE))
-				continue;
-		
-			// node if interest depends on the direction of the edge
-			if(port.type.equals(SbgnPDConstants.INPUT_PORT))
-				nodeOfInterest = (SbgnPDNode) edge.getSource();
-			else if (port.type.equals(SbgnPDConstants.OUTPUT_PORT))
-				nodeOfInterest = (SbgnPDNode) edge.getTarget();
-			
-			if (nodeOfInterest.getEdges().size() == 1)
-				oneEdgeNodes.add(nodeOfInterest);
-			else if (nodeOfInterest.getEdges().size() > 1)
-				multiEdgeNodes.add(nodeOfInterest);
 		}
 
-		// move
-		if (oneEdgeNodes.size() > 0)
-			moveOneEdgeNodes(oneEdgeNodes, multiEdgeNodes);
+		for (SbgnPDNode complex : dummyComplexList)
+			this.graphManager.add(childComplexMap.get(complex), complex);
+
+		this.getGraphManager().updateBounds();
+
+		this.graphManager.resetAllNodes();
+		this.graphManager.resetAllNodesToApplyGravitation();
+		this.graphManager.resetAllEdges();
+		this.calculateNodesToApplyGravitationTo();
 	}
 
 	/**
-	 * Single-edge nodes are moved around the average center point of a set of
-	 * node whose edge degree > 0. If all the neighbor nodes of a port node are
-	 * single-edged, one of them is chosen randomly and the others are placed
-	 * around it.
+	 * This method creates two port nodes and a compound for each process nodes
+	 * and adds them to graph.
 	 */
-	private void moveOneEdgeNodes(LinkedList<SbgnPDNode> oneEdgeNodes,
-			LinkedList<SbgnPDNode> multiEdgeNodes)
+	private void createPortNodes()
 	{
-		PointD approximationPnt = new PointD(0, 0);
-		int randomIndex = -1;
-		SbgnPDNode approximationNode = null;
-
-		// if there are more than one multi edge node, select the with max count
-		if (multiEdgeNodes.size() > 0)
+		for (Object o : this.getAllNodes())
 		{
-			approximationNode = multiEdgeNodes.get(0);
-			for(SbgnPDNode node : multiEdgeNodes)
+			SbgnPDNode originalProcessNode = (SbgnPDNode) o;
+
+			if (originalProcessNode.type.equals(SbgnPDConstants.PROCESS))
 			{
-				if(node.getEdges().size() > approximationNode.getEdges().size())
-					approximationNode = node;
+				LGraph ownerGraph = originalProcessNode.getOwner();
+
+				// create new nodes and graphs
+				SbgnProcessNode processNode = (SbgnProcessNode) newProcessNode(null);
+				SbgnPDNode inputPort = (SbgnPDNode) newPortNode(null,
+						SbgnPDConstants.INPUT_PORT);
+				SbgnPDNode outputPort = (SbgnPDNode) newPortNode(null,
+						SbgnPDConstants.OUTPUT_PORT);
+
+				// create a dummy compound
+				SbgnPDNode compoundNode = (SbgnPDNode) newNode(null);
+				compoundNode.type = SbgnPDConstants.DUMMY_COMPOUND;
+
+				// add labels
+				compoundNode.label = "DummyCompound_"
+						+ originalProcessNode.label;
+				inputPort.label = "InputPort_" + originalProcessNode.label;
+				outputPort.label = "OutputPort_" + originalProcessNode.label;
+
+				// create child graph (= 2port+process) to be set as child to
+				// dummy compound
+				LGraph childGraph = newGraph(null);
+				ownerGraph.add(processNode);
+
+				// convert the process node to SbgnProcessNode
+				processNode.copyFromSBGNPDNode(originalProcessNode,
+						this.getGraphManager());
+
+				processNode.connectNodes(compoundNode, inputPort, outputPort);
+
+				// create rigid edges, change edge connections
+				processNode.reconnectEdges(idealEdgeLength);
+
+				SbgnPDEdge rigidToProduction = (SbgnPDEdge) newRigidEdge(null);
+				rigidToProduction.label = ""
+						+ (this.graphManager.getAllEdges().length + 1);
+
+				SbgnPDEdge rigidToConsumption = (SbgnPDEdge) newRigidEdge(null);
+				rigidToConsumption.label = ""
+						+ (this.graphManager.getAllEdges().length + 2);
+
+				ownerGraph.remove(processNode);
+
+				// organize child graph
+				childGraph.add(processNode);
+				childGraph.add(inputPort);
+				childGraph.add(outputPort);
+				childGraph.add(rigidToProduction, inputPort, processNode);
+				childGraph.add(rigidToConsumption, outputPort, processNode);
+
+				// organize the compound node
+				compoundNode.setOwner(ownerGraph);
+				compoundNode.setCenter(processNode.getCenterX(),
+						processNode.getCenterY());
+				ownerGraph.add(compoundNode);
+				this.graphManager.add(childGraph, compoundNode);
+
+				// remove the original process node
+				ownerGraph.remove(originalProcessNode);
+
+				this.processNodeList.add(processNode);
+				this.graphManager.updateBounds();
 			}
-			
-			approximationPnt.x = approximationNode.getCenterX();
-			approximationPnt.y = approximationNode.getCenterY();
-		}
-		
-		// if there are no multi edge nodes, randomly select one
-		else if (multiEdgeNodes.size() == 0)
-		{
-			randomIndex = (int) (Math.random() * oneEdgeNodes.size());
-			approximationNode = oneEdgeNodes.get(randomIndex);
-			approximationPnt.x = approximationNode.getCenterX();
-			approximationPnt.y = approximationNode.getCenterY();
 		}
 
-		// approximate the location of remaining nodes
-		for (SbgnPDNode s : oneEdgeNodes)
-		{
-			if (approximationNode.getOwner() != s.getOwner())
-				continue;
+		// reset the topology
+		this.graphManager.resetAllNodes();
+		this.graphManager.resetAllNodesToApplyGravitation();
+		this.graphManager.resetAllEdges();
 
-			PointD newPoint = new PointD();
-			newPoint.x = approximationPnt.x
-					+ (Math.random() * SbgnPDConstants.APPROXIMATION_DISTANCE * 2)
-					- SbgnPDConstants.APPROXIMATION_DISTANCE;
-			newPoint.y = approximationPnt.y
-					+ (Math.random() * SbgnPDConstants.APPROXIMATION_DISTANCE * 2)
-					- SbgnPDConstants.APPROXIMATION_DISTANCE;
-
-			s.setCenter(newPoint.x, newPoint.y);
-		}
+		this.calculateNodesToApplyGravitationTo();
 	}
 
 	/**
-	 * This method is used to remove the dummy compounds from the graph.
+	 * This method checks whether there exists any process nodes in the graph.
+	 * If there exist any process nodes it is assumed that the given graph
+	 * respects our structure.
+	 * 
+	 * Most likely: this method does not work properly. Never had any input to
+	 * test. Not complete.
+	 */
+	private boolean arePortNodesCreated()
+	{
+		boolean flag = false;
+
+		// if there are any process nodes, check for port nodes
+		for (Object o : this.getAllNodes())
+		{
+			SbgnPDNode s = (SbgnPDNode) o;
+			if (s.type.equals(SbgnPDConstants.PROCESS))
+			{
+				flag = true;
+				break;
+			}
+		}
+
+		// if there are no process nodes, no need to check for port nodes
+		if (!flag)
+			return true;
+
+		else
+		{
+			// check for the port nodes. if any found, return true.
+			for (Object o : this.getAllNodes())
+			{
+				if (((SbgnPDNode) o).type.equals(SbgnPDConstants.INPUT_PORT)
+						|| ((SbgnPDNode) o).type
+								.equals(SbgnPDConstants.OUTPUT_PORT))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * This method is used to remove the dummy compounds (previously created for
+	 * each process node) from the graph.
 	 */
 	private void removeDummyCompounds()
 	{
-		for (Object o : getAllNodes())
+		for (SbgnProcessNode processNode : this.processNodeList)
 		{
-			SbgnPDNode node = (SbgnPDNode) o;
+			SbgnPDNode dummyNode = processNode.parentCompound;
+			LGraph childGraph = dummyNode.getChild();
+			LGraph owner = dummyNode.getOwner();
 
-			if (node.isDummyCompound)
+			// add children to original parent
+			for (Object s : childGraph.getNodes())
+				owner.add((SbgnPDNode) s);
+			for (Object e : childGraph.getEdges())
 			{
-				LGraph childGraph = node.getChild();
-				LGraph owner = node.getOwner();
-
-
-				// add children to original parent
-				for (Object s : childGraph.getNodes())
-					owner.add((SbgnPDNode) s);
-				for (Object e : childGraph.getEdges())
-				{
-					SbgnPDEdge edge = (SbgnPDEdge) e;
-					owner.add(edge, edge.getSource(), edge.getTarget());
-				}
-
-				// remove the graph
-				getGraphManager().getGraphs().remove(childGraph);
-				node.setChild(null);
-				owner.remove(node);
+				SbgnPDEdge edge = (SbgnPDEdge) e;
+//				childGraph.remove(edge);
+				owner.add(edge, edge.getSource(), edge.getTarget());
 			}
+
+			// add effectors / remaining edges back to the process
+			for (int i = 0; i < dummyNode.getEdges().size(); i++)
+			{
+				SbgnPDEdge edge = (SbgnPDEdge) dummyNode.getEdges().get(i);
+				dummyNode.getEdges().remove(edge);
+
+				edge.setTarget(processNode);
+				processNode.getEdges().add(edge);
+				i--;
+			}
+
+			// remove the graph
+			getGraphManager().getGraphs().remove(childGraph);
+			dummyNode.setChild(null);
+			owner.remove(dummyNode);
+
 		}
-		
+
 		getGraphManager().resetAllNodes();
 		getGraphManager().resetAllNodesToApplyGravitation();
 		getGraphManager().resetAllEdges();
 		this.calculateNodesToApplyGravitationTo();
-
 	}
 
-	// ************************** TILING METHODS **************************
+	// ********************* SECTION : TILING METHODS *********************
+
+	private void clearComplex(SbgnPDNode comp)
+	{
+		MemberPack pack = null;
+		LGraph childGr = comp.getChild();
+		childGraphMap.put(comp, childGr);
+
+		if (childGr == null)
+			return;
+
+		if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
+		{
+			applyPolyomino(comp);
+		}
+		else if (compactionMethod == DefaultCompactionAlgorithm.TILING)
+		{
+			pack = new MemberPack(childGr);
+			memberPackMap.put(comp, pack);
+		}
+
+		if (dummyComplexList.contains(comp))
+		{
+			for (Object o : comp.getChild().getNodes())
+			{
+				clearDummyComplexGraphs((SbgnPDNode) o);
+			}
+		}
+
+		getGraphManager().getGraphs().remove(childGr);
+		comp.setChild(null);
+
+		if (compactionMethod == DefaultCompactionAlgorithm.TILING)
+		{
+			comp.setWidth(pack.getWidth());
+			comp.setHeight(pack.getHeight());
+		}
+
+		// Redirect the edges of complex members to the complex.
+		if (childGr != null)
+		{
+			for (Object ch : childGr.getNodes())
+			{
+				SbgnPDNode chNd = (SbgnPDNode) ch;
+
+				for (Object obj : new ArrayList(chNd.getEdges()))
+				{
+					LEdge edge = (LEdge) obj;
+					if (edge.getSource() == chNd)
+					{
+						chNd.getEdges().remove(edge);
+						edge.setSource(comp);
+						comp.getEdges().add(edge);
+					}
+					else if (edge.getTarget() == chNd)
+					{
+						chNd.getEdges().remove(edge);
+						edge.setTarget(comp);
+						comp.getEdges().add(edge);
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * This method searched unmarked complex nodes recursively, because they may
@@ -494,179 +935,6 @@ public class SbgnPDLayout extends CoSELayout
 	}
 
 	/**
-	 * This method finds all the zero degree nodes in the graph which are not
-	 * owned by a complex node. Zero degree nodes are grouped wrt their parents
-	 * and each group is placed inside a complex.
-	 */
-	private void groupZeroDegreeMembers()
-	{
-		Map <SbgnPDNode, LGraph> childComplexMap = new HashMap<SbgnPDNode, LGraph>();
-		for (Object graphObj : this.getGraphManager().getGraphs())
-		{
-			ArrayList<SbgnPDNode> zeroDegreeNodes = new ArrayList<SbgnPDNode>();
-			LGraph ownerGraph = (LGraph) graphObj;
-
-			// do not process complex nodes
-			if (ownerGraph.getParent().type != null
-					&& ((SbgnPDNode) ownerGraph.getParent()).isComplex())
-				continue;
-
-			for (Object nodeObj : ownerGraph.getNodes())
-			{
-				SbgnPDNode node = (SbgnPDNode) nodeObj;
-
-				if (calcGraphDegree(node) == 0)
-				{
-					zeroDegreeNodes.add(node);
-				}
-			}
-
-			if (zeroDegreeNodes.size() > 1)
-			{
-				// create a new dummy complex
-				SbgnPDNode complex = (SbgnPDNode) newNode(null);
-				complex.type = SbgnPDConstants.COMPLEX;
-				complex.label = "DummyComplex_" + ownerGraph.getParent().label;
-
-				ownerGraph.add(complex);
-
-				LGraph childGraph = newGraph(null);
-
-				for (SbgnPDNode zeroNode : zeroDegreeNodes)
-				{
-					ownerGraph.remove(zeroNode);
-					childGraph.add(zeroNode);
-				}
-				dummyComplexList.add(complex);
-				childComplexMap.put(complex, childGraph);
-			}
-		}
-
-		for (SbgnPDNode complex : dummyComplexList)
-			this.graphManager.add(childComplexMap.get(complex), complex);
-
-		this.getGraphManager().updateBounds();
-
-		this.graphManager.resetAllNodes();
-		this.graphManager.resetAllNodesToApplyGravitation();
-		this.graphManager.resetAllEdges();
-		this.calculateNodesToApplyGravitationTo();
-
-	}
-
-	private int calcGraphDegree(SbgnPDNode parentNode)
-	{
-		int degree = 0;
-		if (parentNode.getChild() == null)
-		{
-			degree = parentNode.getEdges().size();
-			return degree;
-		}
-
-		for (Object o : parentNode.getChild().getNodes())
-		{
-			degree = degree + parentNode.getEdges().size()
-					+ calcGraphDegree((SbgnPDNode) o);
-		}
-
-		return degree;
-	}
-
-	/**
-	 * This method applies polyomino packing on the child graph of a complex
-	 * member and then..
-	 * 
-	 * @param comp
-	 */
-	private void clearComplex(SbgnPDNode comp)
-	{
-		MemberPack pack = null;
-		LGraph childGr = comp.getChild();
-		childGraphMap.put(comp, childGr);
-
-		if (childGr == null)
-			return;
-
-		if (compactionMethod == DefaultCompactionAlgorithm.POLYOMINO_PACKING)
-		{
-			applyPolyomino(comp);
-		}
-		else if (compactionMethod == DefaultCompactionAlgorithm.TILING)
-		{
-			pack = new MemberPack(childGr);
-			memberPackMap.put(comp, pack);
-		}
-
-		if (dummyComplexList.contains(comp))
-		{
-			for (Object o : comp.getChild().getNodes())
-			{
-				removeDummyComplexGraphs((SbgnPDNode) o);
-			}
-		}
-
-		getGraphManager().getGraphs().remove(childGr);
-		comp.setChild(null);
-
-		if (compactionMethod == DefaultCompactionAlgorithm.TILING)
-		{
-			comp.setWidth(pack.getWidth());
-			comp.setHeight(pack.getHeight());
-		}
-
-		// Redirect the edges of complex members to the complex.
-		if (childGr != null)
-		{
-			for (Object ch : childGr.getNodes())
-			{
-				SbgnPDNode chNd = (SbgnPDNode) ch;
-
-				for (Object obj : new ArrayList(chNd.getEdges()))
-				{
-					LEdge edge = (LEdge) obj;
-					if (edge.getSource() == chNd)
-					{
-						chNd.getEdges().remove(edge);
-						edge.setSource(comp);
-						comp.getEdges().add(edge);
-					}
-					else if (edge.getTarget() == chNd)
-					{
-						chNd.getEdges().remove(edge);
-						edge.setTarget(comp);
-						comp.getEdges().add(edge);
-					}
-				}
-			}
-		}
-	}
-
-	private void removeDummyComplexGraphs(SbgnPDNode comp)
-	{
-		if (comp.getChild() == null || comp.isDummyCompound)
-		{
-			return;
-		}
-		for (Object o : comp.getChild().getNodes())
-		{
-			SbgnPDNode childNode = (SbgnPDNode) o;
-			if (childNode.getChild() != null
-					&& childNode.getEdges().size() == 0)
-				removeDummyComplexGraphs(childNode);
-		}
-		if (this.graphManager.getGraphs().contains(comp.getChild()))
-		{
-			if (calcGraphDegree(comp) == 0)
-			{
-				removedDummyComplexMap.put(comp, comp.getChild());
-
-				this.getGraphManager().getGraphs().remove(comp.getChild());
-				comp.setChild(null);
-			}
-		}
-	}
-
-	/**
 	 * This method tiles the given list of nodes by using polyomino packing
 	 * algorithm.
 	 */
@@ -714,9 +982,9 @@ public class SbgnPDLayout extends CoSELayout
 	 */
 	protected void repopulateComplexes()
 	{
-		for (SbgnPDNode comp : removedDummyComplexMap.keySet())
+		for (SbgnPDNode comp : emptiedDummyComplexMap.keySet())
 		{
-			LGraph chGr = removedDummyComplexMap.get(comp);
+			LGraph chGr = emptiedDummyComplexMap.get(comp);
 			comp.setChild(chGr);
 			this.getGraphManager().getGraphs().add(chGr);
 		}
@@ -747,9 +1015,9 @@ public class SbgnPDLayout extends CoSELayout
 				}
 			}
 		}
-		for (SbgnPDNode comp : removedDummyComplexMap.keySet())
+		for (SbgnPDNode comp : emptiedDummyComplexMap.keySet())
 		{
-			LGraph chGr = removedDummyComplexMap.get(comp);
+			LGraph chGr = emptiedDummyComplexMap.get(comp);
 
 			adjustLocation(comp, chGr);
 		}
@@ -764,6 +1032,10 @@ public class SbgnPDLayout extends CoSELayout
 
 	}
 
+	/**
+	 * Adjust locations of children of given complex wrt. the location of the
+	 * complex
+	 */
 	private void adjustLocation(SbgnPDNode comp, LGraph chGr)
 	{
 		RectangleD rect = calculateBounds(false,
@@ -771,24 +1043,53 @@ public class SbgnPDLayout extends CoSELayout
 
 		int differenceX = (int) (rect.x - comp.getLeft());
 		int differenceY = (int) (rect.y - comp.getTop());
-		
+
 		// if the parent graph is a compound, add compound margins
-		if(!comp.type.equals(SbgnPDConstants.COMPLEX))
-		{			
+		if (!comp.type.equals(SbgnPDConstants.COMPLEX))
+		{
 			differenceX -= LayoutConstants.COMPOUND_NODE_MARGIN;
-			differenceY -= LayoutConstants.COMPOUND_NODE_MARGIN;		
+			differenceY -= LayoutConstants.COMPOUND_NODE_MARGIN;
 		}
-		
+
 		for (int j = 0; j < chGr.getNodes().size(); j++)
 		{
 			SbgnPDNode s = (SbgnPDNode) chGr.getNodes().get(j);
-						
+
 			s.setLocation(s.getLeft() - differenceX
 					+ SbgnPDConstants.COMPLEX_MEM_HORIZONTAL_BUFFER, s.getTop()
 					- differenceY + SbgnPDConstants.COMPLEX_MEM_VERTICAL_BUFFER);
 
 			if (s.getChild() != null)
 				adjustLocation(s, s.getChild());
+		}
+	}
+
+	/**
+	 * Recursively removes all dummy complex nodes (previously created to tile
+	 * group degree-zero nodes) from the graph.
+	 */
+	private void clearDummyComplexGraphs(SbgnPDNode comp)
+	{
+		if (comp.getChild() == null || comp.isDummyCompound)
+		{
+			return;
+		}
+		for (Object o : comp.getChild().getNodes())
+		{
+			SbgnPDNode childNode = (SbgnPDNode) o;
+			if (childNode.getChild() != null
+					&& childNode.getEdges().size() == 0)
+				clearDummyComplexGraphs(childNode);
+		}
+		if (this.graphManager.getGraphs().contains(comp.getChild()))
+		{
+			if (calcGraphDegree(comp) == 0)
+			{
+				emptiedDummyComplexMap.put(comp, comp.getChild());
+
+				this.getGraphManager().getGraphs().remove(comp.getChild());
+				comp.setChild(null);
+			}
 		}
 	}
 
@@ -872,7 +1173,6 @@ public class SbgnPDLayout extends CoSELayout
 	/**
 	 * calculates usedArea/totalArea inside the complexes and prints them out.
 	 */
-	@SuppressWarnings("unused")
 	protected void calculateFullnessOfComplexes()
 	{
 		SbgnPDNode largestComplex = null;
@@ -1014,152 +1314,6 @@ public class SbgnPDLayout extends CoSELayout
 		return true;
 	}
 
-	/**
-	 * This method creates two port nodes and a compound for each process nodes
-	 * and adds them to graph.
-	 */
-	private void createPortNodes()
-	{
-		for (Object o : this.getAllNodes())
-		{
-			SbgnPDNode originalProcessNode = (SbgnPDNode) o;
-			
-			if (originalProcessNode.type.equals(SbgnPDConstants.PROCESS))
-			{
-				LGraph ownerGraph = originalProcessNode.getOwner();
-
-				// create new nodes and graphs
-				SbgnProcessNode processNode = (SbgnProcessNode) newProcessNode(null);
-				SbgnPDNode inputPort = (SbgnPDNode) newPortNode(null,
-						SbgnPDConstants.INPUT_PORT);
-				SbgnPDNode outputPort = (SbgnPDNode) newPortNode(null,
-						SbgnPDConstants.OUTPUT_PORT);
-				
-				// create a dummy compound
-				SbgnPDNode compoundNode = (SbgnPDNode) newNode(null);
-				compoundNode.type = SbgnPDConstants.DUMMY_COMPOUND;
-
-				// add labels
-				compoundNode.label = "DummyCompound_" + originalProcessNode.label;
-				inputPort.label = "InputPort_" + originalProcessNode.label;
-				outputPort.label = "OutputPort_" + originalProcessNode.label;
-
-				// create child graph (= 2port+process) to be set as child to dummy compound
-				LGraph childGraph = newGraph(null);
-				ownerGraph.add(processNode);
-				
-				// convert the process node to SbgnProcessNode
-				processNode.copyFromSBGNPDNode(originalProcessNode, this.getGraphManager());
-				processNode.setConnectedNodes(compoundNode, inputPort,
-						outputPort);
-
-				// create rigid edges, change edge connections
-				connectEdges(inputPort, outputPort, processNode);
-
-				SbgnPDEdge rigidToProduction = (SbgnPDEdge) newRigidEdge(null);
-				rigidToProduction.label = "" + (this.graphManager.getAllEdges().length + 1);
-
-				SbgnPDEdge rigidToConsumption = (SbgnPDEdge) newRigidEdge(null);
-				rigidToConsumption.label = "" + (this.graphManager.getAllEdges().length + 2);
-
-				ownerGraph.remove(processNode);
-				
-				// organize child graph 
-				childGraph.add(processNode);
-				childGraph.add(inputPort);
-				childGraph.add(outputPort);
-				childGraph.add(rigidToProduction, inputPort, processNode);
-				childGraph.add(rigidToConsumption, outputPort, processNode);
-
-				// organize the compound node
-				compoundNode.setOwner(ownerGraph);
-				compoundNode.setCenter(processNode.getCenterX(), processNode.getCenterY());
-				ownerGraph.add(compoundNode);
-				this.graphManager.add(childGraph, compoundNode);
-
-				// remove the original process node
-				ownerGraph.remove(originalProcessNode);
-
-				this.graphManager.updateBounds();
-			}
-		}
-
-		// reset the topology
-		this.graphManager.resetAllNodes();
-		this.graphManager.resetAllNodesToApplyGravitation();
-		this.graphManager.resetAllEdges();
-		
-		this.calculateNodesToApplyGravitationTo();
-	}
-
-
-	/**
-	 * Connect the port node to its process node (parent) and connect the edges
-	 * of neighbor nodes to the port node by considering their types (for both
-	 * input port and output port)
-	 */
-	public void connectEdges(SbgnPDNode inputPort, SbgnPDNode outputPort,
-			SbgnProcessNode processNode)
-	{
-		// change connections from process node&neighbors to port&neighbors.
-		for (int i = 0; i < processNode.getEdges().size(); i++)
-		{
-			SbgnPDEdge sEdge = (SbgnPDEdge) processNode.getEdges().get(i);
-
-			processNode.getEdges().remove(sEdge);
-			if (sEdge.type.equals(SbgnPDConstants.CONSUMPTION))
-			{
-				sEdge.setTarget(inputPort);
-				inputPort.getEdges().add(sEdge);
-			}
-			else if (sEdge.type.equals(SbgnPDConstants.PRODUCTION))
-			{
-				sEdge.setSource(outputPort);
-				outputPort.getEdges().add(sEdge);
-			}
-
-			i--;
-		}
-	}
-
-	/**
-	 * This method checks whether there exists any process nodes in the graph.
-	 * If there exist any process nodes it is assumed that the given graph respects
-	 * our structure.
-	 */
-	private boolean arePortNodesCreated()
-	{
-		boolean flag = false;
-
-		// if there are any process nodes, check for port nodes
-		for (Object o : this.getAllNodes())
-		{
-			SbgnPDNode s = (SbgnPDNode) o;
-			if (s.type.equals(SbgnPDConstants.PROCESS))
-			{
-				flag = true;
-				break;
-			}
-		}
-
-		// if there are no process nodes, no need to check for port nodes
-		if (!flag)
-			return true;
-
-		else
-		{
-			// check for the port nodes. if any found, return true.
-			for (Object o : this.getAllNodes())
-			{
-				if (((SbgnPDNode) o).type.equals(SbgnPDConstants.INPUT_PORT)
-						|| ((SbgnPDNode) o).type
-								.equals(SbgnPDConstants.OUTPUT_PORT))
-					return true;
-			}
-		}
-		return false;
-	}
-	
 	@Override
 	/**
 	 * This method calculates the spring forces for the ends of each node.
@@ -1345,70 +1499,6 @@ public class SbgnPDLayout extends CoSELayout
 		}
 	}
 
-	@Override
-	public void moveNodes()
-	{
-		ArrayList<SbgnProcessNode> processNodesToBeRotated = new ArrayList<SbgnProcessNode>();
-		properlyOrientedEdgeCount = 0;
-		totalEdgeCount = 0;
-
-		// compound and two dummy nodes (input/output ports)
-		SbgnPDNode c;
-		SbgnPDNode d1;
-		SbgnPDNode d2;
-
-		for (Object o : this.getAllNodes())
-		{
-			if (o instanceof SbgnProcessNode)
-			{
-				SbgnProcessNode p = (SbgnProcessNode) o;
-				c = p.parentCompound;
-				d1 = p.getInputPort();
-				d2 = p.getOutputPort();
-
-				properlyOrientedEdgeCount += p
-						.calculateRotationalForces(idealEdgeLength);
-				totalEdgeCount += (p.inputNeighborNodeList.size() + p.outputNeighborNodeList
-						.size());
-				p.transferForces();
-
-				p.resetForces();
-				d1.resetForces();
-				d2.resetForces();
-			}
-		}
-
-		// each time, try to rotate one process compound that wants to rotate
-		if (this.totalIterations
-				% SbgnPDConstants.ROTATIONAL_FORCE_ITERATION_COUNT == 0
-				&& this.phaseNumber == 2)
-		{
-			boolean rotationAvailability = false;
-
-			for (Object o : this.getAllNodes())
-			{
-				if (o instanceof SbgnProcessNode)
-				{
-					rotationAvailability = ((SbgnProcessNode) o)
-							.checkRotationAvailability();
-
-					if (rotationAvailability)
-						processNodesToBeRotated.add((SbgnProcessNode) o);
-				}
-			}
-
-			if (processNodesToBeRotated.size() > 0)
-			{
-				int randomNumber = (int) (Math.random() * processNodesToBeRotated
-						.size());
-				SbgnProcessNode p = processNodesToBeRotated.get(randomNumber);
-				p.applyRotation();
-			}
-		}
-
-		super.moveNodes();
-	}
-	
 	/**
 	 * This method creates a port node with the associated type (input/output
 	 * port)

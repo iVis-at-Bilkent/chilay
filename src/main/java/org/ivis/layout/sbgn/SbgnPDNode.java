@@ -9,11 +9,7 @@ import org.ivis.layout.LGraph;
 import org.ivis.layout.LGraphManager;
 import org.ivis.layout.LNode;
 import org.ivis.layout.LayoutConstants;
-import org.ivis.layout.cose.CoSELayout;
 import org.ivis.layout.cose.CoSENode;
-import org.ivis.layout.fd.FDLayoutConstants;
-import org.ivis.layout.sbgn.SbgnProcessNode.Orientation;
-import org.ivis.util.IMath;
 import org.ivis.util.PointD;
 
 /**
@@ -82,6 +78,18 @@ public class SbgnPDNode extends CoSENode
 	{
 		return type.equalsIgnoreCase(SbgnPDConstants.COMPLEX);
 	}
+	
+	public boolean isInputPort()
+	{
+		return type.equalsIgnoreCase(SbgnPDConstants.INPUT_PORT);
+	}
+	
+	public boolean isOutputPort()
+	{
+		return type.equalsIgnoreCase(SbgnPDConstants.OUTPUT_PORT);
+	}
+	
+		
 
 	/**
 	 * This method checks if the given node contains any unmarked complex nodes

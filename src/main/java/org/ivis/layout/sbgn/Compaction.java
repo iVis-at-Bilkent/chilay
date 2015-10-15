@@ -2,8 +2,6 @@ package org.ivis.layout.sbgn;
 
 import java.util.ArrayList;
 
-import org.ivis.util.RectangleD;
-
 /**
  * This class is used to apply compaction on a graph. First a visibility graph
  * is constructed from the given set of nodes. Since visibility graphs are
