@@ -957,6 +957,7 @@ abstract public class IGeometry
 		System.out.println("Clip Point of RectA X:" + clipPoints[0] + " Y: " + clipPoints[1]);
 		System.out.println("Clip Point of RectB X:" + clipPoints[2] + " Y: " + clipPoints[3]);	
 	}
+<<<<<<< HEAD
 	/**
 	 * This method takes two line segments (two points for each line) 
 	 * and calculates their intersection. If they do not intersect 
@@ -1310,6 +1311,30 @@ abstract public class IGeometry
 		System.out.println("[0]:"+result[0]+" [1]:"+result[1] +" [2]:"+result[2]+ " [3]:"+result[3]);
 	}
 	
+	// ****** Following method is used in SBGN-PD Layout *******
+	/**
+	 * Calculates the angle between 3 points in given order. Returns its
+	 * absolute value.
+	 */
+	public static double calculateAngle(PointD targetPnt, PointD centerPnt,
+			PointD node)
+	{
+
+		PointD point1 = new PointD(targetPnt.x - centerPnt.x, targetPnt.y
+				- centerPnt.y);
+		PointD point2 = new PointD(node.x - centerPnt.x, node.y - centerPnt.y);
+
+		if (Math.abs(point1.x) < 0)
+			point1.x = 0.0001;
+		if (Math.abs(point1.y) < 0)
+			point1.y = 0.0001;
+
+		double angleValue = (point1.x * point2.x + point1.y * point2.y)
+				/ (Math.sqrt(point1.x * point1.x + point1.y * point1.y) * Math
+						.sqrt(point2.x * point2.x + point2.y * point2.y));
+
+		return Math.abs(Math.toDegrees(Math.acos(angleValue)));
+	}
 	
 	/*
 	 * Main method for testing purposes.

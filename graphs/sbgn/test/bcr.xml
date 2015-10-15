@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><view><node id="http___purl.org_pc2_4_Protein_44268e210355e0a3605005fe78069705">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1387.7" y="2466.95"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_342b6e36a507ac9e0896314d8b01ca51LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1841.95" y="967.05"/>
+</node><node id="http___purl.org_pc2_4_Transport_50236ddb598cac3793c88e169b2bb172LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1794.4" y="2255.75"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_e08825de255d29e4a91f158e2e1c5c0cLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1202.9" y="2253.1"/>
+</node><node id="http___purl.org_pc2_4_Protein_7ea863795aeaf569bc5833c0265ca17c">
+  <type value="macromolecule"/>
+  <bounds height="20" width="63" x="1308.65" y="2390.8"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_fb1fd82809693ea3052b875c2da68ce2LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1878.1" y="1688.35"/>
+</node><node id="http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+  <type value="complex"/>
+  <bounds height="177" width="143" x="898.25" y="2342.75"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_571a0e229dc45ff8666c952adcc75194_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="115" x="900.25" y="2346.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_3173812d030baab0df074c5157a5ccd4_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="900.25" y="2378.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="953.25" y="2499.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_344585cf9d6b66e58ee1c987b8e4f427_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="900.25" y="2474.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_55e67662f476bf641f588e0e69fffac0_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="900.25" y="2442.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="900.25" y="2499.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_21d470f1698081de58b26ef220d9d4bd_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="953.25" y="2442.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_c233f04c62f98cf00bccd0aeecddbd38_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="953.25" y="2474.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="991.25" y="2410.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_f5f48ba67047840774eda7decddb59ad_http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="900.25" y="2410.75"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Complex_2406df7951cd4e73d239d2036c5b9f13">
+  <type value="complex"/>
+  <bounds height="74" width="52" x="1560.8" y="2268.45"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_2406df7951cd4e73d239d2036c5b9f13">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1562.8" y="2295.45"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_2406df7951cd4e73d239d2036c5b9f13">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1562.8" y="2270.45"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_2406df7951cd4e73d239d2036c5b9f13">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1562.8" y="2320.45"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_16a483d8d3b8f058be488e712f17b108">
+  <type value="macromolecule"/>
+  <bounds height="20" width="86" x="1363.95" y="2339.15"/>
+</node><node id="http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558">
+  <type value="complex"/>
+  <bounds height="113" width="119" x="1420.5" y="2169.95"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1475.5" y="2262.95"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1422.5" y="2262.95"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_c233f04c62f98cf00bccd0aeecddbd38_http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1422.5" y="2237.95"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_571a0e229dc45ff8666c952adcc75194_http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558">
+      <type value="macromolecule"/>
+      <bounds height="20" width="115" x="1422.5" y="2173.95"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1475.5" y="2237.95"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_f5f48ba67047840774eda7decddb59ad_http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="1422.5" y="2205.95"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_9fa0f9b8e44beb0aed888eb456029f7aLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1352.3" y="2450.2"/>
+</node><node id="http___purl.org_pc2_4_Protein_2e59835372dbc23bede1fc8d87e8b5e5">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1205.3" y="2425.4"/>
+</node><node id="http___purl.org_pc2_4_Protein_b4d1bce70f54487130d2b3c560a8e315">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="781" y="2370.7"/>
+</node><node id="http___purl.org_pc2_4_Protein_f5a7121874c4578de16a9da29c8b190c">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1709.65" y="2330.55"/>
+</node><node id="http___purl.org_pc2_4_Protein_5a48d392cc31a3cb31c6f9c6d1a8470a">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1784" y="2045.0500000000002"/>
+</node><node id="http___purl.org_pc2_4_Protein_9921680c6a3602594c6b05b47d7ca88d">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1489.1" y="2439"/>
+</node><node id="http___purl.org_pc2_4_Transport_97bf51a116eb5ecd61475474a7cdb502LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1447.7" y="1732.35"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_8a9134e50e4d5062668e11001206ac77LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1416.6" y="2395.65"/>
+</node><node id="http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+  <type value="complex"/>
+  <bounds height="152" width="143" x="1357.3" y="2090.4"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1450.3" y="2158.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_21d470f1698081de58b26ef220d9d4bd_http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1359.3" y="2190.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_3173812d030baab0df074c5157a5ccd4_http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="1359.3" y="2126.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_344585cf9d6b66e58ee1c987b8e4f427_http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1412.3" y="2190.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_c233f04c62f98cf00bccd0aeecddbd38_http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1359.3" y="2222.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1450.3" y="2126.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1412.3" y="2222.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_f5f48ba67047840774eda7decddb59ad_http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="1359.3" y="2158.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_571a0e229dc45ff8666c952adcc75194_http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="115" x="1359.3" y="2094.4"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_135a3f3fb58666160861fd2e2a1ea7e4LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1182.2" y="2324.4"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_30cdb49b309a925a71a4304dfd37838eLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1483.4" y="2322.45"/>
+</node><node id="SAS_For_http___purl.org_pc2_4_TemplateReaction_cf2541a2a4ba96c00aff08f71ae93297">
+  <type value="source and sink"/>
+  <bounds height="15" width="15" x="458.8" y="1880.2"/>
+</node><node id="http___purl.org_pc2_4_SmallMolecule_deef891c64149284356b3290fa608c50">
+  <type value="simple chemical"/>
+  <bounds height="20" width="48" x="1669" y="2385.3"/>
+</node><node id="http___purl.org_pc2_4_Protein_37497291b4004d9668493ebe79fb962f">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="790.15" y="2427.9"/>
+</node><node id="http___purl.org_pc2_4_Protein_8374d16dad968755022b8f972d8bce46">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1222.45" y="2456.3"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_a6edaa127db1af20d2065956d3367cceLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1724.85" y="2274.4"/>
+</node><node id="http___purl.org_pc2_4_Protein_5c19cf1730207ccba186d7998a76dc7f">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1932.6" y="2002.95"/>
+</node><node id="http___purl.org_pc2_4_Protein_13eee74f533cd180cd0c7d25a61dba52">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1328.4" y="2422.75"/>
+</node><node id="http___purl.org_pc2_4_Protein_c90068f262153b30788b27541d169e05">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="834.6" y="2332.95"/>
+</node><node id="http___purl.org_pc2_4_Protein_a88f00cb21479cb084b89c534e32c329">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1409.15" y="2383.65"/>
+</node><node id="http___purl.org_pc2_4_Protein_b57d567b6b80486b9ed31920c6ffca2d">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1152.9" y="2389.85"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_1c04e80fc681a5b0408874a79f42cfaaLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1165.05" y="2474.55"/>
+</node><node id="http___purl.org_pc2_4_Protein_ae68afd515aeab5bb28998352f4ed73e">
+  <type value="macromolecule"/>
+  <bounds height="20" width="86" x="589.3" y="2436.65"/>
+</node><node id="http___purl.org_pc2_4_Protein_030bae1c5ee9f799b3a729aef63a6c4c">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1476.95" y="2281.65"/>
+</node><node id="http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127">
+  <type value="complex"/>
+  <bounds height="106" width="105" x="1323.2" y="2191.55"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1325.2" y="2277.55"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1325.2" y="2252.55"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_f5f48ba67047840774eda7decddb59ad_http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="1325.2" y="2195.55"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1378.2" y="2227.55"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_c233f04c62f98cf00bccd0aeecddbd38_http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1325.2" y="2227.55"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_3e088bde17db75a589d9fd2a5ee0a31aLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="760.4" y="2382.6"/>
+</node><node id="http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+  <type value="complex"/>
+  <bounds height="177" width="142.99994" x="919.8500300000001" y="2407.9"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_c233f04c62f98cf00bccd0aeecddbd38_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="974.85" y="2539.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_3173812d030baab0df074c5157a5ccd4_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="921.85" y="2443.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_f5f48ba67047840774eda7decddb59ad_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="921.85" y="2475.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_55e67662f476bf641f588e0e69fffac0_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="921.85" y="2507.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_571a0e229dc45ff8666c952adcc75194_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="115" x="921.85" y="2411.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1012.8499999999999" y="2475.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="974.85" y="2564.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_344585cf9d6b66e58ee1c987b8e4f427_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="921.85" y="2539.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="921.85" y="2564.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_21d470f1698081de58b26ef220d9d4bd_http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="974.85" y="2507.9"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_72aa4508edce0e69082cc9562fd487c4LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="722.4" y="2395.25"/>
+</node><node id="http___purl.org_pc2_4_TransportWithBiochemicalReaction_4c3dfbbe7d1e5d2e740efd4f06fbdd03LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1188.6" y="1453.95"/>
+</node><node id="http___purl.org_pc2_4_Protein_26e2a73aa1e1a5f0da14553012773fb4">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1766.45" y="2304"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_7a70b2943e723efbf9008d01113c4ba5LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1189.95" y="2342.05"/>
+</node><node id="http___purl.org_pc2_4_Protein_ee5ba6333ead394fe2039d0ea20e48f0">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1314.1" y="2383.45"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_7e7dd0578cf017a6ae7e74e99fc5fc02LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1664.7" y="1565.8"/>
+</node><node id="http___purl.org_pc2_4_Protein_21f39b8bd6a11308309c92a8837aa254">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1618.65" y="2365.5"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_e8064be39498da7e960b4f74fa27c4aeLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1528.5" y="2385.15"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_da031469b596a03eecc09b77e0522681LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1443.2" y="2396.55"/>
+</node><node id="http___purl.org_pc2_4_Protein_95e94853aa092522ae923f877cdf546a">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1114.7" y="2326.3"/>
+</node><node id="http___purl.org_pc2_4_Protein_a19a06d9eb43de8e1909550886e4fa7b">
+  <type value="macromolecule"/>
+  <bounds height="20" width="81" x="1888.1" y="933.9"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_0e82da4dd08818bc5ba41765c27c44f3LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1694" y="2425.95"/>
+</node><node id="http___purl.org_pc2_4_Protein_1920a7859c97ef348f4baffa41440ef9">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1340.35" y="2349.25"/>
+</node><node id="http___purl.org_pc2_4_Protein_ee6337318c959359209136f65d4c4e62">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1131.65" y="2353.2"/>
+</node><node id="http___purl.org_pc2_4_Protein_199a528cc14876d2c9e979a8fe2a20c1">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1588.1" y="2424.4"/>
+</node><node id="http___purl.org_pc2_4_Protein_624e764c3806718585272c8074426c55">
+  <type value="macromolecule"/>
+  <bounds height="20" width="81" x="1482.7" y="2355.9"/>
+</node><node id="SAS_For_http___purl.org_pc2_4_TemplateReaction_f038bb289a20f395a02f4828dff69c32">
+  <type value="source and sink"/>
+  <bounds height="15" width="15" x="519.2" y="1905.4"/>
+</node><node id="http___purl.org_pc2_4_SmallMolecule_fbd55566c60bf066cebb3fd8aaba6962">
+  <type value="simple chemical"/>
+  <bounds height="20" width="48" x="1766.3" y="2384.6"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_e58009415574d225125ad79a6a74efa3LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1131.6" y="2429.8"/>
+</node><node id="http___purl.org_pc2_4_Complex_353fc75191dd7f759b67d7007a99c6bf">
+  <type value="complex"/>
+  <bounds height="99" width="52" x="1255.45" y="2453.6"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_353fc75191dd7f759b67d7007a99c6bf">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1257.45" y="2505.6"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_923c9f748f158b6c023aa657fe847f38_http___purl.org_pc2_4_Complex_353fc75191dd7f759b67d7007a99c6bf">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1257.45" y="2480.6"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_353fc75191dd7f759b67d7007a99c6bf">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1257.45" y="2530.6"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_353fc75191dd7f759b67d7007a99c6bf">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1257.45" y="2455.6"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_8e14ef68277e1a1f2cbcacc8c4175399">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1048.7" y="2413.75"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_76ab8f80ce0b40eebb94fad0cdb634aeLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1577.9" y="2350.4"/>
+</node><node id="http___purl.org_pc2_4_Protein_78261730e80ba04187ffd5ddabd0c6e5">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="589.3" y="2468.65"/>
+</node><node id="http___purl.org_pc2_4_Protein_7a3c6b49864e8e0aac929c6252646bd5">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1307.15" y="2425"/>
+</node><node id="http___purl.org_pc2_4_Protein_6868610de3f990bdff30d524538e1e45">
+  <type value="macromolecule"/>
+  <bounds height="20" width="86" x="438.35" y="2303.2"/>
+</node><node id="http___purl.org_pc2_4_Protein_f0293af2db8eb2c764ce61b558ffcce6">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1473.25" y="2452.75"/>
+</node><node id="http___purl.org_pc2_4_Protein_617d82535169d7bb2c45c74b27d8dcf4">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1230.2" y="2193.85"/>
+</node><node id="http___purl.org_pc2_4_Protein_53e428759c64a2af8ac5d082ffabc044">
+  <type value="macromolecule"/>
+  <bounds height="20" width="86" x="1583.1" y="2450.05"/>
+</node><node id="http___purl.org_pc2_4_Protein_a7b262776c0258f7edcae7a056577069">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1221.4" y="2445.8"/>
+</node><node id="http___purl.org_pc2_4_Protein_1ae8e86765e6945337831d453850169e">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1143.55" y="2363.3"/>
+</node><node id="http___purl.org_pc2_4_Protein_84578e408db97bd54f5dceac40be2052">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1164.55" y="2445.05"/>
+</node><node id="http___purl.org_pc2_4_Complex_f7a742b51e7d2a21a104306475ed59a1">
+  <type value="complex"/>
+  <bounds height="74" width="52" x="1613.45" y="2290.4"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_e3ab74c50771ab47d2b420e5aea97eeb_http___purl.org_pc2_4_Complex_f7a742b51e7d2a21a104306475ed59a1">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1615.45" y="2342.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_bfac8604d182dbf4fc403356bd194843_http___purl.org_pc2_4_Complex_f7a742b51e7d2a21a104306475ed59a1">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1615.45" y="2317.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_cd95dbadd3b822a300a7c1c664134651_http___purl.org_pc2_4_Complex_f7a742b51e7d2a21a104306475ed59a1">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1615.45" y="2292.4"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_025fd0594f1742dac24b03ade4a4332c">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="854.35" y="2443.5"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_dc302545b24830dfbf0887d0c90031daLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1470.05" y="2357.85"/>
+</node><node id="http___purl.org_pc2_4_Protein_0e3b292264faf83fce30b16533ac4e35">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1509.55" y="2380.7"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_e0046f5c16d3c2299902a4870004fb1aLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1211.9" y="2409.2"/>
+</node><node id="http___purl.org_pc2_4_Protein_6d92b1cb74eff2ebe7236610299c0700">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1719.2" y="2424.15"/>
+</node><node id="http___purl.org_pc2_4_Protein_33c489987cfa35d459a8ba9da2d26e93">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1041.2" y="2341.9"/>
+</node><node id="http___purl.org_pc2_4_Protein_797aebe777b17785655b7ed33b4508b4">
+  <type value="macromolecule"/>
+  <bounds height="20" width="63" x="1498.65" y="2075.35"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_a51967a7aef59f991dd40b81342c5061LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1264.4" y="2301.4"/>
+</node><node id="http___purl.org_pc2_4_Complex_04430572ed464df712cc6c2f132b4f1c">
+  <type value="complex"/>
+  <bounds height="74" width="52" x="1275" y="2438.45"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_e3ab74c50771ab47d2b420e5aea97eeb_http___purl.org_pc2_4_Complex_04430572ed464df712cc6c2f132b4f1c">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1277" y="2490.45"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_bfac8604d182dbf4fc403356bd194843_http___purl.org_pc2_4_Complex_04430572ed464df712cc6c2f132b4f1c">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1277" y="2465.45"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_cd95dbadd3b822a300a7c1c664134651_http___purl.org_pc2_4_Complex_04430572ed464df712cc6c2f132b4f1c">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1277" y="2440.45"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_a194ef2d11a2a0a639228f9e55530466LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1444.55" y="2371.95"/>
+</node><node id="http___purl.org_pc2_4_SmallMolecule_ad7a3e0ef4dc4a73bc86e0f2f7ae2fb7">
+  <type value="simple chemical"/>
+  <bounds height="20" width="48" x="1284.35" y="1720.9"/>
+</node><node id="http___purl.org_pc2_4_SmallMolecule_0210fadbe2890578aa34370a103351b6">
+  <type value="simple chemical"/>
+  <bounds height="20" width="48" x="1727.75" y="2448.65"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_0b6da63f9904a4e35dcc90c95f438c84LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1209.85" y="2343.6"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_62ef9a9a9525eedbca733ae7b0bfa379LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1525.8" y="2437.75"/>
+</node><node id="http___purl.org_pc2_4_Protein_3e99a1e0ec8ec75088f647e63d667357">
+  <type value="macromolecule"/>
+  <bounds height="20" width="115" x="959.35" y="2380.2"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_41a5ae0754ca5a1b1b850efef915b215LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1748" y="1768.75"/>
+</node><node id="http___purl.org_pc2_4_Protein_460b8a329f453bc35c1a53b097cde5e8">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="882.9" y="2382.5"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_4fe9558b359fcd48c2fc321a835099e2LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1549.75" y="2344.1"/>
+</node><node id="http___purl.org_pc2_4_SmallMolecule_9576d8ca7e7a655c5ffc8db0d5953efb">
+  <type value="simple chemical"/>
+  <bounds height="20" width="48" x="1463.15" y="2407.9"/>
+</node><node id="http___purl.org_pc2_4_Complex_53e07932183397d12b7793c9c05044d6">
+  <type value="complex"/>
+  <bounds height="81" width="52" x="1275.3" y="2226.4"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_e9adc617349b957e1025e350f82f3498_http___purl.org_pc2_4_Complex_53e07932183397d12b7793c9c05044d6">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1277.3" y="2230.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_030bae1c5ee9f799b3a729aef63a6c4c_http___purl.org_pc2_4_Complex_53e07932183397d12b7793c9c05044d6">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1277.3" y="2287.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_8f3f711183998061bd08a682bd2d3788_http___purl.org_pc2_4_Complex_53e07932183397d12b7793c9c05044d6">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1277.3" y="2262.4"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Complex_933f3383aa0ac586a86e9387e1a4b97c">
+  <type value="complex"/>
+  <bounds height="74" width="52" x="1723.15" y="1892.2"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_b39c666960fb35b258acd656e4d5236e_http___purl.org_pc2_4_Complex_933f3383aa0ac586a86e9387e1a4b97c">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1725.15" y="1894.2"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_5c077a8da65f1eac4b3dab1e2a5f7dff_http___purl.org_pc2_4_Complex_933f3383aa0ac586a86e9387e1a4b97c">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1725.15" y="1944.2"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_6c9e7255b2f5977dc9c22bbce8c54d98_http___purl.org_pc2_4_Complex_933f3383aa0ac586a86e9387e1a4b97c">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1725.15" y="1919.2"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_e2cf84cc99aa85269d57058072c6f34b">
+  <type value="macromolecule"/>
+  <bounds height="20" width="86" x="517.8" y="2270.85"/>
+</node><node id="http___purl.org_pc2_4_Protein_17d0551cf8bc28b859beba46cadc9c9f">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1553.05" y="2395.05"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_60d39219c055a43dceb5bd16b0f62633LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1283.95" y="2343.55"/>
+</node><node id="http___purl.org_pc2_4_Protein_26aee515a6c592b546bfe5d8dc8033d9">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1825.6" y="1252.15"/>
+</node><node id="http___purl.org_pc2_4_Complex_1d7175a08bafe6a4f33b9884072f32f8">
+  <type value="complex"/>
+  <bounds height="56" width="52" x="1212.75" y="2295"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_8f3f711183998061bd08a682bd2d3788_http___purl.org_pc2_4_Complex_1d7175a08bafe6a4f33b9884072f32f8">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1214.75" y="2331"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_952be6c2cd716f00f5fd32601278c782_http___purl.org_pc2_4_Complex_1d7175a08bafe6a4f33b9884072f32f8">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1214.75" y="2299"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_97e61acd7a39b25b37a5e43630077de1LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1279.95" y="2386.55"/>
+</node><node id="http___purl.org_pc2_4_Protein_5d311c3842fa6c906f755f382a5d0026">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1863.55" y="2052.65"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_6f3bf9f91a1be777e69e2ddbeb3b3684LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1809.5" y="2435.2"/>
+</node><node id="http___purl.org_pc2_4_Complex_ef90260f1e306aceb33c98a4f4576e50">
+  <type value="complex"/>
+  <bounds height="124" width="52" x="1057.15" y="2393.85"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_923c9f748f158b6c023aa657fe847f38_http___purl.org_pc2_4_Complex_ef90260f1e306aceb33c98a4f4576e50">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1059.15" y="2445.85"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_ef90260f1e306aceb33c98a4f4576e50">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1059.15" y="2495.85"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_ef90260f1e306aceb33c98a4f4576e50">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1059.15" y="2420.85"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_ef90260f1e306aceb33c98a4f4576e50">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1059.15" y="2470.85"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_0e4ed123eb2c2ca568c1922a17a8fa33_http___purl.org_pc2_4_Complex_ef90260f1e306aceb33c98a4f4576e50">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1059.15" y="2395.85"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Complex_64aae9c0a01bac1b4dcbc2dcbc9b85ac">
+  <type value="complex"/>
+  <bounds height="56" width="64" x="1288.35" y="2266"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_c892c42c304d911af153810ac49a6655_http___purl.org_pc2_4_Complex_64aae9c0a01bac1b4dcbc2dcbc9b85ac">
+      <type value="macromolecule"/>
+      <bounds height="20" width="60" x="1290.35" y="2268"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_952be6c2cd716f00f5fd32601278c782_http___purl.org_pc2_4_Complex_64aae9c0a01bac1b4dcbc2dcbc9b85ac">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1290.35" y="2300"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_6a8d7bf8474bbeebe031d0a6b82f16f3">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1090.35" y="2366.75"/>
+</node><node id="http___purl.org_pc2_4_Transport_2692ef2396ef084beafd476461171fd5LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1235.7" y="1591.3"/>
+</node><node id="http___purl.org_pc2_4_Protein_79b7479fc27806ecacb5b44ab18d99db">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1529.15" y="2386.65"/>
+</node><node id="http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418">
+  <type value="complex"/>
+  <bounds height="145" width="119" x="1625" y="2143.35"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_c233f04c62f98cf00bccd0aeecddbd38_http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1627" y="2243.35"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1680" y="2243.35"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_f5f48ba67047840774eda7decddb59ad_http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="1627" y="2211.35"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_571a0e229dc45ff8666c952adcc75194_http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418">
+      <type value="macromolecule"/>
+      <bounds height="20" width="115" x="1627" y="2147.35"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1627" y="2268.35"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_3173812d030baab0df074c5157a5ccd4_http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="1627" y="2179.35"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1680" y="2268.35"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_1a3a90112b7d0c12cec1d95299fee997">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1599.05" y="2435.55"/>
+</node><node id="http___purl.org_pc2_4_Complex_1a74dd8db80679bab660a243cd1c6e14">
+  <type value="complex"/>
+  <bounds height="74" width="52" x="1068.55" y="2417.55"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_6c9e7255b2f5977dc9c22bbce8c54d98_http___purl.org_pc2_4_Complex_1a74dd8db80679bab660a243cd1c6e14">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1070.55" y="2444.55"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_b39c666960fb35b258acd656e4d5236e_http___purl.org_pc2_4_Complex_1a74dd8db80679bab660a243cd1c6e14">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1070.55" y="2419.55"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_5c077a8da65f1eac4b3dab1e2a5f7dff_http___purl.org_pc2_4_Complex_1a74dd8db80679bab660a243cd1c6e14">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1070.55" y="2469.55"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_4e45b90a70221ed385b313da747986cf">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1409.15" y="2429.75"/>
+</node><node id="http___purl.org_pc2_4_Protein_06878d0651ec9c32a60a3cfededd9f72">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1093.45" y="2365.95"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_a51091a7db03d7fe0560db5a273b55b3LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1198.65" y="2457.95"/>
+</node><node id="http___purl.org_pc2_4_Protein_440152677b051c5e27a06034791856c5">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1819.5" y="2081.7"/>
+</node><node id="http___purl.org_pc2_4_Protein_8c028f5ffdc3465432ad3682d9e0024d">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1867" y="2167"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_df73f7adaa010883c784d85ad4b17f83LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1578.95" y="2384.6"/>
+</node><node id="http___purl.org_pc2_4_Protein_2148bc189ddbbd65ae7f47593918a507">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1023" y="2380.05"/>
+</node><node id="http___purl.org_pc2_4_Protein_86f88b7c2b5d6c8c3c2ecbdd30d9aecd">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="804.5" y="2357.95"/>
+</node><node id="http___purl.org_pc2_4_Protein_6ca8857293bd9329085ecdf9f45c6cf9">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1486" y="2411.05"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_d74ba23ca7c030775cc6906eedc9f639LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="764.1" y="2252.75"/>
+</node><node id="http___purl.org_pc2_4_Protein_2eaaa38e560f2151a89e7d8925c02883">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1433.1" y="2402.85"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_fb05b782236d35f92a78f8f6cdf0fe5cLEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1556.8" y="2423.35"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_ae696578ecfa533d5892768035853e89LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1368.6" y="2371"/>
+</node><node id="http___purl.org_pc2_4_Protein_0af37973c24469bc8deaa2d10f75e56a">
+  <type value="macromolecule"/>
+  <bounds height="20" width="115" x="589.3" y="2404.65"/>
+</node><node id="http___purl.org_pc2_4_Complex_026d8a1481485c8d490a5602c24d9a75">
+  <type value="complex"/>
+  <bounds height="74" width="52" x="1116.3" y="2405.7"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_b39c666960fb35b258acd656e4d5236e_http___purl.org_pc2_4_Complex_026d8a1481485c8d490a5602c24d9a75">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1118.3" y="2407.7"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_5c077a8da65f1eac4b3dab1e2a5f7dff_http___purl.org_pc2_4_Complex_026d8a1481485c8d490a5602c24d9a75">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1118.3" y="2457.7"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_6c9e7255b2f5977dc9c22bbce8c54d98_http___purl.org_pc2_4_Complex_026d8a1481485c8d490a5602c24d9a75">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1118.3" y="2432.7"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1426.25" y="2376.55"/>
+</node><node id="http___purl.org_pc2_4_Complex_eaf8c90a02bdca35d994cec57ca82bbd">
+  <type value="complex"/>
+  <bounds height="56" width="52" x="986.05" y="2285.25"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_11e5c288644e3a0cc3abb02e49a067a1_http___purl.org_pc2_4_Complex_eaf8c90a02bdca35d994cec57ca82bbd">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="988.05" y="2287.25"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_7e255165c4a166ba8217b5bced908f17_http___purl.org_pc2_4_Complex_eaf8c90a02bdca35d994cec57ca82bbd">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="988.05" y="2319.25"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_a33613977c8ccb355e71d40dbc7bb697">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1372.85" y="2440.8"/>
+</node><node id="http___purl.org_pc2_4_Protein_4133033ca83eaea992bff80edc55643c">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1904.85" y="1288.35"/>
+</node><node id="http___purl.org_pc2_4_Protein_75546e98e35adae0e554469a0f704f11">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="822.7" y="2377.65"/>
+</node><node id="http___purl.org_pc2_4_Protein_0e4ed123eb2c2ca568c1922a17a8fa33">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1237.85" y="2384.25"/>
+</node><node id="http___purl.org_pc2_4_Complex_6c56a98742839756655b7de965dd353a">
+  <type value="complex"/>
+  <bounds height="56" width="90" x="1327.15" y="2301.95"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_1a3a90112b7d0c12cec1d95299fee997_http___purl.org_pc2_4_Complex_6c56a98742839756655b7de965dd353a">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1329.25" y="2337.95"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_8d94e8414879e1d6a6415803f79838c4_http___purl.org_pc2_4_Complex_6c56a98742839756655b7de965dd353a">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="1329.25" y="2305.95"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_95a24098fd445fa5a55a2707cf063fa5">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1370.1" y="2386.45"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_29eb5fa4e728165f55d381e528ceb443LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1634.1" y="1999.75"/>
+</node><node id="http___purl.org_pc2_4_Protein_660616169fbe013cf6db37f62a56c9a6">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1659.6" y="2367.7"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_53a22c3da7d041ad184d123ae6f58ce7LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1584.4" y="2228.7"/>
+</node><node id="http___purl.org_pc2_4_Complex_5e7140ca8ed5bc27531cc4d17aa9e234">
+  <type value="complex"/>
+  <bounds height="106" width="105" x="1080.65" y="2187.3"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_94d40f95cb8e5d1064932f78a6a38b48_http___purl.org_pc2_4_Complex_5e7140ca8ed5bc27531cc4d17aa9e234">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1082.65" y="2248.3"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_fc70d170682b1f5a8b818a44d1f48eb8_http___purl.org_pc2_4_Complex_5e7140ca8ed5bc27531cc4d17aa9e234">
+      <type value="macromolecule"/>
+      <bounds height="20" width="86" x="1082.65" y="2191.3"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_95905abd6208c84db3c9cedf1e2aaed2_http___purl.org_pc2_4_Complex_5e7140ca8ed5bc27531cc4d17aa9e234">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1135.65" y="2223.3"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_c233f04c62f98cf00bccd0aeecddbd38_http___purl.org_pc2_4_Complex_5e7140ca8ed5bc27531cc4d17aa9e234">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1082.65" y="2223.3"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_da71b4051e46e5618cd0570cf4c8fca3_http___purl.org_pc2_4_Complex_5e7140ca8ed5bc27531cc4d17aa9e234">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1082.65" y="2273.3"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_Protein_8d94e8414879e1d6a6415803f79838c4">
+  <type value="macromolecule"/>
+  <bounds height="20" width="86" x="1529.25" y="2105.75"/>
+</node><node id="http___purl.org_pc2_4_BiochemicalReaction_6895141e712838686c1643ff6c858e56LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1162.35" y="2399.1"/>
+</node><node id="http___purl.org_pc2_4_Protein_8f3f711183998061bd08a682bd2d3788">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1247.3" y="2370.05"/>
+</node><node id="http___purl.org_pc2_4_Protein_11e5c288644e3a0cc3abb02e49a067a1">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="1324.95" y="2402.75"/>
+</node><node id="http___purl.org_pc2_4_Complex_ea8c3494a2472951c6461e3c79984bfc">
+  <type value="complex"/>
+  <bounds height="106" width="52" x="1748.15" y="2104.45"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_9921680c6a3602594c6b05b47d7ca88d_http___purl.org_pc2_4_Complex_ea8c3494a2472951c6461e3c79984bfc">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1750.15" y="2190.45"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_199a528cc14876d2c9e979a8fe2a20c1_http___purl.org_pc2_4_Complex_ea8c3494a2472951c6461e3c79984bfc">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1750.15" y="2165.45"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_17d0551cf8bc28b859beba46cadc9c9f_http___purl.org_pc2_4_Complex_ea8c3494a2472951c6461e3c79984bfc">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1750.15" y="2140.45"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_2148bc189ddbbd65ae7f47593918a507_http___purl.org_pc2_4_Complex_ea8c3494a2472951c6461e3c79984bfc">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1750.15" y="2108.45"/>
+    </node>
+  </children>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_ee1c9a58e2db55514bf685f7626c2f53LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1280.75" y="2448.05"/>
+</node><node id="http___purl.org_pc2_4_Protein_70a429c19efb8c83c88c81efd42b67f2">
+  <type value="macromolecule"/>
+  <bounds height="20" width="48" x="642.3" y="2468.65"/>
+</node><node id="http___purl.org_pc2_4_ComplexAssembly_e52a231f9c44bcefb61e61ac9d0110d5LEFT_TO_RIGHT">
+  <type value="process"/>
+  <bounds height="15" width="15" x="1261.6" y="2328.25"/>
+</node><node id="http___purl.org_pc2_4_SmallMolecule_7f2bf0c6846dc41ee9a2f43d61628a28http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT">
+  <type value="simple chemical"/>
+  <bounds height="15" width="36" x="1357.95" y="2381.25"/>
+</node><node id="http___purl.org_pc2_4_SmallMolecule_ef5529db0efdd2da2121a0fb8c040825http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT">
+  <type value="simple chemical"/>
+  <bounds height="15" width="36" x="1362.25" y="2435.65"/>
+</node><node id="plasma_membrane">
+  <type value="compartment"/>
+  <bounds height="721.5874" width="628.7677" x="581.5161499999999" y="1501.3063"/>
+  <children>
+    <node id="http___purl.org_pc2_4_BiochemicalReaction_758ca5b14597aee912ab0ce237ba8e39LEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="871.6" y="1492.1"/>
+    </node>
+    <node id="http___purl.org_pc2_4_SmallMolecule_7bbe8879618f4f820f805dea44df8b7b">
+      <type value="simple chemical"/>
+      <bounds height="20" width="48" x="585.6" y="1945.35"/>
+    </node>
+    <node id="http___purl.org_pc2_4_SmallMolecule_fd8bafa70f6429c858440834deb58536">
+      <type value="simple chemical"/>
+      <bounds height="20" width="48" x="580.5" y="1908.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_acef6bee4b66fdf5e5dcc605929ad54f">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1138.75" y="2001.6"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_031f7e4b0cf1f4878134bccbd604e608">
+      <type value="macromolecule"/>
+      <bounds height="20" width="115" x="1090.3" y="1886.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Complex_9b0803d821d0944d169953009ca9a614">
+      <type value="complex"/>
+      <bounds height="113" width="90" x="718.35" y="1915"/>
+      <children>
+        <node id="http___purl.org_pc2_4_Protein_b41cac6049d69fbd216624356c8a92f0_http___purl.org_pc2_4_Complex_9b0803d821d0944d169953009ca9a614">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="720.35" y="2008"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_16a483d8d3b8f058be488e712f17b108_http___purl.org_pc2_4_Complex_9b0803d821d0944d169953009ca9a614">
+          <type value="macromolecule"/>
+          <bounds height="20" width="86" x="720.35" y="1919"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_31db8a735a19e640ab5398e77b2a7aa0_http___purl.org_pc2_4_Complex_9b0803d821d0944d169953009ca9a614">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="720.35" y="1983"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_7ea863795aeaf569bc5833c0265ca17c_http___purl.org_pc2_4_Complex_9b0803d821d0944d169953009ca9a614">
+          <type value="macromolecule"/>
+          <bounds height="20" width="63" x="720.35" y="1951"/>
+        </node>
+      </children>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_4fe5904ed423e23d08fbd3cd8bb9daa9">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="746.1" y="1647.45"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Complex_1d158f75c94a603d920ca7bfcf856d99">
+      <type value="complex"/>
+      <bounds height="49" width="52" x="733.35" y="2160.7"/>
+      <children>
+        <node id="http___purl.org_pc2_4_Protein_31db8a735a19e640ab5398e77b2a7aa0_http___purl.org_pc2_4_Complex_1d158f75c94a603d920ca7bfcf856d99">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="735.35" y="2162.7"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_b41cac6049d69fbd216624356c8a92f0_http___purl.org_pc2_4_Complex_1d158f75c94a603d920ca7bfcf856d99">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="735.35" y="2187.7"/>
+        </node>
+      </children>
+    </node>
+    <node id="http___purl.org_pc2_4_Complex_97a6826ea80ab0f00cc188e7585ac06b">
+      <type value="complex"/>
+      <bounds height="49" width="52" x="830.7" y="2089.75"/>
+      <children>
+        <node id="http___purl.org_pc2_4_Protein_31db8a735a19e640ab5398e77b2a7aa0_http___purl.org_pc2_4_Complex_97a6826ea80ab0f00cc188e7585ac06b">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="832.7" y="2091.75"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_b41cac6049d69fbd216624356c8a92f0_http___purl.org_pc2_4_Complex_97a6826ea80ab0f00cc188e7585ac06b">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="832.7" y="2116.75"/>
+        </node>
+      </children>
+    </node>
+  </children>
+</node><node id="extracellular_region">
+  <type value="compartment"/>
+  <bounds height="250.5835" width="288.18457" x="1842.757715" y="2274.15825"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_c233f04c62f98cf00bccd0aeecddbd38">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1847.8" y="2502.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Transport_6a747f616f9de350e5b2533cff82137aLEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="2021.5" y="2276.15"/>
+    </node>
+    <node id="http___purl.org_pc2_4_SmallMolecule_4aee7bf9ed241ce1ab9c8bf369a727b3">
+      <type value="simple chemical"/>
+      <bounds height="20" width="48" x="2083.95" y="2457.6"/>
+    </node>
+  </children>
+</node><node id="cytoplasm">
+  <type value="compartment"/>
+  <bounds height="1643.1196" width="688.016" x="1151.142" y="15.540200000000027"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_b5af14a3665922d93e59893267847b10">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1554.85" y="509.70000000000005"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Transport_469f1f893a9be27b40775dc7b4f066b4LEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="1270.7" y="248.8"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Complex_d75f49c955b403f09c74c86337aa86ce">
+      <type value="complex"/>
+      <bounds height="80.99999" width="52" x="1673.6" y="61.000005"/>
+      <children>
+        <node id="http___purl.org_pc2_4_Protein_deb5c4658886b0bf5ac05720f4af1a15_http___purl.org_pc2_4_Complex_d75f49c955b403f09c74c86337aa86ce">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1675.6" y="97"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_f7029f9eabf5a380758c0cd030b8ed03_http___purl.org_pc2_4_Complex_d75f49c955b403f09c74c86337aa86ce">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1675.6" y="122"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_82d250080aa6adc43478e7ae2446e1d6_http___purl.org_pc2_4_Complex_d75f49c955b403f09c74c86337aa86ce">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1675.6" y="65"/>
+        </node>
+      </children>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_aeec13e0d1610451c988e107b856e92c">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1613.2" y="630.95"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_8781c7f578ff4aeadc775aea337ca7a8">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1155.4" y="614.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Complex_7cfa6e8725042c2c41c6b7c46b851e7a">
+      <type value="complex"/>
+      <bounds height="81" width="52" x="1724.6" y="255.5"/>
+      <children>
+        <node id="http___purl.org_pc2_4_Protein_b9ef0f1c5a271da045532f8b9de6f962_http___purl.org_pc2_4_Complex_7cfa6e8725042c2c41c6b7c46b851e7a">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1726.6" y="259.5"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_deb5c4658886b0bf5ac05720f4af1a15_http___purl.org_pc2_4_Complex_7cfa6e8725042c2c41c6b7c46b851e7a">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1726.6" y="291.5"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_f7029f9eabf5a380758c0cd030b8ed03_http___purl.org_pc2_4_Complex_7cfa6e8725042c2c41c6b7c46b851e7a">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1726.6" y="316.5"/>
+        </node>
+      </children>
+    </node>
+    <node id="http___purl.org_pc2_4_Transport_624d8aae0d6a1e0fc1aed549388fa9a3LEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="1283.65" y="304.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_ea2bbad9afa4c02f5a3a41a58bdf1f65">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1463.7" y="19.55"/>
+    </node>
+    <node id="http___purl.org_pc2_4_SmallMolecule_59e71b6172d4e615ab1f4f85e91c51bd">
+      <type value="simple chemical"/>
+      <bounds height="20" width="48" x="1730.55" y="1638.65"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_3270c3de973bbf2e2b7ea6c876db3ae1">
+      <type value="macromolecule"/>
+      <bounds height="20" width="115" x="1149.25" y="817.1"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_875d673c78da17e464a2530399c7be15">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1692.45" y="522.65"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Transport_b5cf3c2dc69719b4728c78cf76cfe6d8LEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="1332.65" y="362.1"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_43cc2dd34b000f811af8b8e96bb7ca2e">
+      <type value="macromolecule"/>
+      <bounds height="20" width="60" x="1759.9" y="549.3"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Transport_9363b5c19e4e3855ed61fc91e1b63b3aLEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="1366.85" y="408.7"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_e4fca35540344a32044ef0f238ddf6eb">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1766.7" y="909.1"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Transport_dfe46bd4e93acb41fba159b66bdbb4dbLEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="1424.2" y="371.05"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_4dc82b29d249a3d3e116d1b7e5882b35">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1406.7" y="520.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_88c6c9ec1bc5de26a4e5fdb4412acd3b">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1302" y="523.55"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Complex_cff9f7f354f4c6dcd54781d8faed1d22">
+      <type value="complex"/>
+      <bounds height="74" width="52" x="1781.25" y="653.45"/>
+      <children>
+        <node id="http___purl.org_pc2_4_Protein_5d311c3842fa6c906f755f382a5d0026_http___purl.org_pc2_4_Complex_cff9f7f354f4c6dcd54781d8faed1d22">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1783.25" y="655.45"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_be786a26341e68593898a4427b1e2ee7_http___purl.org_pc2_4_Complex_cff9f7f354f4c6dcd54781d8faed1d22">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1783.25" y="680.45"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_0d07ad19039244d293c5e4856b431800_http___purl.org_pc2_4_Complex_cff9f7f354f4c6dcd54781d8faed1d22">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1783.25" y="705.45"/>
+        </node>
+      </children>
+    </node>
+    <node id="http___purl.org_pc2_4_ComplexAssembly_1748a2ec2bd6099c6f8fe401131cca5aLEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="1744.65" y="449.55"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_261b2949edc265de755fbb7c11da09ff">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="1439.25" y="149.2"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Complex_1810db63dc45a1109d0805f8dfed7283">
+      <type value="complex"/>
+      <bounds height="49" width="52" x="1618.4" y="339.2"/>
+      <children>
+        <node id="http___purl.org_pc2_4_Protein_deb5c4658886b0bf5ac05720f4af1a15_http___purl.org_pc2_4_Complex_1810db63dc45a1109d0805f8dfed7283">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1620.4" y="341.2"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_f7029f9eabf5a380758c0cd030b8ed03_http___purl.org_pc2_4_Complex_1810db63dc45a1109d0805f8dfed7283">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="1620.4" y="366.2"/>
+        </node>
+      </children>
+    </node>
+  </children>
+</node><node id="nucleus">
+  <type value="compartment"/>
+  <bounds height="795.45996" width="679.44403" x="30.877985000000024" y="978.3200199999999"/>
+  <children>
+    <node id="http___purl.org_pc2_4_Protein_a7389eb394ea534055cc51ea5a695d6c">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="660.95" y="982.35"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_6df88c1a7aca57042d2cccb316fbdd65">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="72.55" y="1607.5"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_927e13e9596794c2ce27e870ab82adef">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="129.85" y="1636.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_2ea9136ef4a6dd913c33957af0168ef8">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="592.7" y="986.5"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_ec0e17f3fcf0bcb6e27063b7fba490cf">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="188.05" y="1538.05"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_1ab2ab4f9082b343df1d134676038838">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="122.80000000000001" y="1522"/>
+    </node>
+    <node id="http___purl.org_pc2_4_BiochemicalReaction_895302b5a3e7b008f6e82e7918528683LEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="467.65" y="1708.2"/>
+    </node>
+    <node id="http___purl.org_pc2_4_ComplexAssembly_12ea95ff7abe4c0a7a9440913e5981e5LEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="33.5" y="1450.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_BiochemicalReaction_c8069779888405b370b463d12292bc71LEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="85.9" y="1507.9"/>
+    </node>
+    <node id="http___purl.org_pc2_4_BiochemicalReaction_f2edd215462ad2e444d176a0e32f320bLEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="219.85" y="1758.8"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_0772637403dcffdb6b07f142ba1f1841">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="508.20000000000005" y="1093.65"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_eab8e37baab3ec2bff5bada35142ec4a">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="54.3" y="1639.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Complex_52a79528282cef268c3240637e2a4fe1">
+      <type value="complex"/>
+      <bounds height="56" width="109" x="37.8" y="1327.65"/>
+      <children>
+        <node id="http___purl.org_pc2_4_Protein_9cc6ac3988a93e2ea18167c298f93fcc_http___purl.org_pc2_4_Complex_52a79528282cef268c3240637e2a4fe1">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="39.8" y="1363.65"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_1cc6eb00ccdcdc512684f5fc6744a319_http___purl.org_pc2_4_Complex_52a79528282cef268c3240637e2a4fe1">
+          <type value="macromolecule"/>
+          <bounds height="20" width="105" x="39.8" y="1331.65"/>
+        </node>
+      </children>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_53b03ffc4c3da491697be307744d2def">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="258.25" y="1648.3"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_a7df34f43fce61dac2c5f0f7032cc944">
+      <type value="macromolecule"/>
+      <bounds height="20" width="81" x="57.400000000000006" y="1558.5"/>
+    </node>
+    <node id="http___purl.org_pc2_4_BiochemicalReaction_6d67d8fd1270a6d1857ee0dc82977cb4LEFT_TO_RIGHT">
+      <type value="process"/>
+      <bounds height="15" width="15" x="692.45" y="1735.1"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_1ab927f85f7c65844b5f148ba7361e1d">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="67.75" y="1458.65"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_32d50f45e59571872b04bbcabdbfd908">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="65.8" y="1418.4"/>
+    </node>
+    <node id="http___purl.org_pc2_4_TemplateReaction_cf2541a2a4ba96c00aff08f71ae93297">
+      <type value="process"/>
+      <bounds height="15" width="15" x="363.6" y="1456.85"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_0273c1c79414699d0300da0af3c7278c">
+      <type value="macromolecule"/>
+      <bounds height="20" width="115" x="142.65" y="1611.5"/>
+    </node>
+    <node id="http___purl.org_pc2_4_TemplateReaction_f038bb289a20f395a02f4828dff69c32">
+      <type value="process"/>
+      <bounds height="15" width="15" x="425.4" y="1476.75"/>
+    </node>
+    <node id="http___purl.org_pc2_4_Complex_e0da88b09e2b8d64f1e62ca686c26147">
+      <type value="complex"/>
+      <bounds height="49" width="52" x="605.9" y="1402.85"/>
+      <children>
+        <node id="http___purl.org_pc2_4_Protein_deb5c4658886b0bf5ac05720f4af1a15_http___purl.org_pc2_4_Complex_e0da88b09e2b8d64f1e62ca686c26147">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="607.9" y="1404.85"/>
+        </node>
+        <node id="http___purl.org_pc2_4_Protein_f7029f9eabf5a380758c0cd030b8ed03_http___purl.org_pc2_4_Complex_e0da88b09e2b8d64f1e62ca686c26147">
+          <type value="macromolecule"/>
+          <bounds height="20" width="48" x="607.9" y="1429.85"/>
+        </node>
+      </children>
+    </node>
+    <node id="http___purl.org_pc2_4_Protein_796a4d12590c3f847de24c23d699175d">
+      <type value="macromolecule"/>
+      <bounds height="20" width="48" x="575.3" y="1098.7"/>
+    </node>
+  </children>
+</node>
+
+
+
+<edge id="1"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_261b2949edc265de755fbb7c11da09ff"/><targetNode id="http___purl.org_pc2_4_Transport_9363b5c19e4e3855ed61fc91e1b63b3aLEFT_TO_RIGHT"/></edge><edge id="2"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_895302b5a3e7b008f6e82e7918528683LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_0273c1c79414699d0300da0af3c7278c"/></edge><edge id="3"><type value="production" /><sourceNode id="http___purl.org_pc2_4_Transport_dfe46bd4e93acb41fba159b66bdbb4dbLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_a7389eb394ea534055cc51ea5a695d6c"/></edge><edge id="4"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_1ae8e86765e6945337831d453850169e"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_1c04e80fc681a5b0408874a79f42cfaaLEFT_TO_RIGHT"/></edge><edge id="5"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_76ab8f80ce0b40eebb94fad0cdb634aeLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_797aebe777b17785655b7ed33b4508b4"/></edge><edge id="6"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_5c19cf1730207ccba186d7998a76dc7f"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_fb1fd82809693ea3052b875c2da68ce2LEFT_TO_RIGHT"/></edge><edge id="7"><type value="stimulation" /><sourceNode id="http___purl.org_pc2_4_Complex_e0da88b09e2b8d64f1e62ca686c26147"/><targetNode id="http___purl.org_pc2_4_TemplateReaction_cf2541a2a4ba96c00aff08f71ae93297"/></edge><edge id="8"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_a51967a7aef59f991dd40b81342c5061LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_8d94e8414879e1d6a6415803f79838c4"/></edge><edge id="9"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e8064be39498da7e960b4f74fa27c4aeLEFT_TO_RIGHT"/></edge><edge id="10"><type value="production" /><sourceNode id="http___purl.org_pc2_4_Transport_50236ddb598cac3793c88e169b2bb172LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_SmallMolecule_59e71b6172d4e615ab1f4f85e91c51bd"/></edge><edge id="11"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_53e428759c64a2af8ac5d082ffabc044"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_6f3bf9f91a1be777e69e2ddbeb3b3684LEFT_TO_RIGHT"/></edge><edge id="12"><type value="production" /><sourceNode id="http___purl.org_pc2_4_TransportWithBiochemicalReaction_4c3dfbbe7d1e5d2e740efd4f06fbdd03LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_4fe5904ed423e23d08fbd3cd8bb9daa9"/></edge><edge id="13"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_a194ef2d11a2a0a639228f9e55530466LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558"/></edge><edge id="14"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_2148bc189ddbbd65ae7f47593918a507"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_e58009415574d225125ad79a6a74efa3LEFT_TO_RIGHT"/></edge><edge id="15"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_cff9f7f354f4c6dcd54781d8faed1d22"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_41a5ae0754ca5a1b1b850efef915b215LEFT_TO_RIGHT"/></edge><edge id="16"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_e52a231f9c44bcefb61e61ac9d0110d5LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127"/></edge><edge id="17"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_30cdb49b309a925a71a4304dfd37838eLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_79b7479fc27806ecacb5b44ab18d99db"/></edge><edge id="18"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_95a24098fd445fa5a55a2707cf063fa5"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e8064be39498da7e960b4f74fa27c4aeLEFT_TO_RIGHT"/></edge><edge id="19"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_617d82535169d7bb2c45c74b27d8dcf4"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_895302b5a3e7b008f6e82e7918528683LEFT_TO_RIGHT"/></edge><edge id="20"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_1ab927f85f7c65844b5f148ba7361e1d"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_12ea95ff7abe4c0a7a9440913e5981e5LEFT_TO_RIGHT"/></edge><edge id="21"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_ee6337318c959359209136f65d4c4e62"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e52a231f9c44bcefb61e61ac9d0110d5LEFT_TO_RIGHT"/></edge><edge id="22"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_e2cf84cc99aa85269d57058072c6f34b"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_f2edd215462ad2e444d176a0e32f320bLEFT_TO_RIGHT"/></edge><edge id="23"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_e08825de255d29e4a91f158e2e1c5c0cLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_97a6826ea80ab0f00cc188e7585ac06b"/></edge><edge id="24"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_deef891c64149284356b3290fa608c50"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_53a22c3da7d041ad184d123ae6f58ce7LEFT_TO_RIGHT"/></edge><edge id="25"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_d74ba23ca7c030775cc6906eedc9f639LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_b4d1bce70f54487130d2b3c560a8e315"/></edge><edge id="26"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_16a483d8d3b8f058be488e712f17b108"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_76ab8f80ce0b40eebb94fad0cdb634aeLEFT_TO_RIGHT"/></edge><edge id="27"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_97a6826ea80ab0f00cc188e7585ac06b"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_a51967a7aef59f991dd40b81342c5061LEFT_TO_RIGHT"/></edge><edge id="28"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_135a3f3fb58666160861fd2e2a1ea7e4LEFT_TO_RIGHT"/></edge><edge id="29"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_7ea863795aeaf569bc5833c0265ca17c"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e08825de255d29e4a91f158e2e1c5c0cLEFT_TO_RIGHT"/></edge><edge id="30"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_460b8a329f453bc35c1a53b097cde5e8"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_72aa4508edce0e69082cc9562fd487c4LEFT_TO_RIGHT"/></edge><edge id="31"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_261b2949edc265de755fbb7c11da09ff"/><targetNode id="http___purl.org_pc2_4_Transport_624d8aae0d6a1e0fc1aed549388fa9a3LEFT_TO_RIGHT"/></edge><edge id="32"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_353fc75191dd7f759b67d7007a99c6bf"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e52a231f9c44bcefb61e61ac9d0110d5LEFT_TO_RIGHT"/></edge><edge id="33"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_c90068f262153b30788b27541d169e05"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_d74ba23ca7c030775cc6906eedc9f639LEFT_TO_RIGHT"/></edge><edge id="34"><type value="production" /><sourceNode id="http___purl.org_pc2_4_Transport_624d8aae0d6a1e0fc1aed549388fa9a3LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_796a4d12590c3f847de24c23d699175d"/></edge><edge id="35"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_a6edaa127db1af20d2065956d3367cceLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_624e764c3806718585272c8074426c55"/></edge><edge id="36"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_06878d0651ec9c32a60a3cfededd9f72"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_6895141e712838686c1643ff6c858e56LEFT_TO_RIGHT"/></edge><edge id="37"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_29eb5fa4e728165f55d381e528ceb443LEFT_TO_RIGHT"/></edge><edge id="38"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_1a74dd8db80679bab660a243cd1c6e14"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_97e61acd7a39b25b37a5e43630077de1LEFT_TO_RIGHT"/></edge><edge id="39"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_8d94e8414879e1d6a6415803f79838c4"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_4fe9558b359fcd48c2fc321a835099e2LEFT_TO_RIGHT"/></edge><edge id="40"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_06878d0651ec9c32a60a3cfededd9f72"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_7a70b2943e723efbf9008d01113c4ba5LEFT_TO_RIGHT"/></edge><edge id="41"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_a33613977c8ccb355e71d40dbc7bb697"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_9fa0f9b8e44beb0aed888eb456029f7aLEFT_TO_RIGHT"/></edge><edge id="42"><type value="production" /><sourceNode id="http___purl.org_pc2_4_TemplateReaction_f038bb289a20f395a02f4828dff69c32"/><targetNode id="http___purl.org_pc2_4_Protein_ec0e17f3fcf0bcb6e27063b7fba490cf"/></edge><edge id="43"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_e0da88b09e2b8d64f1e62ca686c26147"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_d74ba23ca7c030775cc6906eedc9f639LEFT_TO_RIGHT"/></edge><edge id="44"><type value="production" /><sourceNode id="http___purl.org_pc2_4_Transport_9363b5c19e4e3855ed61fc91e1b63b3aLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_e0da88b09e2b8d64f1e62ca686c26147"/></edge><edge id="45"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_60d39219c055a43dceb5bd16b0f62633LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_5e7140ca8ed5bc27531cc4d17aa9e234"/></edge><edge id="46"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_SmallMolecule_7f2bf0c6846dc41ee9a2f43d61628a28http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT"/></edge><edge id="47"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_41a5ae0754ca5a1b1b850efef915b215LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_26aee515a6c592b546bfe5d8dc8033d9"/></edge><edge id="48"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_1810db63dc45a1109d0805f8dfed7283"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_342b6e36a507ac9e0896314d8b01ca51LEFT_TO_RIGHT"/></edge><edge id="49"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_ee5ba6333ead394fe2039d0ea20e48f0"/></edge><edge id="50"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_6d67d8fd1270a6d1857ee0dc82977cb4LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_SmallMolecule_fd8bafa70f6429c858440834deb58536"/></edge><edge id="51"><type value="production" /><sourceNode id="http___purl.org_pc2_4_Transport_97bf51a116eb5ecd61475474a7cdb502LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_acef6bee4b66fdf5e5dcc605929ad54f"/></edge><edge id="52"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_624e764c3806718585272c8074426c55"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_97e61acd7a39b25b37a5e43630077de1LEFT_TO_RIGHT"/></edge><edge id="53"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_0b6da63f9904a4e35dcc90c95f438c84LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_57565844ffb1fb5cf00b72c2188eeb4e"/></edge><edge id="54"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_9b0803d821d0944d169953009ca9a614"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_758ca5b14597aee912ab0ce237ba8e39LEFT_TO_RIGHT"/></edge><edge id="55"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_9921680c6a3602594c6b05b47d7ca88d"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_30cdb49b309a925a71a4304dfd37838eLEFT_TO_RIGHT"/></edge><edge id="56"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_617d82535169d7bb2c45c74b27d8dcf4"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT"/></edge><edge id="57"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_1d158f75c94a603d920ca7bfcf856d99"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e08825de255d29e4a91f158e2e1c5c0cLEFT_TO_RIGHT"/></edge><edge id="58"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_7a3c6b49864e8e0aac929c6252646bd5"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_8a9134e50e4d5062668e11001206ac77LEFT_TO_RIGHT"/></edge><edge id="59"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_933f3383aa0ac586a86e9387e1a4b97c"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_7e7dd0578cf017a6ae7e74e99fc5fc02LEFT_TO_RIGHT"/></edge><edge id="60"><type value="production" /><sourceNode id="http___purl.org_pc2_4_Transport_469f1f893a9be27b40775dc7b4f066b4LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_0772637403dcffdb6b07f142ba1f1841"/></edge><edge id="61"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_ef90260f1e306aceb33c98a4f4576e50"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_ee1c9a58e2db55514bf685f7626c2f53LEFT_TO_RIGHT"/></edge><edge id="62"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_796a4d12590c3f847de24c23d699175d"/><targetNode id="http___purl.org_pc2_4_TemplateReaction_f038bb289a20f395a02f4828dff69c32"/></edge><edge id="63"><type value="production" /><sourceNode id="http___purl.org_pc2_4_Transport_2692ef2396ef084beafd476461171fd5LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_031f7e4b0cf1f4878134bccbd604e608"/></edge><edge id="64"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Complex_64aae9c0a01bac1b4dcbc2dcbc9b85ac"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e52a231f9c44bcefb61e61ac9d0110d5LEFT_TO_RIGHT"/></edge><edge id="65"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_342b6e36a507ac9e0896314d8b01ca51LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_4133033ca83eaea992bff80edc55643c"/></edge><edge id="66"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_84578e408db97bd54f5dceac40be2052"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_a51091a7db03d7fe0560db5a273b55b3LEFT_TO_RIGHT"/></edge><edge id="67"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_eab8e37baab3ec2bff5bada35142ec4a"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_f2edd215462ad2e444d176a0e32f320bLEFT_TO_RIGHT"/></edge><edge id="68"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_13eee74f533cd180cd0c7d25a61dba52"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_da031469b596a03eecc09b77e0522681LEFT_TO_RIGHT"/></edge><edge id="69"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_a51967a7aef59f991dd40b81342c5061LEFT_TO_RIGHT"/></edge><edge id="70"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_135a3f3fb58666160861fd2e2a1ea7e4LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_3e99a1e0ec8ec75088f647e63d667357"/></edge><edge id="71"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_4e45b90a70221ed385b313da747986cf"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT"/></edge><edge id="72"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_ef90260f1e306aceb33c98a4f4576e50"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_1c04e80fc681a5b0408874a79f42cfaaLEFT_TO_RIGHT"/></edge><edge id="73"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_fb1fd82809693ea3052b875c2da68ce2LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_875d673c78da17e464a2530399c7be15"/></edge><edge id="74"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_031f7e4b0cf1f4878134bccbd604e608"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_41a5ae0754ca5a1b1b850efef915b215LEFT_TO_RIGHT"/></edge><edge id="75"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_0e3b292264faf83fce30b16533ac4e35"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_0e82da4dd08818bc5ba41765c27c44f3LEFT_TO_RIGHT"/></edge><edge id="76"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_d75f49c955b403f09c74c86337aa86ce"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_1748a2ec2bd6099c6f8fe401131cca5aLEFT_TO_RIGHT"/></edge><edge id="77"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_acef6bee4b66fdf5e5dcc605929ad54f"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_29eb5fa4e728165f55d381e528ceb443LEFT_TO_RIGHT"/></edge><edge id="78"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_aeec13e0d1610451c988e107b856e92c"/><targetNode id="http___purl.org_pc2_4_Transport_97bf51a116eb5ecd61475474a7cdb502LEFT_TO_RIGHT"/></edge><edge id="79"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_ea8c3494a2472951c6461e3c79984bfc"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_41a5ae0754ca5a1b1b850efef915b215LEFT_TO_RIGHT"/></edge><edge id="80"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_7a70b2943e723efbf9008d01113c4ba5LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b"/></edge><edge id="81"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_f2edd215462ad2e444d176a0e32f320bLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_a7df34f43fce61dac2c5f0f7032cc944"/></edge><edge id="82"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_2e59835372dbc23bede1fc8d87e8b5e5"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_0b6da63f9904a4e35dcc90c95f438c84LEFT_TO_RIGHT"/></edge><edge id="83"><type value="production" /><sourceNode id="http___purl.org_pc2_4_Transport_b5cf3c2dc69719b4728c78cf76cfe6d8LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_2ea9136ef4a6dd913c33957af0168ef8"/></edge><edge id="84"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_df73f7adaa010883c784d85ad4b17f83LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_SmallMolecule_deef891c64149284356b3290fa608c50"/></edge><edge id="85"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_2406df7951cd4e73d239d2036c5b9f13"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_fb05b782236d35f92a78f8f6cdf0fe5cLEFT_TO_RIGHT"/></edge><edge id="86"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_59e71b6172d4e615ab1f4f85e91c51bd"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_a6edaa127db1af20d2065956d3367cceLEFT_TO_RIGHT"/></edge><edge id="87"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_ad7a3e0ef4dc4a73bc86e0f2f7ae2fb7"/><targetNode id="http___purl.org_pc2_4_Transport_2692ef2396ef084beafd476461171fd5LEFT_TO_RIGHT"/></edge><edge id="88"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_1920a7859c97ef348f4baffa41440ef9"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_a51967a7aef59f991dd40b81342c5061LEFT_TO_RIGHT"/></edge><edge id="89"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_1748a2ec2bd6099c6f8fe401131cca5aLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_1810db63dc45a1109d0805f8dfed7283"/></edge><edge id="90"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_8a9134e50e4d5062668e11001206ac77LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_53e428759c64a2af8ac5d082ffabc044"/></edge><edge id="91"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_4dc82b29d249a3d3e116d1b7e5882b35"/><targetNode id="http___purl.org_pc2_4_TransportWithBiochemicalReaction_4c3dfbbe7d1e5d2e740efd4f06fbdd03LEFT_TO_RIGHT"/></edge><edge id="92"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_6df88c1a7aca57042d2cccb316fbdd65"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_f2edd215462ad2e444d176a0e32f320bLEFT_TO_RIGHT"/></edge><edge id="93"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_6f3bf9f91a1be777e69e2ddbeb3b3684LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_8c028f5ffdc3465432ad3682d9e0024d"/></edge><edge id="94"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_8d94e8414879e1d6a6415803f79838c4"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_7e7dd0578cf017a6ae7e74e99fc5fc02LEFT_TO_RIGHT"/></edge><edge id="95"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_1d7175a08bafe6a4f33b9884072f32f8"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_60d39219c055a43dceb5bd16b0f62633LEFT_TO_RIGHT"/></edge><edge id="96"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_76ab8f80ce0b40eebb94fad0cdb634aeLEFT_TO_RIGHT"/></edge><edge id="97"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_0e4ed123eb2c2ca568c1922a17a8fa33"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e0046f5c16d3c2299902a4870004fb1aLEFT_TO_RIGHT"/></edge><edge id="98"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_c8069779888405b370b463d12292bc71LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_1ab927f85f7c65844b5f148ba7361e1d"/></edge><edge id="99"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_9576d8ca7e7a655c5ffc8db0d5953efb"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_df73f7adaa010883c784d85ad4b17f83LEFT_TO_RIGHT"/></edge><edge id="100"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_ef5529db0efdd2da2121a0fb8c040825http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT"/></edge><edge id="101"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_2eaaa38e560f2151a89e7d8925c02883"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_dc302545b24830dfbf0887d0c90031daLEFT_TO_RIGHT"/></edge><edge id="102"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_e4fca35540344a32044ef0f238ddf6eb"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_29eb5fa4e728165f55d381e528ceb443LEFT_TO_RIGHT"/></edge><edge id="103"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_460b8a329f453bc35c1a53b097cde5e8"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_3e088bde17db75a589d9fd2a5ee0a31aLEFT_TO_RIGHT"/></edge><edge id="104"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_797aebe777b17785655b7ed33b4508b4"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_7e7dd0578cf017a6ae7e74e99fc5fc02LEFT_TO_RIGHT"/></edge><edge id="105"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_9fa0f9b8e44beb0aed888eb456029f7aLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_13eee74f533cd180cd0c7d25a61dba52"/></edge><edge id="106"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_1748a2ec2bd6099c6f8fe401131cca5aLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_a19a06d9eb43de8e1909550886e4fa7b"/></edge><edge id="107"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_e08825de255d29e4a91f158e2e1c5c0cLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_9b0803d821d0944d169953009ca9a614"/></edge><edge id="108"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_030bae1c5ee9f799b3a729aef63a6c4c"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_df73f7adaa010883c784d85ad4b17f83LEFT_TO_RIGHT"/></edge><edge id="109"><type value="production" /><sourceNode id="http___purl.org_pc2_4_Transport_6a747f616f9de350e5b2533cff82137aLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_SmallMolecule_59e71b6172d4e615ab1f4f85e91c51bd"/></edge><edge id="110"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_43cc2dd34b000f811af8b8e96bb7ca2e"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_7e7dd0578cf017a6ae7e74e99fc5fc02LEFT_TO_RIGHT"/></edge><edge id="111"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_1810db63dc45a1109d0805f8dfed7283"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_1748a2ec2bd6099c6f8fe401131cca5aLEFT_TO_RIGHT"/></edge><edge id="112"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_ee1c9a58e2db55514bf685f7626c2f53LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_53e07932183397d12b7793c9c05044d6"/></edge><edge id="113"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_da031469b596a03eecc09b77e0522681LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_a88f00cb21479cb084b89c534e32c329"/></edge><edge id="114"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_7cfa6e8725042c2c41c6b7c46b851e7a"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_342b6e36a507ac9e0896314d8b01ca51LEFT_TO_RIGHT"/></edge><edge id="115"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_8781c7f578ff4aeadc775aea337ca7a8"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_6d67d8fd1270a6d1857ee0dc82977cb4LEFT_TO_RIGHT"/></edge><edge id="116"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_04430572ed464df712cc6c2f132b4f1c"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_62ef9a9a9525eedbca733ae7b0bfa379LEFT_TO_RIGHT"/></edge><edge id="117"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_ea2bbad9afa4c02f5a3a41a58bdf1f65"/><targetNode id="http___purl.org_pc2_4_Transport_469f1f893a9be27b40775dc7b4f066b4LEFT_TO_RIGHT"/></edge><edge id="118"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_53b03ffc4c3da491697be307744d2def"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_895302b5a3e7b008f6e82e7918528683LEFT_TO_RIGHT"/></edge><edge id="119"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_60d39219c055a43dceb5bd16b0f62633LEFT_TO_RIGHT"/></edge><edge id="120"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_44268e210355e0a3605005fe78069705"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_da031469b596a03eecc09b77e0522681LEFT_TO_RIGHT"/></edge><edge id="121"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_353fc75191dd7f759b67d7007a99c6bf"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e0046f5c16d3c2299902a4870004fb1aLEFT_TO_RIGHT"/></edge><edge id="122"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_199a528cc14876d2c9e979a8fe2a20c1"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_0e82da4dd08818bc5ba41765c27c44f3LEFT_TO_RIGHT"/></edge><edge id="123"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_79b7479fc27806ecacb5b44ab18d99db"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_0e82da4dd08818bc5ba41765c27c44f3LEFT_TO_RIGHT"/></edge><edge id="124"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_6a8d7bf8474bbeebe031d0a6b82f16f3"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_135a3f3fb58666160861fd2e2a1ea7e4LEFT_TO_RIGHT"/></edge><edge id="125"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_617d82535169d7bb2c45c74b27d8dcf4"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_30cdb49b309a925a71a4304dfd37838eLEFT_TO_RIGHT"/></edge><edge id="126"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_1a3a90112b7d0c12cec1d95299fee997"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_4fe9558b359fcd48c2fc321a835099e2LEFT_TO_RIGHT"/></edge><edge id="127"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_0772637403dcffdb6b07f142ba1f1841"/><targetNode id="http___purl.org_pc2_4_TemplateReaction_cf2541a2a4ba96c00aff08f71ae93297"/></edge><edge id="128"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_59e71b6172d4e615ab1f4f85e91c51bd"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_53a22c3da7d041ad184d123ae6f58ce7LEFT_TO_RIGHT"/></edge><edge id="129"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_fb05b782236d35f92a78f8f6cdf0fe5cLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_353fc75191dd7f759b67d7007a99c6bf"/></edge><edge id="130"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_88c6c9ec1bc5de26a4e5fdb4412acd3b"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_758ca5b14597aee912ab0ce237ba8e39LEFT_TO_RIGHT"/></edge><edge id="131"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_0e82da4dd08818bc5ba41765c27c44f3LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_ea8c3494a2472951c6461e3c79984bfc"/></edge><edge id="132"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_df73f7adaa010883c784d85ad4b17f83LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_SmallMolecule_0210fadbe2890578aa34370a103351b6"/></edge><edge id="133"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_62ef9a9a9525eedbca733ae7b0bfa379LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_f7a742b51e7d2a21a104306475ed59a1"/></edge><edge id="134"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_41a5ae0754ca5a1b1b850efef915b215LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_440152677b051c5e27a06034791856c5"/></edge><edge id="135"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_26aee515a6c592b546bfe5d8dc8033d9"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_1748a2ec2bd6099c6f8fe401131cca5aLEFT_TO_RIGHT"/></edge><edge id="136"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_f7a742b51e7d2a21a104306475ed59a1"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT"/></edge><edge id="137"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_a7b262776c0258f7edcae7a056577069"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e52a231f9c44bcefb61e61ac9d0110d5LEFT_TO_RIGHT"/></edge><edge id="138"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_df73f7adaa010883c784d85ad4b17f83LEFT_TO_RIGHT"/></edge><edge id="139"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_927e13e9596794c2ce27e870ab82adef"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_f2edd215462ad2e444d176a0e32f320bLEFT_TO_RIGHT"/></edge><edge id="140"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_ae696578ecfa533d5892768035853e89LEFT_TO_RIGHT"/></edge><edge id="141"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_a51091a7db03d7fe0560db5a273b55b3LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_95e94853aa092522ae923f877cdf546a"/></edge><edge id="142"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Complex_53e07932183397d12b7793c9c05044d6"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_532b6edf515986d6ec75509763c00e51LEFT_TO_RIGHT"/></edge><edge id="143"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_797aebe777b17785655b7ed33b4508b4"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e08825de255d29e4a91f158e2e1c5c0cLEFT_TO_RIGHT"/></edge><edge id="144"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_6d92b1cb74eff2ebe7236610299c0700"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_6f3bf9f91a1be777e69e2ddbeb3b3684LEFT_TO_RIGHT"/></edge><edge id="145"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_5a48d392cc31a3cb31c6f9c6d1a8470a"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_41a5ae0754ca5a1b1b850efef915b215LEFT_TO_RIGHT"/></edge><edge id="146"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_e0046f5c16d3c2299902a4870004fb1aLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_ef90260f1e306aceb33c98a4f4576e50"/></edge><edge id="147"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_29eb5fa4e728165f55d381e528ceb443LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b"/></edge><edge id="148"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_7a70b2943e723efbf9008d01113c4ba5LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_eaf8c90a02bdca35d994cec57ca82bbd"/></edge><edge id="149"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_a7df34f43fce61dac2c5f0f7032cc944"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_12ea95ff7abe4c0a7a9440913e5981e5LEFT_TO_RIGHT"/></edge><edge id="150"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_e8064be39498da7e960b4f74fa27c4aeLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418"/></edge><edge id="151"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_030bae1c5ee9f799b3a729aef63a6c4c"/><targetNode id="http___purl.org_pc2_4_Transport_97bf51a116eb5ecd61475474a7cdb502LEFT_TO_RIGHT"/></edge><edge id="152"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_16a483d8d3b8f058be488e712f17b108"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e08825de255d29e4a91f158e2e1c5c0cLEFT_TO_RIGHT"/></edge><edge id="153"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_dc302545b24830dfbf0887d0c90031daLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_7ea863795aeaf569bc5833c0265ca17c"/></edge><edge id="154"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_459a9bdbbe583558623a08f443cfa050"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_7a70b2943e723efbf9008d01113c4ba5LEFT_TO_RIGHT"/></edge><edge id="155"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_3e088bde17db75a589d9fd2a5ee0a31aLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_e2cf84cc99aa85269d57058072c6f34b"/></edge><edge id="156"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_8f3f711183998061bd08a682bd2d3788"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_1c04e80fc681a5b0408874a79f42cfaaLEFT_TO_RIGHT"/></edge><edge id="157"><type value="consumption" /><sourceNode id="SAS_For_http___purl.org_pc2_4_TemplateReaction_cf2541a2a4ba96c00aff08f71ae93297"/><targetNode id="http___purl.org_pc2_4_TemplateReaction_cf2541a2a4ba96c00aff08f71ae93297"/></edge><edge id="158"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_11e5c288644e3a0cc3abb02e49a067a1"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_a194ef2d11a2a0a639228f9e55530466LEFT_TO_RIGHT"/></edge><edge id="159"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_75546e98e35adae0e554469a0f704f11"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_d74ba23ca7c030775cc6906eedc9f639LEFT_TO_RIGHT"/></edge><edge id="160"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_6c56a98742839756655b7de965dd353a"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_e58009415574d225125ad79a6a74efa3LEFT_TO_RIGHT"/></edge><edge id="161"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_8e14ef68277e1a1f2cbcacc8c4175399"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_a51091a7db03d7fe0560db5a273b55b3LEFT_TO_RIGHT"/></edge><edge id="162"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_0b6da63f9904a4e35dcc90c95f438c84LEFT_TO_RIGHT"/></edge><edge id="163"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_f5a7121874c4578de16a9da29c8b190c"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_29eb5fa4e728165f55d381e528ceb443LEFT_TO_RIGHT"/></edge><edge id="164"><type value="consumption" /><sourceNode id="SAS_For_http___purl.org_pc2_4_TemplateReaction_f038bb289a20f395a02f4828dff69c32"/><targetNode id="http___purl.org_pc2_4_TemplateReaction_f038bb289a20f395a02f4828dff69c32"/></edge><edge id="165"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_875d673c78da17e464a2530399c7be15"/><targetNode id="http___purl.org_pc2_4_Transport_dfe46bd4e93acb41fba159b66bdbb4dbLEFT_TO_RIGHT"/></edge><edge id="166"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_fbd55566c60bf066cebb3fd8aaba6962"/><targetNode id="http___purl.org_pc2_4_Transport_50236ddb598cac3793c88e169b2bb172LEFT_TO_RIGHT"/></edge><edge id="167"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_6868610de3f990bdff30d524538e1e45"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_f2edd215462ad2e444d176a0e32f320bLEFT_TO_RIGHT"/></edge><edge id="168"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_4fe9558b359fcd48c2fc321a835099e2LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_6c56a98742839756655b7de965dd353a"/></edge><edge id="169"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_0273c1c79414699d0300da0af3c7278c"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_c8069779888405b370b463d12292bc71LEFT_TO_RIGHT"/></edge><edge id="170"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_95e94853aa092522ae923f877cdf546a"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_e58009415574d225125ad79a6a74efa3LEFT_TO_RIGHT"/></edge><edge id="171"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_1c04e80fc681a5b0408874a79f42cfaaLEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_1d7175a08bafe6a4f33b9884072f32f8"/></edge><edge id="172"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_8de9569848065f49c57c1529ede14c8b"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_dc302545b24830dfbf0887d0c90031daLEFT_TO_RIGHT"/></edge><edge id="173"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_660616169fbe013cf6db37f62a56c9a6"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_a6edaa127db1af20d2065956d3367cceLEFT_TO_RIGHT"/></edge><edge id="174"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_6ca8857293bd9329085ecdf9f45c6cf9"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_76ab8f80ce0b40eebb94fad0cdb634aeLEFT_TO_RIGHT"/></edge><edge id="175"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_b57d567b6b80486b9ed31920c6ffca2d"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_ee1c9a58e2db55514bf685f7626c2f53LEFT_TO_RIGHT"/></edge><edge id="176"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_26aee515a6c592b546bfe5d8dc8033d9"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_342b6e36a507ac9e0896314d8b01ca51LEFT_TO_RIGHT"/></edge><edge id="177"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_37497291b4004d9668493ebe79fb962f"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_72aa4508edce0e69082cc9562fd487c4LEFT_TO_RIGHT"/></edge><edge id="178"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_97a6826ea80ab0f00cc188e7585ac06b"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_6d67d8fd1270a6d1857ee0dc82977cb4LEFT_TO_RIGHT"/></edge><edge id="179"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_719414f78e4254be03be34eea5b93127"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_a194ef2d11a2a0a639228f9e55530466LEFT_TO_RIGHT"/></edge><edge id="180"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_025fd0594f1742dac24b03ade4a4332c"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_3e088bde17db75a589d9fd2a5ee0a31aLEFT_TO_RIGHT"/></edge><edge id="181"><type value="inhibition" /><sourceNode id="http___purl.org_pc2_4_Protein_26e2a73aa1e1a5f0da14553012773fb4"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_29eb5fa4e728165f55d381e528ceb443LEFT_TO_RIGHT"/></edge><edge id="182"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_7e7dd0578cf017a6ae7e74e99fc5fc02LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_b5af14a3665922d93e59893267847b10"/></edge><edge id="183"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_3e99a1e0ec8ec75088f647e63d667357"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_6895141e712838686c1643ff6c858e56LEFT_TO_RIGHT"/></edge><edge id="184"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_d74ba23ca7c030775cc6906eedc9f639LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_86f88b7c2b5d6c8c3c2ecbdd30d9aecd"/></edge><edge id="185"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_97e61acd7a39b25b37a5e43630077de1LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_026d8a1481485c8d490a5602c24d9a75"/></edge><edge id="186"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_e58009415574d225125ad79a6a74efa3LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_460b8a329f453bc35c1a53b097cde5e8"/></edge><edge id="187"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_32d50f45e59571872b04bbcabdbfd908"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_c8069779888405b370b463d12292bc71LEFT_TO_RIGHT"/></edge><edge id="188"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_7bbe8879618f4f820f805dea44df8b7b"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_6d67d8fd1270a6d1857ee0dc82977cb4LEFT_TO_RIGHT"/></edge><edge id="189"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_b5af14a3665922d93e59893267847b10"/><targetNode id="http___purl.org_pc2_4_Transport_b5cf3c2dc69719b4728c78cf76cfe6d8LEFT_TO_RIGHT"/></edge><edge id="190"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_91c16cf059b4e3308fe03b694f9b4558"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_e08825de255d29e4a91f158e2e1c5c0cLEFT_TO_RIGHT"/></edge><edge id="191"><type value="stimulation" /><sourceNode id="http___purl.org_pc2_4_Complex_e0da88b09e2b8d64f1e62ca686c26147"/><targetNode id="http___purl.org_pc2_4_TemplateReaction_f038bb289a20f395a02f4828dff69c32"/></edge><edge id="192"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_ae696578ecfa533d5892768035853e89LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_16a483d8d3b8f058be488e712f17b108"/></edge><edge id="193"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_12ea95ff7abe4c0a7a9440913e5981e5LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Complex_52a79528282cef268c3240637e2a4fe1"/></edge><edge id="194"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_8374d16dad968755022b8f972d8bce46"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_ae696578ecfa533d5892768035853e89LEFT_TO_RIGHT"/></edge><edge id="195"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_8c028f5ffdc3465432ad3682d9e0024d"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_fb1fd82809693ea3052b875c2da68ce2LEFT_TO_RIGHT"/></edge><edge id="196"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_624e764c3806718585272c8074426c55"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_9fa0f9b8e44beb0aed888eb456029f7aLEFT_TO_RIGHT"/></edge><edge id="197"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_ad7a3e0ef4dc4a73bc86e0f2f7ae2fb7"/><targetNode id="http___purl.org_pc2_4_Transport_97bf51a116eb5ecd61475474a7cdb502LEFT_TO_RIGHT"/></edge><edge id="198"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_72aa4508edce0e69082cc9562fd487c4LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_6868610de3f990bdff30d524538e1e45"/></edge><edge id="199"><type value="production" /><sourceNode id="http___purl.org_pc2_4_ComplexAssembly_41a5ae0754ca5a1b1b850efef915b215LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_5d311c3842fa6c906f755f382a5d0026"/></edge><edge id="200"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_f0293af2db8eb2c764ce61b558ffcce6"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_a194ef2d11a2a0a639228f9e55530466LEFT_TO_RIGHT"/></edge><edge id="201"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_0210fadbe2890578aa34370a103351b6"/><targetNode id="http___purl.org_pc2_4_Transport_50236ddb598cac3793c88e169b2bb172LEFT_TO_RIGHT"/></edge><edge id="202"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_ad7a3e0ef4dc4a73bc86e0f2f7ae2fb7"/><targetNode id="http___purl.org_pc2_4_TransportWithBiochemicalReaction_4c3dfbbe7d1e5d2e740efd4f06fbdd03LEFT_TO_RIGHT"/></edge><edge id="203"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_758ca5b14597aee912ab0ce237ba8e39LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_3270c3de973bbf2e2b7ea6c876db3ae1"/></edge><edge id="204"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_ee5ba6333ead394fe2039d0ea20e48f0"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_8a9134e50e4d5062668e11001206ac77LEFT_TO_RIGHT"/></edge><edge id="205"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_SmallMolecule_4aee7bf9ed241ce1ab9c8bf369a727b3"/><targetNode id="http___purl.org_pc2_4_Transport_6a747f616f9de350e5b2533cff82137aLEFT_TO_RIGHT"/></edge><edge id="206"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_c233f04c62f98cf00bccd0aeecddbd38"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_fb05b782236d35f92a78f8f6cdf0fe5cLEFT_TO_RIGHT"/></edge><edge id="207"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_030bae1c5ee9f799b3a729aef63a6c4c"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_ee1c9a58e2db55514bf685f7626c2f53LEFT_TO_RIGHT"/></edge><edge id="208"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Complex_59541d21a3a65447ef3729dd19ff0418"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_62ef9a9a9525eedbca733ae7b0bfa379LEFT_TO_RIGHT"/></edge><edge id="209"><type value="production" /><sourceNode id="http___purl.org_pc2_4_TemplateReaction_cf2541a2a4ba96c00aff08f71ae93297"/><targetNode id="http___purl.org_pc2_4_Protein_1ab2ab4f9082b343df1d134676038838"/></edge><edge id="210"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_17d0551cf8bc28b859beba46cadc9c9f"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_0e82da4dd08818bc5ba41765c27c44f3LEFT_TO_RIGHT"/></edge><edge id="211"><type value="catalysis" /><sourceNode id="http___purl.org_pc2_4_Protein_4fe5904ed423e23d08fbd3cd8bb9daa9"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_758ca5b14597aee912ab0ce237ba8e39LEFT_TO_RIGHT"/></edge><edge id="212"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_6895141e712838686c1643ff6c858e56LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_11e5c288644e3a0cc3abb02e49a067a1"/></edge><edge id="213"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Complex_1810db63dc45a1109d0805f8dfed7283"/><targetNode id="http___purl.org_pc2_4_Transport_9363b5c19e4e3855ed61fc91e1b63b3aLEFT_TO_RIGHT"/></edge><edge id="214"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_8f3f711183998061bd08a682bd2d3788"/><targetNode id="http___purl.org_pc2_4_ComplexAssembly_ee1c9a58e2db55514bf685f7626c2f53LEFT_TO_RIGHT"/></edge><edge id="215"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_3270c3de973bbf2e2b7ea6c876db3ae1"/><targetNode id="http___purl.org_pc2_4_Transport_2692ef2396ef084beafd476461171fd5LEFT_TO_RIGHT"/></edge><edge id="216"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_21f39b8bd6a11308309c92a8837aa254"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_53a22c3da7d041ad184d123ae6f58ce7LEFT_TO_RIGHT"/></edge><edge id="217"><type value="consumption" /><sourceNode id="http___purl.org_pc2_4_Protein_33c489987cfa35d459a8ba9da2d26e93"/><targetNode id="http___purl.org_pc2_4_BiochemicalReaction_e58009415574d225125ad79a6a74efa3LEFT_TO_RIGHT"/></edge><edge id="218"><type value="production" /><sourceNode id="http___purl.org_pc2_4_BiochemicalReaction_53a22c3da7d041ad184d123ae6f58ce7LEFT_TO_RIGHT"/><targetNode id="http___purl.org_pc2_4_Protein_617d82535169d7bb2c45c74b27d8dcf4"/></edge>
+
+</view>

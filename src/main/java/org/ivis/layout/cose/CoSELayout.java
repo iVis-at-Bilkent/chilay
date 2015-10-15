@@ -219,7 +219,7 @@ public class CoSELayout extends FDLayout
 	 * This method uses classic layout method (without multi-scaling)
 	 * @return
 	 */
-	private boolean classicLayout ()
+	protected boolean classicLayout ()
 	{
 		this.calculateNodesToApplyGravitationTo();
 	

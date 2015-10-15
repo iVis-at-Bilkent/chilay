@@ -1,0 +1,1521 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<view>
+	<node id="pnre1">
+		<type value="process" />
+		<bounds height="10" width="10" x="1924.9" y="1364.9" />
+	</node>
+	<node id="pnre2">
+		<type value="process" />
+		<bounds height="10" width="10" x="2134.4" y="1464.9" />
+	</node>
+	<node id="pnre3">
+		<type value="process" />
+		<bounds height="10" width="10" x="1296" y="1250.7" />
+	</node>
+	<node id="pnre4">
+		<type value="process" />
+		<bounds height="10" width="10" x="1410.2" y="1416" />
+	</node>
+	<node id="pnre5">
+		<type value="process" />
+		<bounds height="10" width="10" x="890.9" y="1580.9" />
+	</node>
+	<node id="pnre6">
+		<type value="process" />
+		<bounds height="10" width="10" x="2324.9" y="1634.9" />
+	</node>
+	<node id="pnre7">
+		<type value="process" />
+		<bounds height="10" width="10" x="1790.9" y="1320.9" />
+	</node>
+	<node id="pnre8">
+		<type value="process" />
+		<bounds height="10" width="10" x="2660.7" y="2044.5" />
+	</node>
+	<node id="pnre9">
+		<type value="process" />
+		<bounds height="10" width="10" x="2810.2" y="1894" />
+	</node>
+	<node id="pnre10">
+		<type value="process" />
+		<bounds height="10" width="10" x="2540.9" y="1710.9" />
+	</node>
+	<node id="pnre11">
+		<type value="process" />
+		<bounds height="10" width="10" x="3430" y="1630" />
+	</node>
+	<node id="pnre12">
+		<type value="process" />
+		<bounds height="10" width="10" x="3310.9" y="1720.9" />
+	</node>
+	<node id="pnre13">
+		<type value="process" />
+		<bounds height="10" width="10" x="3034.9" y="1024.9" />
+	</node>
+	<node id="pnre14">
+		<type value="process" />
+		<bounds height="10" width="10" x="3164.5" y="1115.5" />
+	</node>
+	<node id="pnre15">
+		<type value="process" />
+		<bounds height="10" width="10" x="2304.9" y="1554.9" />
+	</node>
+	<node id="pnre16">
+		<type value="process" />
+		<bounds height="10" width="10" x="2180" y="1030" />
+	</node>
+	<node id="pnre17">
+		<type value="process" />
+		<bounds height="10" width="10" x="196" y="890.5" />
+	</node>
+	<node id="pnre18">
+		<type value="process" />
+		<bounds height="10" width="10" x="2819.1" y="289.6" />
+	</node>
+	<node id="pnre19">
+		<type value="process" />
+		<bounds height="10" width="10" x="2694.9" y="174.9" />
+	</node>
+	<node id="pnre21">
+		<type value="process" />
+		<bounds height="10" width="10" x="2310.9" y="700.9" />
+	</node>
+	<node id="pnre22">
+		<type value="process" />
+		<bounds height="10" width="10" x="2520.9" y="770.9" />
+	</node>
+	<node id="pnre23">
+		<type value="process" />
+		<bounds height="10" width="10" x="2620.9" y="594.9" />
+	</node>
+	<node id="pnre24">
+		<type value="process" />
+		<bounds height="10" width="10" x="2470.9" y="544.9" />
+	</node>
+	<node id="pnre25">
+		<type value="process" />
+		<bounds height="10" width="10" x="734.9" y="140.9" />
+	</node>
+	<node id="pnre28">
+		<type value="process" />
+		<bounds height="10" width="10" x="2226" y="180.5" />
+	</node>
+	<node id="pnre29">
+		<type value="process" />
+		<bounds height="10" width="10" x="1614" y="369.5" />
+	</node>
+	<node id="pnre30">
+		<type value="process" />
+		<bounds height="10" width="10" x="600.9" y="550.9" />
+	</node>
+	<node id="pnre31">
+		<type value="process" />
+		<bounds height="10" width="10" x="2110.9" y="480.9" />
+	</node>
+	<node id="pnre32">
+		<type value="process" />
+		<bounds height="10" width="10" x="1454.9" y="454.9" />
+	</node>
+	<node id="pnre33">
+		<type value="process" />
+		<bounds height="10" width="10" x="1250.9" y="614.9" />
+	</node>
+	<node id="pnre34">
+		<type value="process" />
+		<bounds height="10" width="10" x="920" y="710" />
+	</node>
+	<node id="pnre35">
+		<type value="process" />
+		<bounds height="10" width="10" x="1114" y="799.5" />
+	</node>
+	<node id="a1">
+		<type value="simple chemical" />
+		<bounds height="40" width="135" x="1817.5" y="1455" />
+	</node>
+	<node id="a2">
+		<type value="simple chemical" />
+		<bounds height="34" width="98" x="1886" y="1308" />
+	</node>
+	<node id="a3">
+		<type value="simple chemical" />
+		<bounds height="52" width="159" x="1535.5" y="1499" />
+	</node>
+	<node id="a4">
+		<type value="simple chemical" />
+		<bounds height="61" width="171" x="1329.5" y="1554.5" />
+	</node>
+	<node id="a5">
+		<type value="simple chemical" />
+		<bounds height="30" width="115" x="837.5" y="1930" />
+	</node>
+	<node id="a6">
+		<type value="simple chemical" />
+		<bounds height="58" width="164" x="2733" y="1686" />
+	</node>
+	<node id="a7">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="1910" y="1405.5" />
+	</node>
+	<node id="a8">
+		<type value="simple chemical" />
+		<bounds height="20" width="57" x="2066.5" y="1365" />
+	</node>
+	<node id="a9">
+		<type value="simple chemical" />
+		<bounds height="23" width="57" x="2116.5" y="1273.5" />
+	</node>
+	<node id="a10">
+		<type value="simple chemical" />
+		<bounds height="20" width="62" x="2114" y="1525" />
+	</node>
+	<node id="a11">
+		<type value="macromolecule" />
+		<bounds height="34" width="83" x="2003.5" y="1418" />
+	</node>
+	<node id="a12">
+		<type value="macromolecule" />
+		<bounds height="38" width="116" x="2177" y="1456" />
+	</node>
+	<node id="a13">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="1394" y="1203" />
+	</node>
+	<node id="a14">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="1962.5" y="1242.5" />
+	</node>
+	<node id="a15">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="1160" y="1242.5" />
+	</node>
+	<node id="a16">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="1270" y="1285.5" />
+	</node>
+	<node id="a17">
+		<type value="macromolecule" />
+		<bounds height="41" width="118" x="1236" y="1154.5" />
+	</node>
+	<node id="a18">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="1454" y="1403" />
+	</node>
+	<node id="a19">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="1442.5" y="1472.5" />
+	</node>
+	<node id="a20">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="1330" y="1405.5" />
+	</node>
+	<node id="a21">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="1250" y="1342.5" />
+	</node>
+	<node id="a22">
+		<type value="macromolecule" />
+		<bounds height="41" width="118" x="1356" y="1284.5" />
+	</node>
+	<node id="a23">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="1134" y="1533" />
+	</node>
+	<node id="a24">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="1262.5" y="1532.5" />
+	</node>
+	<node id="a25">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="810" y="1605.5" />
+	</node>
+	<node id="a26">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="700" y="1572.5" />
+	</node>
+	<node id="a27">
+		<type value="simple chemical" />
+		<bounds height="42" width="87" x="851.5" y="1504" />
+	</node>
+	<node id="a28">
+		<type value="macromolecule" />
+		<bounds height="41" width="118" x="976" y="1514.5" />
+	</node>
+	<node id="a29">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="2364" y="1563" />
+	</node>
+	<node id="a30">
+		<type value="macromolecule" />
+		<bounds height="35" width="86" x="2292" y="1697.5" />
+	</node>
+	<node id="a31">
+		<type value="macromolecule" />
+		<bounds height="38" width="156" x="2367" y="1626" />
+	</node>
+	<node id="a32">
+		<type value="simple chemical" />
+		<bounds height="49" width="129" x="1730.5" y="1540.5" />
+	</node>
+	<node id="a33">
+		<type value="simple chemical" />
+		<bounds height="43" width="144" x="3523" y="1613.5" />
+	</node>
+	<node id="a34">
+		<type value="simple chemical" />
+		<bounds height="42" width="119" x="2935.5" y="1744" />
+	</node>
+	<node id="a35">
+		<type value="simple chemical" />
+		<bounds height="22" width="63" x="2573.5" y="1974" />
+	</node>
+	<node id="a36">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="2572.5" y="2042.5" />
+	</node>
+	<node id="a37">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="3620" y="2045.5" />
+	</node>
+	<node id="a38">
+		<type value="simple chemical" />
+		<bounds height="20" width="59" x="2635.5" y="2085" />
+	</node>
+	<node id="a39">
+		<type value="macromolecule" />
+		<bounds height="33" width="183" x="2573.5" y="1888.5" />
+	</node>
+	<node id="a41">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="2802.5" y="1942.5" />
+	</node>
+	<node id="a42">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="2874" y="1893" />
+	</node>
+	<node id="a43">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="3090" y="1802.5" />
+	</node>
+	<node id="a44">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="2840" y="1835.5" />
+	</node>
+	<node id="a45">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="2510" y="1562.5" />
+	</node>
+	<node id="a46">
+		<type value="macromolecule" />
+		<bounds height="35" width="86" x="3392" y="1667.5" />
+	</node>
+	<node id="a47">
+		<type value="macromolecule" />
+		<bounds height="38" width="156" x="3087" y="1706" />
+	</node>
+	<node id="a48">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="3394" y="1573" />
+	</node>
+	<node id="a49">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="3280" y="1662.5" />
+	</node>
+	<node id="a50">
+		<type value="simple chemical" />
+		<bounds height="47" width="133" x="2248.5" y="1011.5" />
+	</node>
+	<node id="a51">
+		<type value="simple chemical" />
+		<bounds height="51" width="114" x="2908" y="679.5" />
+	</node>
+	<node id="a52">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="2952.5" y="1062.5" />
+	</node>
+	<node id="a53">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="2824" y="1063" />
+	</node>
+	<node id="a54">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="3080" y="1022.5" />
+	</node>
+	<node id="a55">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="3020" y="1085.5" />
+	</node>
+	<node id="a56">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="3252.5" y="1172.5" />
+	</node>
+	<node id="a57">
+		<type value="simple chemical" />
+		<bounds height="21" width="77" x="3136.5" y="1214.5" />
+	</node>
+	<node id="a58">
+		<type value="simple chemical" />
+		<bounds height="17" width="59" x="3145.5" y="666.5" />
+	</node>
+	<node id="a59">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="3210" y="1115.5" />
+	</node>
+	<node id="a60">
+		<type value="macromolecule" />
+		<bounds height="40" width="149" x="2630.5" y="1105" />
+	</node>
+	<node id="a61">
+		<type value="simple chemical" />
+		<bounds height="42" width="101" x="2174.5" y="1154" />
+	</node>
+	<node id="a62">
+		<type value="simple chemical" />
+		<bounds height="50" width="121" x="1994.5" y="1010" />
+	</node>
+	<node id="a63">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="2160" y="915.5" />
+	</node>
+	<node id="a64">
+		<type value="simple chemical" />
+		<bounds height="26" width="55" x="2157.5" y="1072" />
+	</node>
+	<node id="a65">
+		<type value="macromolecule" />
+		<bounds height="40" width="100" x="2025" y="935" />
+	</node>
+	<node id="a66">
+		<type value="simple chemical" />
+		<bounds height="51" width="146" x="292" y="119.5" />
+	</node>
+	<node id="a67">
+		<type value="simple chemical" />
+		<bounds height="55" width="133" x="2758.5" y="527.5" />
+	</node>
+	<node id="a68">
+		<type value="simple chemical" />
+		<bounds height="50" width="100" x="2575" y="160" />
+	</node>
+	<node id="a70">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="182.5" y="832.5" />
+	</node>
+	<node id="a71">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="254" y="843" />
+	</node>
+	<node id="a72">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="220" y="932.5" />
+	</node>
+	<node id="a73">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="170" y="995.5" />
+	</node>
+	<node id="a74">
+		<type value="simple chemical" />
+		<bounds height="18" width="79" x="2855.5" y="286" />
+	</node>
+	<node id="a75">
+		<type value="simple chemical" />
+		<bounds height="19" width="52" x="2799" y="55.5" />
+	</node>
+	<node id="a76">
+		<type value="simple chemical" />
+		<bounds height="20" width="73" x="2728.5" y="225" />
+	</node>
+	<node id="a77">
+		<type value="simple chemical" />
+		<bounds height="15" width="58" x="2736" y="177.5" />
+	</node>
+	<node id="a78">
+		<type value="simple chemical" />
+		<bounds height="15" width="58" x="2496" y="727.5" />
+	</node>
+	<node id="a79">
+		<type value="simple chemical" />
+		<bounds height="15" width="58" x="2176" y="547.5" />
+	</node>
+	<node id="a80">
+		<type value="simple chemical" />
+		<bounds height="20" width="73" x="2588.5" y="665" />
+	</node>
+	<node id="a81">
+		<type value="simple chemical" />
+		<bounds height="20" width="73" x="2208.5" y="695" />
+	</node>
+	<node id="a82">
+		<type value="macromolecule" />
+		<bounds height="35" width="86" x="2272" y="587.5" />
+	</node>
+	<node id="a83">
+		<type value="macromolecule" />
+		<bounds height="38" width="156" x="2397" y="626" />
+	</node>
+	<node id="a84">
+		<type value="macromolecule" />
+		<bounds height="40" width="100" x="2655" y="275" />
+	</node>
+	<node id="a85">
+		<type value="macromolecule" />
+		<bounds height="40" width="100" x="45" y="875" />
+	</node>
+	<node id="a86">
+		<type value="simple chemical" />
+		<bounds height="46" width="117" x="686.5" y="532" />
+	</node>
+	<node id="a87">
+		<type value="simple chemical" />
+		<bounds height="50" width="100" x="2235" y="460" />
+	</node>
+	<node id="a88">
+		<type value="simple chemical" />
+		<bounds height="55" width="125" x="1402.5" y="347.5" />
+	</node>
+	<node id="a89">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="1612.5" y="412.5" />
+	</node>
+	<node id="a90">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="1684" y="363" />
+	</node>
+	<node id="a91">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="1650" y="242.5" />
+	</node>
+	<node id="a92">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="1650" y="305.5" />
+	</node>
+	<node id="a93">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="2032.5" y="212.5" />
+	</node>
+	<node id="a94">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="1904" y="213" />
+	</node>
+	<node id="a95">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="2190" y="242.5" />
+	</node>
+	<node id="a96">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="2100" y="205.5" />
+	</node>
+	<node id="a97">
+		<type value="macromolecule" />
+		<bounds height="40" width="100" x="1575" y="125" />
+	</node>
+	<node id="a98">
+		<type value="macromolecule" />
+		<bounds height="38" width="145" x="1712.5" y="166" />
+	</node>
+	<node id="a99">
+		<type value="simple chemical" />
+		<bounds height="50" width="100" x="555" y="590" />
+	</node>
+	<node id="a100">
+		<type value="simple chemical" />
+		<bounds height="50" width="100" x="2065" y="600" />
+	</node>
+	<node id="a101">
+		<type value="simple chemical" />
+		<bounds height="50" width="100" x="775" y="440" />
+	</node>
+	<node id="a102">
+		<type value="macromolecule" />
+		<bounds height="40" width="100" x="1275" y="555" />
+	</node>
+	<node id="a103">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="2102.5" y="422.5" />
+	</node>
+	<node id="a104">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="1794" y="473" />
+	</node>
+	<node id="a105">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="2010" y="512.5" />
+	</node>
+	<node id="a106">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="1920" y="505.5" />
+	</node>
+	<node id="a107">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="1352.5" y="492.5" />
+	</node>
+	<node id="a108">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="1424" y="523" />
+	</node>
+	<node id="a109">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="1680" y="452.5" />
+	</node>
+	<node id="a110">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="1550" y="485.5" />
+	</node>
+	<node id="a111">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="450" y="542.5" />
+	</node>
+	<node id="a112">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="564" y="403" />
+	</node>
+	<node id="a113">
+		<type value="macromolecule" />
+		<bounds height="37" width="181" x="394.5" y="466.5" />
+	</node>
+	<node id="a114">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="890" y="752.5" />
+	</node>
+	<node id="a115">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="1034" y="613" />
+	</node>
+	<node id="a116">
+		<type value="macromolecule" />
+		<bounds height="37" width="181" x="1164.5" y="656.5" />
+	</node>
+	<node id="a117">
+		<type value="macromolecule" />
+		<bounds height="41" width="126" x="862" y="564.5" />
+	</node>
+	<node id="a118">
+		<type value="macromolecule" />
+		<bounds height="37" width="150" x="1200" y="786.5" />
+	</node>
+	<node id="a119">
+		<type value="simple chemical" />
+		<bounds height="25" width="25" x="1112.5" y="842.5" />
+	</node>
+	<node id="a120">
+		<type value="simple chemical" />
+		<bounds height="24" width="82" x="634" y="793" />
+	</node>
+	<node id="a121">
+		<type value="simple chemical" />
+		<bounds height="25" width="70" x="1090" y="742.5" />
+	</node>
+	<node id="a122">
+		<type value="simple chemical" />
+		<bounds height="19" width="50" x="1000" y="765.5" />
+	</node>
+	<edge id="1">
+		<type value="consumption" />
+		<sourceNode id="a1" />
+		<targetNode id="pnre1" />
+	</edge>
+	<edge id="2">
+		<type value="production" />
+		<sourceNode id="pnre1" />
+		<targetNode id="a2" />
+	</edge>
+	<edge id="3">
+		<type value="consumption" />
+		<sourceNode id="a7" />
+		<targetNode id="pnre1" />
+	</edge>
+	<edge id="4">
+		<type value="production" />
+		<sourceNode id="pnre1" />
+		<targetNode id="a8" />
+	</edge>
+	<edge id="5">
+		<type value="catalysis" />
+		<sourceNode id="a11" />
+		<targetNode id="pnre1" />
+	</edge>
+	<edge id="6">
+		<type value="consumption" />
+		<sourceNode id="a2" />
+		<targetNode id="pnre2" />
+	</edge>
+	<edge id="7">
+		<type value="production" />
+		<sourceNode id="pnre2" />
+		<targetNode id="a1" />
+	</edge>
+	<edge id="8">
+		<type value="consumption" />
+		<sourceNode id="a10" />
+		<targetNode id="pnre2" />
+	</edge>
+	<edge id="9">
+		<type value="production" />
+		<sourceNode id="pnre2" />
+		<targetNode id="a9" />
+	</edge>
+	<edge id="10">
+		<type value="catalysis" />
+		<sourceNode id="a12" />
+		<targetNode id="pnre2" />
+	</edge>
+	<edge id="11">
+		<type value="consumption" />
+		<sourceNode id="a2" />
+		<targetNode id="pnre3" />
+	</edge>
+	<edge id="12">
+		<type value="production" />
+		<sourceNode id="pnre3" />
+		<targetNode id="a3" />
+	</edge>
+	<edge id="13">
+		<type value="consumption" />
+		<sourceNode id="a13" />
+		<targetNode id="pnre3" />
+	</edge>
+	<edge id="14">
+		<type value="consumption" />
+		<sourceNode id="a14" />
+		<targetNode id="pnre3" />
+	</edge>
+	<edge id="15">
+		<type value="production" />
+		<sourceNode id="pnre3" />
+		<targetNode id="a16" />
+	</edge>
+	<edge id="16">
+		<type value="production" />
+		<sourceNode id="pnre3" />
+		<targetNode id="a15" />
+	</edge>
+	<edge id="17">
+		<type value="catalysis" />
+		<sourceNode id="a17" />
+		<targetNode id="pnre3" />
+	</edge>
+	<edge id="18">
+		<type value="consumption" />
+		<sourceNode id="a3" />
+		<targetNode id="pnre4" />
+	</edge>
+	<edge id="19">
+		<type value="production" />
+		<sourceNode id="pnre4" />
+		<targetNode id="a4" />
+	</edge>
+	<edge id="20">
+		<type value="consumption" />
+		<sourceNode id="a18" />
+		<targetNode id="pnre4" />
+	</edge>
+	<edge id="21">
+		<type value="consumption" />
+		<sourceNode id="a19" />
+		<targetNode id="pnre4" />
+	</edge>
+	<edge id="22">
+		<type value="production" />
+		<sourceNode id="pnre4" />
+		<targetNode id="a20" />
+	</edge>
+	<edge id="23">
+		<type value="production" />
+		<sourceNode id="pnre4" />
+		<targetNode id="a21" />
+	</edge>
+	<edge id="24">
+		<type value="catalysis" />
+		<sourceNode id="a22" />
+		<targetNode id="pnre4" />
+	</edge>
+	<edge id="25">
+		<type value="consumption" />
+		<sourceNode id="a4" />
+		<targetNode id="pnre5" />
+	</edge>
+	<edge id="26">
+		<type value="production" />
+		<sourceNode id="pnre5" />
+		<targetNode id="a5" />
+	</edge>
+	<edge id="27">
+		<type value="consumption" />
+		<sourceNode id="a23" />
+		<targetNode id="pnre5" />
+	</edge>
+	<edge id="28">
+		<type value="consumption" />
+		<sourceNode id="a24" />
+		<targetNode id="pnre5" />
+	</edge>
+	<edge id="29">
+		<type value="production" />
+		<sourceNode id="pnre5" />
+		<targetNode id="a25" />
+	</edge>
+	<edge id="30">
+		<type value="production" />
+		<sourceNode id="pnre5" />
+		<targetNode id="a26" />
+	</edge>
+	<edge id="31">
+		<type value="production" />
+		<sourceNode id="pnre5" />
+		<targetNode id="a27" />
+	</edge>
+	<edge id="32">
+		<type value="catalysis" />
+		<sourceNode id="a28" />
+		<targetNode id="pnre5" />
+	</edge>
+	<edge id="33">
+		<type value="consumption" />
+		<sourceNode id="a5" />
+		<targetNode id="pnre6" />
+	</edge>
+	<edge id="34">
+		<type value="production" />
+		<sourceNode id="pnre6" />
+		<targetNode id="a6" />
+	</edge>
+	<edge id="35">
+		<type value="production" />
+		<sourceNode id="pnre6" />
+		<targetNode id="a29" />
+	</edge>
+	<edge id="36">
+		<type value="catalysis" />
+		<sourceNode id="a30" />
+		<targetNode id="pnre6" />
+	</edge>
+	<edge id="37">
+		<type value="catalysis" />
+		<sourceNode id="a31" />
+		<targetNode id="pnre6" />
+	</edge>
+	<edge id="38">
+		<type value="consumption" />
+		<sourceNode id="a2" />
+		<targetNode id="pnre7" />
+	</edge>
+	<edge id="39">
+		<type value="production" />
+		<sourceNode id="pnre7" />
+		<targetNode id="a32" />
+	</edge>
+	<edge id="40">
+		<type value="consumption" />
+		<sourceNode id="a5" />
+		<targetNode id="pnre8" />
+	</edge>
+	<edge id="41">
+		<type value="production" />
+		<sourceNode id="pnre8" />
+		<targetNode id="a33" />
+	</edge>
+	<edge id="42">
+		<type value="consumption" />
+		<sourceNode id="a36" />
+		<targetNode id="pnre8" />
+	</edge>
+	<edge id="43">
+		<type value="consumption" />
+		<sourceNode id="a35" />
+		<targetNode id="pnre8" />
+	</edge>
+	<edge id="44">
+		<type value="production" />
+		<sourceNode id="pnre8" />
+		<targetNode id="a37" />
+	</edge>
+	<edge id="45">
+		<type value="production" />
+		<sourceNode id="pnre8" />
+		<targetNode id="a38" />
+	</edge>
+	<edge id="46">
+		<type value="catalysis" />
+		<sourceNode id="a39" />
+		<targetNode id="pnre8" />
+	</edge>
+	<edge id="47">
+		<type value="consumption" />
+		<sourceNode id="a6" />
+		<targetNode id="pnre9" />
+	</edge>
+	<edge id="48">
+		<type value="production" />
+		<sourceNode id="pnre9" />
+		<targetNode id="a34" />
+	</edge>
+	<edge id="49">
+		<type value="consumption" />
+		<sourceNode id="a42" />
+		<targetNode id="pnre9" />
+	</edge>
+	<edge id="50">
+		<type value="consumption" />
+		<sourceNode id="a41" />
+		<targetNode id="pnre9" />
+	</edge>
+	<edge id="51">
+		<type value="production" />
+		<sourceNode id="pnre9" />
+		<targetNode id="a43" />
+	</edge>
+	<edge id="52">
+		<type value="production" />
+		<sourceNode id="pnre9" />
+		<targetNode id="a44" />
+	</edge>
+	<edge id="53">
+		<type value="catalysis" />
+		<sourceNode id="a39" />
+		<targetNode id="pnre9" />
+	</edge>
+	<edge id="54">
+		<type value="consumption" />
+		<sourceNode id="a6" />
+		<targetNode id="pnre10" />
+	</edge>
+	<edge id="55">
+		<type value="production" />
+		<sourceNode id="pnre10" />
+		<targetNode id="a5" />
+	</edge>
+	<edge id="56">
+		<type value="production" />
+		<sourceNode id="pnre10" />
+		<targetNode id="a45" />
+	</edge>
+	<edge id="57">
+		<type value="catalysis" />
+		<sourceNode id="a30" />
+		<targetNode id="pnre10" />
+	</edge>
+	<edge id="58">
+		<type value="catalysis" />
+		<sourceNode id="a31" />
+		<targetNode id="pnre10" />
+	</edge>
+	<edge id="59">
+		<type value="consumption" />
+		<sourceNode id="a33" />
+		<targetNode id="pnre11" />
+	</edge>
+	<edge id="60">
+		<type value="production" />
+		<sourceNode id="pnre11" />
+		<targetNode id="a34" />
+	</edge>
+	<edge id="61">
+		<type value="production" />
+		<sourceNode id="pnre11" />
+		<targetNode id="a48" />
+	</edge>
+	<edge id="62">
+		<type value="catalysis" />
+		<sourceNode id="a46" />
+		<targetNode id="pnre11" />
+	</edge>
+	<edge id="63">
+		<type value="catalysis" />
+		<sourceNode id="a47" />
+		<targetNode id="pnre11" />
+	</edge>
+	<edge id="64">
+		<type value="consumption" />
+		<sourceNode id="a34" />
+		<targetNode id="pnre12" />
+	</edge>
+	<edge id="65">
+		<type value="production" />
+		<sourceNode id="pnre12" />
+		<targetNode id="a33" />
+	</edge>
+	<edge id="66">
+		<type value="production" />
+		<sourceNode id="pnre12" />
+		<targetNode id="a49" />
+	</edge>
+	<edge id="67">
+		<type value="catalysis" />
+		<sourceNode id="a46" />
+		<targetNode id="pnre12" />
+	</edge>
+	<edge id="68">
+		<type value="catalysis" />
+		<sourceNode id="a47" />
+		<targetNode id="pnre12" />
+	</edge>
+	<edge id="69">
+		<type value="consumption" />
+		<sourceNode id="a33" />
+		<targetNode id="pnre13" />
+	</edge>
+	<edge id="70">
+		<type value="production" />
+		<sourceNode id="pnre13" />
+		<targetNode id="a50" />
+	</edge>
+	<edge id="71">
+		<type value="consumption" />
+		<sourceNode id="a52" />
+		<targetNode id="pnre13" />
+	</edge>
+	<edge id="72">
+		<type value="consumption" />
+		<sourceNode id="a53" />
+		<targetNode id="pnre13" />
+	</edge>
+	<edge id="73">
+		<type value="production" />
+		<sourceNode id="pnre13" />
+		<targetNode id="a54" />
+	</edge>
+	<edge id="74">
+		<type value="production" />
+		<sourceNode id="pnre13" />
+		<targetNode id="a55" />
+	</edge>
+	<edge id="75">
+		<type value="catalysis" />
+		<sourceNode id="a60" />
+		<targetNode id="pnre13" />
+	</edge>
+	<edge id="76">
+		<type value="consumption" />
+		<sourceNode id="a34" />
+		<targetNode id="pnre14" />
+	</edge>
+	<edge id="77">
+		<type value="production" />
+		<sourceNode id="pnre14" />
+		<targetNode id="a51" />
+	</edge>
+	<edge id="78">
+		<type value="consumption" />
+		<sourceNode id="a56" />
+		<targetNode id="pnre14" />
+	</edge>
+	<edge id="79">
+		<type value="consumption" />
+		<sourceNode id="a57" />
+		<targetNode id="pnre14" />
+	</edge>
+	<edge id="80">
+		<type value="production" />
+		<sourceNode id="pnre14" />
+		<targetNode id="a58" />
+	</edge>
+	<edge id="81">
+		<type value="production" />
+		<sourceNode id="pnre14" />
+		<targetNode id="a59" />
+	</edge>
+	<edge id="82">
+		<type value="catalysis" />
+		<sourceNode id="a60" />
+		<targetNode id="pnre14" />
+	</edge>
+	<edge id="83">
+		<type value="consumption" />
+		<sourceNode id="a32" />
+		<targetNode id="pnre15" />
+	</edge>
+	<edge id="84">
+		<type value="production" />
+		<sourceNode id="pnre15" />
+		<targetNode id="a61" />
+	</edge>
+	<edge id="85">
+		<type value="production" />
+		<sourceNode id="pnre15" />
+		<targetNode id="a50" />
+	</edge>
+	<edge id="86">
+		<type value="consumption" />
+		<sourceNode id="a62" />
+		<targetNode id="pnre16" />
+	</edge>
+	<edge id="87">
+		<type value="production" />
+		<sourceNode id="pnre16" />
+		<targetNode id="a50" />
+	</edge>
+	<edge id="88">
+		<type value="consumption" />
+		<sourceNode id="a63" />
+		<targetNode id="pnre16" />
+	</edge>
+	<edge id="89">
+		<type value="production" />
+		<sourceNode id="pnre16" />
+		<targetNode id="a64" />
+	</edge>
+	<edge id="90">
+		<type value="catalysis" />
+		<sourceNode id="a65" />
+		<targetNode id="pnre16" />
+	</edge>
+	<edge id="91">
+		<type value="consumption" />
+		<sourceNode id="a50" />
+		<targetNode id="pnre17" />
+	</edge>
+	<edge id="92">
+		<type value="production" />
+		<sourceNode id="pnre17" />
+		<targetNode id="a66" />
+	</edge>
+	<edge id="93">
+		<type value="consumption" />
+		<sourceNode id="a70" />
+		<targetNode id="pnre17" />
+	</edge>
+	<edge id="94">
+		<type value="consumption" />
+		<sourceNode id="a71" />
+		<targetNode id="pnre17" />
+	</edge>
+	<edge id="95">
+		<type value="production" />
+		<sourceNode id="pnre17" />
+		<targetNode id="a72" />
+	</edge>
+	<edge id="96">
+		<type value="production" />
+		<sourceNode id="pnre17" />
+		<targetNode id="a73" />
+	</edge>
+	<edge id="97">
+		<type value="catalysis" />
+		<sourceNode id="a85" />
+		<targetNode id="pnre17" />
+	</edge>
+	<edge id="98">
+		<type value="consumption" />
+		<sourceNode id="a50" />
+		<targetNode id="pnre18" />
+	</edge>
+	<edge id="99">
+		<type value="production" />
+		<sourceNode id="pnre18" />
+		<targetNode id="a67" />
+	</edge>
+	<edge id="100">
+		<type value="consumption" />
+		<sourceNode id="a74" />
+		<targetNode id="pnre18" />
+	</edge>
+	<edge id="101">
+		<type value="production" />
+		<sourceNode id="pnre18" />
+		<targetNode id="a75" />
+	</edge>
+	<edge id="102">
+		<type value="catalysis" />
+		<sourceNode id="a84" />
+		<targetNode id="pnre18" />
+	</edge>
+	<edge id="103">
+		<type value="consumption" />
+		<sourceNode id="a51" />
+		<targetNode id="pnre19" />
+	</edge>
+	<edge id="104">
+		<type value="production" />
+		<sourceNode id="pnre19" />
+		<targetNode id="a68" />
+	</edge>
+	<edge id="105">
+		<type value="consumption" />
+		<sourceNode id="a76" />
+		<targetNode id="pnre19" />
+	</edge>
+	<edge id="106">
+		<type value="production" />
+		<sourceNode id="pnre19" />
+		<targetNode id="a77" />
+	</edge>
+	<edge id="107">
+		<type value="catalysis" />
+		<sourceNode id="a84" />
+		<targetNode id="pnre19" />
+	</edge>
+	<edge id="108">
+		<type value="consumption" />
+		<sourceNode id="a50" />
+		<targetNode id="pnre21" />
+	</edge>
+	<edge id="109">
+		<type value="production" />
+		<sourceNode id="pnre21" />
+		<targetNode id="a51" />
+	</edge>
+	<edge id="110">
+		<type value="production" />
+		<sourceNode id="pnre21" />
+		<targetNode id="a81" />
+	</edge>
+	<edge id="111">
+		<type value="catalysis" />
+		<sourceNode id="a82" />
+		<targetNode id="pnre21" />
+	</edge>
+	<edge id="112">
+		<type value="catalysis" />
+		<sourceNode id="a83" />
+		<targetNode id="pnre21" />
+	</edge>
+	<edge id="113">
+		<type value="consumption" />
+		<sourceNode id="a51" />
+		<targetNode id="pnre22" />
+	</edge>
+	<edge id="114">
+		<type value="production" />
+		<sourceNode id="pnre22" />
+		<targetNode id="a50" />
+	</edge>
+	<edge id="115">
+		<type value="production" />
+		<sourceNode id="pnre22" />
+		<targetNode id="a78" />
+	</edge>
+	<edge id="116">
+		<type value="catalysis" />
+		<sourceNode id="a82" />
+		<targetNode id="pnre22" />
+	</edge>
+	<edge id="117">
+		<type value="catalysis" />
+		<sourceNode id="a83" />
+		<targetNode id="pnre22" />
+	</edge>
+	<edge id="118">
+		<type value="consumption" />
+		<sourceNode id="a67" />
+		<targetNode id="pnre23" />
+	</edge>
+	<edge id="119">
+		<type value="production" />
+		<sourceNode id="pnre23" />
+		<targetNode id="a68" />
+	</edge>
+	<edge id="120">
+		<type value="production" />
+		<sourceNode id="pnre23" />
+		<targetNode id="a80" />
+	</edge>
+	<edge id="121">
+		<type value="catalysis" />
+		<sourceNode id="a83" />
+		<targetNode id="pnre23" />
+	</edge>
+	<edge id="122">
+		<type value="catalysis" />
+		<sourceNode id="a82" />
+		<targetNode id="pnre23" />
+	</edge>
+	<edge id="123">
+		<type value="consumption" />
+		<sourceNode id="a68" />
+		<targetNode id="pnre24" />
+	</edge>
+	<edge id="124">
+		<type value="production" />
+		<sourceNode id="pnre24" />
+		<targetNode id="a67" />
+	</edge>
+	<edge id="125">
+		<type value="production" />
+		<sourceNode id="pnre24" />
+		<targetNode id="a79" />
+	</edge>
+	<edge id="126">
+		<type value="catalysis" />
+		<sourceNode id="a83" />
+		<targetNode id="pnre24" />
+	</edge>
+	<edge id="127">
+		<type value="catalysis" />
+		<sourceNode id="a82" />
+		<targetNode id="pnre24" />
+	</edge>
+	<edge id="128">
+		<type value="consumption" />
+		<sourceNode id="a66" />
+		<targetNode id="pnre25" />
+	</edge>
+	<edge id="129">
+		<type value="production" />
+		<sourceNode id="pnre25" />
+		<targetNode id="a86" />
+	</edge>
+	<edge id="130">
+		<type value="catalysis" />
+		<sourceNode id="a97" />
+		<targetNode id="pnre25" />
+	</edge>
+	<edge id="131">
+		<type value="consumption" />
+		<sourceNode id="a68" />
+		<targetNode id="pnre28" />
+	</edge>
+	<edge id="132">
+		<type value="production" />
+		<sourceNode id="pnre28" />
+		<targetNode id="a87" />
+	</edge>
+	<edge id="133">
+		<type value="consumption" />
+		<sourceNode id="a93" />
+		<targetNode id="pnre28" />
+	</edge>
+	<edge id="134">
+		<type value="consumption" />
+		<sourceNode id="a94" />
+		<targetNode id="pnre28" />
+	</edge>
+	<edge id="135">
+		<type value="production" />
+		<sourceNode id="pnre28" />
+		<targetNode id="a95" />
+	</edge>
+	<edge id="136">
+		<type value="production" />
+		<sourceNode id="pnre28" />
+		<targetNode id="a96" />
+	</edge>
+	<edge id="137">
+		<type value="catalysis" />
+		<sourceNode id="a97" />
+		<targetNode id="pnre28" />
+	</edge>
+	<edge id="138">
+		<type value="catalysis" />
+		<sourceNode id="a98" />
+		<targetNode id="pnre28" />
+	</edge>
+	<edge id="139">
+		<type value="consumption" />
+		<sourceNode id="a51" />
+		<targetNode id="pnre29" />
+	</edge>
+	<edge id="140">
+		<type value="production" />
+		<sourceNode id="pnre29" />
+		<targetNode id="a88" />
+	</edge>
+	<edge id="141">
+		<type value="consumption" />
+		<sourceNode id="a90" />
+		<targetNode id="pnre29" />
+	</edge>
+	<edge id="142">
+		<type value="consumption" />
+		<sourceNode id="a89" />
+		<targetNode id="pnre29" />
+	</edge>
+	<edge id="143">
+		<type value="production" />
+		<sourceNode id="pnre29" />
+		<targetNode id="a91" />
+	</edge>
+	<edge id="144">
+		<type value="production" />
+		<sourceNode id="pnre29" />
+		<targetNode id="a92" />
+	</edge>
+	<edge id="145">
+		<type value="catalysis" />
+		<sourceNode id="a97" />
+		<targetNode id="pnre29" />
+	</edge>
+	<edge id="146">
+		<type value="catalysis" />
+		<sourceNode id="a98" />
+		<targetNode id="pnre29" />
+	</edge>
+	<edge id="147">
+		<type value="consumption" />
+		<sourceNode id="a86" />
+		<targetNode id="pnre30" />
+	</edge>
+	<edge id="148">
+		<type value="production" />
+		<sourceNode id="pnre30" />
+		<targetNode id="a99" />
+	</edge>
+	<edge id="149">
+		<type value="consumption" />
+		<sourceNode id="a112" />
+		<targetNode id="pnre30" />
+	</edge>
+	<edge id="150">
+		<type value="production" />
+		<sourceNode id="pnre30" />
+		<targetNode id="a111" />
+	</edge>
+	<edge id="151">
+		<type value="catalysis" />
+		<sourceNode id="a113" />
+		<targetNode id="pnre30" />
+	</edge>
+	<edge id="152">
+		<type value="consumption" />
+		<sourceNode id="a87" />
+		<targetNode id="pnre31" />
+	</edge>
+	<edge id="153">
+		<type value="production" />
+		<sourceNode id="pnre31" />
+		<targetNode id="a100" />
+	</edge>
+	<edge id="154">
+		<type value="consumption" />
+		<sourceNode id="a104" />
+		<targetNode id="pnre31" />
+	</edge>
+	<edge id="155">
+		<type value="consumption" />
+		<sourceNode id="a103" />
+		<targetNode id="pnre31" />
+	</edge>
+	<edge id="156">
+		<type value="production" />
+		<sourceNode id="pnre31" />
+		<targetNode id="a105" />
+	</edge>
+	<edge id="157">
+		<type value="production" />
+		<sourceNode id="pnre31" />
+		<targetNode id="a106" />
+	</edge>
+	<edge id="158">
+		<type value="catalysis" />
+		<sourceNode id="a102" />
+		<targetNode id="pnre31" />
+	</edge>
+	<edge id="159">
+		<type value="consumption" />
+		<sourceNode id="a88" />
+		<targetNode id="pnre32" />
+	</edge>
+	<edge id="160">
+		<type value="production" />
+		<sourceNode id="pnre32" />
+		<targetNode id="a101" />
+	</edge>
+	<edge id="161">
+		<type value="consumption" />
+		<sourceNode id="a108" />
+		<targetNode id="pnre32" />
+	</edge>
+	<edge id="162">
+		<type value="consumption" />
+		<sourceNode id="a107" />
+		<targetNode id="pnre32" />
+	</edge>
+	<edge id="163">
+		<type value="production" />
+		<sourceNode id="pnre32" />
+		<targetNode id="a109" />
+	</edge>
+	<edge id="164">
+		<type value="production" />
+		<sourceNode id="pnre32" />
+		<targetNode id="a110" />
+	</edge>
+	<edge id="165">
+		<type value="catalysis" />
+		<sourceNode id="a102" />
+		<targetNode id="pnre32" />
+	</edge>
+	<edge id="166">
+		<type value="consumption" />
+		<sourceNode id="a100" />
+		<targetNode id="pnre33" />
+	</edge>
+	<edge id="167">
+		<type value="production" />
+		<sourceNode id="pnre33" />
+		<targetNode id="a101" />
+	</edge>
+	<edge id="168">
+		<type value="production" />
+		<sourceNode id="pnre33" />
+		<targetNode id="a115" />
+	</edge>
+	<edge id="169">
+		<type value="catalysis" />
+		<sourceNode id="a116" />
+		<targetNode id="pnre33" />
+	</edge>
+	<edge id="170">
+		<type value="catalysis" />
+		<sourceNode id="a117" />
+		<targetNode id="pnre33" />
+	</edge>
+	<edge id="171">
+		<type value="consumption" />
+		<sourceNode id="a101" />
+		<targetNode id="pnre34" />
+	</edge>
+	<edge id="172">
+		<type value="production" />
+		<sourceNode id="pnre34" />
+		<targetNode id="a100" />
+	</edge>
+	<edge id="173">
+		<type value="production" />
+		<sourceNode id="pnre34" />
+		<targetNode id="a114" />
+	</edge>
+	<edge id="174">
+		<type value="catalysis" />
+		<sourceNode id="a116" />
+		<targetNode id="pnre34" />
+	</edge>
+	<edge id="175">
+		<type value="catalysis" />
+		<sourceNode id="a117" />
+		<targetNode id="pnre34" />
+	</edge>
+	<edge id="176">
+		<type value="consumption" />
+		<sourceNode id="a101" />
+		<targetNode id="pnre35" />
+	</edge>
+	<edge id="177">
+		<type value="production" />
+		<sourceNode id="pnre35" />
+		<targetNode id="a86" />
+	</edge>
+	<edge id="178">
+		<type value="consumption" />
+		<sourceNode id="a119" />
+		<targetNode id="pnre35" />
+	</edge>
+	<edge id="179">
+		<type value="consumption" />
+		<sourceNode id="a120" />
+		<targetNode id="pnre35" />
+	</edge>
+	<edge id="180">
+		<type value="production" />
+		<sourceNode id="pnre35" />
+		<targetNode id="a122" />
+	</edge>
+	<edge id="181">
+		<type value="production" />
+		<sourceNode id="pnre35" />
+		<targetNode id="a121" />
+	</edge>
+	<edge id="182">
+		<type value="catalysis" />
+		<sourceNode id="a118" />
+		<targetNode id="pnre35" />
+	</edge>
+</view>

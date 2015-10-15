@@ -243,7 +243,6 @@ public class LGraph extends LGraphObject
 		{
 			return null;
 		}
-
 		// set source and target
 		newEdge.source = sourceNode;
 		newEdge.target = targetNode;

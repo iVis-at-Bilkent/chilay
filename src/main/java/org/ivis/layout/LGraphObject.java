@@ -23,6 +23,11 @@ public class LGraphObject
 	 */
 	public String label;
 	
+	/**
+	 * Associated type
+	 */
+	public String type;
+	
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization
 // -----------------------------------------------------------------------------
