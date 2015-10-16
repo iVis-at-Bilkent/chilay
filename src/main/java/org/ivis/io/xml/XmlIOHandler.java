@@ -16,6 +16,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 import org.ivis.io.xml.model.EdgeComplexType;
 import org.ivis.io.xml.model.EdgeComplexType.BendPointList;
 import org.ivis.io.xml.model.EdgeComplexType.BendPointList.BendPoint;
@@ -37,8 +38,6 @@ import org.ivis.layout.sbgn.SbgnPDNode;
 import org.ivis.layout.sbgn.SbgnProcessNode;
 import org.ivis.util.PointD;
 import org.ivis.util.RectangleD;
-
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 public class XmlIOHandler
 {
