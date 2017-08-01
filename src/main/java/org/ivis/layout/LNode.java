@@ -68,6 +68,11 @@ public class LNode extends LGraphObject implements Clustered
 	 * etc.
 	 */
 	protected int inclusionTreeDepth = Integer.MAX_VALUE;
+	
+	/*
+	 * Number of children (weight) of this node
+	 */
+	public int noOfChildren;
 
 // -----------------------------------------------------------------------------
 // Section: Constructors and initialization
@@ -488,6 +493,31 @@ public class LNode extends LGraphObject implements Clustered
 		}
 
 		return withNeighborsList;
+	}
+	
+	/**
+	 * This method returns the number of children (weight) of this node.
+	 * If it is a compound, then return the number of simple nodes inside, 
+	 * otherwise return 1. 
+	 */
+	public int getNoOfChildren()
+	{
+	  int noOfChildren = 0;
+	  LNode childNode;
+
+	  if(this.child == null){
+		  noOfChildren = 1;
+	  }
+	  else
+	  {
+		  for (Object childObject : this.child.getNodes())
+		  {
+			  childNode = (LNode)childObject;
+
+			  noOfChildren += childNode.getNoOfChildren();
+		  }
+	  }
+	  return noOfChildren;
 	}
 
 	/**
