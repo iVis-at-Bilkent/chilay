@@ -517,6 +517,10 @@ public class LNode extends LGraphObject implements Clustered
 			  noOfChildren += childNode.getNoOfChildren();
 		  }
 	  }
+	  
+	  if(noOfChildren == 0){
+		  noOfChildren = 1;
+	  }
 	  return noOfChildren;
 	}
 
