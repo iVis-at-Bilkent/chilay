@@ -565,7 +565,7 @@ public abstract class FDLayout extends Layout
 		distanceX = node.getCenterX() - ownerCenterX;
 		distanceY = node.getCenterY() - ownerCenterY;
 		absDistanceX = Math.abs(distanceX) + node.getWidth() / 2;
-		absDistanceY = Math.abs(distanceY) + node.getWidth() / 2;
+		absDistanceY = Math.abs(distanceY) + node.getHeight() / 2;
 
 		// Apply gravitation only if the node is "roughly" outside the
 		// bounds of the initial estimate for the bounding rect of the owner
