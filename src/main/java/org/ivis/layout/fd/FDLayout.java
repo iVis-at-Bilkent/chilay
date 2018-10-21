@@ -169,6 +169,20 @@ public abstract class FDLayout extends Layout
 // Section: Remaining methods
 // -----------------------------------------------------------------------------
 	/**
+	 * This method calculates the number of children (weight) for all nodes
+	 */
+	public void calcNoOfChildrenForAllNodes()
+	{
+		LNode node;
+		
+		for (Object obj: this.graphManager.getAllNodes())
+		{
+			node = (LNode) obj;
+			node.noOfChildren = node.getNoOfChildren();
+		}
+	}
+
+	/**
 	 * This method calculates the ideal edge length of each edge based on the
 	 * depth and dimension of the ancestor nodes in the lowest common ancestor
 	 * graph of the edge's end nodes. We assume depth and dimension of each node

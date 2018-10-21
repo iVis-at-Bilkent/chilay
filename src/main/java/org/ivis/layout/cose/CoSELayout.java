@@ -353,20 +353,6 @@ public class CoSELayout extends FDLayout
 //				this.graphManager.getAllNodes());
 //		}
 	}
-	
-	/**
-	 * This method calculates the number of children (weight) for all nodes
-	 */
-	public void calcNoOfChildrenForAllNodes()
-	{
-	  LNode node;
-	  
-	  for (Object obj: this.graphManager.getAllNodes())
-	  {
-		  node = (LNode) obj;
-	      node.noOfChildren = node.getNoOfChildren();
-	  }
-	}
 
 	/**
 	 * This method creates bendpoints multi-edges which are incident to same  

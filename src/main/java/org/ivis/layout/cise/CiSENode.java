@@ -124,6 +124,23 @@ public class CiSENode extends FDLayoutNode
 		assert this.onCircleNodeExt != null;
 		this.onCircleNodeExt = null;
 	}
+	
+	/**
+	 * This method returns the number of children (weight) of this node.
+	 * If it is a compound, then return the number of simple nodes inside, 
+	 * otherwise return 1. 
+	 */
+	public int getNoOfChildren()
+	{
+		if (this.getChild() == null) {
+			return 1;
+		}
+		else {
+			assert this.getChild().getNodes().size() > 0;
+			return this.getChild().getNodes().size();
+		}
+	}
+	
 // -----------------------------------------------------------------------------
 // Section: Remaining methods
 // -----------------------------------------------------------------------------

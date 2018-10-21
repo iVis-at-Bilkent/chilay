@@ -502,26 +502,27 @@ public class LNode extends LGraphObject implements Clustered
 	 */
 	public int getNoOfChildren()
 	{
-	  int noOfChildren = 0;
-	  LNode childNode;
+		int noOfChildren = 0;
+		LNode childNode;
 
-	  if(this.child == null){
-		  noOfChildren = 1;
-	  }
-	  else
-	  {
-		  for (Object childObject : this.child.getNodes())
-		  {
-			  childNode = (LNode)childObject;
-
-			  noOfChildren += childNode.getNoOfChildren();
-		  }
-	  }
+		if (this.child == null){
+			noOfChildren = 1;
+		}
+		else
+		{
+			for (Object childObject : this.child.getNodes())
+			{
+				childNode = (LNode)childObject;
+				
+				noOfChildren += childNode.getNoOfChildren();
+			}
+		}
 	  
-	  if(noOfChildren == 0){
-		  noOfChildren = 1;
-	  }
-	  return noOfChildren;
+		if (noOfChildren == 0){
+			noOfChildren = 1;
+		}
+		
+		return noOfChildren;
 	}
 
 	/**

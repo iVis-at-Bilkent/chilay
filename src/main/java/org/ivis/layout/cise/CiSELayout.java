@@ -526,6 +526,7 @@ public class CiSELayout extends FDLayout
 
 		root.updateConnected();
 		root.calcEstimatedSize();
+		this.calcNoOfChildrenForAllNodes();
 
 		this.doStep1();
 		this.doStep2();
@@ -759,7 +760,7 @@ public class CiSELayout extends FDLayout
 				if (nodePairs[sourceIndex][targetIndex] == null &&
 					nodePairs[targetIndex][sourceIndex] == null)
 				{
-					newEdge = (CoSEEdge) coseLayout.newEdge("");
+					newEdge = (CoSEEdge) coseLayout.newEdge(null);
 					coseRoot.add(newEdge, sourceCose, targetCose);
 					newCoSEEdges.add(newEdge);
 
